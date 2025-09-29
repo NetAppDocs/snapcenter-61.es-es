@@ -1,0 +1,33 @@
+---
+permalink: protect-nsp/install_snapcenter_plug_in_packages_for_linux_or_windows_on_multiple_remote_hosts_using_cmdlets.html 
+sidebar: sidebar 
+keywords: install, snapcenter 
+summary: Puede instalar los paquetes de complementos de SnapCenter para Linux o Windows en varios hosts simultáneamente mediante el cmdlet de PowerShell Install-SmHostPackage. 
+---
+= Instalar paquetes de complementos de SnapCenter para Linux, Windows o AIX en varios hosts remotos mediante cmdlets
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede instalar los paquetes de complementos de SnapCenter para Linux, Windows o AIX en varios hosts simultáneamente mediante el cmdlet de PowerShell Install-SmHostPackage.
+
+.Antes de empezar
+El usuario que agrega un host debe tener derechos administrativos en el host.
+
+
+NOTE: Las aplicaciones de almacenamiento y Oracle son compatibles con AIX.
+
+.Pasos
+. Inicie PowerShell.
+. En el host del servidor SnapCenter , establezca una sesión mediante el cmdlet Open-SmConnection y luego ingrese sus credenciales.
+. Instale el complemento en varios hosts utilizando el cmdlet Install-SmHostPackage y los parámetros necesarios.
++
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
++
+Puede utilizar la opción -skipprecheck cuando haya instalado los complementos manualmente y no desee validar si el host cumple con los requisitos para instalar el complemento.
+
+. Introduzca sus credenciales para la instalación remota.
+

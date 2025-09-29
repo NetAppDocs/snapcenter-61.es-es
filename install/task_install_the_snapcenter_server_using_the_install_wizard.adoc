@@ -1,0 +1,189 @@
+---
+permalink: install/task_install_the_snapcenter_server_using_the_install_wizard.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install wizard, features enabled 
+summary: Puede ejecutar el ejecutable del instalador de SnapCenter Server para instalar SnapCenter Server. 
+---
+= Instalar el servidor SnapCenter en el host de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede ejecutar el ejecutable del instalador de SnapCenter Server para instalar SnapCenter Server.
+
+Opcionalmente, puede realizar varios procedimientos de instalación y configuración mediante cmdlets de PowerShell.  Debe utilizar PowerShell 7.4.2 o posterior.
+
+
+NOTE: No se admite la instalación silenciosa del servidor SnapCenter desde la línea de comandos.
+
+.Antes de empezar
+* El host del servidor SnapCenter debe estar actualizado con las actualizaciones de Windows y sin reinicios del sistema pendientes.
+* Debería asegurarse de que MySQL Server no esté instalado en el host donde planea instalar SnapCenter Server.
+* Deberías haber habilitado la depuración del instalador de Windows.
++
+Consulte el sitio web de Microsoft para obtener información sobre cómo habilitar https://support.microsoft.com/kb/223300["Registro del instalador de Windows"^] .
+
++
+
+NOTE: No debe instalar SnapCenter Server en un host que tenga Microsoft Exchange Server, Active Directory o servidores de nombres de dominio.
+
+
+
+.Pasos
+. Descargue el paquete de instalación de SnapCenter Server desde https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["Sitio de soporte de NetApp"^] .
+. Inicie la instalación de SnapCenter Server haciendo doble clic en el archivo .exe descargado.
++
+Después de iniciar la instalación, se realizan todas las comprobaciones previas y, si no se cumplen los requisitos mínimos, se muestran mensajes de error o advertencia correspondientes.
+
++
+Puede ignorar los mensajes de advertencia y continuar con la instalación; sin embargo, los errores deberían solucionarse.
+
+. Revise los valores previamente completados necesarios para la instalación de SnapCenter Server y modifíquelos si es necesario.
++
+No es necesario especificar la contraseña para la base de datos del repositorio del servidor MySQL.  Durante la instalación de SnapCenter Server, la contraseña se genera automáticamente.
+
++
+
+NOTE: El carácter especial "`%`" is not supported in the custom path for the repository database. If you include "` %`" en la ruta, la instalación falla.
+
+. Haga clic en *Instalar ahora*.
++
+Si ha especificado algún valor que no es válido, se mostrarán los mensajes de error correspondientes.  Debe volver a ingresar los valores y luego iniciar la instalación.
+
++
+
+NOTE: Si hace clic en el botón *Cancelar*, se completará el paso que se está ejecutando y luego se iniciará la operación de reversión.  El servidor SnapCenter se eliminará por completo del host.
+
++
+Sin embargo, si hace clic en *Cancelar* cuando se realizan las operaciones "Reinicio del sitio de SnapCenter Server" o "Esperando a que se inicie SnapCenter Server", la instalación continuará sin cancelar la operación.
+
++
+Los archivos de registro siempre se enumeran (el más antiguo primero) en la carpeta %temp% del usuario administrador.  Si desea redirigir las ubicaciones de los registros, inicie la instalación de SnapCenter Server desde el símbolo del sistema ejecutando:``C:\installer_location\installer_name.exe /log"C:\"``
+
+
+
+
+
+== Funciones habilitadas en el host de Windows durante la instalación
+
+El instalador de SnapCenter Server habilita las funciones y roles de Windows en su host de Windows durante la instalación.  Estos podrían ser de interés para solucionar problemas y realizar mantenimiento al sistema host.
+
+|===
+| Categoría | Característica 
+
+
+ a| 
+Servidor web
+ a| 
+* Servicios de información de Internet
+* Servicios de la World Wide Web
+* Características comunes de HTTP
++
+** Documento predeterminado
+** Navegación por directorios
+** Errores HTTP
+** Redirección HTTP
+** Contenido estático
+** Publicación WebDAV
+
+
+* Salud y Diagnóstico
++
+** Registro personalizado
+** Registro HTTP
+** Herramientas de registro
+** Monitor de solicitudes
+** Rastreo
+
+
+* Características de rendimiento
++
+** Compresión de contenido estático
+
+
+* Seguridad
++
+** Seguridad IP
+** Autenticación básica
+** Soporte centralizado de certificados SSL
+** Autenticación mediante mapeo de certificados de cliente
+** Autenticación mediante asignación de certificados de cliente de IIS
+** Restricciones de IP y dominio
+** Filtrado de solicitudes
+** Autorización de URL
+** Autenticación de Windows
+
+
+* Características del desarrollo de aplicaciones
++
+** Extensibilidad de .NET 4.5
+** Inicialización de la aplicación
+** Paquete de alojamiento de ASP.NET Core Runtime 8.0.12 (y todos los parches 8.0.x posteriores)
+** Incluye del lado del servidor
+** Protocolo WebSocket
+
+
+* Herramientas de gestión
++
+** Consola de administración de IIS
+
+
+
+
+
+
+ a| 
+Scripts y herramientas de administración de IIS
+ a| 
+* Servicio de administración de IIS
+* Herramientas de gestión web
+
+
+
+
+ a| 
++Características de .NET Framework 8.0.12+
+ a| 
+* Paquete de alojamiento de ASP.NET Core Runtime 8.0.12 (y todos los parches 8.0.x posteriores)
+* Activación HTTP de Windows Communication Foundation (WCF)45
++
+** Activación de TCP
+** Activación HTTP
+
+
+
+
+Para obtener información de solución de problemas específicos de .NET, consulte https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_upgrade_or_install_fails_with_%22This_KB_is_not_related_to_the_OS%22["La actualización o instalación de SnapCenter falla en sistemas heredados que no tienen conectividad a Internet"^] .
+
+
+
+ a| 
+Cola de mensajes
+ a| 
+* Servicios de cola de mensajes
++
+
+NOTE: Asegúrese de que ninguna otra aplicación utilice el servicio MSMQ que SnapCenter crea y administra.
+
+* RabbitMQ
+* Erlang
+
+
+
+
+ a| 
+Servicio de activación de procesos de Windows
+ a| 
+* Modelo de proceso
+
+
+
+
+ a| 
+API de configuración
+ a| 
+Todo
+
+|===

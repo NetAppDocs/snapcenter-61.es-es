@@ -1,0 +1,16 @@
+---
+permalink: protect-mysql/types-of-restore-strategies-supported-for-auto-discovered-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for mysql 
+summary: Debe definir una estrategia antes de poder realizar con éxito operaciones de restauración mediante SnapCenter.  Hay dos tipos de estrategias de restauración para bases de datos MySQL descubiertas automáticamente. 
+---
+= Tipo de estrategia de restauración compatible con MySQL detectado automáticamente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe definir una estrategia antes de poder realizar con éxito operaciones de restauración mediante SnapCenter.
+
+La restauración completa de recursos es la estrategia de restauración compatible con las bases de datos MySQL descubiertas automáticamente.  Esto restaura todos los volúmenes, qtrees y LUN de un recurso.

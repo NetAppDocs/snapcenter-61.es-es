@@ -1,0 +1,39 @@
+= 
+:allow-uri-read: 
+
+
+Puede supervisar el progreso de diferentes operaciones de respaldo mediante la página SnapCenterJobs.  Es posible que desees verificar el progreso para determinar cuándo está completo o si hay algún problema.
+
+.Acerca de esta tarea
+Los siguientes iconos aparecen en la página Trabajos e indican el estado correspondiente de las operaciones:
+
+* image:../media/progress_icon.gif["Icono en progreso"]En curso
+* image:../media/success_icon.gif["Icono completado"]Completado exitosamente
+* image:../media/failed_icon.gif["Icono de error"]Fallido
+* image:../media/warning_icon.gif["Completado con icono de advertencias"]Completado con advertencias o no se pudo iniciar debido a advertencias
+* image:../media/verification_job_in_queue.gif["El trabajo de verificación está en cola"]En cola
+* image:../media/cancel_icon.gif["Icono de cancelación"]Cancelado
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Monitor*.
+. En la página Monitor, haga clic en *Trabajos*.
+. En la página Empleos, realice los siguientes pasos:
++
+.. Hacer clicimage:../media/filter_icon.gif["icono de filtro"] para filtrar la lista de modo que solo se incluyan las operaciones de copia de seguridad.
+.. Especifique las fechas de inicio y finalización.
+.. En la lista desplegable *Tipo*, seleccione *Copia de seguridad*.
+.. En el menú desplegable *Estado*, seleccione el estado de la copia de seguridad.
+.. Haga clic en *Aplicar* para ver las operaciones completadas exitosamente.
+
+
+. Seleccione un trabajo de respaldo y luego haga clic en *Detalles* para ver los detalles del trabajo.
++
+
+NOTE: Aunque el estado del trabajo de respaldo se muestraimage:../media/success_icon.gif["Icono completado"] , al hacer clic en los detalles del trabajo, es posible que vea que algunas de las tareas secundarias de la operación de respaldo aún están en progreso o marcadas con señales de advertencia.
+
+. En la página Detalles del trabajo, haga clic en *Ver registros*.
++
+El botón *Ver registros* muestra los registros detallados de la operación seleccionada.
+
+

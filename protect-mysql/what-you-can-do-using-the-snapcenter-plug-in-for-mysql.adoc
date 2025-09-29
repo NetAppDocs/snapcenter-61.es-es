@@ -1,0 +1,23 @@
+---
+permalink: protect-mysql/what-you-can-do-using-the-snapcenter-plug-in-for-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for mysql 
+summary: Cuando instala el complemento para MySQL en su entorno, puede usar SnapCenter para realizar copias de seguridad, restaurar y clonar MySQL y sus recursos.  También puede realizar tareas de apoyo a dichas operaciones. 
+---
+= Qué puede hacer utilizando el complemento SnapCenter para MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando instala el complemento para la base de datos MySQL en su entorno, puede usar SnapCenter para realizar copias de seguridad, restaurar y clonar instancias de MySQL.  También puede realizar tareas de apoyo a dichas operaciones.
+
+* Agregar instancias.
+* Crear copias de seguridad.
+* Restaurar desde copias de seguridad.
+* Copias de seguridad clonadas.
+* Programar operaciones de respaldo.
+* Supervisar operaciones de copia de seguridad, restauración y clonación.
+* Ver informes de operaciones de copia de seguridad, restauración y clonación.
+

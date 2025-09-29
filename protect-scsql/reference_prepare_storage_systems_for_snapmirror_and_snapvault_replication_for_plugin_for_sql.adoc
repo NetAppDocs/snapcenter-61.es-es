@@ -1,0 +1,26 @@
+---
+permalink: protect-scsql/reference_prepare_storage_systems_for_snapmirror_and_snapvault_replication_for_plugin_for_sql.html 
+sidebar: sidebar 
+keywords: snapmirror, snapvault, storage system, replication 
+summary: Puede utilizar un complemento de SnapCenter con las tecnologías ONTAP SnapMirror y SnapVault 
+---
+= Preparar sistemas de almacenamiento para la replicación de SnapMirror y SnapVault para el complemento para SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar un complemento de SnapCenter con la tecnología ONTAP SnapMirror para crear copias reflejadas de conjuntos de copias de seguridad en otro volumen, y con la tecnología ONTAP SnapVault para realizar la replicación de copias de seguridad de disco a disco para el cumplimiento de estándares y otros fines relacionados con la gobernanza.  Antes de realizar estas tareas, debe configurar una relación de protección de datos entre los volúmenes de origen y destino e inicializar la relación.
+
+SnapCenter realiza las actualizaciones de SnapMirror y SnapVault después de completar la operación de instantánea. Las actualizaciones de SnapMirror y SnapVault se realizan como parte del trabajo de SnapCenter ; no crean una programación ONTAP separada.
+
+
+NOTE: Si llega a SnapCenter desde un producto NetApp SnapManager y está satisfecho con las relaciones de protección de datos que ha configurado, puede omitir esta sección.
+
+Una relación de protección de datos replica los datos del almacenamiento primario (el volumen de origen) al almacenamiento secundario (el volumen de destino).  Cuando inicializa la relación, ONTAP transfiere los bloques de datos referenciados en el volumen de origen al volumen de destino.
+
+
+NOTE: SnapCenter no admite relaciones en cascada entre volúmenes SnapMirror y SnapVault (*Primary* > *Mirror* > *Vault*).  Debes utilizar relaciones de abanico.
+
+SnapCenter admite la gestión de relaciones SnapMirror con versiones flexibles.  Para obtener detalles sobre las relaciones de SnapMirror con versiones flexibles y cómo configurarlas, consulte la http://docs.netapp.com/ontap-9/index.jsp?topic=%2Fcom.netapp.doc.ic-base%2Fresources%2Fhome.html["Documentación de ONTAP"^] .

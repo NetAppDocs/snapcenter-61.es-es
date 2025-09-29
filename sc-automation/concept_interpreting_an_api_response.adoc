@@ -1,0 +1,156 @@
+---
+sidebar: sidebar 
+permalink: sc-automation/concept_interpreting_an_api_response.html 
+keywords: http status code, error code 
+summary: Cada solicitud de API genera una respuesta para el cliente. Debe examinar la respuesta para determinar si fue exitosa y recuperar datos adicionales según sea necesario. 
+---
+= Interpretación de una respuesta de API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cada solicitud de API genera una respuesta para el cliente. Debe examinar la respuesta para determinar si fue exitosa y recuperar datos adicionales según sea necesario.
+
+
+
+== Código de estado HTTP
+
+A continuación se describen los códigos de estado HTTP utilizados por la API REST de SnapCenter .
+
+|===
+| Código | Descripción 
+
+
+| 200 | OK Indica éxito para llamadas que no crean un nuevo objeto. 
+
+
+| 201 | Creado Se ha creado un objeto correctamente.  El encabezado de ubicación en la respuesta incluye el identificador único del objeto. 
+
+
+| 202 | Aceptado Se ha iniciado un trabajo en segundo plano para ejecutar la solicitud, pero aún no se ha completado. 
+
+
+| 400 | Solicitud incorrecta La entrada de la solicitud no se reconoce o es inadecuada. 
+
+
+| 401 | La autenticación de usuario no autorizado ha fallado. 
+
+
+| 403 | Acceso prohibido denegado debido a un error de autorización (RBAC). 
+
+
+| 404 | No encontrado El recurso al que se refiere la solicitud no existe. 
+
+
+| 405 | Método no permitido El método HTTP en la solicitud no es compatible con el recurso. 
+
+
+| 409 | Conflicto Un intento de crear un objeto falló porque primero se debe crear un objeto diferente o el objeto solicitado ya existe. 
+
+
+| 500 | Error interno Se produjo un error interno general en el servidor. 
+|===
+
+
+== Encabezados de respuesta
+
+Se incluyen varios encabezados en la respuesta HTTP generada por SnapCenter.
+
+
+
+=== Ubicación
+
+Cuando se crea un objeto, el encabezado de ubicación incluye la URL completa del nuevo objeto, incluido el identificador único asignado al objeto.
+
+
+
+=== Tipo de contenido
+
+Normalmente esto será `application/json` .
+
+
+
+== Cuerpo de la respuesta
+
+El contenido del cuerpo de respuesta resultante de una solicitud de API difiere según el objeto, el tipo de procesamiento y el éxito o fracaso de la solicitud.  La respuesta siempre se representa en JSON.
+
+
+
+=== Objeto único
+
+Se puede devolver un solo objeto con un conjunto de campos según la solicitud. Por ejemplo, se puede usar GET para recuperar propiedades seleccionadas de un clúster mediante el identificador único.
+
+
+
+=== Múltiples objetos
+
+Se pueden devolver varios objetos de una colección de recursos. En todos los casos, se utiliza un formato consistente, con  `num_records` Indica el número de registros y los registros que contienen una matriz de instancias de objeto.  Por ejemplo, puede recuperar los nodos definidos en un clúster específico.
+
+
+
+=== Objeto de trabajo
+
+Si una llamada API se procesa de forma asincrónica, se devuelve un objeto Job que ancla la tarea en segundo plano.  Por ejemplo, la solicitud PATCH utilizada para actualizar la configuración del clúster se procesa de forma asincrónica y devuelve un objeto Job.
+
+
+
+=== Objeto de error
+
+Si ocurre un error, siempre se devuelve un objeto Error.  Por ejemplo, recibirá un error al intentar cambiar un campo no definido para un clúster.
+
+
+
+=== Vacío
+
+En ciertos casos, no se devuelven datos y el cuerpo de la respuesta incluye un objeto JSON vacío.
+
+
+
+== Errores
+
+Si ocurre un error, se devuelve un objeto de error en el cuerpo de la respuesta.
+
+
+
+=== Formato
+
+Un objeto de error tiene el siguiente formato:
+
+....
+"error": {
+"message": "<string>",
+"code": <integer>[,
+"target": "<string>"]
+}
+....
+Puede utilizar el valor del código para determinar el tipo o categoría de error general, y el mensaje para determinar el error específico.  Cuando está disponible, el campo de destino incluye la entrada de usuario específica asociada con el error.
+
+
+
+=== Códigos de error comunes
+
+Los códigos de error comunes se describen en la siguiente tabla.  Las llamadas API específicas pueden incluir códigos de error adicionales.
+
+|===
+| Código | Descripción 
+
+
+| 409 | Ya existe un objeto con el mismo identificador. 
+
+
+| 400 | El valor de un campo tiene un valor no válido o falta, o se proporcionó un campo adicional. 
+
+
+| 400 | La operación no está soportada. 
+
+
+| 405 | No se puede encontrar un objeto con el identificador especificado. 
+
+
+| 403 | Se deniega el permiso para realizar la solicitud. 
+
+
+| 409 | El recurso está en uso. 
+|===

@@ -1,0 +1,42 @@
+---
+permalink: protect-nsp/enable_ca_certificates_for_plug-ins.html 
+sidebar: sidebar 
+keywords: SnapCenter, ca certificates 
+summary: Debe configurar los certificados de CA e implementarlos en el servidor SnapCenter y en los hosts de complementos correspondientes. 
+---
+= Habilitar certificados CA para complementos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe configurar los certificados de CA e implementarlos en el servidor SnapCenter y en los hosts de complementos correspondientes.  Debe habilitar la validación del certificado CA para los complementos.
+
+.Antes de empezar
+* Puede habilitar o deshabilitar los certificados de CA mediante el cmdlet run _Set-SmCertificateSettings_.
+* Puede mostrar el estado del certificado de los complementos mediante _Get-SmCertificateSettings_.
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. En la página Hosts, haga clic en *Hosts administrados*.
+. Seleccione uno o varios hosts de complementos.
+. Haga clic en *Más opciones*.
+. Seleccione *Habilitar validación de certificado*.
+
+
+.Después de terminar
+La pestaña Hosts administrados muestra un candado y el color del candado indica el estado de la conexión entre SnapCenter Server y el host del complemento.
+
+* *image:../media/enable_ca_issues_icon.png["El certificado de CA no está habilitado ni asignado al icono del host del complemento"] * indica que el certificado CA no está habilitado ni asignado al host del complemento.
+* *image:../media/enable_ca_good_icon.png["Icono de certificado de CA validado correctamente"] * indica que el certificado CA se ha validado correctamente.
+* *image:../media/enable_ca_failed_icon.png["Icono de que no se pudo validar el certificado de CA"] * indica que no se pudo validar el certificado CA.
+* *image:../media/enable_ca_undefined_icon.png["No se pudo recuperar la información de conexión"] * indica que no se pudo recuperar la información de conexión.
++
+
+NOTE: Cuando el estado es amarillo o verde, las operaciones de protección de datos se completaron con éxito.
+
+

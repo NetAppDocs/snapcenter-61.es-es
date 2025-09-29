@@ -1,0 +1,174 @@
+---
+permalink: protect-scw/task_add_hosts_and_install_snapcenter_plug_in_for_microsoft_windows.html 
+sidebar: sidebar 
+keywords: installing 
+summary: Puede utilizar la página Agregar host de SnapCenter para agregar hosts de Windows.  El complemento SnapCenter para Microsoft Windows se instala automáticamente en el host especificado.  Este es el método recomendado para instalar complementos.  Puede agregar un host e instalar un complemento para un host individual o para un clúster. 
+---
+= Agregar hosts e instalar el complemento SnapCenter para Microsoft Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar la página Agregar host de SnapCenter para agregar hosts de Windows.  El complemento SnapCenter para Microsoft Windows se instala automáticamente en el host especificado.  Este es el método recomendado para instalar complementos.  Puede agregar un host e instalar un complemento para un host individual o para un clúster.
+
+.Antes de empezar
+* Si el sistema operativo del host de SnapCenter Server es Windows 2019 y el sistema operativo del host del complemento es Windows 2022, debe realizar lo siguiente:
++
+** Actualizar a Windows Server 2019 (compilación del SO 17763.5936) o posterior
+** Actualizar a Windows Server 2022 (compilación del SO 20348.2402) o posterior
+
+
+* Debe ser un usuario asignado a un rol que tenga permisos de instalación y desinstalación de complementos, como el rol de administrador de SnapCenter .
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.
+* El usuario de SnapCenter debe agregarse a la función "Iniciar sesión como servicio" del servidor Windows.
+* Debe asegurarse de que el servicio de cola de mensajes esté en estado de ejecución.
+* Si está utilizando una cuenta de servicio administrada grupal (gMSA), debe configurar gMSA con privilegios administrativos.
++
+link:task_configure_gMSA_on_windows_server_2012_or_later.html["Configurar la cuenta de servicio administrada de grupo en Windows Server 2016 o posterior para el sistema de archivos de Windows"]
+
+
+
+.Acerca de esta tarea
+* No es posible agregar un servidor SnapCenter como host de complemento a otro servidor SnapCenter .
+* complementos de Windows
++
+** Microsoft Windows
+** Servidor Microsoft Exchange
+** Microsoft SQL Server
+** SAP HANA
+
+
+* Instalación de complementos en un clúster
++
+Si instala complementos en un clúster (WSFC, Oracle RAC o Exchange DAG), se instalan en todos los nodos del clúster.
+
+* Almacenamiento de la serie E
++
+No es posible instalar el complemento para Windows en un host Windows conectado al almacenamiento de la serie E.
+
+
+
+
+NOTE: SnapCenter no admite la adición del mismo host (host de complemento) a SnapCenter si el host ya es parte de un grupo de trabajo y cambió a otro dominio o viceversa.  Si desea agregar el mismo host, debe eliminarlo de SnapCenter y agregarlo nuevamente.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. Asegúrese de que *Hosts administrados* esté seleccionado en la parte superior.
+. Haga clic en *Agregar*.
+. En la página Hosts, haga lo siguiente:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Tipo de host
+ a| 
+Seleccione el tipo de host *Windows*.
+
+SnapCenter Server agrega el host y luego instala el complemento para Windows si aún no está instalado en el host.
+
+
+
+ a| 
+Host name
+ a| 
+Introduzca el nombre de dominio completo (FQDN) o la dirección IP del host.
+
+SnapCenter depende de la configuración adecuada del DNS.  Por lo tanto, la mejor práctica es ingresar el nombre de dominio completo (FQDN).
+
+Puede introducir las direcciones IP o el FQDN de uno de los siguientes:
+
+** Host independiente
+** Agrupación en clústeres de conmutación por error de Windows Server (WSFC)
++
+Si está agregando un host mediante SnapCenter y es parte de un subdominio, debe proporcionar el FQDN.
+
+
+
+
+
+ a| 
+Cartas credenciales
+ a| 
+Seleccione el nombre de la credencial que creó o cree las nuevas credenciales.
+
+La credencial debe tener derechos administrativos en el host remoto.  Para obtener más detalles, consulte la información sobre cómo crear una credencial.
+
+Los detalles sobre las credenciales, incluido el nombre de usuario, el dominio y el tipo de host, se muestran al colocar el cursor sobre el nombre de la credencial proporcionada.
+
+
+NOTE: El modo de autenticación está determinado por el tipo de host que especifique en el asistente Agregar host.
+
+|===
+. En la sección Seleccionar complementos para instalar, seleccione los complementos que desea instalar.
++
+Para las nuevas implementaciones, no se enumeran paquetes de complementos.
+
+. (Opcional) Haga clic en *Más opciones*.
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Puerto
+ a| 
+Mantenga el número de puerto predeterminado o especifique el número de puerto.
+
+El número de puerto predeterminado es 8145.  Si el servidor SnapCenter se instaló en un puerto personalizado, ese número de puerto se mostrará como el puerto predeterminado.
+
+
+NOTE: Si instaló manualmente los complementos y especificó un puerto personalizado, debe especificar el mismo puerto.  De lo contrario la operación falla.
+
+
+
+ a| 
+Ruta de instalación
+ a| 
+La ruta predeterminada es C:\Archivos de programa\ NetApp\ SnapCenter.
+
+Opcionalmente puedes personalizar la ruta.  Para el paquete de complementos de SnapCenter para Windows, la ruta predeterminada es C:\Program Files\ NetApp\ SnapCenter.  Sin embargo, si lo desea, puede personalizar la ruta predeterminada.
+
+
+
+ a| 
+Agregar todos los hosts en el clúster
+ a| 
+Seleccione esta casilla de verificación para agregar todos los nodos del clúster en un WSFC.
+
+
+
+ a| 
+Omitir comprobaciones de preinstalación
+ a| 
+Seleccione esta casilla de verificación si ya instaló los complementos manualmente y no desea validar si el host cumple con los requisitos para instalar el complemento.
+
+
+
+ a| 
+Utilice la cuenta de servicio administrada grupal (gMSA) para ejecutar los servicios del complemento
+ a| 
+Seleccione esta casilla de verificación si desea utilizar la cuenta de servicio administrada de grupo (gMSA) para ejecutar los servicios del complemento.
+
+Proporcione el nombre de gMSA en el siguiente formato: _domainName\accountName$_.
+
+
+NOTE: gMSA se utilizará como una cuenta de servicio de inicio de sesión únicamente para el servicio del complemento SnapCenter para Windows.
+
+|===
+. Haga clic en *Enviar*.
++
+Si no ha seleccionado la casilla *Omitir comprobaciones previas*, se valida el host para comprobar si cumple los requisitos para instalar el complemento. El espacio en disco, la RAM, la versión de PowerShell, la versión de .NET y la ubicación se verifican según los requisitos mínimos.  Si no se cumplen los requisitos mínimos, se muestran mensajes de error o advertencia correspondientes.
+
++
+Si el error está relacionado con el espacio en disco o la RAM, puede actualizar el archivo web.config ubicado en `C:\Program Files\NetApp\SnapCenter` WebApp para modificar los valores predeterminados.  Si el error está relacionado con otros parámetros, debes solucionar el problema.
+
++
+
+NOTE: En una configuración de alta disponibilidad, si está actualizando el archivo web.config, debe actualizar el archivo en ambos nodos.
+
+. Supervisar el progreso de la instalación.
+

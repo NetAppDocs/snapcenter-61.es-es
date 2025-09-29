@@ -1,0 +1,152 @@
+---
+permalink: protect-scsql/task_create_resource_groups_and_attach_policies_for_sql_server.html 
+sidebar: sidebar 
+keywords: run as 
+summary: Un grupo de recursos es un contenedor al que se agregan recursos que desea respaldar y proteger juntos.  Un grupo de recursos le permite realizar copias de seguridad de todos los datos asociados con una aplicación determinada simultáneamente.  Se requiere un grupo de recursos para cualquier trabajo de protección de datos.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar. 
+---
+= Crear grupos de recursos y adjuntar políticas para SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un grupo de recursos es un contenedor al que se agregan recursos que desea respaldar y proteger juntos.  Un grupo de recursos le permite realizar copias de seguridad de todos los datos asociados con una aplicación determinada simultáneamente.  Se requiere un grupo de recursos para cualquier trabajo de protección de datos.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar.
+
+Puede proteger recursos individualmente sin crear un nuevo grupo de recursos.  Puede realizar copias de seguridad del recurso protegido.
+
+.Acerca de esta tarea
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+* No se admite agregar nuevas bases de datos sin sincronización activa de SnapMirror a un grupo de recursos existente que contiene recursos con sincronización activa de SnapMirror .
+* No se admite agregar nuevas bases de datos a un grupo de recursos existente en el modo de conmutación por error de la sincronización activa de SnapMirror .  Puede agregar recursos al grupo de recursos solo en estado normal o de conmutación por recuperación.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* de la lista *Ver*.
++
+
+NOTE: Si ha agregado recientemente un recurso a SnapCenter, haga clic en *Actualizar recursos* para ver el recurso recién agregado.
+
+. Haga clic en *Nuevo grupo de recursos*.
+. En la página Nombre, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Nombre
+ a| 
+Introduzca el nombre del grupo de recursos.
+
+
+NOTE: El nombre del grupo de recursos no debe exceder los 250 caracteres.
+
+
+
+ a| 
+Etiquetas
+ a| 
+Ingrese una o más etiquetas que le ayudarán a buscar posteriormente el grupo de recursos.  Por ejemplo, si agrega RR.HH. como etiqueta a varios grupos de recursos, más tarde podrá encontrar todos los grupos de recursos asociados con la etiqueta RR.HH.
+
+
+
+ a| 
+Utilice un formato de nombre personalizado para la copia de instantáneas
+ a| 
+Opcional: Ingrese un nombre y formato de instantánea personalizados.  Por ejemplo, customtext_resourcegroup_policy_hostname o resourcegroup_hostname.  De forma predeterminada, se agrega una marca de tiempo al nombre de la instantánea.
+
+|===
+. En la página Recursos, realice los siguientes pasos:
++
+.. Seleccione el nombre de host, el tipo de recurso y la instancia de SQL Server de las listas desplegables para filtrar la lista de recursos.
++
+
+NOTE: Si ha agregado recursos recientemente, aparecerán en la lista de Recursos disponibles solo después de actualizar su lista de recursos.
+
+.. Para mover recursos de la sección *Recursos disponibles* a la sección Recursos seleccionados, realice uno de los siguientes pasos:
++
+*** Seleccione *Seleccionar automáticamente todos los recursos en el mismo volumen de almacenamiento* para mover todos los recursos del mismo volumen a la sección Recursos seleccionados.
+*** Seleccione los recursos de la sección *Recursos disponibles* y luego haga clic en la flecha derecha para moverlos a la sección *Recursos seleccionados*.
+
+
+
+
+. En la página Políticas, realice los siguientes pasos:
++
+.. Seleccione una o más políticas de la lista desplegable.
++
+
+NOTE: También puedes crear una política haciendo clic en *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] *.
+
++
+En la sección Configurar programaciones para políticas seleccionadas, se enumeran las políticas seleccionadas.
+
+.. En la sección Configurar programaciones para políticas seleccionadas, haga clic en *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] * en la columna Configurar programaciones de la política para la que desea configurar la programación.
+.. En el cuadro de diálogo Agregar programaciones para la política _policy_name_, configure la programación especificando la fecha de inicio, la fecha de vencimiento y la frecuencia, y luego haga clic en *Aceptar*.
++
+Debe hacer esto para cada frecuencia indicada en la póliza.  Los horarios configurados se enumeran en la columna Horarios aplicados en la sección *Configurar horarios para políticas seleccionadas*.
+
+.. Seleccione el programador de Microsoft SQL Server.
++
+También debe seleccionar una instancia de programador para asociarla con la política de programación.
+
++
+Si no selecciona el programador de Microsoft SQL Server, el valor predeterminado será el programador de Microsoft Windows.
+
+
+
++
+Las programaciones de respaldo de terceros no son compatibles cuando se superponen con las programaciones de respaldo de SnapCenter .  No debe modificar las programaciones ni cambiar el nombre del trabajo de respaldo creado en el programador de Windows o en el agente de SQL Server.
+
+. En la página de Verificación, realice los siguientes pasos:
++
+.. Seleccione el servidor de verificación de la lista desplegable *Servidor de verificación*.
++
+La lista incluye todos los servidores SQL agregados en SnapCenter.  Puede seleccionar varios servidores de verificación (host local o host remoto).
+
++
+
+NOTE: La versión del servidor de verificación debe coincidir con la versión y edición del servidor SQL que aloja la base de datos principal.
+
+.. Haga clic en *Cargar localizadores* para cargar los volúmenes SnapMirror y SnapVault para realizar la verificación en el almacenamiento secundario.
+.. Seleccione la política para la que desea configurar su programa de verificación y luego haga clic en *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] *.
+.. En el cuadro de diálogo Agregar programaciones de verificación policy_name, realice las siguientes acciones:
++
+|===
+| Si quieres... | Haz esto... 
+
+
+ a| 
+Ejecutar la verificación después de la copia de seguridad
+ a| 
+Seleccione *Ejecutar verificación después de la copia de seguridad*.
+
+
+
+ a| 
+Programar una verificación
+ a| 
+Seleccione *Ejecutar verificación programada*.
+
+|===
+.. Haga clic en *Aceptar*.
++
+Los horarios configurados se enumeran en la columna Horarios aplicados.  Puedes revisar y luego editar haciendo clic en *image:../media/edit_icon.gif["Icono para editar horarios configurados"] * o eliminar haciendo clic en *image:../media/delete_icon_for_configuringschedule.gif["icono de eliminar"] *.
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.  Si desea adjuntar el informe de la operación realizada en el grupo de recursos, seleccione *Adjuntar informe de trabajo*.
+
++
+
+NOTE: Para recibir notificaciones por correo electrónico, debe haber especificado los detalles del servidor SMTP mediante la GUI o el comando de PowerShell Set-SmSmtpServer.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+
+
+.Información relacionada
+link:task_create_backup_policies_for_sql_server_databases.html["Crear políticas de respaldo para bases de datos de SQL Server"]

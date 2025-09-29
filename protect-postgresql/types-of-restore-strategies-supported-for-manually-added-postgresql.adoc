@@ -1,0 +1,29 @@
+---
+permalink: protect-postgresql/types-of-restore-strategies-supported-for-manually-added-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Debe definir una estrategia antes de poder realizar con éxito operaciones de restauración mediante SnapCenter.  Hay dos tipos de estrategias de restauración para recursos PostgreSQL agregados manualmente.  No es posible recuperar recursos de PostgreSQL agregados manualmente. 
+---
+= Tipos de estrategias de restauración compatibles con recursos de PostgreSQL agregados manualmente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe definir una estrategia antes de poder realizar con éxito operaciones de restauración mediante SnapCenter.
+
+
+NOTE: No es posible recuperar recursos de PostgreSQL agregados manualmente.
+
+
+
+== Restauración completa de recursos
+
+* Restaura todos los volúmenes, qtrees y LUN de un recurso
+
+
+
+NOTE: Si el recurso contiene volúmenes o qtrees, las instantáneas tomadas después de la instantánea seleccionada para restaurar en dichos volúmenes o qtrees se eliminan y no se pueden recuperar.  Además, si algún otro recurso está alojado en los mismos volúmenes o qtrees, ese recurso también se elimina.
+
+NOTA: El complemento para PostgreSQL crea una etiqueta de respaldo y un mapa de espacio de tabla en la carpeta _/<OS_temp_folder>/postgresql_sc_recovery_<Restore_JobId>/_ para ayudar a realizar la recuperación manual.

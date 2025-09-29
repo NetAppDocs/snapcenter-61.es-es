@@ -1,0 +1,26 @@
+---
+permalink: install/reference_generate_CA_certificate_CSR_file.html 
+sidebar: sidebar 
+keywords: SnapCenter, certificate signing request, ca, 
+summary: 'Puede generar una solicitud de firma de certificado (CSR) e importar el certificado que se puede obtener de una autoridad de certificación (CA) utilizando la CSR generada.  El certificado tendrá una clave privada asociada.' 
+---
+= Generar archivo CSR de certificado de CA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede generar una solicitud de firma de certificado (CSR) e importar el certificado que se puede obtener de una autoridad de certificación (CA) utilizando la CSR generada.  El certificado tendrá una clave privada asociada.
+
+CSR es un bloque de texto codificado que se entrega a un proveedor de certificados autorizado para obtener el certificado CA firmado.
+
+
+NOTE: La longitud de la clave RSA del certificado CA debe ser como mínimo de 3072 bits.
+
+Para obtener información sobre cómo generar un CSR, consulte https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_generate_CA_Certificate_CSR_file["Cómo generar un archivo CSR de certificado CA"^] .
+
+
+NOTE: Si posee el certificado CA para su dominio (*.domain.company.com) o su sistema (machine1.domain.company.com), puede omitir la generación del archivo CSR del certificado CA.  Puede implementar el certificado CA existente con SnapCenter.
+
+Para las configuraciones de clúster, el nombre del clúster (FQDN del clúster virtual) y los nombres de host respectivos deben mencionarse en el certificado de CA.  El certificado se puede actualizar completando el campo Nombre alternativo del sujeto (SAN) antes de obtener el certificado.  Para un certificado comodín (*.dominio.empresa.com), el certificado contendrá todos los nombres de host del dominio implícitamente.

@@ -1,0 +1,371 @@
+---
+permalink: sc-automation/reference_supported_rest_apis.html 
+sidebar: sidebar 
+keywords: REST API categories 
+summary: Los recursos disponibles a través de la API REST de SnapCenter están organizados en categorías, como se muestra en la página de documentación de la API de SnapCenter . 
+---
+= API REST compatibles con SnapCenter Server y complementos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los recursos disponibles a través de la API REST de SnapCenter están organizados en categorías, como se muestra en la página de documentación de la API de SnapCenter . A continuación se presenta una breve descripción de cada uno de los recursos con las rutas de recursos base, junto con consideraciones de uso adicionales cuando corresponda.
+
+
+
+== Autorización
+
+Puede utilizar esta API para iniciar sesión en el servidor SnapCenter . Esta API devuelve un token de autorización de usuario que se utiliza para autenticar solicitudes posteriores.
+
+
+
+== Dominios
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar todos los dominios en SnapCenter
+* recuperar detalles de un dominio específico
+* registrar o anular el registro de un dominio
+* modificar un dominio
+
+
+
+
+== Empleos
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar todos los trabajos en SnapCenter
+* recuperar el estado de un trabajo
+* cancelar o detener un trabajo
+
+
+
+
+== Configuración
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* registrar, modificar o eliminar una credencial
+* muestra la información de credenciales registrada en el servidor SnapCenter
+* configurar los ajustes de notificación
+* recupera información sobre el servidor SMTP actualmente configurado para enviar notificaciones por correo electrónico y muestra el nombre del servidor SMTP, el nombre de los destinatarios y el nombre del remitente
+* Muestra la configuración de autenticación multifactor (MFA) del inicio de sesión del servidor SnapCenter
+* Habilitar o deshabilitar y configurar MFA para el inicio de sesión del servidor SnapCenter
+* Crea el archivo de configuración necesario para configurar MFA
+
+
+
+
+== Anfitriones
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* Consultar todos los hosts de SnapCenter
+* eliminar uno o más hosts de SnapCenter
+* recuperar un host por nombre
+* recuperar todos los recursos en un host
+* recuperar un recurso utilizando el ID del recurso
+* recuperar los detalles de configuración del complemento
+* configurar el host del complemento
+* recuperar todos los recursos del complemento para el host de Microsoft SQL Server
+* recuperar todos los recursos del complemento para el host de la base de datos Oracle
+* recuperar todos los recursos del complemento para el host de la aplicación personalizada
+* recuperar todos los recursos del complemento para el host SAP HANA
+* recuperar los complementos instalados
+* Instalar complementos en un host existente
+* actualizar el paquete de host
+* eliminar complementos de un host existente
+* Agregar complemento en un host
+* agregar o modificar host
+* obtener la firma del host Linux
+* Registrar la firma del host Linux
+* Poner el host en modo de mantenimiento o producción
+* Iniciar o reiniciar los servicios del complemento en el host
+* cambiar el nombre de un host
+
+
+
+
+== Recursos
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar todos los recursos
+* recuperar un recurso utilizando el ID del recurso
+* recuperar todos los recursos del complemento para el host de Microsoft SQL Server
+* recuperar todos los recursos del complemento para el host de la base de datos Oracle
+* recuperar todos los recursos del complemento para el host de la aplicación personalizada
+* recuperar todos los recursos del complemento para el host SAP HANA
+* recuperar un recurso de Microsoft SQL Server usando una clave
+* recuperar un recurso personalizado usando una clave
+* modificar un recurso del complemento para el host de la aplicación personalizada
+* Eliminar un recurso del complemento para el host de la aplicación personalizada mediante una clave
+* recuperar un recurso de SAP HANA usando una clave
+* modificar un recurso del complemento para el host de SAP HANA
+* Eliminar un recurso del complemento para el host SAP HANA mediante una clave
+* recuperar un recurso de Oracle usando una clave
+* crear un recurso de volumen de aplicación de Oracle
+* modificar un recurso de volumen de aplicación de Oracle
+* Eliminar un recurso de volumen de aplicación de Oracle mediante una clave
+* recuperar los detalles secundarios del recurso de Oracle
+* Realice una copia de seguridad del recurso de Microsoft SQL Server mediante el complemento para Microsoft SQL Server
+* Realice una copia de seguridad del recurso Oracle mediante el complemento para la base de datos Oracle
+* Realice una copia de seguridad del recurso personalizado mediante un complemento para una aplicación personalizada
+* configurar la base de datos SAP HANA
+* configurar la base de datos Oracle
+* restaurar una copia de seguridad de una base de datos SQL
+* restaurar una copia de seguridad de una base de datos Oracle
+* restaurar una copia de seguridad de una aplicación personalizada
+* crear un recurso de SAP HANA
+* Proteger un recurso personalizado mediante un complemento para una aplicación personalizada
+* Proteger un recurso de Microsoft SQL Server mediante un complemento para Microsoft SQL Server
+* modificar un recurso protegido de Microsoft SQL Server
+* eliminar la protección del recurso de Microsoft SQL Server
+* Proteger un recurso de Oracle mediante un complemento para la base de datos de Oracle
+* modificar un recurso protegido de Oracle
+* eliminar la protección del recurso de Oracle
+* Clonar un recurso desde la copia de seguridad mediante un complemento para una aplicación personalizada
+* Clonar un volumen de aplicación Oracle desde la copia de seguridad mediante un complemento para la base de datos Oracle
+* Clonar un recurso de Microsoft SQL Server desde la copia de seguridad mediante el complemento para Microsoft SQL Server
+* Crear un ciclo de vida de clonación de un recurso de Microsoft SQL Server
+* Modificar el ciclo de vida de los clones de un recurso de Microsoft SQL Server
+* Eliminar el ciclo de vida del clon de un recurso de Microsoft SQL Server
+* mover una base de datos existente de Microsoft SQL Server desde un disco local a un LUN de NetApp
+* crear un archivo de especificación de clonación para una base de datos Oracle
+* Iniciar un trabajo de actualización de clonación a pedido de un recurso de Oracle
+* Cree un recurso de Oracle a partir de la copia de seguridad utilizando el archivo de especificación de clonación
+* restaura la base de datos a la réplica secundaria y vuelve a unir la base de datos al grupo de disponibilidad
+* crear un recurso de volumen de aplicación de Oracle
+
+
+
+
+== Copias de seguridad
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar detalles de la copia de seguridad por nombre de copia de seguridad, tipo, complemento, recurso o fecha
+* recuperar todas las copias de seguridad
+* recuperar detalles de la copia de seguridad
+* cambiar el nombre o eliminar copias de seguridad
+* montar una copia de seguridad de Oracle
+* desmontar una copia de seguridad de Oracle
+* catalogar una copia de seguridad de Oracle
+* Descatalogar una copia de seguridad de Oracle
+* Obtenga todas las copias de seguridad necesarias para montarlas y realizar la recuperación en un punto determinado del tiempo
+
+
+
+
+== Clones
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* crear, mostrar, modificar y eliminar el archivo de especificación de clonación de base de datos de Oracle
+* mostrar la jerarquía de clones de la base de datos Oracle
+* recuperar detalles del clon
+* recuperar todos los clones
+* eliminar clones
+* recuperar detalles del clon por ID
+* Iniciar un trabajo de actualización de clonación a pedido de un recurso de Oracle
+* Clonar un recurso de Oracle desde la copia de seguridad utilizando el archivo de especificación de clonación
+
+
+
+
+== División de clones
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* Estimar la operación de división de clones del recurso clonado
+* recuperar el estado de una operación de división de clonación
+* iniciar o detener una operación de división de clonación
+
+
+
+
+== Grupos de recursos
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar detalles de todos los grupos de recursos
+* recuperar el grupo de recursos por nombre
+* Crear un grupo de recursos para el complemento de una aplicación personalizada
+* Crear un grupo de recursos para el complemento de Microsoft SQL Server
+* Crear un grupo de recursos para el complemento de la base de datos Oracle
+* Modificar un grupo de recursos para un complemento para una aplicación personalizada
+* Modificar un grupo de recursos para el complemento de Microsoft SQL Server
+* Modificar un grupo de recursos para el complemento de la base de datos Oracle
+* Crear, modificar o eliminar el ciclo de vida de un clon de un grupo de recursos para el complemento de Microsoft SQL Server
+* realizar una copia de seguridad de un grupo de recursos
+* Poner el grupo de recursos en modo de mantenimiento o producción
+* eliminar un grupo de recursos
+
+
+
+
+== Políticas
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar detalles de la póliza
+* recuperar detalles de la póliza por nombre
+* eliminar una política
+* crear una copia de una política existente
+* Crear o modificar la política para el complemento de una aplicación personalizada
+* Crear o modificar la política para el complemento de Microsoft SQL Server
+* Crear o modificar la política para el complemento de la base de datos Oracle
+* Crear o modificar la política para el complemento de la base de datos SAP HANA
+
+
+
+
+== Almacenamiento
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar todas las acciones
+* recuperar una acción por nombre
+* crear o eliminar un recurso compartido
+* recuperar detalles de almacenamiento
+* recuperar detalles de almacenamiento por nombre
+* crear, modificar o eliminar un almacenamiento
+* descubrir recursos en un clúster de almacenamiento
+* recuperar recursos en un clúster de almacenamiento
+
+
+
+
+== Compartir
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar los detalles de una acción
+* recuperar detalles de todas las acciones
+* crear o eliminar un recurso compartido en el almacenamiento
+* recuperar una acción por nombre
+
+
+
+
+== Complementos
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* enumerar todos los complementos para un host
+* recuperar un recurso de Microsoft SQL Server usando una clave
+* modificar un recurso personalizado usando una clave
+* eliminar un recurso personalizado usando una clave
+* recuperar un recurso de SAP HANA usando una clave
+* modificar un recurso de SAP HANA usando una clave
+* eliminar un recurso de SAP HANA usando una clave
+* recuperar un recurso de Oracle usando una clave
+* modificar un recurso de volumen de aplicación de Oracle utilizando una clave
+* Eliminar un recurso de volumen de aplicación de Oracle mediante una clave
+* Realice una copia de seguridad del recurso Microsoft SQL Server mediante un complemento para Microsoft SQL Server y una clave
+* Realice una copia de seguridad del recurso Oracle mediante un complemento para la base de datos Oracle y una clave
+* Realice una copia de seguridad del recurso de la aplicación personalizada mediante un complemento para la aplicación personalizada y una clave
+* Configurar la base de datos SAP HANA usando una clave
+* configurar la base de datos Oracle usando una clave
+* restaurar una copia de seguridad de una aplicación personalizada usando una clave
+* crear un recurso de SAP HANA
+* crear un recurso de volumen de aplicación de Oracle
+* Proteger un recurso personalizado mediante un complemento para una aplicación personalizada
+* Proteger un recurso de Microsoft SQL Server mediante un complemento para Microsoft SQL Server
+* modificar un recurso protegido de Microsoft SQL Server
+* eliminar la protección del recurso de Microsoft SQL Server
+* Proteger un recurso de Oracle mediante un complemento para la base de datos de Oracle
+* modificar un recurso protegido de Oracle
+* eliminar la protección del recurso de Oracle
+* Clonar un recurso desde la copia de seguridad mediante un complemento para una aplicación personalizada
+* Clonar un volumen de aplicación Oracle desde la copia de seguridad mediante un complemento para la base de datos Oracle
+* Clonar un recurso de Microsoft SQL Server desde la copia de seguridad mediante el complemento para Microsoft SQL Server
+* Crear un ciclo de vida de clonación de un recurso de Microsoft SQL Server
+* Modificar el ciclo de vida de los clones de un recurso de Microsoft SQL Server
+* Eliminar el ciclo de vida del clon de un recurso de Microsoft SQL Server
+* crear un archivo de especificación de clonación para una base de datos Oracle
+* Iniciar un ciclo de vida de clonación a pedido de un recurso de Oracle
+* Clonar un recurso de Oracle desde la copia de seguridad utilizando el archivo de especificación de clonación
+
+
+
+
+== Informes
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar informes de operaciones de copia de seguridad, restauración y clonación para los complementos respectivos
+* agregar, ejecutar, eliminar o modificar programaciones
+* recuperar datos para los informes programados
+
+
+
+
+== Alertas
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar todas las alertas
+* recuperar alertas por ID
+* eliminar múltiples alertas o eliminar una alerta por ID
+
+
+
+
+== Rbac
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar detalles de usuarios, grupos y roles
+* agregar o eliminar usuarios
+* asignar usuario a rol
+* desasignar usuario de rol
+* crear, modificar o eliminar roles
+* asignar grupo a un rol
+* desasignar un grupo de un rol
+* agregar o eliminar grupos
+* crear una copia de un rol existente
+* Asignar o desasignar recursos a un usuario o grupo
+
+
+
+
+== Configuración
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* ver los ajustes de configuración
+* modificar los ajustes de configuración
+
+
+
+
+== Configuración del certificado
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* Ver el estado del certificado para el servidor SnapCenter o el host del complemento
+* modificar la configuración del certificado para el servidor SnapCenter o el host del complemento
+
+
+
+
+== Repositorio
+
+Puede utilizar API para realizar diferentes operaciones.
+
+* recuperar las copias de seguridad del repositorio
+* ver la información de configuración sobre el repositorio
+* proteger y restaurar el repositorio de SnapCenter
+* desproteger el repositorio de SnapCenter
+* Reconstruir y conmutar por error el repositorio
+
+
+
+
+== Versión
+
+Puede utilizar esta API para ver la versión de SnapCenter .

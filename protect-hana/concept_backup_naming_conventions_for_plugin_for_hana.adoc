@@ -1,0 +1,33 @@
+---
+permalink: protect-hana/concept_backup_naming_conventions_for_plugin_for_hana.html 
+sidebar: sidebar 
+keywords: Backup naming conventions 
+summary: Puede utilizar la convención de nombres de instantáneas predeterminada o utilizar una convención de nombres personalizada.  La convención de nombres de copia de seguridad predeterminada agrega una marca de tiempo a los nombres de las instantáneas que le ayuda a identificar cuándo se crearon las copias. 
+---
+= Convenciones de nomenclatura de copias de seguridad para bases de datos del complemento SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar la convención de nombres de instantáneas predeterminada o utilizar una convención de nombres personalizada.  La convención de nombres de copia de seguridad predeterminada agrega una marca de tiempo a los nombres de las instantáneas que le ayuda a identificar cuándo se crearon las copias.
+
+La instantánea utiliza la siguiente convención de nombres predeterminada:
+
+`resourcegroupname_hostname_timestamp`
+
+Debes nombrar tus grupos de recursos de respaldo de forma lógica, como en el siguiente ejemplo:
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+En este ejemplo, los elementos de sintaxis tienen los siguientes significados:
+
+* _dts1_ es el nombre del grupo de recursos.
+* _mach1x88_ es el nombre del host.
+* _03-12-2015_23.17.26_ es la fecha y la marca de tiempo.
+
+
+Como alternativa, puede especificar el formato del nombre de la instantánea mientras protege recursos o grupos de recursos seleccionando *Usar formato de nombre personalizado para copia de instantánea*.  Por ejemplo, customtext_resourcegroup_policy_hostname o resourcegroup_hostname.  De forma predeterminada, el sufijo de marca de tiempo se agrega al nombre de la instantánea.

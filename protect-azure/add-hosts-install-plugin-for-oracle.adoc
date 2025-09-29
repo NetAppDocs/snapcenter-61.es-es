@@ -1,0 +1,37 @@
+---
+permalink: protect-azure/add-hosts-install-plugin-for-oracle.html 
+sidebar: sidebar 
+keywords: add host, install, install plug-in, oracle, database 
+summary: Agregue hosts y luego instale los paquetes de complementos. 
+---
+= Agregar hosts e instalar el complemento SnapCenter para la base de datos Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar la página Agregar host para agregar hosts y luego instalar el paquete de complementos de SnapCenter para Linux o el paquete de complementos de SnapCenter para AIX.  Los complementos se instalan automáticamente en los hosts remotos.
+
+Puede agregar un host e instalar paquetes de complementos para un host individual o para un clúster.  Si está instalando el complemento en un clúster (Oracle RAC), el complemento se instala en todos los nodos del clúster.  Para Oracle RAC One Node, debe instalar el complemento en los nodos activos y pasivos.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. Verifique que la pestaña *Hosts administrados* esté seleccionada.
+. Haga clic en *Agregar*.
+. En la página Hosts, realice las siguientes acciones:
++
+.. En el campo Tipo de host, seleccione el tipo de host.
+.. En el campo Nombre de host, ingrese el nombre de dominio completo (FQDN) o la dirección IP del host.
+.. En el campo Credenciales, ingrese la credencial que creó.
+
+
+. En la sección Seleccionar complementos para instalar, seleccione los complementos que desea instalar.
+. (Opcional) Haga clic en *Más opciones* y especifique los detalles.
+. Haga clic en *Enviar*.
+. Verifique la huella digital y luego haga clic en *Confirmar y enviar*.
++
+En una configuración de clúster, debe verificar la huella digital de cada uno de los nodos del clúster.
+
+. Supervisar el progreso de la instalación.
+

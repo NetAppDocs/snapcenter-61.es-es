@@ -1,0 +1,359 @@
+---
+permalink: admin/concept_manage_hosts.html 
+sidebar: sidebar 
+keywords: Manage hosts 
+summary: 'Puede agregar hosts e instalar paquetes de complementos de SnapCenter , agregar un servidor de verificación, eliminar hosts, migrar trabajos de respaldo y actualizar hosts para actualizar paquetes de complementos o agregar nuevos paquetes de complementos.  Según el complemento que esté utilizando, también puede aprovisionar discos, administrar recursos compartidos SMB, administrar grupos de iniciadores (igroups), administrar sesiones iSCSI y migrar datos.' 
+---
+= Administrar hosts
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede agregar hosts e instalar paquetes de complementos de SnapCenter , agregar un servidor de verificación, eliminar hosts, migrar trabajos de respaldo y actualizar hosts para actualizar paquetes de complementos o agregar nuevos paquetes de complementos.  Según el complemento que utilice, también puede aprovisionar discos, administrar recursos compartidos SMB, administrar grupos de iniciadores (igroups), administrar sesiones iSCSI y migrar datos.
+
+|===
+| Puedes realizar estas tareas... | Para Microsoft Exchange Server | Para Microsoft SQL Server | Para Microsoft Windows | Para la base de datos Oracle | Para la base de datos SAP HANA | Para complementos compatibles con NetApp | Para Db2 | Para PostgreSQL | Para MySQL 
+
+
+ a| 
+Agregar hosts e instalar el paquete de complemento
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Actualizar la información de ESXi para un host
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Suspender programaciones y colocar hosts en modo de mantenimiento
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Modificar hosts agregando, actualizando o eliminando complementos
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Eliminar hosts de SnapCenter
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Iniciar servicios de complemento (solo aplicable para complementos que se ejecutan en el host de Windows)
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+No
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Discos de aprovisionamiento
+ a| 
+No
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Administrar recursos compartidos de SMB
+ a| 
+No
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Administrar iGroups
+ a| 
+No
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Administrar sesiones iSCSI
+ a| 
+No
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+ a| 
+No
+
+|===
+
+
+== Actualizar la información de la máquina virtual
+
+Debe actualizar la información de su máquina virtual cuando cambien las credenciales de VMware vCenter o cuando se reinicie el host del sistema de archivos o de la base de datos.  Al actualizar la información de su máquina virtual en SnapCenter, se inicia la comunicación con VMware vSphere vCenter y se obtienen las credenciales de vCenter.
+
+
+NOTE: Los discos basados ​​en RDM son administrados por el complemento SnapCenter para Microsoft Windows, que está instalado en el host de la base de datos.  Para administrar RDM, el complemento SnapCenter para Microsoft Windows se comunica con el servidor vCenter que administra el host de la base de datos.
+
+*Pasos*
+
+. En el panel de navegación izquierdo de SnapCenter , haga clic en *Hosts*.
+. En la página Hosts, haga clic en *Hosts administrados*.
+. En la página Hosts administrados, seleccione el host que desea actualizar.
+. Haga clic en *Actualizar VM*.
+
+
+
+
+== Modificar los hosts de los complementos
+
+Después de instalar un complemento, puede modificar los detalles de los hosts del complemento si es necesario.  Puede modificar las credenciales, la ruta de instalación, los complementos, los detalles del directorio de registro del complemento de SnapCenter para Microsoft SQL Server, la cuenta de servicio administrada de grupo (gMSA) y el puerto del complemento.
+
+
+NOTE: Asegúrese de que la versión del complemento sea la misma que la versión de SnapCenter Server.
+
+*Acerca de esta tarea*
+
+* Puedes modificar un puerto de complemento solo después de instalar el complemento.
++
+No es posible modificar el puerto del complemento mientras se realizan operaciones de actualización.
+
+* Al modificar un puerto de complemento, debe tener en cuenta los siguientes escenarios de reversión de puerto:
++
+** En una configuración independiente, si SnapCenter no logra cambiar el puerto de uno de los componentes, la operación falla y el puerto antiguo se conserva para todos los componentes.
++
+Si se cambió el puerto para todos los componentes pero uno de los componentes no puede iniciarse con el nuevo puerto, entonces el puerto antiguo se conserva para todos los componentes.  Por ejemplo, si desea cambiar el puerto de dos complementos en el host independiente y SnapCenter no logra aplicar el nuevo puerto a uno de los complementos, la operación falla (con un mensaje de error apropiado) y el puerto antiguo se conserva para ambos complementos.
+
+** En una configuración en clúster, si SnapCenter no logra cambiar el puerto del complemento que está instalado en uno de los nodos, la operación falla y el puerto antiguo se conserva para todos los nodos.
++
+Por ejemplo, si el complemento está instalado en cuatro nodos en una configuración en clúster y no se cambia el puerto para uno de los nodos, el puerto antiguo se conserva para todos los nodos.
+
+
+
+
+
+Cuando se instalan complementos con gMSA, puedes modificarlos en la ventana *Más opciones*.  Cuando se instalan complementos sin gMSA, puede especificar la cuenta gMSA para utilizarla como cuenta de servicio del complemento.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. Verifique que *Hosts administrados* esté seleccionado en la parte superior.
+. Seleccione el host que desea modificar y modifique cualquier campo.
++
+Sólo se puede modificar un campo a la vez.
+
+. Haga clic en *Enviar*.
+
+
+*Resultado*
+
+El host se valida y se agrega al servidor SnapCenter .
+
+
+
+== Iniciar o reiniciar los servicios del complemento
+
+Al iniciar los servicios del complemento SnapCenter , podrá iniciar servicios si no se están ejecutando o reiniciarlos si se están ejecutando.  Es posible que desee reiniciar los servicios después de realizar el mantenimiento.
+
+Debe asegurarse de que no haya ningún trabajo en ejecución al reiniciar los servicios.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. En la página Hosts, haga clic en *Hosts administrados*.
+. En la página Hosts administrados, seleccione el host que desea iniciar.
+. Hacer clicimage:../media/more_icon.gif["icono más"] icono y haga clic en *Iniciar servicio* o *Reiniciar servicio*.
++
+Puede iniciar o reiniciar el servicio de varios hosts simultáneamente.
+
+
+
+
+
+== Suspender programaciones para mantenimiento del host
+
+Cuando desee evitar que el host ejecute cualquier trabajo programado de SnapCenter , puede colocarlo en modo de mantenimiento.  Debe hacer esto antes de actualizar los complementos o si está realizando tareas de mantenimiento en los hosts.
+
+
+NOTE: No se pueden suspender las programaciones en un host que está inactivo porque SnapCenter no puede comunicarse con ese host.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. En la página Hosts, haga clic en *Hosts administrados*.
+. En la página Hosts administrados, seleccione el host que desea suspender.
+. Haga clic en elimage:../media/more_icon.gif["icono más"] icono y, a continuación, haga clic en *Suspender programación* para colocar el host de este complemento en modo de mantenimiento.
++
+Puede suspender la programación de varios hosts simultáneamente.
+
++
+
+NOTE: No es necesario detener primero el servicio de complemento.  El servicio de complemento puede estar en estado de ejecución o detenido.
+
+
+
+*Resultado*
+
+Después de suspender las programaciones en el host, la página Hosts administrados muestra *Suspendido* en el campo Estado general del host.
+
+Después de completar el mantenimiento del host, puede sacarlo del modo de mantenimiento haciendo clic en *Activar programación*.  Puede activar la programación de varios hosts simultáneamente.

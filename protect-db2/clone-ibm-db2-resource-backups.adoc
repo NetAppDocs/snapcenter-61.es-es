@@ -1,0 +1,36 @@
+---
+permalink: protect-db2/clone-ibm-db2-resource-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: El flujo de trabajo de clonación incluye la realización de la operación de clonación y la supervisión de la operación. 
+---
+= Flujo de trabajo de clonación
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El flujo de trabajo de clonación incluye la realización de la operación de clonación y la supervisión de la operación.
+
+.Acerca de esta tarea
+* Puede clonar en el servidor IBM Db2 de origen.
+* Puede clonar copias de seguridad de recursos por los siguientes motivos:
++
+** Para probar la funcionalidad que debe implementarse utilizando la estructura y el contenido de recursos actuales durante los ciclos de desarrollo de aplicaciones
+** Para herramientas de extracción y manipulación de datos al rellenar almacenes de datos
+** Para recuperar datos que fueron borrados o modificados por error
+
+
+
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar la operación de clonación:
+
+image::../media/sco_scc_wfs_clone_workflow.gif[Flujo de trabajo de clonación]
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad, restauración y clonación.  La ayuda del cmdlet de SnapCenter y la información de referencia del cmdlet contienen información detallada sobre los cmdlets de PowerShell.
+
+.Después de terminar
+Después de clonar los recursos de Db2 descubiertos automáticamente, el recurso clonado se marca como recurso manual.  Haga clic en *Actualizar recursos* para recuperar el recurso Db2 clonado.  Cuando eliminas el clon, el almacenamiento y el host también se limpian.
+
+Si no actualiza los recursos después de la operación de clonación e intenta eliminar el clon, el almacenamiento y el host no se limpiarán.  Debes eliminar las entradas manualmente en fstab.

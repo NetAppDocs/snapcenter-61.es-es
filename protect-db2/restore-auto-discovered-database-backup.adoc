@@ -1,0 +1,76 @@
+---
+permalink: protect-db2/restore-auto-discovered-database-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad. 
+---
+= Restaurar y recuperar una copia de seguridad de una base de datos descubierta automáticamente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad.
+
+.Antes de empezar
+* Debes haber realizado una copia de seguridad del recurso o del grupo de recursos.
+* Debe haber cancelado cualquier operación de respaldo que esté actualmente en curso para el recurso o grupo de recursos que desea restaurar.
+* Para los comandos de pre-restauración, post-restauración, montaje y desmontaje, debe verificar si los comandos existen en la lista de comandos disponible en el host del complemento desde las siguientes rutas:
++
+** Ubicación predeterminada en el host de Windows: _C:\Archivos de programa\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Ubicación predeterminada en el host Linux: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Si los comandos no existen en la lista de comandos, la operación fallará.
+
+.Acerca de esta tarea
+* Para los recursos descubiertos automáticamente, la restauración es compatible con SFSR.
+* No se admite la recuperación automática.
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, filtre los recursos de la lista desplegable *Ver* según el tipo de recurso.
++
+Los recursos se muestran junto con el tipo, el host, los grupos de recursos y políticas asociados y el estado.
+
++
+
+NOTE: Aunque una copia de seguridad puede ser para un grupo de recursos, al restaurarla debe seleccionar los recursos individuales que desea restaurar.
+
++
+Si el recurso no está protegido, se muestra "No protegido" en la columna Estado general.  Esto puede significar que el recurso no está protegido o que fue respaldado por un usuario diferente.
+
+. Seleccione el recurso o seleccione un grupo de recursos y luego seleccione un recurso en ese grupo.
++
+Se muestra la página de topología de recursos.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* de los sistemas de almacenamiento primario o secundario (duplicado o almacenado en bóveda).
+. En la tabla Copias de seguridad principales, seleccione la copia de seguridad que desea restaurar y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
++
+image::../media/restoring_resource.gif[restauración de recursos]
+
+. En la página Restaurar ámbito, seleccione *Recurso completo* para restaurar los volúmenes de datos configurados de la base de datos IBM Db2.
+. En la página Operaciones previas, ingrese los comandos de restauración previa y de desmontaje para ejecutar antes de realizar un trabajo de restauración.
++
+Los comandos de desmontaje no son necesarios para los recursos descubiertos automáticamente.
+
+. En la página Operaciones posteriores, ingrese los comandos de montaje y restauración posterior para ejecutarlos después de realizar un trabajo de restauración.
++
+Los comandos de montaje no son necesarios para los recursos descubiertos automáticamente.
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario y el asunto del correo electrónico.  El SMTP también debe configurarse en la página *Configuración* > *Configuración global*.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+
+
+.Después de terminar
+La recuperación solo es posible si el estado de Rollforward está en estado "DB pendiente".  Este estado es aplicable a bases de datos Db2 con registro de archivo habilitado.

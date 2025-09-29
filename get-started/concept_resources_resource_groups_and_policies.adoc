@@ -1,0 +1,114 @@
+---
+permalink: get-started/concept_resources_resource_groups_and_policies.html 
+sidebar: sidebar 
+keywords: resource, resource group, policy 
+summary: Antes de utilizar SnapCenter, es útil comprender los conceptos básicos relacionados con las operaciones de copia de seguridad, clonación y restauración que desea realizar. 
+---
+= Conceptos clave de la protección de datos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de utilizar SnapCenter, comprenda los conceptos clave de copia de seguridad, clonación y restauración.
+
+
+
+== Recursos
+
+Los recursos incluyen bases de datos, sistemas de archivos de Windows o recursos compartidos de archivos respaldados o clonados con SnapCenter.  Según su entorno, los recursos también podrían ser instancias de base de datos, grupos de disponibilidad de SQL Server, bases de datos Oracle, bases de datos RAC o grupos de aplicaciones personalizados.
+
+
+
+== Grupo de recursos
+
+Un grupo de recursos es una colección de recursos en un host o clúster, potencialmente de múltiples hosts y clústeres.  Las operaciones realizadas en un grupo de recursos se aplican a todos sus recursos según la programación especificada.  Puede realizar copias de seguridad programadas o a pedido para recursos individuales o grupos.
+
+
+NOTE: Si un host de un grupo de recursos compartidos ingresa al modo de mantenimiento, todas las operaciones programadas para ese grupo se suspenderán en todos los hosts.
+
+Utilice complementos relevantes para realizar copias de seguridad de recursos específicos: complementos de base de datos para bases de datos, complementos de sistema de archivos para sistemas de archivos y SnapCenter Plug-in for VMware vSphere para máquinas virtuales y almacenes de datos.
+
+
+
+== Políticas
+
+Las políticas especifican la frecuencia de las copias de seguridad, la retención de copias, la replicación, los scripts y otras características de las operaciones de protección de datos.
+
+Se pueden seleccionar una o más políticas al crear un grupo de recursos o al realizar una copia de seguridad a pedido.
+
+Un grupo de recursos define qué necesita protegerse y cuándo debe protegerse en términos de día y hora.  Una política describe cómo se llevará a cabo la protección.  Por ejemplo, si es necesario realizar una copia de seguridad de todas las bases de datos o sistemas de archivos de un host, se podría crear un grupo de recursos que incluya todas las bases de datos o sistemas de archivos del host.  Luego se podrían asociar dos políticas al grupo de recursos: una política diaria y una política por hora.
+
+Al crear el grupo de recursos y adjuntar las políticas, es posible configurarlo para realizar una copia de seguridad completa diariamente y otra programación para copias de seguridad de registros cada hora.
+
+Se pueden utilizar prescripciones y posdatas personalizadas en operaciones de protección de datos.  Estos scripts permiten la automatización antes o después del trabajo de protección de datos.  Por ejemplo, un script podría notificar automáticamente sobre fallas o advertencias en tareas de protección de datos.  Comprender los requisitos para crear estos guiones es fundamental antes de configurar prescriptos y posscriptos.
+
+
+
+== Uso de prescriptos y posscriptos
+
+Las prescripciones y posdatas personalizadas pueden automatizar sus tareas de protección de datos antes o después del trabajo.  Por ejemplo, puede agregar un script para notificarle sobre fallas o advertencias en el trabajo.  Antes de configurarlos, asegúrese de comprender los requisitos para estos scripts.
+
+
+
+=== Tipos de scripts admitidos
+
+Los siguientes tipos de scripts son compatibles con Windows:
+
+* Archivos por lotes
+* Scripts de PowerShell
+* Scripts de Perl
+
+
+Los siguientes tipos de scripts son compatibles con UNIX:
+
+* Scripts de Perl
+* Scripts de Python
+* Scripts de shell
++
+
+NOTE: Además del shell bash predeterminado, también se admiten otros shells como sh-shell, k-shell y c-shell.
+
+
+
+
+
+=== Ruta de script
+
+Todos los prescripts y posscripts que se ejecutan como parte de las operaciones de SnapCenter en sistemas de almacenamiento virtualizados y no virtualizados se ejecutan en el host del complemento.
+
+* Los scripts de Windows deben estar ubicados en el host del complemento.
+
+
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
+* Los scripts de UNIX deben estar ubicados en el host del complemento.
+
+
+
+NOTE: La ruta del script se valida en el momento de la ejecución.
+
+
+
+=== Dónde especificar scripts
+
+Los scripts se especifican en las políticas de copia de seguridad.  Cuando se inicia un trabajo de respaldo, la política asocia automáticamente el script con los recursos que se están respaldando.  Al crear una política de respaldo, puede especificar los argumentos prescript y postscript.
+
+
+NOTE: No se pueden especificar varios scripts.
+
+
+
+=== Tiempos de espera de script
+
+El tiempo de espera está establecido en 60 segundos, de manera predeterminada.  Puede modificar el valor del tiempo de espera.
+
+
+
+=== Salida del script
+
+El directorio predeterminado para los archivos de salida de prescripts y postscripts de Windows es Windows\System32.
+
+No existe una ubicación predeterminada para los prescripts y posscripts de UNIX.  Puede redirigir el archivo de salida a cualquier ubicación preferida.

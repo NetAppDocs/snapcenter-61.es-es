@@ -1,0 +1,68 @@
+---
+permalink: upgrade/task_upgrade_your_plug_in_packages.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade plug-in packages 
+summary: Los paquetes de complementos se distribuyen como parte de la actualización de SnapCenter . 
+---
+= Actualice sus paquetes de complementos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los paquetes de complementos se distribuyen como parte de la actualización de SnapCenter .
+
+No es necesario colocar manualmente cada host de complemento que desea actualizar en modo de mantenimiento porque el procedimiento de actualización coloca sus hosts de complemento de Windows, Linux o AIX en modo de mantenimiento.  El modo de mantenimiento evita que se ejecuten trabajos programados en el host del complemento durante la actualización.
+
+.Antes de empezar
+* Si es un usuario no root con acceso a las máquinas Linux, debe actualizar el archivo _/etc/sudoers_ con los últimos valores de suma de comprobación antes de realizar la operación de actualización.
+* De forma predeterminada, SnapCenter detecta JAVA_HOME del entorno.  Si desea utilizar un JAVA_HOME fijo y está actualizando los complementos en un host Linux, debe agregar manualmente el parámetro SKIP_JAVAHOME_UPDATE en el archivo _spl.properties_ ubicado en _/var/opt/snapcenter/spl/etc/_ y establecer el valor en TRUE.
++
+El valor de JAVA_HOME se actualiza cuando se actualiza el complemento o cuando se reinicia el servicio del cargador de complementos de SnapCenter (SPL).  Antes de actualizar o reiniciar el SPL, si agrega el parámetro SKIP_JAVAHOME_UPDATE y establece el valor en TRUE, el valor de JAVA_HOME no se actualiza.
+
+* Deberías haber realizado una copia de seguridad de todos los archivos de configuración de SnapCenter que hayas modificado, ya sea en el host del servidor SnapCenter o en el host del complemento.
++
+Ejemplos de archivos de configuración de SnapCenter : SnapDriveService.exe.config, SMCoreServiceHost.exe.config, etc.
+
+
+
+.Acerca de esta tarea
+* Para el complemento SnapCenter para Microsoft SQL Server, el complemento SnapCenter para Microsoft Exchange Server y el complemento SnapCenter para Microsoft Windows, se recomienda actualizar tanto el servidor como los hosts del complemento a la última versión para que se ejecute SCRIPTS_PATH.
++
+Para los programas de copia de seguridad y verificación existentes con prescripts y posscripts habilitados en la política, las operaciones de copia de seguridad continuarán funcionando después de la actualización.
+
++
+En la página *Detalles del trabajo*, un mensaje de advertencia recomienda que el cliente copie los scripts en SCRIPTS_PATH y edite la política para proporcionar una ruta relativa a SCRIPTS_PATH.  Para el trabajo del ciclo de vida de clonación, el mensaje de advertencia aparece en el nivel de subtrabajo.
+
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts* > *Hosts administrados*.
+. Actualice los hosts realizando una de las siguientes tareas:
++
+** Si la columna Estado general muestra "Actualización disponible" para uno de los hosts del complemento, haga clic en el nombre del host del complemento y realice lo siguiente:
++
+... Haga clic en *Más opciones*.
+... Seleccione *Omitir comprobaciones previas* si no desea validar si el host del complemento cumple con los requisitos para actualizar el complemento.
+... Haga clic en *Actualizar*.
+
+
+** Si desea actualizar varios hosts, seleccione todos los hosts y haga clic enimage:../media/more_icon.gif["icono más"] y luego haga clic en *Actualizar* > *Aceptar*.
++
+Todos los servicios relacionados se reinician durante la actualización del complemento.
+
++
+
+NOTE: Se seleccionan todos los complementos del paquete, pero solo se actualizan los complementos que se instalaron con la versión anterior de SnapCenter y los complementos restantes no se instalan.  Debe utilizar la opción *Agregar complementos* para instalar cualquier complemento nuevo.
+
++
+Si no ha seleccionado la casilla *Omitir comprobaciones previas*, se validará el host del complemento para comprobar si cumple los requisitos para instalarlo. Si no se cumplen los requisitos mínimos, se mostrarán los mensajes de error o advertencia correspondientes.  Después de solucionar el problema, haga clic en *Actualizar*.
+
++
+
+NOTE: Si el error está relacionado con el espacio en disco o la RAM, puede actualizar el archivo web.config ubicado en C:\Program Files\ NetApp\ SnapCenter WebApp o los archivos de configuración de PowerShell ubicados en C:\Windows\System32\WindowsPowerShell\v1.0\Modules\ SnapCenter\ para modificar los valores predeterminados.  Si el error está relacionado con los parámetros restantes, deberá solucionar el problema y luego validar los requisitos nuevamente.
+
+
+
+

@@ -1,0 +1,217 @@
+---
+permalink: protect-sce/task_add_hosts_and_install_plug_in_for_exchange.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server, NET TCP 
+summary: Puede utilizar la página Agregar host de SnapCenter para agregar hosts de Windows.  El complemento para Exchange se instala automáticamente en el host especificado.  Este es el método recomendado para instalar complementos.  Puede agregar un host e instalar un complemento para un host individual o para un clúster. 
+---
+= Agregar hosts e instalar el complemento para Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar la página Agregar host de SnapCenter para agregar hosts de Windows.  El complemento para Exchange se instala automáticamente en el host especificado.  Este es el método recomendado para instalar complementos.  Puede agregar un host e instalar un complemento para un host individual o para un clúster.
+
+.Antes de empezar
+* Si el sistema operativo del host de SnapCenter Server es Windows 2019 y el sistema operativo del host del complemento es Windows 2022, debe realizar lo siguiente:
++
+** Actualizar a Windows Server 2019 (compilación del SO 17763.5936) o posterior
+** Actualizar a Windows Server 2022 (compilación del SO 20348.2402) o posterior
+
+
+* Debe ser un usuario asignado a un rol que tenga permisos de instalación y desinstalación de complementos, como el administrador de SnapCenter .
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.
+* El servicio de cola de mensajes debe estar ejecutándose.
+* Si está utilizando una cuenta de servicio administrada grupal (gMSA), debe configurar gMSA con privilegios administrativos. Para obtener más información, consultelink:task_configure_gMSA_on_windows_server_2012_or_later.html["Configurar una cuenta de servicio administrada de grupo en Windows Server 2016 o posterior para Microsoft Exchange Server"^] .
+
+
+.Acerca de esta tarea
+* No es posible agregar un servidor SnapCenter como host de complemento a otro servidor SnapCenter .
+* Puede agregar un host e instalar paquetes de complementos para un host individual o para un clúster.
+* Si un nodo de intercambio es parte de un DAG, no puede agregar solo un nodo al servidor SnapCenter .
+* Si está instalando complementos en un clúster (DAG de Exchange), se instalan en todos los nodos del clúster incluso si algunos de ellos no tienen bases de datos en LUN de NetApp .
+
+
+A partir de SnapCenter 4.6, SCE admite la función multitenencia y puede agregar un host mediante los siguientes métodos:
+
+|===
+| Agregar operación de host | 4.5 y anteriores | 4.6 y posteriores 
+
+
+| Agregar DAG sin IP en dominios cruzados o diferentes | No compatible | Apoyado 
+
+
+| Agregue varios DAG de IP con nombres únicos, que residan en el mismo dominio o en varios dominios | Apoyado | Apoyado 
+
+
+| Agregue varios DAG con IP o sin IP que tengan los mismos nombres de host y/o nombre de base de datos en dominios cruzados | No compatible | Apoyado 
+
+
+| Agregue varios DAG con IP/sin IP con el mismo nombre y dominio cruzado | No compatible | Apoyado 
+
+
+| Agregue varios hosts independientes con el mismo nombre y dominio cruzado | No compatible | Apoyado 
+|===
+El complemento para Exchange depende del paquete de complementos de SnapCenter para Windows y las versiones deben ser las mismas.  Durante la instalación del complemento para Exchange, el paquete de complementos de SnapCenter para Windows se selecciona de forma predeterminada y se instala junto con el proveedor de hardware VSS.
+
+Si SnapManager para Microsoft Exchange Server y SnapDrive para Windows ya están instalados y desea instalar el complemento para Exchange en el mismo servidor Exchange, debe anular el registro del proveedor de hardware VSS utilizado por SnapDrive para Windows porque es incompatible con el proveedor de hardware VSS instalado con el complemento para Exchange y el paquete de complementos de SnapCenter para Windows. Para obtener más información, consulte  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_manually_register_the_Data_ONTAP_VSS_Hardware_Provider["Cómo registrar manualmente el proveedor de hardware VSS de Data ONTAP"] .
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. Verifique que *Hosts administrados* esté seleccionado en la parte superior.
+. Haga clic en *Agregar*.
+. En la página Hosts, haga lo siguiente:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Tipo de host
+ a| 
+Seleccione *Windows* como tipo de host.
+
+SnapCenter Server agrega el host y luego instala en el host el complemento para Windows y el complemento para Exchange si aún no están instalados.
+
+El complemento para Windows y el complemento para Exchange deben ser de la misma versión.  Si previamente se instaló una versión diferente del complemento para Windows, SnapCenter actualiza la versión como parte de la instalación.
+
+
+
+ a| 
+Host name
+ a| 
+Introduzca el nombre de dominio completo (FQDN) o la dirección IP del host.
+
+SnapCenter depende de la configuración adecuada del DNS.  Por lo tanto, la mejor práctica es ingresar el nombre de dominio completo (FQDN).
+
+Una dirección IP solo es compatible con hosts de dominios no confiables si se resuelve en el FQDN.
+
+Si está agregando un host mediante SnapCenter y es parte de un subdominio, debe proporcionar el FQDN.
+
+Puede ingresar direcciones IP o el FQDN de uno de los siguientes:
+
+** Host independiente
+** Intercambio DAG
++
+Para un DAG de Exchange, puedes:
+
++
+*** Agregue un DAG proporcionando el nombre del DAG, la dirección IP del DAG, el nombre del nodo o la dirección IP del nodo.
+*** Agregue el clúster DAG sin IP proporcionando la dirección IP o el FQDN de uno de los nodos del clúster DAG.
+*** Agregue un DAG sin IP que resida en el mismo dominio o en uno diferente.  También puedes agregar varios DAG con IP/sin IP con el mismo nombre pero con diferentes dominios.
+
+
+
+
+
+NOTE: Para un host independiente o un DAG de Exchange (entre dominios o del mismo dominio), se recomienda proporcionar el FQDN o la dirección IP del host o DAG.
+
+
+
+ a| 
+Cartas credenciales
+ a| 
+Seleccione el nombre de la credencial que creó o cree las nuevas credenciales.
+
+La credencial debe tener derechos administrativos en el host remoto.  Para obtener más detalles, consulte la información sobre cómo crear una credencial.
+
+Puede ver detalles sobre las credenciales colocando el cursor sobre el nombre de la credencial que especificó.
+
+
+NOTE: El modo de autenticación de credenciales está determinado por el tipo de host que especifique en el asistente Agregar host.
+
+|===
+. En la sección Seleccionar complementos para instalar, seleccione los complementos que desea instalar.
++
+Cuando selecciona Complemento para Exchange, el Complemento de SnapCenter para Microsoft SQL Server se deselecciona automáticamente.  Microsoft recomienda que SQL Server y Exchange Server no se instalen en el mismo sistema debido a la cantidad de memoria utilizada y otros recursos que requiere Exchange.
+
+. (Opcional) Haga clic en *Más opciones*.
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Puerto
+ a| 
+Mantenga el número de puerto predeterminado o especifique el número de puerto.
+
+El número de puerto predeterminado es 8145.  Si el servidor SnapCenter se instaló en un puerto personalizado, ese número de puerto se mostrará como el puerto predeterminado.
+
+
+NOTE: Si instaló manualmente los complementos y especificó un puerto personalizado, debe especificar el mismo puerto.  De lo contrario la operación falla.
+
+
+
+ a| 
+Ruta de instalación
+ a| 
+La ruta predeterminada es `C:\Program Files\NetApp\SnapCenter` .
+
+Opcionalmente puedes personalizar la ruta.
+
+
+
+ a| 
+Agregar todos los hosts en el DAG
+ a| 
+Seleccione esta casilla de verificación cuando agregue un DAG.
+
+
+
+ a| 
+Omitir comprobaciones de preinstalación
+ a| 
+Seleccione esta casilla de verificación si ya instaló los complementos manualmente y no desea validar si el host cumple con los requisitos para instalar el complemento.
+
+
+
+ a| 
+Utilice la cuenta de servicio administrada grupal (gMSA) para ejecutar los servicios del complemento
+ a| 
+Seleccione esta casilla de verificación si desea utilizar la cuenta de servicio administrada de grupo (gMSA) para ejecutar los servicios del complemento.
+
+Proporcione el nombre de gMSA en el siguiente formato: _domainName\accountName$_.
+
+
+NOTE: gMSA se utilizará como una cuenta de servicio de inicio de sesión únicamente para el servicio del complemento SnapCenter para Windows.
+
+|===
+. Haga clic en *Enviar*.
++
+Si no ha seleccionado la casilla "Omitir comprobaciones previas", se validará el host para determinar si cumple los requisitos para instalar el complemento. Si no se cumplen los requisitos mínimos, se mostrarán los mensajes de error o advertencia correspondientes.
+
++
+Si el error está relacionado con el espacio en disco o la RAM, puede actualizar el archivo web.config ubicado en `C:\Program Files\NetApp\SnapCenter` WebApp para modificar los valores predeterminados.  Si el error está relacionado con otros parámetros, debes solucionar el problema.
+
++
+
+NOTE: En una configuración de alta disponibilidad, si está actualizando el archivo web.config, debe actualizar el archivo en ambos nodos.
+
+. Supervisar el progreso de la instalación.
+
+
+
+
+== Configurar un puerto personalizado para la comunicación NET TCP
+
+De forma predeterminada, a partir de la versión 6.0 de SnapCenter , el complemento de SnapCenter para Windows utiliza el puerto 909 para la comunicación NET TCP.  Si el puerto 909 está en uso, puede configurar otro puerto para la comunicación NET TCP.
+
+.Pasos
+. Modifique el valor de la clave _NetTCPPort_ ubicada en _C:\Program Files\ NetApp\ SnapCenter\ SnapCenter Plug-in for Microsoft Windows\vssproviders\navssprv.exe.config_ al número de puerto requerido.
+`<add key="NetTCPPort" value="new_port_number" />`
+. Modifique el valor de la clave _NetTCPPort_ ubicada en _C:\Program Files\ NetApp\ SnapCenter\ SnapCenter Plug-in for Microsoft Windows\SnapDriveService.dll.config_ al número de puerto requerido.
+`<add key="NetTCPPort" value="new_port_number" />`
+. Anule el registro del servicio _Data ONTAP VSS Hardware Provider_ ejecutando el siguiente comando:
+`"C:\Program Files\NetApp\SnapCenter\SnapCenter Plug-in for Microsoft Windows\navssprv.exe" -r service -u`
++
+Verifique que el servicio no se muestre en la lista de servicios en _services.msc_.
+
+. Registre el servicio _Data ONTAP VSS Hardware Provider_ ejecutando el siguiente comando:
+`"C:\Program Files\NetApp\SnapCenter\SnapCenter Plug-in for Microsoft Windows\vssproviders\navssprv.exe" -r service -a ".\LocalSystem"``
++
+Verifique si el servicio ahora se muestra en la lista de servicios en _services.msc_.
+
+. Reinicie el servicio _Plug-in para Windows_.
+

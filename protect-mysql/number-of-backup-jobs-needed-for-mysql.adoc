@@ -1,0 +1,14 @@
+---
+permalink: protect-mysql/number-of-backup-jobs-needed-for-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: 'Los factores que determinan la cantidad de trabajos de respaldo que necesita incluyen el tamaño del recurso, la cantidad de volúmenes utilizados, la tasa de cambio del recurso y su Acuerdo de Nivel de Servicio (SLA).' 
+---
+= Número de trabajos de respaldo necesarios para MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los factores que determinan la cantidad de trabajos de respaldo que necesita incluyen el tamaño del recurso, la cantidad de volúmenes utilizados, la tasa de cambio del recurso y su Acuerdo de Nivel de Servicio (SLA).

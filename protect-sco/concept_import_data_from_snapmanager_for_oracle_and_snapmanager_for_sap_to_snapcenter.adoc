@@ -1,0 +1,319 @@
+---
+permalink: protect-sco/concept_import_data_from_snapmanager_for_oracle_and_snapmanager_for_sap_to_snapcenter.html 
+sidebar: sidebar 
+keywords: import, SnapManager for Oracle, SnapManager for SAP 
+summary: La importación de datos de SnapManager para Oracle y SnapManager para SAP a SnapCenter le permite seguir utilizando sus datos de versiones anteriores. 
+---
+= Importar datos de SnapManager para Oracle y SnapManager para SAP a SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La importación de datos de SnapManager para Oracle y SnapManager para SAP a SnapCenter le permite seguir utilizando sus datos de versiones anteriores.
+
+Puede importar datos de SnapManager para Oracle y SnapManager para SAP a SnapCenter ejecutando la herramienta de importación desde la interfaz de línea de comandos (CLI del host de Linux).
+
+La herramienta de importación crea políticas y grupos de recursos en SnapCenter.  Las políticas y los grupos de recursos creados en SnapCenter corresponden a los perfiles y operaciones realizadas utilizando esos perfiles en SnapManager para Oracle y SnapManager para SAP.  La herramienta de importación de SnapCenter interactúa con las bases de datos del repositorio SnapManager para Oracle y SnapManager para SAP y con la base de datos que desea importar.
+
+* Recupera todos los perfiles, programaciones y operaciones realizadas utilizando los perfiles.
+* Crea una política de respaldo de SnapCenter para cada operación única y cada programación asociada a un perfil.
+* Crea un grupo de recursos para cada base de datos de destino.
+
+
+Puede ejecutar la herramienta de importación ejecutando el script sc-migrate ubicado en _/opt/ NetApp/snapcenter/spl/bin_.  Cuando instala el paquete de complementos de SnapCenter para Linux en el host de base de datos que desea importar, el script sc-migrate se copia en _/opt/ NetApp/snapcenter/spl/bin_.
+
+
+NOTE: La importación de datos no es compatible desde la interfaz gráfica de usuario (GUI) de SnapCenter .
+
+SnapCenter no es compatible con Data ONTAP funcionando en modo 7.  Puede utilizar la herramienta de transición de 7 modos para migrar datos y configuraciones almacenados en un sistema que ejecuta Data ONTAP en modo 7 a un sistema ONTAP .
+
+
+
+== Configuraciones admitidas para la importación de datos
+
+Antes de importar datos de SnapManager 3.4.x para Oracle y SnapManager 3.4.x para SAP a SnapCenter, debe tener en cuenta las configuraciones compatibles con el complemento de SnapCenter para Oracle Database.
+
+Las configuraciones compatibles con el complemento SnapCenter para Oracle Database se enumeran en la https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+== Qué se importa a SnapCenter
+
+Puede importar perfiles, programaciones y operaciones realizadas utilizando los perfiles.
+
+|===
+| De SnapManager para Oracle y SnapManager para SAP | A SnapCenter 
+
+
+ a| 
+Perfiles sin operaciones ni horarios
+ a| 
+Se crea una política con el tipo de copia de seguridad predeterminado como En línea y el alcance de copia de seguridad como Completo.
+
+
+
+ a| 
+Perfiles con una o más operaciones
+ a| 
+Se crean múltiples políticas basadas en una combinación única de un perfil y operaciones realizadas utilizando ese perfil.
+
+Las políticas creadas en SnapCenter contienen los detalles de retención y poda del registro de archivo recuperados del perfil y las operaciones correspondientes.
+
+
+
+ a| 
+Perfiles con configuración de Oracle Recovery Manager (RMAN)
+ a| 
+Las políticas se crean con la opción *Copia de seguridad del catálogo con Oracle Recovery Manager* habilitada.
+
+Si se utilizó la catalogación RMAN externa en SnapManager, debe configurar los ajustes del catálogo RMAN en SnapCenter.  Puede seleccionar la credencial existente o crear una nueva.
+
+Si RMAN se configuró a través del archivo de control en SnapManager, entonces no es necesario configurar RMAN en SnapCenter.
+
+
+
+ a| 
+Horario adjunto a un perfil
+ a| 
+Se crea una política solo para el cronograma.
+
+
+
+ a| 
+Base de datos
+ a| 
+Se crea un grupo de recursos para cada base de datos que se importa.
+
+En una configuración de Real Application Clusters (RAC), el nodo en el que se ejecuta la herramienta de importación se convierte en el nodo preferido después de la importación y se crea el grupo de recursos para ese nodo.
+
+|===
+
+NOTE: Cuando se importa un perfil, se crea una política de verificación junto con la política de respaldo.
+
+Cuando los perfiles, programaciones y cualquier operación realizada mediante los perfiles de SnapManager para Oracle y SnapManager para SAP se importan a SnapCenter, también se importan los diferentes valores de los parámetros.
+
+|===
+| Parámetros y valores de SnapManager para Oracle y SnapManager para SAP | Parámetros y valores de SnapCenter | Notas 
+
+
+ a| 
+Alcance de respaldo
+
+* Lleno
+* Datos
+* Registro
+
+ a| 
+Alcance de respaldo
+
+* Lleno
+* Datos
+* Registro
+
+ a| 
+
+
+
+ a| 
+Modo de respaldo
+
+* Auto
+* En línea
+* Sin conexión
+
+ a| 
+Tipo de copia de seguridad
+
+* En línea
+* Apagado sin conexión
+
+ a| 
+Si el modo de copia de seguridad es Automático, la herramienta de importación verifica el estado de la base de datos cuando se realizó la operación y establece adecuadamente el tipo de copia de seguridad como Apagado en línea o Apagado fuera de línea.
+
+
+
+ a| 
+Retención
+
+* Días
+* Condes
+
+ a| 
+Retención
+
+* Días
+* Condes
+
+ a| 
+SnapManager para Oracle y SnapManager para SAP utilizan días y recuentos para establecer la retención.
+
+En SnapCenter, hay Días _O_ Recuentos.  Por lo tanto, la retención se establece con respecto a los días, ya que los días tienen preferencia sobre los recuentos en SnapManager para Oracle y SnapManager para SAP.
+
+
+
+ a| 
+Poda para programaciones
+
+* Todo
+* número de cambio del sistema (SCN)
+* Fecha
+* Registros creados antes de horas, días, semanas y meses específicos
+
+ a| 
+Poda para programaciones
+
+* Todo
+* Registros creados antes de horas y días específicos
+
+ a| 
+SnapCenter no admite la poda basada en SCN, fecha, semanas y meses.
+
+
+
+ a| 
+Notificación
+
+* Correos electrónicos enviados solo para operaciones exitosas
+* Correos electrónicos enviados solo para operaciones fallidas
+* Correos electrónicos enviados tanto para operaciones exitosas como fallidas
+
+ a| 
+Notificación
+
+* Siempre
+* En caso de fallo
+* Advertencia
+* Error
+
+ a| 
+Se importan las notificaciones por correo electrónico.
+
+Sin embargo, debe actualizar manualmente el servidor SMTP mediante la GUI de SnapCenter .  El asunto del correo electrónico se deja en blanco para que lo configures.
+
+|===
+
+
+== Qué no se importa a SnapCenter
+
+La herramienta de importación no importa todo a SnapCenter.
+
+No puedes importar lo siguiente a SnapCenter:
+
+* Metadatos de respaldo
+* Copias de seguridad parciales
+* Copias de seguridad relacionadas con el mapeo de dispositivos sin procesar (RDM) y la consola de almacenamiento virtual (VSC)
+* Roles o cualquier credencial disponible en el repositorio de SnapManager para Oracle y SnapManager para SAP
+* Datos relacionados con las operaciones de verificación, restauración y clonación
+* Poda para operaciones
+* Detalles de replicación especificados en el perfil de SnapManager para Oracle y SnapManager para SAP
++
+Después de importar, debe editar manualmente la política correspondiente creada en SnapCenter para incluir los detalles de replicación.
+
+* Información de respaldo catalogada
+
+
+
+
+== Prepárese para importar datos
+
+Antes de importar datos a SnapCenter, debe realizar ciertas tareas para ejecutar la operación de importación correctamente.
+
+*Pasos*
+
+. Identifique la base de datos que desea importar.
+. Usando SnapCenter, agregue el host de la base de datos e instale el paquete de complementos de SnapCenter para Linux.
+. Mediante SnapCenter, configure las conexiones para las máquinas virtuales de almacenamiento (SVM) utilizadas por las bases de datos en el host.
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, asegúrese de que la base de datos que se va a importar esté detectada y se muestre.
++
+Cuando desee ejecutar la herramienta de importación, la base de datos debe ser accesible; de lo contrario, la creación del grupo de recursos fallará.
+
++
+Si la base de datos tiene credenciales configuradas, debe crear una credencial correspondiente en SnapCenter, asignar la credencial a la base de datos y luego volver a ejecutar la detección de la base de datos.  Si la base de datos reside en la Administración automática de almacenamiento (ASM), debe crear credenciales para la instancia de ASM y asignarlas a la base de datos.
+
+. Asegúrese de que el usuario que ejecuta la herramienta de importación tenga privilegios suficientes para ejecutar los comandos CLI de SnapManager para Oracle o SnapManager para SAP (como el comando para suspender programaciones) desde el host de SnapManager para Oracle o SnapManager para SAP.
+. Ejecute los siguientes comandos en el host SnapManager para Oracle o SnapManager para SAP para suspender las programaciones:
++
+.. Si desea suspender las programaciones en el host SnapManager para Oracle, ejecute:
++
+*** `smo credential set -repository -dbname repository_database_name -host host_name -port port_number -login -username user_name_for_repository_database`
+*** `smo profile sync -repository -dbname repository_database_name -host host_name -port port_number -login -username host_user_name_for_repository_database`
+*** `smo credential set -profile -name profile_name`
++
+
+NOTE: Debe ejecutar el comando smo credential set para cada perfil en el host.
+
+
+
+.. Si desea suspender las programaciones en el host SnapManager para SAP, ejecute:
++
+*** `smsap credential set -repository -dbname repository_database_name -host host_name -port port_number -login -username user_name_for_repository_database`
+*** `smsap profile sync -repository -dbname repository_database_name -host host_name -port port_number -login -username host_user_name_for_repository_database`
+*** `smsap credential set -profile -name profile_name`
++
+
+NOTE: Debe ejecutar el comando smsap credential set para cada perfil en el host.
+
+
+
+
+
+. Asegúrese de que el nombre de dominio completo (FQDN) del host de la base de datos se muestre cuando ejecute hostname -f.
++
+Si no se muestra el FQDN, debe modificar /etc/hosts para especificar el FQDN del host.
+
+
+
+
+
+== Importar datos
+
+Puede importar datos ejecutando la herramienta de importación desde el host de la base de datos.
+
+*Acerca de esta tarea*
+
+Las políticas de respaldo de SnapCenter que se crean después de la importación tienen diferentes formatos de nombres:
+
+* Las políticas creadas para los perfiles sin ninguna operación ni programación tienen el formato SM_PROFILENAME_ONLINE_FULL_DEFAULT_MIGRATED.
++
+Cuando no se realiza ninguna operación utilizando un perfil, se crea la política correspondiente con el tipo de copia de seguridad predeterminado en línea y el alcance de la copia de seguridad como completo.
+
+* Las políticas creadas para los perfiles con una o más operaciones tienen el formato SM_PROFILENAME_BACKUPMODE_BACKUPSCOPE_MIGRATED.
+* Las políticas creadas para las programaciones adjuntas a los perfiles tienen el formato SM_PROFILENAME_SMOSCHEDULENAME_BACKUPMODE_BACKUPSCOPE_MIGRATED.
+
+
+*Pasos*
+
+. Inicie sesión en el host de la base de datos que desea importar.
+. Ejecute la herramienta de importación ejecutando el script sc-migrate ubicado en _/opt/ NetApp/snapcenter/spl/bin_.
+. Introduzca el nombre de usuario y la contraseña del servidor SnapCenter .
++
+Después de validar las credenciales, se establece una conexión con SnapCenter.
+
+. Ingrese los detalles de la base de datos del repositorio SnapManager para Oracle o SnapManager para SAP.
++
+La base de datos del repositorio enumera las bases de datos que están disponibles en el host.
+
+. Introduzca los detalles de la base de datos de destino.
++
+Si desea importar todas las bases de datos del host, ingrese all.
+
+. Si desea generar un registro del sistema o enviar mensajes ASUP para operaciones fallidas, debe habilitarlos ejecutando el comando _Add-SmStorageConnection_ o _Set-SmStorageConnection_.
++
+
+NOTE: Si desea cancelar una operación de importación, ya sea mientras ejecuta la herramienta de importación o después de la importación, debe eliminar manualmente las políticas, credenciales y grupos de recursos de SnapCenter que se crearon como parte de la operación de importación.
+
+
+
+*Resultados*
+
+Las políticas de respaldo de SnapCenter se crean para perfiles, programaciones y operaciones realizadas mediante los perfiles.  También se crean grupos de recursos para cada base de datos de destino.
+
+Después de importar los datos exitosamente, las programaciones asociadas con la base de datos importada se suspenden en SnapManager para Oracle y SnapManager para SAP.
+
+
+NOTE: Después de importar, debe administrar la base de datos o el sistema de archivos importado mediante SnapCenter.
+
+Los registros de cada ejecución de la herramienta de importación se almacenan en el directorio _/var/opt/snapcenter/spl/logs_ con el nombre spl_migration_timestamp.log.  Puede consultar este registro para revisar errores de importación y solucionarlos.

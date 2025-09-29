@@ -1,0 +1,22 @@
+---
+permalink: protect-scsql/concept_requirements_for_backing_up_sql_resources.html 
+sidebar: sidebar 
+keywords: Requirements 
+summary: Antes de realizar una copia de seguridad de un recurso SQL, debe asegurarse de que se cumplan varios requisitos. 
+---
+= Requisitos para realizar copias de seguridad de recursos SQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de realizar una copia de seguridad de un recurso SQL, debe asegurarse de que se cumplan varios requisitos.
+
+* Debe haber migrado un recurso de un sistema de almacenamiento que no sea NetApp a un sistema de almacenamiento NetApp .
+* Debes haber creado una política de respaldo.
+* Si desea realizar una copia de seguridad de un recurso que tiene una relación SnapMirror con un almacenamiento secundario, la función de ONTAP asignada al usuario de almacenamiento debe incluir el privilegio "`snapmirror all`".  Sin embargo, si está utilizando el rol "`vsadmin`", entonces no se requiere el privilegio "`snapmirror all`".
+* La operación de copia de seguridad iniciada por un usuario de directorio activo (AD) falla si la credencial de la instancia de SQL no está asignada al usuario o grupo de AD.  Debe asignar la credencial de instancia de SQL al usuario o grupo de AD desde la página *Configuración* > *Acceso de usuario*.
+* Debe haber creado un grupo de recursos con una política adjunta.
+* Si un grupo de recursos tiene varias bases de datos de diferentes hosts, la operación de respaldo en algunos hosts podría activarse tarde debido a problemas de red.  Debe configurar el valor de FMaxRetryForUninitializedHosts en web.config utilizando el cmdlet PS Set-SmConfigSettings.
+

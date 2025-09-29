@@ -1,0 +1,48 @@
+---
+permalink: protect-azure/restore-recover-sql-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, restore, recover 
+summary: Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad. 
+---
+= Restaurar y recuperar bases de datos de SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar bases de datos de SQL Server respaldadas.  La restauración de la base de datos es un proceso multifase que copia todos los datos y las páginas de registro de una copia de seguridad de SQL Server especificada a una base de datos especificada.
+
+.Acerca de esta tarea
+Debe asegurarse de que la instancia de destino para la restauración esté configurada con un usuario de directorio activo que pertenezca al dominio de directorio activo de SMB AD y tenga permisos para configurar los permisos de archivo de forma adecuada.  Debe configurar las credenciales en SnapCenter a nivel de instancia.
+
+La autenticación SQL para la instancia de destino no será compatible con configuraciones SMB.  La instancia de destino debe configurarse en SnapCenter con el usuario del directorio activo que tenga los permisos necesarios.
+
+Si la cuenta de servicio de servicios del complemento SnapCenter no es un usuario de directorio activo, al realizar una restauración a un host alternativo, se requiere el usuario que tiene control total sobre los volúmenes de origen para poder suplantarlo y realizar la operación requerida.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista Ver.
+. Seleccione la base de datos o el grupo de recursos de la lista.
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* del sistema de almacenamiento.
+. Seleccione la copia de seguridad de la tabla y luego haga clic en el botónimage:../media/restore_icon.gif["icono de restauración"] icono.
+. En la página Restaurar ámbito, seleccione una de las siguientes opciones:
++
+.. Seleccione *Restaurar la base de datos en el mismo host donde se creó la copia de seguridad* si desea restaurar la base de datos en el mismo servidor SQL donde se realizaron las copias de seguridad.
+.. Seleccione *Restaurar la base de datos en un host alternativo* si desea que la base de datos se restaure en un servidor SQL diferente en el mismo host o en uno diferente donde se realizan las copias de seguridad.
+
+
+. En la página Ámbito de recuperación, seleccione una de las siguientes opciones:
++
+.. Seleccione *Ninguno* cuando necesite restaurar solo la copia de seguridad completa sin ningún registro.
+.. Seleccione la operación de restauración de copia de seguridad actualizada *Todas las copias de seguridad de registros* para restaurar todas las copias de seguridad de registros disponibles después de la copia de seguridad completa.
+.. Seleccione *Por copias de seguridad de registros* para realizar una operación de restauración en un punto en el tiempo, que restaura la base de datos basándose en los registros de copia de seguridad hasta el registro de copia de seguridad con la fecha seleccionada.
+.. Seleccione *Por fecha específica hasta* para especificar la fecha y la hora después de las cuales los registros de transacciones no se aplicarán a la base de datos restaurada.
+.. Si ha seleccionado *Todas las copias de seguridad de registros*, *Por copias de seguridad de registros* o *Por fecha específica hasta* y los registros se encuentran en una ubicación personalizada, seleccione *Usar directorio de registros personalizado* y, a continuación, especifique la ubicación del registro.
+
+
+. En la página Preoperatorio y Postoperatorio, especifique los detalles requeridos.
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el proceso de restauración utilizando la página *Monitor* > *Trabajos*.
+

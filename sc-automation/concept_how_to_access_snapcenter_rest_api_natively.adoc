@@ -1,0 +1,14 @@
+---
+permalink: sc-automation/concept_how_to_access_snapcenter_rest_api_natively.html 
+sidebar: sidebar 
+keywords: REST APIs, swagger 
+summary: Acceder a las API REST de forma nativa.  Las API REST se exponen a través de la página web Swagger. 
+---
+= Cómo acceder a la API REST de SnapCenter de forma nativa
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede acceder a la API REST de SnapCenter directamente utilizando cualquier lenguaje de programación que admita un cliente REST.  Las opciones de lenguaje más populares incluyen Python, PowerShell y Java.

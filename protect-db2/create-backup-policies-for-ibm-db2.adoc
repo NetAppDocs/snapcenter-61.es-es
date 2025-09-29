@@ -1,0 +1,136 @@
+---
+permalink: protect-db2/create-backup-policies-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: Antes de utilizar SnapCenter para realizar copias de seguridad de los recursos de base de datos de IBM Db2, debe crear una política de copia de seguridad para el recurso o grupo de recursos del que desea realizar una copia de seguridad.  Una política de copias de seguridad es un conjunto de reglas que rigen cómo administrar, programar y conservar las copias de seguridad. 
+---
+= Crear políticas de copia de seguridad para IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de utilizar SnapCenter para realizar copias de seguridad de recursos de IBM Db2, debe crear una política de copia de seguridad para el recurso o grupo de recursos que desea respaldar.  Una política de copias de seguridad es un conjunto de reglas que rigen cómo administrar, programar y conservar las copias de seguridad.
+
+.Antes de empezar
+* Debes haber definido tu estrategia de backup.
++
+Para obtener más detalles, consulte la información sobre cómo definir una estrategia de protección de datos para bases de datos de IBM Db2.
+
+* Debe estar preparado para la protección de datos completando tareas como instalar SnapCenter, agregar hosts, configurar conexiones del sistema de almacenamiento y agregar recursos.
+* El administrador de SnapCenter debe haberle asignado las SVM para los volúmenes de origen y destino si está replicando instantáneas a un espejo o bóveda.
++
+Además, puede especificar configuraciones de replicación, scripts y aplicaciones en la política.  Estas opciones ahorran tiempo cuando desea reutilizar la política para otro grupo de recursos.
+
+
+
+.Acerca de esta tarea
+* SnapLock
++
+** Si se selecciona la opción 'Conservar las copias de seguridad durante una cantidad específica de días', el período de retención de SnapLock debe ser menor o igual a los días de retención mencionados.
+** Al especificar un período de bloqueo de instantáneas se evita la eliminación de las instantáneas hasta que expire el período de retención.  Esto podría llevar a retener una cantidad de instantáneas mayor que la cantidad especificada en la política.
+** Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Políticas*.
+. Haga clic en *Nuevo*.
+. En la página Nombre, ingrese el nombre y los detalles de la política.
+. En la página Tipo de política, realice lo siguiente:
++
+.. Seleccione el tipo de almacenamiento.
+.. En la sección *Configuración de copia de seguridad personalizada*, proporcione cualquier configuración de copia de seguridad específica que deba pasarse al complemento en formato clave-valor.
++
+Puede proporcionar varios valores clave para pasarlos al complemento.
+
+
+
+. En la página Instantánea y replicación, realice las siguientes acciones.
++
+.. Especifique la frecuencia de programación seleccionando *A pedido*, *Cada hora*, *Diariamente*, *Semanalmente* o *Mensualmente*.
++
+
+NOTE: Puede especificar la programación (fecha de inicio, fecha de finalización y frecuencia) para la operación de copia de seguridad al crear un grupo de recursos.  Esto le permite crear grupos de recursos que comparten la misma política y frecuencia de respaldo, pero también le permite asignar diferentes programas de respaldo a cada política.
+
++
+
+NOTE: Si lo ha programado para las 2:00 a. m., el cronograma no se activará durante el horario de verano (DST).
+
+.. En la sección Configuración de instantáneas, realice las siguientes acciones:
++
+|===
+| Si quieres... | Entonces... 
+
+
+ a| 
+Conservar una cierta cantidad de instantáneas
+ a| 
+Seleccione *Copias para conservar* y luego especifique la cantidad de instantáneas que desea conservar.
+
+Si el número de instantáneas excede el número especificado, las instantáneas se eliminan primero, comenzando por las copias más antiguas.
+
+
+
+ a| 
+Conservar las instantáneas durante un número determinado de días
+ a| 
+Seleccione *Conservar copias durante* y, a continuación, especifique la cantidad de días durante los cuales desea conservar las instantáneas antes de eliminarlas.
+
+
+
+ a| 
+Período de bloqueo de copia de instantánea
+ a| 
+Seleccione *Período de bloqueo de copia de instantánea* y especifique días, meses o años.
+
+El período de retención del Snaplock debe ser inferior a 100 años.
+
+|===
++
+
+IMPORTANT: Para las copias de seguridad basadas en copias instantáneas, debe establecer el recuento de retención en 2 o más si planea habilitar la replicación de SnapVault .  Si establece el recuento de retención en 1, la operación de retención puede fallar porque la primera instantánea es la instantánea de referencia para la relación SnapVault hasta que se replique una instantánea más nueva en el destino.
+
+.. Especifique la etiqueta de la política.
++
+Puede asignar etiquetas SnapMirror a instantáneas principales para replicación remota, lo que permite que las instantáneas principales descarguen la operación de replicación de instantáneas de SnapCenter a los sistemas secundarios de ONTAP . Esto se puede hacer sin habilitar la opción SnapMirror o SnapVault en la página de políticas.
+
+
+
+. En la sección Seleccionar opciones de replicación secundaria, seleccione una o ambas de las siguientes opciones de replicación secundaria:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Actualizar SnapMirror después de crear una copia de Snapshot local
+ a| 
+Seleccione este campo para crear copias reflejadas de los conjuntos de copias de seguridad en otro volumen (replicación SnapMirror ).
+
+Esta opción debe estar habilitada para la sincronización activa de SnapMirror .
+
+
+
+ a| 
+Actualizar SnapVault después de crear una copia de instantánea local
+ a| 
+Seleccione esta opción para realizar la replicación de copia de seguridad de disco a disco (copias de seguridad de SnapVault ).
+
+
+
+ a| 
+Recuento de reintentos de error
+ a| 
+Introduzca el número máximo de intentos de replicación que se pueden permitir antes de que se detenga la operación.
+
+|===
++
+
+NOTE: Debe configurar la política de retención de SnapMirror en ONTAP para el almacenamiento secundario para evitar alcanzar el límite máximo de instantáneas en el almacenamiento secundario.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+

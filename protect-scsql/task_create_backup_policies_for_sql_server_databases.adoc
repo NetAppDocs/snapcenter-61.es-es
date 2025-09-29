@@ -1,0 +1,366 @@
+---
+permalink: protect-scsql/task_create_backup_policies_for_sql_server_databases.html 
+sidebar: sidebar 
+keywords: backup policy 
+summary: Puede crear una política de respaldo para el recurso o el grupo de recursos antes de usar SnapCenter para realizar un respaldo de los recursos de SQL Server, o puede crear una política de respaldo en el momento en que crea un grupo de recursos o realiza un respaldo de un solo recurso. 
+---
+= Crear políticas de respaldo para bases de datos de SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede crear una política de respaldo para el recurso o el grupo de recursos antes de usar SnapCenter para realizar un respaldo de los recursos de SQL Server, o puede crear una política de respaldo en el momento en que crea un grupo de recursos o realiza un respaldo de un solo recurso.
+
+.Antes de empezar
+* Debes haber definido tu estrategia de protección de datos.
+* Debe estar preparado para la protección de datos completando tareas como instalar SnapCenter, agregar hosts, identificar recursos y crear conexiones del sistema de almacenamiento.
+* Debe haber configurado el directorio de registro del host para realizar copias de seguridad del registro.
+* Debes haber actualizado (descubierto) los recursos de SQL Server.
+* Si está replicando instantáneas a un espejo o bóveda, el administrador de SnapCenter debe haberle asignado las máquinas virtuales de almacenamiento (SVM) tanto para los volúmenes de origen como para los volúmenes de destino.
++
+Para obtener información sobre cómo los administradores asignan recursos a los usuarios, consulte la información de instalación de SnapCenter .
+
+* Si desea ejecutar los scripts de PowerShell en prescripts y postscripts, debe establecer el valor del parámetro usePowershellProcessforScripts en verdadero en el archivo web.config.
++
+El valor predeterminado es falso.
+
+* Revise los requisitos previos y las limitaciones específicos de la sincronización activa de SnapMirror . Para obtener información, consulte https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Límites de objetos para la sincronización activa de SnapMirror"] .
+
+
+.Acerca de esta tarea
+* Una política de respaldo es un conjunto de reglas que rigen cómo administrar y conservar los respaldos, y con qué frecuencia se realizan respaldos del recurso o grupo de recursos.  Además, puede especificar la configuración de replicación y script.  Especificar opciones en una política ahorra tiempo cuando desea reutilizar la política para otro grupo de recursos.
++
+SCRIPTS_PATH se define utilizando la clave PredefinedWindowsScriptsDirectory ubicada en el archivo SMCoreServiceHost.exe.Config del host del complemento.
+
++
+Si es necesario, puede cambiar esta ruta y reiniciar el servicio SMcore.  Se recomienda que utilice la ruta predeterminada por seguridad.
+
++
+El valor de la clave se puede mostrar desde swagger a través de la API: API /4.7/configsettings
+
++
+Puede utilizar la API GET para mostrar el valor de la clave.  La API SET no es compatible.
+
+* SnapLock
++
+** Si se selecciona la opción 'Conservar las copias de seguridad durante una cantidad específica de días', el período de retención de SnapLock debe ser menor o igual a los días de retención mencionados.
++
+Al especificar un período de bloqueo de instantáneas se evita la eliminación de las instantáneas hasta que expire el período de retención. Esto podría llevar a retener una cantidad mayor de instantáneas que la cantidad especificada en la política.
+
++
+Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+
+
+
+
+
+
+== Paso 1: Crear un nombre de política
+
+. En el panel de navegación izquierdo, seleccione *Configuración*.
+. En la página de Configuración, seleccione *Políticas*.
+. Seleccione *Nuevo*.
+. En la página *Nombre*, ingrese el nombre y los detalles de la política.
+
+
+
+
+== Paso 2: Configurar las opciones de política
+
+. En la página Tipo de política, realice los siguientes pasos:
++
+.. Seleccione su tipo de almacenamiento.
+.. Seleccione el alcance de su política.
++
+[role="tabbed-block"]
+====
+.Copia de seguridad completa y copia de seguridad de registros
+--
+Realice una copia de seguridad de los archivos de base de datos y de los registros de transacciones y trunque los registros de transacciones.
+
+... Seleccione *Copia de seguridad completa y Copia de seguridad de registro*.
+... Introduzca el número máximo de bases de datos que deben respaldarse para cada instantánea.
++
+
+NOTE: Debe aumentar este valor si desea ejecutar varias operaciones de copia de seguridad simultáneamente.
+
+
+
+--
+.Copia de seguridad completa
+--
+Realice una copia de seguridad de los archivos de la base de datos.
+
+... Seleccione *Copia de seguridad completa*.
+... Introduzca el número máximo de bases de datos que deben respaldarse para cada instantánea.  El valor predeterminado es 100
++
+
+NOTE: Debe aumentar este valor si desea ejecutar varias operaciones de copia de seguridad simultáneamente.
+
+
+
+--
+.Copia de seguridad del registro
+--
+... Realice una copia de seguridad de los registros de transacciones.
+... Seleccione *Copia de seguridad del registro*.
+
+
+--
+.Copia de seguridad de solo copia
+--
+... Si está realizando una copia de seguridad de sus recursos mediante otra aplicación de copia de seguridad, seleccione *Copiar solo copia de seguridad*.
+
+
+Mantener los registros de transacciones intactos permite que cualquier aplicación de respaldo restaure las bases de datos.  Por lo general, no debería utilizar la opción de solo copiar en ninguna otra circunstancia.
+
+
+NOTE: Microsoft SQL no admite la opción *Copiar solo copia de seguridad* junto con la opción *Copia de seguridad completa y copia de seguridad del registro* para el almacenamiento secundario.
+
+--
+====
+
+
+
+
+
+
+== Paso 3: Configurar los ajustes del grupo de disponibilidad
+
+. En la sección Configuración del grupo de disponibilidad, realice las siguientes acciones:
++
+.. Realizar copia de seguridad únicamente en la réplica de copia de seguridad preferida.
++
+Seleccione esta opción para realizar copias de seguridad solo en la réplica de copia de seguridad preferida.  La réplica de respaldo preferida se decide según las preferencias de respaldo configuradas para el AG en SQL Server.
+
+.. Seleccionar réplicas para realizar copias de seguridad.
++
+Elija la réplica AG principal o la réplica AG secundaria para la copia de seguridad.
+
+.. Seleccionar prioridad de copia de seguridad (prioridad de copia de seguridad mínima y máxima)
++
+Especifique un número de prioridad de respaldo mínimo y un número de prioridad de respaldo máximo que deciden la réplica de AG para la copia de seguridad.  Por ejemplo, puede tener una prioridad mínima de 10 y una prioridad máxima de 50.  En este caso, se consideran para la copia de seguridad todas las réplicas de AG con una prioridad mayor a 10 y menor a 50.
+
++
+De forma predeterminada, la prioridad mínima es 1 y la prioridad máxima es 100.
+
+
+
++
+
+NOTE: En las configuraciones de clúster, las copias de seguridad se conservan en cada nodo del clúster según la configuración de retención establecida en la política.  Si el nodo propietario del AG cambia, las copias de seguridad se realizan de acuerdo con la configuración de retención y se conservarán las copias de seguridad del nodo propietario anterior.  La retención de AG se aplica únicamente a nivel de nodo.
+
+
+
+
+
+== Paso 4: Configurar los ajustes de instantánea y replicación
+
+. En la página Instantánea y replicación, realice los siguientes pasos:
++
+.. Especifique el tipo de programación seleccionando *A pedido*, *Por hora*, *Diariamente*, *Semanalmente* o *Mensualmente*.
++
+Solo puede seleccionar un tipo de programación para una política.
+
++
+
+NOTE: Puede especificar la programación (fecha de inicio, fecha de finalización y frecuencia) para la operación de copia de seguridad al crear un grupo de recursos.  Esto le permite crear grupos de recursos que comparten la misma política y frecuencia de respaldo, pero le permite asignar diferentes programas de respaldo a cada política.
+
++
+
+NOTE: Si lo ha programado para las 2:00 a. m., el cronograma no se activará durante el horario de verano (DST).
+
+
+
+
+
+
+
+== Paso 5: Configure los ajustes de retención actualizados
+
+. En la sección Configuración de retención actualizada, según el tipo de copia de seguridad seleccionado en la página de tipo de copia de seguridad, realice una o más de las siguientes acciones:
+
+
+[role="tabbed-block"]
+====
+.Número específico de copias
+--
+Conservar sólo un número específico de instantáneas.
+
+. Seleccione la opción *Conservar copias de seguridad de registros aplicables a los últimos <número> días* y especifique la cantidad de días que se conservarán.  Si está cerca de este límite, es posible que desee eliminar las copias más antiguas.
+
+
+--
+.Número específico de días
+--
+Conservar las copias de seguridad durante un número específico de días.
+
+. Seleccione la opción *Mantener copias de seguridad de registros aplicables a los últimos <número> días de copias de seguridad completas* y especifique la cantidad de días que desea conservar las copias de seguridad de registros.
+
+
+--
+====
+
+
+== Paso 6: Configurar los ajustes de la instantánea
+
+. Para configurar la retención de copia de seguridad completa, realice las siguientes acciones:
++
+.. Especifique el número total de instantáneas a conservar
++
+... Para especificar la cantidad de instantáneas que desea conservar, seleccione *Copias para conservar*.
+... Si el número de instantáneas excede el número especificado, las instantáneas se eliminan primero, comenzando por las copias más antiguas.
++
+
+IMPORTANT: De forma predeterminada, el valor del recuento de retención se establece en 2.  Si establece el recuento de retención en 1, la operación de retención puede fallar porque la primera instantánea es la instantánea de referencia para la relación SnapVault hasta que se replique una instantánea más nueva en el destino.
+
++
+
+NOTE: El valor máximo de retención es 1018. Las copias de seguridad fallarán si la retención se establece en un valor superior al que admite la versión subyacente de NetApp ONTAP .
+
+
+
+
+
+
+
+. Tiempo de conservación de las instantáneas
++
+.. Si desea especificar la cantidad de días durante los cuales desea conservar las instantáneas antes de eliminarlas, seleccione *Conservar copias durante*.
+
+
+. Seleccione *Período de bloqueo de copia de instantánea* y especifique la duración en días, meses o años.
++
+El período de retención del Snaplock debe ser inferior a 100 años.
+
+. Seleccione una etiqueta de política.
++
+
+NOTE: Puede asignar etiquetas SnapMirror a instantáneas principales para replicación remota, lo que permite que las instantáneas principales descarguen la operación de replicación de instantáneas de SnapCenter a los sistemas secundarios de ONTAP . Esto se puede hacer sin habilitar la opción SnapMirror o SnapVault en la página de políticas.
+
+
+
+
+
+== Paso 7: Configurar las opciones de replicación secundaria
+
+. En la sección Seleccionar opciones de replicación secundaria, seleccione una o ambas de las siguientes opciones de replicación secundaria:
+
+
+[role="tabbed-block"]
+====
+.Actualizar SnapMirror
+--
+Actualice SnapMirror después de crear una copia de instantánea local.
+
+. Seleccione esta opción para crear copias espejo de conjuntos de copias de seguridad en otro volumen (SnapMirror).
++
+Esta opción debe estar habilitada para la sincronización activa de SnapMirror .
+
++
+Durante la replicación secundaria, el tiempo de expiración de SnapLock carga el tiempo de expiración de SnapLock principal.  Al hacer clic en el botón *Actualizar* en la página Topología, se actualiza el tiempo de vencimiento de SnapLock primario y secundario que se recuperan de ONTAP.
+
++
+Ver link:../protect-scsql/task_view_sql_server_backups_and_clones_in_the_topology_page.html["Ver copias de seguridad y clones de SQL Server en la página Topología"] .
+
+
+
+--
+.Actualizar SnapVault
+--
+Actualice SnapVault después de crear una copia de instantánea.
+
+. Seleccione esta opción para realizar la replicación de copia de seguridad de disco a disco.
++
+Durante la replicación secundaria, el tiempo de expiración de SnapLock carga el tiempo de expiración de SnapLock principal.  Al hacer clic en el botón *Actualizar* en la página Topología, se actualiza el tiempo de vencimiento de SnapLock primario y secundario que se recuperan de ONTAP.
+
++
+Cuando SnapLock está configurado solo en el secundario de ONTAP conocido como SnapLock Vault, al hacer clic en el botón *Actualizar* en la página Topología se actualiza el período de bloqueo en el secundario que se recupera de ONTAP.
+
++
+Para obtener más información sobre SnapLock Vault, consulte https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["Confirmar copias de instantáneas en WORM en un destino de bóveda"]
+
++
+Ver link:../protect-scsql/task_view_sql_server_backups_and_clones_in_the_topology_page.html["Ver copias de seguridad y clones de SQL Server en la página Topología"] .
+
+
+
+--
+.Recuento de reintentos de errores
+--
+. Introduzca el número de intentos de replicación que deben ocurrir antes de que el proceso se detenga.
+
+
+--
+====
+
+
+== Paso 8: Configurar los ajustes del script
+
+. En la página Script, ingrese la ruta y los argumentos del prescript o postscript que se debe ejecutar antes o después de la operación de respaldo, respectivamente.
++
+Por ejemplo, puede ejecutar un script para actualizar trampas SNMP, automatizar alertas y enviar registros.
+
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
++
+
+NOTE: Debe configurar la política de retención de SnapMirror en ONTAP para que el almacenamiento secundario no alcance el límite máximo de instantáneas.
+
+
+
+
+
+== Paso 9: Configurar los ajustes de verificación
+
+En la página de Verificación, realice los siguientes pasos:
+
+. En la sección Ejecutar verificación para las siguientes programaciones de copias de seguridad, seleccione la frecuencia de la programación.
+. En la sección Opciones de verificación de consistencia de la base de datos, realice las siguientes acciones:
++
+.. Limitar la estructura de integridad a la estructura física de la base de datos (PHYSICAL_ONLY)
++
+... Seleccione *Limitar la estructura de integridad a la estructura física de la base de datos (PHYSICAL_ONLY)* para limitar la verificación de integridad a la estructura física de la base de datos y detectar páginas rotas, fallas de suma de comprobación y fallas de hardware comunes que afectan la base de datos.
+
+
+.. Suprimir todos los mensajes de información (NO INFOMSGS)
++
+... Seleccione *Suprimir todos los mensajes de información (NO_INFOMSGS)* para suprimir todos los mensajes informativos.  Seleccionado por defecto.
+
+
+.. Mostrar todos los mensajes de error informados por objeto (ALL_ERRORMSGS)
++
+... Seleccione *Mostrar todos los mensajes de error informados por objeto (ALL_ERRORMSGS)* para mostrar todos los errores informados por objeto.
+
+
+.. No comprobar índices no agrupados (NOINDEX)
++
+... Seleccione *No comprobar índices no agrupados (NOINDEX)* si no desea comprobar índices no agrupados.  La base de datos de SQL Server utiliza el Comprobador de consistencia de base de datos de Microsoft SQL Server (DBCC) para comprobar la integridad lógica y física de los objetos de la base de datos.
+
+
+.. Limite las comprobaciones y obtenga los bloqueos en lugar de utilizar una instantánea de base de datos interna (TABLOCK)
++
+... Seleccione *Limitar las comprobaciones y obtener los bloqueos en lugar de utilizar una copia de instantánea de base de datos interna (TABLOCK)* para limitar las comprobaciones y obtener bloqueos en lugar de utilizar una copia de instantánea de base de datos interna.
+
+
+
+
+. En la sección *Copia de seguridad del registro*, seleccione *Verificar copia de seguridad del registro al finalizar* para verificar la copia de seguridad del registro al finalizar.
+. En la sección *Configuración del script de verificación*, ingrese la ruta y los argumentos del prescript o postscript que deben ejecutarse antes o después de la operación de verificación, respectivamente.
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
+
+
+
+
+== Paso 10: Revisar el resumen
+
+. Revise el resumen y luego seleccione *Finalizar*.
+

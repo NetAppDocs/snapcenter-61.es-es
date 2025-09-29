@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/concept_support_for_asymmetric_lun_mapping_alm_in_windows_clusters.html 
+sidebar: sidebar 
+keywords: ALM 
+summary: 'El complemento SnapCenter para Microsoft SQL Server admite la detección en SQL Server 2012 y versiones posteriores, configuraciones de asignación de LUN asimétrica (ALM) para alta disponibilidad y grupos de disponibilidad para recuperación ante desastres.  Al descubrir recursos, SnapCenter descubre bases de datos en hosts locales y en hosts remotos en configuraciones de ALM.' 
+---
+= Compatibilidad con la asignación asimétrica de LUN en clústeres de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El complemento SnapCenter para Microsoft SQL Server admite la detección en SQL Server 2012 y versiones posteriores, configuraciones de asignación de LUN asimétrica (ALM) para alta disponibilidad y grupos de disponibilidad para recuperación ante desastres.  Al descubrir recursos, SnapCenter descubre bases de datos en hosts locales y en hosts remotos en configuraciones de ALM.
+
+Una configuración de ALM es un único clúster de conmutación por error de servidor Windows que contiene uno o más nodos en un centro de datos principal y uno o más nodos en un centro de recuperación ante desastres.
+
+A continuación se muestra un ejemplo de una configuración de ALM:
+
+* Dos instancias de clúster de conmutación por error (FCI) en un centro de datos de varios sitios
+* FCI para alta disponibilidad (HA) local y grupo de disponibilidad (AG) para recuperación ante desastres con una instancia independiente en el sitio de recuperación ante desastres
+
+
+image::../media/asymmetric_lun_mapping_diagram.gif[mapeo asimétrico de LUN]
+
+El almacenamiento en el centro de datos principal se comparte entre los nodos FCI presentes en el centro de datos principal.  El almacenamiento en el centro de datos de recuperación ante desastres se comparte entre los nodos FCI presentes en el centro de datos de recuperación ante desastres.
+
+El almacenamiento en el centro de datos principal no es visible para los nodos del centro de datos de recuperación ante desastres, y viceversa.
+
+La arquitectura ALM combina dos soluciones de almacenamiento compartido utilizadas por FCI, con una solución de almacenamiento dedicada o no compartida utilizada por SQL AG.  La solución AG utiliza letras de unidad idénticas para los recursos de disco compartidos en los centros de datos.  Esta disposición de almacenamiento, donde un disco de clúster se comparte entre un subconjunto de nodos dentro de un WSFC, se conoce como ALM.

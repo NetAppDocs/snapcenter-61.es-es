@@ -1,0 +1,56 @@
+---
+permalink: protect-sce/task_reseed_a_passive_exchange_node_replica.html 
+sidebar: sidebar 
+keywords:  
+summary: Si necesita volver a sembrar una copia de réplica, por ejemplo cuando una copia está dañada, puede volver a sembrar la última copia de seguridad usando la función de resembrado en SnapCenter. 
+---
+= Resembrar una réplica de nodo de Exchange pasivo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si necesita volver a sembrar una copia de réplica, por ejemplo cuando una copia está dañada, puede volver a sembrar la última copia de seguridad usando la función de resembrado en SnapCenter.
+
+.Antes de empezar
+Debes haber creado una copia de seguridad de la base de datos que deseas volver a sembrar.
+
++ Para evitar retrasos entre nodos, puede crear una nueva copia de seguridad antes de realizar una operación de resiembra o elegir el host con la última copia de seguridad.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y, a continuación, seleccione *Complemento de Microsoft Exchange Server* de la lista.
+. En la página Recursos, seleccione la opción adecuada de la lista Ver:
++
+|===
+| Opción | Descripción 
+
+
+ a| 
+Para volver a sembrar una sola base de datos
+ a| 
+Seleccione *Base de datos* de la lista Ver.
+
+
+
+ a| 
+Para volver a sembrar bases de datos en un DAG
+ a| 
+Seleccione *Grupo de disponibilidad de base de datos* de la lista Ver.
+
+|===
+. Seleccione el recurso que desea resembrar.
+. En la página Administrar copias, haga clic en *Resembrar*.
+. De la lista de copias de bases de datos no saludables en el asistente de resembrado, seleccione la que desea resembrar y luego haga clic en *Siguiente*.
+. En la ventana Host, seleccione el host con la copia de seguridad desde la que desea volver a sembrar y luego haga clic en *Siguiente*.
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Puede ver el estado del trabajo expandiendo el panel Actividad en la parte inferior de la página.
++
+
+NOTE: La operación de resembrado no se admite si la copia de la base de datos pasiva reside en un almacenamiento que no es de NetApp .
+
+

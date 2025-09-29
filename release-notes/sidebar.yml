@@ -1,0 +1,10 @@
+---
+section: release-notes
+title: Notas de la versión
+entries:
+- title: Notas de la versión
+  url: "/release-notes/release-notes.html"
+- title: Novedades de SnapCenter 6.1
+  url: "/release-notes/what's-new-in-snapcenter61.html"
+- title: Rutas de actualización compatibles con SnapCenter
+  url: "/release-notes/upgrade-path.html"

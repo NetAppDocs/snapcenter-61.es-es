@@ -1,0 +1,155 @@
+---
+permalink: protect-mysql/add-hosts-and-install-plug-in-packages-on-remote-hosts-mysql.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Debe utilizar la página Agregar host de SnapCenter para agregar hosts y luego instalar los paquetes de complementos.  Los complementos se instalan automáticamente en los hosts remotos.  Puede agregar un host e instalar paquetes de complementos para un host individual o para un clúster. 
+---
+= Agregar hosts e instalar paquetes de complementos en hosts remotos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe utilizar la página Agregar host de SnapCenter para agregar hosts y luego instalar los paquetes de complementos.  Los complementos se instalan automáticamente en los hosts remotos.  Puede agregar el host e instalar paquetes de complementos para un host individual.
+
+.Antes de empezar
+* Si el sistema operativo del host de SnapCenter Server es Windows 2019 y el sistema operativo del host del complemento es Windows 2022, debe realizar lo siguiente:
++
+** Actualizar a Windows Server 2019 (compilación del SO 17763.5936) o posterior
+** Actualizar a Windows Server 2022 (compilación del SO 20348.2402) o posterior
+
+
+* Debe ser un usuario asignado a un rol que tenga permisos de instalación y desinstalación de complementos, como el rol de administrador de SnapCenter .
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.
+* Debe asegurarse de que el servicio de cola de mensajes esté ejecutándose.
+* La documentación de administración contiene información sobre la gestión de hosts.
+
+
+.Acerca de esta tarea
+* No es posible agregar un servidor SnapCenter como host de complemento a otro servidor SnapCenter .
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. Verifique que la pestaña *Hosts administrados* esté seleccionada en la parte superior.
+. Haga clic en *Agregar*.
+. En la página Hosts, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Tipo de host
+ a| 
+Seleccione el tipo de host:
+
+** Ventanas
+** Linux
++
+
+NOTE: El complemento para MySQL debe instalarse en el servidor de base de datos MySQL.
+
+
+
+
+
+ a| 
+Host name
+ a| 
+Introduzca el nombre del host de comunicación.  Introduzca el nombre de dominio completo (FQDN) o la dirección IP del host.  SnapCenter depende de la configuración adecuada del DNS.  Por lo tanto, la mejor práctica es ingresar el FQDN.
+
+
+
+ a| 
+Cartas credenciales
+ a| 
+Seleccione el nombre de la credencial que creó o cree nuevas credenciales.  La credencial debe tener derechos administrativos en el host remoto.  Para obtener más detalles, consulte la información sobre la creación de credenciales.
+
+Puede ver detalles sobre las credenciales colocando el cursor sobre el nombre de la credencial que proporcionó.
+
+
+NOTE: El modo de autenticación de credenciales está determinado por el tipo de host que especifique en el asistente Agregar host.
+
+|===
+. En la sección Seleccionar complementos para instalar, seleccione los complementos que desea instalar.
++
+Al utilizar la API REST para instalar el complemento para MySQL, debe pasar la versión como 3.0.  Por ejemplo, MySQL:3.0
+
+. (Opcional) Haga clic en *Más opciones*.
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Puerto
+ a| 
+Mantenga el número de puerto predeterminado o especifique el número de puerto.  El número de puerto predeterminado es 8145.  Si el servidor SnapCenter se instaló en un puerto personalizado, ese número de puerto se mostrará como el puerto predeterminado.
+
+
+NOTE: Si instaló manualmente los complementos y especificó un puerto personalizado, debe especificar el mismo puerto.  De lo contrario la operación falla.
+
+
+
+ a| 
+Ruta de instalación
+ a| 
+El complemento para MySQL se instala en el host del cliente MySQL, y este host puede estar en un sistema Windows o en un sistema Linux.
+
+** Para el paquete de complementos de SnapCenter para Windows, la ruta predeterminada es C:\Program Files\ NetApp\ SnapCenter.  Opcionalmente, puedes personalizar la ruta.
+** Para el paquete de complementos de SnapCenter para Linux, la ruta predeterminada es /opt/ NetApp/snapcenter.  Opcionalmente, puedes personalizar la ruta.
+
+
+
+
+ a| 
+Omitir comprobaciones de preinstalación
+ a| 
+Seleccione esta casilla de verificación si ya instaló los complementos manualmente y no desea validar si el host cumple con los requisitos para instalar el complemento.
+
+
+
+ a| 
+Agregar todos los hosts en el clúster
+ a| 
+No aplicable.
+
+
+
+ a| 
+Utilice la cuenta de servicio administrada grupal (gMSA) para ejecutar los servicios del complemento
+ a| 
+No aplicable.
+
+|===
+. Haga clic en *Enviar*.
++
+Si no ha seleccionado la casilla "Omitir comprobaciones previas", se valida el host para verificar si cumple los requisitos para instalar el complemento. El espacio en disco, la RAM, la versión de PowerShell, la versión de .NET, la ubicación (para complementos de Windows) y la versión de Java (para complementos de Linux) se validan según los requisitos mínimos.  Si no se cumplen los requisitos mínimos, se muestran mensajes de error o advertencia correspondientes.
+
++
+Si el error está relacionado con el espacio en disco o la RAM, puede actualizar el archivo web.config ubicado en C:\Program Files\ NetApp\ SnapCenter WebApp para modificar los valores predeterminados.  Si el error está relacionado con otros parámetros, debes solucionar el problema.
+
++
+
+NOTE: En una configuración de alta disponibilidad, si está actualizando el archivo web.config, debe actualizar el archivo en ambos nodos.
+
+. Si el tipo de host es Linux, verifique la huella digital y luego haga clic en *Confirmar y enviar*.
++
+En una configuración de clúster, debe verificar la huella digital de cada uno de los nodos del clúster.
+
++
+
+NOTE: La verificación de huellas dactilares es obligatoria incluso si el mismo host se agregó anteriormente a SnapCenter y se confirmó la huella dactilar.
+
+. Supervisar el progreso de la instalación.
++
+** Para el complemento de Windows, los registros de instalación y actualización se encuentran en: _C:\Windows\ SnapCenter plugin\Install_<JOBID>\_
+** Para el complemento de Linux, los registros de instalación se encuentran en: _/var/opt/snapcenter/logs/SnapCenter_Linux_Host_Plug-in_Install_<JOBID>.log_ y los registros de actualización se encuentran en: _/var/opt/snapcenter/logs/SnapCenter_Linux_Host_Plug-in_Upgrade_<JOBID>.log_
+
+
+
+
+.Después de terminar
+Si desea actualizar a la versión 6.0 de SnapCenter , el complemento basado en PERL existente para MySQL se desinstalará del servidor de complementos remoto.

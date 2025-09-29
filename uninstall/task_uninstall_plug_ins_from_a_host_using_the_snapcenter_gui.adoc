@@ -1,0 +1,50 @@
+---
+permalink: uninstall/task_uninstall_plug_ins_from_a_host_using_the_snapcenter_gui.html 
+sidebar: sidebar 
+keywords: uninstall, gui 
+summary: Cuando decida que ya no necesita un complemento individual o un paquete de complementos, puede desinstalarlo mediante la interfaz de SnapCenter . 
+---
+= Desinstalar complementos mediante la GUI de SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando decida que ya no necesita un complemento individual o un paquete de complementos, puede desinstalarlo mediante la interfaz de SnapCenter .
+
+.Antes de empezar
+* Deberías haber eliminado los grupos de recursos del paquete de complemento que estás desinstalando.
+* Deberías haber separado las políticas asociadas con los grupos de recursos para el paquete de complemento que estás desinstalando.
+
+
+.Acerca de esta tarea
+Puede desinstalar un complemento individual. Por ejemplo, podría necesitar desinstalar el complemento de SnapCenter para Microsoft SQL Server porque un host se está quedando sin recursos y desea migrarlo a un host más potente.  También puede desinstalar un paquete de complemento completo.  Por ejemplo, es posible que necesite desinstalar el paquete de complementos de SnapCenter para Linux, que incluye el complemento de SnapCenter para Oracle Database y el complemento de SnapCenter para UNIX.
+
+* Eliminar un host incluye desinstalar todos los complementos.
++
+Cuando se elimina un host de SnapCenter, SnapCenter desinstala todos los paquetes de complementos en el host antes de eliminarlo.
+
+* La GUI de SnapCenter elimina complementos de un host a la vez.
++
+Cuando utiliza la GUI de SnapCenter , puede desinstalar complementos solo en un host a la vez.  Sin embargo, es posible que tenga varias operaciones de desinstalación ejecutándose al mismo tiempo.
+
++
+También puede desinstalar un complemento de varios hosts utilizando el cmdlet _Uninstall-SmHostPackage_ y los parámetros necesarios.  La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+
+
+
+IMPORTANT: Desinstalar el paquete de complementos de SnapCenter para Windows de un host en el que está instalado SnapCenter Server dañará la instalación de SnapCenter Server.  No desinstale el paquete de complementos de SnapCenter para Windows a menos que esté seguro de que ya no necesita el servidor SnapCenter .
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. En la página Hosts, haga clic en *Hosts administrados*.
+. En la página Hosts administrados, seleccione el host del que desea desinstalar el complemento o el paquete de complementos.
+. Junto al complemento que desea eliminar, haga clic en *Eliminar* > *Enviar*.
+
+
+.Después de terminar
+Debe esperar 5 minutos antes de reinstalar el complemento en ese host.  Este período de tiempo es suficiente para que la GUI de SnapCenter actualice el estado del host administrado.  La instalación fallará si reinstala inmediatamente el complemento.
+
+Si está desinstalando el paquete de complementos de SnapCenter para Linux, los archivos de registro específicos de la desinstalación están disponibles en: _/custom_location/snapcenter/log_.

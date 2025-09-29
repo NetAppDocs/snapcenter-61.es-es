@@ -1,0 +1,42 @@
+---
+permalink: protect-hana/task_monitor_hana_database_clone_operations.html 
+sidebar: sidebar 
+keywords: monitor, SAP HANA database, clone operations 
+summary: Puede supervisar el progreso de las operaciones de clonación de SnapCenter mediante la página Trabajos.  Es posible que desee verificar el progreso de una operación para determinar cuándo se completó o si hay algún problema. 
+---
+= Supervisar las operaciones de clonación de bases de datos de SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede supervisar el progreso de las operaciones de clonación de SnapCenter mediante la página Trabajos.  Es posible que desee verificar el progreso de una operación para determinar cuándo se completó o si hay algún problema.
+
+.Acerca de esta tarea
+Los siguientes iconos aparecen en la página Trabajos e indican el estado de la operación:
+
+* image:../media/progress_icon.gif["Icono en progreso"]En curso
+* image:../media/success_icon.gif["Icono completado"]Completado exitosamente
+* image:../media/failed_icon.gif["Icono de error"]Fallido
+* image:../media/warning_icon.gif["Completado con icono de advertencias"]Completado con advertencias o no se pudo iniciar debido a advertencias
+* image:../media/verification_job_in_queue.gif["El trabajo de verificación está en cola"]En cola
+* image:../media/cancel_icon.gif["Icono de cancelación"]Cancelado
+
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Monitor*.
+. En la página *Monitor*, haga clic en *Trabajos*.
+. En la página *Empleos*, realice los siguientes pasos:
++
+.. Hacer clicimage:../media/filter_icon.gif["icono de filtro"] para filtrar la lista de modo que solo se incluyan las operaciones de clonación.
+.. Especifique las fechas de inicio y finalización.
+.. En la lista desplegable *Tipo*, seleccione *Clonar*.
+.. En la lista desplegable *Estado*, seleccione el estado de clonación.
+.. Haga clic en *Aplicar* para ver las operaciones que se completaron correctamente.
+
+
+. Seleccione el trabajo de clonación y luego haga clic en *Detalles* para ver los detalles del trabajo.
+. En la página Detalles del trabajo, haga clic en *Ver registros*.
+

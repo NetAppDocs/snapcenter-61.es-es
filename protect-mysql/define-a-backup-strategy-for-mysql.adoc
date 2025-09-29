@@ -1,0 +1,27 @@
+---
+permalink: protect-mysql/define-a-backup-strategy-for-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: 'Definir una estrategia de respaldo antes de crear sus trabajos de respaldo le ayudará a tener los respaldos que necesita para restaurar o clonar sus recursos con éxito.  Su acuerdo de nivel de servicio (SLA), el objetivo de tiempo de recuperación (RTO) y el objetivo de punto de recuperación (RPO) determinan en gran medida su estrategia de respaldo.' 
+---
+= Definir una estrategia de respaldo para MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Definir una estrategia de respaldo antes de crear sus trabajos de respaldo le ayudará a tener los respaldos que necesita para restaurar o clonar sus recursos con éxito.  Su acuerdo de nivel de servicio (SLA), su objetivo de tiempo de recuperación (RTO) y su objetivo de punto de recuperación (RPO) determinan en gran medida su estrategia de respaldo.
+
+.Acerca de esta tarea
+Un SLA define el nivel de servicio que se espera y aborda muchas cuestiones relacionadas con el servicio, incluida la disponibilidad y el rendimiento del servicio.  RTO es el tiempo en el que se debe restaurar un proceso comercial después de una interrupción en el servicio.  RPO define la estrategia para la edad de los archivos que deben recuperarse del almacenamiento de respaldo para que las operaciones normales se reanuden después de una falla.  SLA, RTO y RPO contribuyen a la estrategia de protección de datos.
+
+.Pasos
+. Determina cuándo debes realizar copias de seguridad de tus recursos.
+. Decide cuántos trabajos de respaldo necesitas.
+. Decide cómo nombrar tus copias de seguridad.
+. Decida si desea crear una política basada en copias de instantáneas para realizar copias de seguridad de instantáneas de la base de datos consistentes con la aplicación.
+. Decida si desea utilizar la tecnología NetApp SnapMirror para la replicación o la tecnología NetApp SnapVault para la retención a largo plazo.
+. Determine el período de retención de las instantáneas en el sistema de almacenamiento de origen y el destino SnapMirror .
+. Determine si desea ejecutar algún comando antes o después de la operación de copia de seguridad y proporcione un script previo o posterior.
+

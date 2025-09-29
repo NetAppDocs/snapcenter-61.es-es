@@ -1,0 +1,33 @@
+---
+permalink: uninstall/task_uninstall_plug_ins_locally_on_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, uninstall plug-in locally, uninstall plug-in from a host 
+summary: Puede desinstalar los complementos de SnapCenter localmente en un host si no puede acceder al host desde el servidor de SnapCenter . 
+---
+= Desinstalar complementos localmente en un host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede desinstalar los complementos de SnapCenter localmente en un host si no puede acceder al host desde el servidor de SnapCenter .
+
+.Acerca de esta tarea
+La mejor práctica para desinstalar complementos individuales o paquetes de complementos es utilizar la GUI de SnapCenter o utilizar el cmdlet Uninstall-SmHostPackage en la interfaz de línea de comandos del host del servidor SnapCenter .  Estos procedimientos ayudan a que el servidor SnapCenter se mantenga actualizado con cualquier cambio.
+
+Sin embargo, es posible que en ocasiones necesites desinstalar complementos localmente.  Por ejemplo, es posible que haya ejecutado un trabajo de desinstalación desde SnapCenter Server pero el trabajo falló, o que haya desinstalado SnapCenter Server y queden complementos huérfanos en un host.
+
+
+IMPORTANT: Desinstalar un paquete de complemento localmente en un host no elimina los datos asociados con el host; por ejemplo, trabajos programados y metadatos de respaldo.
+
+
+IMPORTANT: No intente desinstalar el paquete de complementos de SnapCenter para Windows localmente desde el Panel de control.  Debe utilizar la GUI de SnapCenter para asegurarse de que el complemento de SnapCenter para Microsoft Windows se desinstale correctamente.
+
+.Pasos
+. En el sistema host, navegue hasta el Panel de control y haga clic en *Desinstalar un programa*.
+. En la lista de programas, seleccione el complemento o paquete de complementos de SnapCenter que desea desinstalar y haga clic en *Desinstalar*.
++
+Windows desinstala todos los complementos del paquete seleccionado.
+
+

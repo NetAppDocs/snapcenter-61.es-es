@@ -1,0 +1,45 @@
+---
+permalink: protect-azure/backup-oracle-databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Oracle Database, back up, databases, Azure NetApp Files 
+summary: Realice una copia de seguridad del recurso desde la página Recursos. 
+---
+= Realizar copias de seguridad de bases de datos de Oracle que se ejecutan en Azure NetApp Files
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si un recurso aún no forma parte de ningún grupo de recursos, puede realizar una copia de seguridad del recurso desde la página Recursos.
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* en la lista desplegable Ver.
+. En la página Recursos, seleccione *Usar formato de nombre personalizado para copia de instantánea* y luego ingrese el formato de nombre personalizado que desee usar para el nombre de la instantánea.
+. En la página Políticas, realice los siguientes pasos:
++
+.. Seleccione una o más políticas de la lista desplegable.
+.. Seleccionar *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] * en la columna Configurar programaciones de la política para la que desea configurar una programación.
+.. En el cuadro de diálogo Agregar programaciones para la política _policy_name_, configure la programación y luego seleccione *Aceptar*.
+
+
+. En la página de Verificación, realice los siguientes pasos:
++
+.. Seleccione el servidor de verificación.
+.. Seleccione la política para la que desea configurar su programa de verificación y luego haga clic en *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] *.
+.. Seleccione *Ejecutar verificación después de la copia de seguridad* o *Ejecutar verificación programada*.
+.. Haga clic en Aceptar.
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Seleccione *Hacer copia de seguridad ahora*.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si hay varias políticas asociadas al recurso, en la lista desplegable *Política*, seleccione la política que desea utilizar para la copia de seguridad.
+.. Haga clic en *Copia de seguridad*.
+
+
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+

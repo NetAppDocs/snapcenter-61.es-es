@@ -1,0 +1,102 @@
+---
+permalink: protect-sco/task_mount_and_unmount_databases_backups.html 
+sidebar: sidebar 
+keywords: mount, unmount, backup, ASM, asm_diskstring 
+summary: Puede montar una o varias copias de seguridad de datos y registros únicamente si desea acceder a los archivos de la copia de seguridad.  Puede montar la copia de seguridad en el mismo host donde se creó la copia de seguridad o en un host remoto que tenga el mismo tipo de Oracle y configuraciones de host.  Si ha montado manualmente las copias de seguridad, deberá desmontarlas manualmente después de completar la operación.  Puede montar la copia de seguridad de la base de datos solo una vez en un host para una base de datos específica.  Mientras realiza una operación, solo puede montar una única copia de seguridad. 
+---
+= Montar y desmontar copias de seguridad de bases de datos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede montar una o varias copias de seguridad de datos y registros únicamente si desea acceder a los archivos de la copia de seguridad.  Puede montar la copia de seguridad en el mismo host donde se creó la copia de seguridad o en un host remoto que tenga el mismo tipo de Oracle y configuraciones de host.  Si ha montado manualmente las copias de seguridad, deberá desmontarlas manualmente después de completar la operación.  En cualquier caso, se puede montar una copia de seguridad de una base de datos en cualquiera de los hosts.  Mientras realiza una operación, solo puede montar una única copia de seguridad.
+
+
+NOTE: En una configuración de Flex ASM, no se puede realizar una operación de montaje en nodos Leaf si la cardinalidad es menor que la cantidad de nodos en el clúster RAC.
+
+
+
+== Montar una copia de seguridad de la base de datos
+
+Debe montar manualmente una copia de seguridad de la base de datos si desea acceder a los archivos de la copia de seguridad.
+
+*Lo que necesitarás*
+
+* Si tiene una instancia de base de datos de Administración automática de almacenamiento (ASM) en un entorno NFS y desea montar las copias de seguridad de ASM, debe haber agregado la ruta del disco ASM _/var/opt/snapcenter/sco/backup_*/_*_/_*_/_*_/_*_ a la ruta existente definida en el parámetro asm_diskstring.
+* Si tiene una instancia de base de datos ASM en un entorno NFS y desea montar las copias de seguridad del registro ASM como parte de una operación de recuperación, debe haber agregado la ruta del disco ASM _/var/opt/snapcenter/scu/clones/_*_/_*_ a la ruta existente definida en el parámetro asm_diskstring.
+* En el parámetro asm_diskstring, debe configurar _AFD:*_ si está usando ASMFD o configurar _ORCL:*_ si está usando ASMLIB.
+
+
+
+NOTE: Para obtener información sobre cómo editar el parámetro asm_diskstring, consulte https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Disk_paths_are_not_added_to_the_asm_diskstring_database_parameter["Cómo agregar rutas de disco a asm_diskstring"^] .
+
+* Debe configurar las credenciales de ASM y el puerto de ASM si difieren de los del host de la base de datos de origen al montar la copia de seguridad.
+* Si desea montar en un host alternativo, debe verificar que el host alternativo cumpla con los siguientes requisitos:
++
+** El mismo UID y GID que el host original
+** La misma versión de Oracle que la del host original
+** La misma distribución y versión del sistema operativo que la del host original
+** Para NVMe, se debe instalar la utilidad NVMe
+
+
+* Debe asegurarse de que el LUN no esté asignado al host AIX mediante un iGroup que consta de protocolos mixtos iSCSI y FC. Para obtener más información, consulte  https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_Plug-in_for_Oracle_operations_fail_with_error_Unable_to_discover_the_device_for_LUN_LUN_PATH["La operación falla con el error No se puede descubrir el dispositivo para LUN"^] .
+
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista *Ver*.
+. Seleccione la base de datos desde la vista de detalles de la base de datos o desde la vista de detalles del grupo de recursos.
++
+Se muestra la página de topología de la base de datos.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* del sistema de almacenamiento primario o secundario (duplicado o reflejado).
+. Seleccione la copia de seguridad de la tabla y luego haga clic enimage:../media/mount_icon.gif["icono de montaje"] .
+. En la página Montar copias de seguridad, seleccione el host en el que desea montar la copia de seguridad en la lista desplegable *Elija el host para montar la copia de seguridad*.
++
+Se muestra la ruta de montaje _/var/opt/snapcenter/sco/backup_mount/backup_name/database_name_.
+
++
+Si está montando la copia de seguridad de una base de datos ASM, se muestra la ruta de montaje +diskgroupname_SID_backupid.
+
+. Haga clic en *Montar*.
+
+
+*Después de terminar*
+
+* Puede ejecutar el siguiente comando para recuperar la información relacionada con la copia de seguridad montada:
++
+`./sccli Get-SmBackup -BackupName backup_name -ListMountInfo`
+
+* Si ha montado una base de datos ASM, puede ejecutar el siguiente comando para recuperar la información relacionada con la copia de seguridad montada:
++
+`./sccli Get-Smbackup -BackupNamediskgroupname_SID_backupid-listmountinfo`
+
+* Para recuperar el ID de respaldo, ejecute el siguiente comando:
++
+`./sccli Get-Smbackup-BackupNamebackup_name`
+
++
+La información sobre los parámetros que se pueden utilizar con el comando y sus descripciones se pueden obtener ejecutando Get-Help _command_name_. Alternativamente, también puede consultar la https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["Guía de referencia de comandos del software SnapCenter"^] .
+
+
+
+
+
+== Desmontar una copia de seguridad de la base de datos
+
+Puede desmontar manualmente una copia de seguridad de base de datos montada cuando ya no desee acceder a los archivos de la copia de seguridad.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista *Ver*.
+. Seleccione la base de datos desde la vista de detalles de la base de datos o desde la vista de detalles del grupo de recursos.
++
+Se muestra la página de topología de la base de datos.
+
+. Seleccione la copia de seguridad que está montada y luego haga clic enimage:../media/unmount_icon.gif["icono de desmontar"] .
+. Haga clic en *Aceptar*.
+

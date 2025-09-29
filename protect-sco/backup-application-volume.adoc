@@ -1,0 +1,96 @@
+---
+permalink: protect-sco/backup-application-volume.html 
+sidebar: sidebar 
+keywords: application volume, back up 
+summary: Puede realizar una copia de seguridad del volumen de la aplicación desde la página Recursos si el volumen de la aplicación no forma parte de ningún grupo de recursos. 
+---
+= Realizar una copia de seguridad del volumen de la aplicación
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si el volumen de la aplicación no es parte de ningún grupo de recursos, puede realizar una copia de seguridad del volumen de la aplicación desde la página Recursos.
+
+*Acerca de esta tarea*
+
+De forma predeterminada, se crean copias de seguridad del grupo de consistencia (CG).  Si desea crear copias de seguridad basadas en volumen, debe establecer el valor de *EnableOracleNdvVolumeBasedBackup* en verdadero en el archivo _web.config_.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento Oracle Database de la lista.
+. En la página Recursos, seleccione *Volumen de la aplicación* de la lista *Ver*.
+. Haga clic en *image:../media/filter_icon.gif["icono de filtro"] * y luego seleccione el nombre del host y el tipo de base de datos para filtrar los recursos.
++
+Luego puedes hacer clic en *image:../media/filter_icon.gif["icono de filtro"] * para cerrar el panel de filtro.
+
+. Seleccione el volumen de la aplicación que desea respaldar.
++
+Se muestra la página Proteger volumen de la aplicación.
+
+. En la página Recursos, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Utilice un formato de nombre personalizado para la copia de instantáneas
+ a| 
+Seleccione esta casilla de verificación y luego ingrese el formato de nombre personalizado que desea utilizar para el nombre de la instantánea.
+
+Por ejemplo, customtext__policy_hostname o resource_hostname.  De forma predeterminada, se agrega una marca de tiempo al nombre de la instantánea.
+
+
+
+ a| 
+Excluir destinos de registro de archivo de la copia de seguridad
+ a| 
+Especifique los destinos de los archivos de registro de archivo que no desea respaldar.
+
+|===
+. En la página Políticas, realice los siguientes pasos:
++
+.. Seleccione una o más políticas de la lista desplegable.
++
+
+NOTE: También puedes crear una política haciendo clic en *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] *.
+
+
+
++
+En la sección Configurar programaciones para políticas seleccionadas, se enumeran las políticas seleccionadas.
+
++
+.. Hacer clicimage:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] en la columna Configurar programaciones de la política para la que desea configurar una programación.
+.. En la ventana Agregar programaciones para la política _policy_name_, configure la programación y luego haga clic en *Aceptar*.
++
+_policy_name_ es el nombre de la política que ha seleccionado.
+
++
+Los horarios configurados se enumeran en la columna Horarios aplicados.
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.  Si desea adjuntar el informe de la operación de respaldo realizada en el recurso, seleccione *Adjuntar informe de trabajo*.
+
++
+
+NOTE: Para recibir notificaciones por correo electrónico, debe haber especificado los detalles del servidor SMTP mediante la GUI o el comando de PowerShell Set-SmSmtpServer.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
++
+Se muestra la página de topología del volumen de la aplicación.
+
+. Haga clic en *Hacer copia de seguridad ahora*.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si ha aplicado varias políticas al recurso, en la lista desplegable *Política*, seleccione la política que desea utilizar para la copia de seguridad.
+.. Haga clic en *Copia de seguridad*.
+
+
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+

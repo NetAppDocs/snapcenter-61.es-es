@@ -1,0 +1,49 @@
+---
+permalink: protect-azure/restore-recover-sap-hana-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database, restore, recover 
+summary: Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad. 
+---
+= Restaurar y recuperar bases de datos de SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede restaurar y recuperar datos de las copias de seguridad.
+
+.Acerca de esta tarea
+Para los sistemas HANA detectados automáticamente, si se selecciona la opción *Recurso completo*, la restauración se realiza utilizando la tecnología de restauración de instantáneas de archivo único.  Si la casilla de verificación *Restauración rápida* está seleccionada, se utiliza la tecnología de reversión de volumen.
+
+Para los recursos agregados manualmente, siempre se utiliza la tecnología Volume Revert.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, filtre los recursos de la lista desplegable *Ver* según el tipo de recurso.
+. Seleccione el recurso o seleccione un grupo de recursos y luego seleccione un recurso en ese grupo.
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* de los sistemas de almacenamiento primario o secundario (duplicado o almacenado en bóveda).
+. En la tabla Copias de seguridad principales, seleccione la copia de seguridad que desea restaurar y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
+. En la página Restaurar alcance, seleccione *Recurso completo*.
++
+Se restauran todos los volúmenes de datos configurados de la base de datos SAP HANA.
+
+. Para los sistemas HANA detectados automáticamente, en la página Ámbito de recuperación, realice las siguientes acciones:
++
+.. Seleccione *Recuperar al estado más reciente* si desea recuperar lo más cerca posible de la hora actual.
+.. Seleccione *Recuperar al punto en el tiempo* si desea recuperar al punto en el tiempo especificado.
+.. Seleccione *Recuperar a copia de seguridad de datos especificada* si desea recuperar a una copia de seguridad de datos específica.
+.. Seleccione *Sin recuperación* si no desea recuperar ahora.
+.. Especifique las ubicaciones de las copias de seguridad del registro.
+.. Especifique la ubicación del catálogo de respaldo.
+
+
+. En la página Operaciones previas, ingrese los comandos de restauración previa y de desmontaje para ejecutar antes de realizar un trabajo de restauración.
+. En la página Operaciones posteriores, ingrese los comandos de montaje y restauración posterior para ejecutarlos después de realizar un trabajo de restauración.
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario y el asunto del correo electrónico.  El SMTP también debe configurarse en la página *Configuración* > *Configuración global*.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+

@@ -1,0 +1,61 @@
+---
+permalink: protect-scsql/concept_type_of_backups_supported.html 
+sidebar: sidebar 
+keywords: Type of backups 
+summary: 'Para realizar copias de seguridad de las bases de datos de usuario y del sistema SQL Server mediante SnapCenter, es necesario elegir el tipo de recurso, como bases de datos, instancias del servidor SQL y grupos de disponibilidad (AG).  Se aprovecha la tecnología de instantáneas para crear copias en línea, de solo lectura, de los volúmenes en los que residen los recursos.' 
+---
+= Tipo de backups admitido
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para realizar copias de seguridad de las bases de datos del sistema y del usuario de SQL Server mediante SnapCenter, es necesario elegir el tipo de recurso, como bases de datos, instancias del servidor SQL y grupos de disponibilidad (AG).  Se aprovecha la tecnología de instantáneas para crear copias en línea, de solo lectura, de los volúmenes en los que residen los recursos.
+
+Puede seleccionar la opción de solo copia para especificar que SQL Server no trunque los registros de transacciones.  Debe utilizar esta opción cuando también esté administrando SQL Server con otras aplicaciones de respaldo.  Mantener los registros de transacciones intactos permite que cualquier aplicación de respaldo restaure las bases de datos del sistema.  Las copias de seguridad de solo copia son independientes de la secuencia de copias de seguridad programadas y no afectan los procedimientos de copia de seguridad y restauración de la base de datos.
+
+|===
+| Tipo de copia de seguridad | Descripción | Opción de solo copia con tipo de copia de seguridad 
+
+
+ a| 
+Copia de seguridad completa y copia de seguridad de registros
+ a| 
+Realiza una copia de seguridad de la base de datos del sistema y trunca los registros de transacciones.
+
+SQL Server trunca los registros de transacciones eliminando las entradas que ya están confirmadas en la base de datos.
+
+Una vez completada la copia de seguridad completa, esta opción crea un registro de transacciones que captura la información de las transacciones.  Por lo general, deberías elegir esta opción.  Sin embargo, si el tiempo de respaldo es corto, puede elegir no ejecutar una copia de seguridad del registro de transacciones con una copia de seguridad completa.
+
+No se puede crear una copia de seguridad del registro para las bases de datos del sistema master y msdb.  Sin embargo, puede crear copias de seguridad de registros para la base de datos del sistema modelo.
+ a| 
+Realiza una copia de seguridad de los archivos de base de datos del sistema y de los registros de transacciones sin truncar los registros.
+
+Una copia de seguridad de solo copia no puede servir como base diferencial o copia de seguridad diferencial y no afecta a la base diferencial.  Restaurar una copia de seguridad completa de solo copia es lo mismo que restaurar cualquier otra copia de seguridad completa.
+
+
+
+ a| 
+Copia de seguridad completa de la base de datos
+ a| 
+Realiza una copia de seguridad de los archivos de base de datos del sistema.
+
+Puede crear una copia de seguridad completa de la base de datos para las bases de datos del sistema maestro, modelo y msdb.
+ a| 
+Realiza una copia de seguridad de los archivos de base de datos del sistema.
+
+
+
+ a| 
+Copia de seguridad del registro de transacciones
+ a| 
+Realiza una copia de seguridad de los registros de transacciones truncados, copiando solo las transacciones que se confirmaron desde que se realizó la copia de seguridad del registro de transacciones más reciente.
+
+Si programa copias de seguridad frecuentes del registro de transacciones junto con copias de seguridad completas de la base de datos, puede elegir puntos de recuperación granulares.
+ a| 
+Realiza una copia de seguridad de los registros de transacciones sin truncarlos.
+
+Este tipo de backup no afecta la secuencia de los backups de registros regulares. Las copias de seguridad de registros de solo copia son útiles para realizar operaciones de restauración en línea.
+
+|===

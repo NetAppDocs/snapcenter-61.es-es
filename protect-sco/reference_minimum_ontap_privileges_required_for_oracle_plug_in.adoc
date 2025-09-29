@@ -1,0 +1,89 @@
+---
+permalink: protect-sco/reference_minimum_ontap_privileges_required_for_oracle_plug_in.html 
+sidebar: sidebar 
+keywords: ONTAP privileges 
+summary: Los privilegios mínimos de ONTAP necesarios varían según los complementos de SnapCenter que utilice para la protección de datos. 
+---
+= Privilegios mínimos de ONTAP necesarios para el complemento de Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los privilegios mínimos de ONTAP necesarios varían según los complementos de SnapCenter que utilice para la protección de datos.
+
+* Comandos de acceso total: privilegios mínimos necesarios para ONTAP 9.12.1 y versiones posteriores
++
+** registro de soporte automático de generación de eventos
+** Mostrar historial laboral
+** parada de trabajo
+** almuerzo
+** Mostrar atributo lun
+** lun crear
+** eliminar lun
+** geometría lun
+** agregar igroup lun
+** crear igroup lun
+** eliminar igroup lun
+** Cambiar nombre de igroup lun
+** Programa de igroup de Lun
+** Asignación de LUN a nodos de informes adicionales
+** creación de mapeo LUN
+** eliminar mapeo lun
+** Mapeo de LUN: eliminar nodos de informes
+** espectáculo de mapeo de lun
+** modificar lun
+** volumen de movimiento de LUN
+** lun sin conexión
+** lun en línea
+** lun reserva persistente clara
+** cambio de tamaño de lun
+** serie lun
+** espectáculo de almuerzo
+** regla de adición de política de SnapMirror
+** regla de modificación de política de SnapMirror
+** regla de eliminación de política de SnapMirror
+** Mostrar política de Snapmirror
+** restauración de SnapMirror
+** espectáculo de Snapmirror
+** historial de programas de Snapmirror
+** actualización de SnapMirror
+** actualización-ls-set de snapmirror
+** Lista de destinos de Snapmirror
+** versión
+** crear clon de volumen
+** espectáculo de clonación de volumen
+** inicio de división de clonación de volumen
+** clonación de volumen división parada
+** creación de volumen
+** destrucción de volumen
+** clonar archivo de volumen crear
+** archivo de volumen mostrar-uso-de-disco
+** volumen fuera de línea
+** volumen en línea
+** modificar volumen
+** creación de qtree de volumen
+** eliminar volumen qtree
+** modificar volumen qtree
+** espectáculo de qtree de volumen
+** restricción de volumen
+** espectáculo de volumen
+** crear instantánea de volumen
+** eliminar instantánea de volumen
+** modificar instantánea de volumen
+** cambio de nombre de instantánea de volumen
+** restauración de instantánea de volumen
+** archivo de restauración de instantánea de volumen
+** Mostrar instantánea de volumen
+** desmontar volumen
+** vserver
+** CIFs de vserver
+** Mostrar copia de sombra de CIF de vserver
+** espectáculo vserver
+** interfaz de red
+** Mostrar interfaz de red
+** espectáculo del metrocluster
+
+
+

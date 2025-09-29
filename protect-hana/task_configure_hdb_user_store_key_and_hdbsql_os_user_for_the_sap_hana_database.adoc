@@ -1,0 +1,38 @@
+---
+permalink: protect-hana/task_configure_hdb_user_store_key_and_hdbsql_os_user_for_the_sap_hana_database.html 
+sidebar: sidebar 
+keywords: HDB User Store Key, HDBSQL OS User, SAP HANA database 
+summary: Debe configurar la clave de almacén de usuarios HDB y el usuario del sistema operativo HDBSQL para realizar operaciones de protección de datos en las bases de datos de SAP HANA. 
+---
+= Configurar la clave de almacenamiento de usuarios de HDB y el usuario del sistema operativo HDBSQL para la base de datos SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe configurar la clave de almacén de usuarios HDB y el usuario del sistema operativo HDBSQL para realizar operaciones de protección de datos en las bases de datos de SAP HANA.
+
+.Antes de empezar
+* Si la base de datos SAP HANA no tiene configuradas la clave de almacenamiento de usuario seguro HDB y el usuario del sistema operativo SQL HDB, aparece un ícono de candado rojo solo para los recursos descubiertos automáticamente.  Si durante una operación de descubrimiento posterior, se descubre que la clave de almacenamiento de usuario seguro de HDB configurada es incorrecta o no proporciona acceso a la base de datos en sí, entonces volverá a aparecer el ícono del candado rojo.
+* Debe configurar la clave de almacén de usuario seguro de HDB y el usuario del sistema operativo SQL de HDB para poder proteger la base de datos o agregarla a un grupo de recursos para realizar operaciones de protección de datos.
+* Debe configurar el usuario del sistema operativo HDB SQL para acceder a la base de datos del sistema.  Si el usuario del sistema operativo SQL de HDB está configurado para acceder solo a la base de datos del inquilino, la operación de descubrimiento fallará.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione Complemento de SnapCenter para base de datos SAP HANA de la lista.
+. En la página Recursos, seleccione el tipo de recurso de la lista *Ver*.
+. (Opcional) Haga clic enimage:../media/filter_icon.gif["icono de filtro"] y seleccione el nombre del host.
++
+Luego puedes hacer clicimage:../media/filter_icon.gif["icono de filtro"] para cerrar el panel de filtro.
+
+. Seleccione la base de datos y luego haga clic en *Configurar base de datos*.
+. En la sección Configurar ajustes de la base de datos, ingrese la clave de almacenamiento de usuario seguro de HDB.
++
+
+NOTE: Se muestra el nombre de host del complemento y el usuario del sistema operativo HDB SQL se completa automáticamente como <sid>adm.
+
+. Haga clic en *Aceptar*.
+
+
+Puede modificar la configuración de la base de datos desde la página Topología.

@@ -1,0 +1,41 @@
+---
+permalink: protect-azure/create-backup-policies-oracle.html 
+sidebar: sidebar 
+keywords: create policies, Oracle, backup policies 
+summary: Cree una política de respaldo para el recurso o grupo de recursos que desea respaldar. 
+---
+= Crear políticas de respaldo para bases de datos de Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de utilizar SnapCenter para realizar copias de seguridad de los recursos de base de datos de Oracle, debe crear una política de copia de seguridad para el recurso o el grupo de recursos que desea respaldar.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Políticas*.
+. Seleccione Oracle Database de la lista desplegable.
+. Haga clic en *Nuevo*.
+. En la página Nombre, ingrese el nombre de la política y la descripción.
+. En la página Tipo de política, realice los siguientes pasos:
++
+.. Seleccione * Azure NetApp Files* como tipo de almacenamiento.
+.. Seleccione el tipo de copia de seguridad como copia de seguridad en línea o fuera de línea.
+.. Si desea catalogar la copia de seguridad mediante Oracle Recovery Manager (RMAN), seleccione *Catalogar copia de seguridad con Oracle Recovery Manager (RMAN)*.
+.. Si desea podar registros de archivo después de la copia de seguridad, seleccione *Podar registros de archivo después de la copia de seguridad*.
+.. Especifique la configuración del registro de eliminación de archivo.
+
+
+. En la página Instantánea y copia de seguridad, realice los siguientes pasos:
++
+.. Seleccione la frecuencia de la copia de seguridad programada.
+.. Especifique la configuración de retención.
+.. Si desea habilitar la copia de seguridad de Azure NetApp Files , seleccione *Habilitar copia de seguridad* y especifique la configuración de retención.
+
+
+. En la página Script, ingrese la ruta y los argumentos del prescript o postscript que desea ejecutar antes o después de la operación de respaldo, respectivamente.
+. En la página Verificación, seleccione la programación de copia de seguridad para la que desea realizar la operación de verificación e ingrese la ruta y los argumentos del prescript o postscript que desea ejecutar antes o después de la operación de verificación, respectivamente.
+. Revise el resumen y haga clic en *Finalizar*.
+

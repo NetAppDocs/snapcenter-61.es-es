@@ -1,0 +1,34 @@
+---
+permalink: protect-sco/task_restore_and_recover_oracle_databases_using_unix_commands.html 
+sidebar: sidebar 
+keywords: restore, recover, CLI 
+summary: El flujo de trabajo de restauración y recuperación incluye la planificación, la ejecución de las operaciones de restauración y recuperación y la supervisión de las operaciones. 
+---
+= Restaurar y recuperar bases de datos Oracle mediante comandos UNIX
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El flujo de trabajo de restauración y recuperación incluye la planificación, la ejecución de las operaciones de restauración y recuperación y la supervisión de las operaciones.
+
+*Acerca de esta tarea*
+
+* Debe ejecutar los siguientes comandos para establecer la conexión con el servidor SnapCenter , enumerar las copias de seguridad y recuperar su información y restaurar la copia de seguridad.
++
+La información sobre los parámetros que se pueden utilizar con el comando y sus descripciones se pueden obtener ejecutando Get-Help _command_name_. Alternativamente, también puede consultar la https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["Guía de referencia de comandos del software SnapCenter"^] .
+
+* Para la operación de restauración de sincronización activa de SnapMirror , debe seleccionar la copia de seguridad de la ubicación principal.
+
+
+*Pasos*
+
+. Iniciar una sesión de conexión con el servidor SnapCenter para un usuario específico: _Open-SmConnection_
+. Recupere la información sobre las copias de seguridad que desea restaurar: _Get-SmBackup_
+. Recupere la información detallada sobre la copia de seguridad especificada: _Get-SmBackupDetails_
++
+Este comando recupera la información detallada sobre la copia de seguridad de un recurso específico con un ID de copia de seguridad determinado.  La información incluye el nombre de la base de datos, la versión, el inicio, el SCN inicial y final, los espacios de tabla, las bases de datos conectables y sus espacios de tabla.
+
+. Restaurar datos desde la copia de seguridad: _Restore-SmBackup_
+

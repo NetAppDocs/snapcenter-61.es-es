@@ -1,0 +1,53 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_windows_features.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: El complemento para Windows se integra con la tecnología NetApp Snapshot en el sistema de almacenamiento.  Para trabajar con el complemento para Windows, utilice la interfaz de SnapCenter . 
+---
+= Características del complemento SnapCenter para Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El complemento para Windows se integra con la tecnología NetApp Snapshot en el sistema de almacenamiento.  Para trabajar con el complemento para Windows, utilice la interfaz de SnapCenter .
+
+El complemento para Windows incluye estas características principales:
+
+* *Interfaz gráfica de usuario unificada impulsada por SnapCenter*
++
+La interfaz de SnapCenter le proporciona estandarización y consistencia entre complementos y entornos.  La interfaz de SnapCenter le permite completar procesos de copia de seguridad y restauración consistentes en todos los complementos, utilizar informes centralizados, usar vistas de panel de un vistazo, configurar el control de acceso basado en roles (RBAC) y monitorear trabajos en todos los complementos.  SnapCenter también ofrece programación centralizada y gestión de políticas para respaldar operaciones de copia de seguridad y clonación.
+
+* *Administración central automatizada*
++
+Puede programar copias de seguridad rutinarias del sistema de archivos, configurar la retención de copias de seguridad basada en políticas y configurar operaciones de restauración.  También puede supervisar de forma proactiva el entorno de su sistema de archivos configurando SnapCenter para enviar alertas por correo electrónico.
+
+* *Tecnología NetApp Snapshot sin interrupciones*
++
+El complemento para Windows utiliza la tecnología NetApp Snapshot.  Esto le permite realizar copias de seguridad de los sistemas de archivos en segundos y restaurarlos rápidamente sin desconectar el host.  Las instantáneas consumen un espacio de almacenamiento mínimo.
+
+
+
+Además de estas características principales, el complemento para Windows ofrece los siguientes beneficios:
+
+* Soporte para flujos de trabajo de copia de seguridad, restauración y clonación
+* Seguridad respaldada por RBAC y delegación de roles centralizada
+* Creación de copias que ahorran espacio de los sistemas de archivos de producción para pruebas o extracción de datos mediante la tecnología NetApp FlexClone
++
+Para obtener información sobre la licencia de FlexClone , consultelink:../get-started/concept_snapcenter_licenses.html["Licencias de SnapCenter"^] .
+
+* Capacidad de ejecutar múltiples copias de seguridad al mismo tiempo en varios servidores
+* Cmdlets de PowerShell para la creación de scripts de operaciones de copia de seguridad, restauración y clonación
+* Soporte para copias de seguridad de sistemas de archivos y discos de máquinas virtuales (VMDK)
+* Soporte para infraestructuras físicas y virtualizadas
+* Compatibilidad con iSCSI, canal de fibra, FCoE, mapeo de dispositivos sin procesar (RDM), mapeo de LUN asimétrico (ALM), VMDK sobre NFS y VMFS, y FC virtual.
+* Compatibilidad con memoria no volátil express (NVMe) en Windows Server 2022
++
+** Flujos de trabajo de copia de seguridad, restauración, clonación y verificación en el diseño VMDK creado en NVMe a través de TCP/IP.
+** Admite la versión de firmware NVMe 1.3 a partir de la actualización 2 de ESX 8.0 y requiere la versión de hardware virtual 21.
+** El clúster de conmutación por error de Windows Server (WSFC) no es compatible con aplicaciones a través de VMDK en NVMe sobre TCP/IP.
+
+
+* Admite la sincronización activa de SnapMirror (lanzada inicialmente como SnapMirror Business Continuity [SM-BC]) que permite que los servicios comerciales sigan funcionando incluso en caso de una falla total del sitio, permitiendo que las aplicaciones conmuten por error de manera transparente mediante una copia secundaria.  No se requiere intervención manual ni secuencias de comandos adicionales para activar una conmutación por error con la sincronización activa de SnapMirror .
+

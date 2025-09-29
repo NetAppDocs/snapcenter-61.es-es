@@ -1,0 +1,48 @@
+---
+permalink: protect-scsql/reference_back_up_sql_server_database_or_instance_or_availability_group.html 
+sidebar: sidebar 
+keywords: Backup workflow 
+summary: Cuando instala el complemento de SnapCenter para Microsoft SQL Server en su entorno, puede usar SnapCenter para realizar copias de seguridad de los recursos de SQL Server. 
+---
+= Flujo de trabajo de respaldo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando instala el complemento de SnapCenter para Microsoft SQL Server en su entorno, puede usar SnapCenter para realizar copias de seguridad de los recursos de SQL Server.
+
+Puede programar varias copias de seguridad para que se ejecuten en todos los servidores simultáneamente.
+
+Las operaciones de copia de seguridad y restauración no se pueden realizar simultáneamente en el mismo recurso.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar las operaciones de copia de seguridad:
+
+image::../media/scsql_backup_workflow.gif[Flujo de trabajo de copia de seguridad de SCSQL]
+
+
+NOTE: Las opciones Realizar copia de seguridad ahora, Restaurar, Administrar copias de seguridad y Clonar en la página Recursos se deshabilitan si selecciona un LUN que no sea de NetApp , una base de datos que esté dañada o una base de datos que se esté restaurando.
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad, restauración, recuperación, verificación y clonación.  Para obtener información detallada sobre los cmdlets de PowerShell, utilice la ayuda de cmdlets de SnapCenter o consulte la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"]
+
+
+
+== Cómo SnapCenter realiza copias de seguridad de las bases de datos
+
+SnapCenter utiliza la tecnología Snapshot para realizar copias de seguridad de las bases de datos de SQL Server que residen en LUN o VMDK.  SnapCenter crea la copia de seguridad creando instantáneas de las bases de datos.
+
+Cuando selecciona una base de datos para una copia de seguridad completa desde la página Recursos, SnapCenter selecciona automáticamente todas las demás bases de datos que residen en el mismo volumen de almacenamiento.  Si el LUN o VMDK almacena solo una única base de datos, puede borrar o volver a seleccionar la base de datos individualmente.  Si el LUN o VMDK alberga varias bases de datos, debe borrar o volver a seleccionar las bases de datos como un grupo.
+
+Todas las bases de datos que residen en un solo volumen se respaldan simultáneamente mediante instantáneas.  Si la cantidad máxima de bases de datos de respaldo simultáneas es 35, y si más de 35 bases de datos residen en un volumen de almacenamiento, entonces la cantidad total de instantáneas que se crean es igual a la cantidad de bases de datos dividida por 35.
+
+
+NOTE: Puede configurar la cantidad máxima de bases de datos para cada instantánea en la política de respaldo.
+
+Cuando SnapCenter crea una instantánea, todo el volumen del sistema de almacenamiento se captura en la instantánea.  Sin embargo, la copia de seguridad sólo es válida para el servidor host SQL para el que se creó la copia de seguridad.
+
+Si los datos de otros servidores host SQL residen en el mismo volumen, estos datos no se pueden restaurar desde la instantánea.
+
+*Encuentre más información*
+
+link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Quiesce_or_grouping_resources_operations_fail["Las operaciones de inactividad o agrupación de recursos fallan"]

@@ -1,0 +1,82 @@
+---
+permalink: admin/concept_manage_resources_of_untrusted_domains.html 
+sidebar: sidebar 
+keywords: Manage resources 
+summary: 'Además de administrar hosts en dominios confiables de Active Directory (AD), SnapCenter también administra hosts en múltiples dominios no confiables de AD.  Los dominios de AD que no son de confianza deben registrarse en el servidor SnapCenter .  SnapCenter admite usuarios y grupos de múltiples dominios de AD que no son de confianza.' 
+---
+= Administrar recursos de dominios no confiables
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Además de administrar hosts en dominios confiables de Active Directory (AD), SnapCenter también administra hosts en múltiples dominios no confiables de AD.  Los dominios de AD que no son de confianza deben registrarse en el servidor SnapCenter .  SnapCenter admite usuarios y grupos de múltiples dominios de AD que no son de confianza.
+
+Puede instalar SnapCenter Server en una máquina que esté en un dominio o en un grupo de trabajo.  Para instalar SnapCenter Server, debe especificar las credenciales del dominio si la máquina está en un dominio o las credenciales del administrador local si la máquina está en un grupo de trabajo.
+
+No se admiten los grupos de Active Directory (AD) que pertenecen a dominios no registrados en el servidor SnapCenter .  Si bien puede crear roles de SnapCenter con estos grupos de AD, el inicio de sesión en SnapCenter Server falla con el siguiente mensaje de error: El usuario con el que intenta iniciar sesión no pertenece a ningún rol.  Por favor, póngase en contacto con su administrador.
+
+
+
+== Modificar dominios no confiables
+
+Puede modificar un dominio no confiable cuando desee actualizar las direcciones IP del controlador de dominio o el nombre de dominio completo (FQDN).
+
+*Acerca de esta tarea*
+
+Después de modificar el FQDN, es posible que los activos asociados (hosts, usuarios y grupos) no funcionen como se espera.
+
+Para modificar un dominio que no es de confianza, puede utilizar la interfaz de usuario de SnapCenter o los cmdlets de PowerShell.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Configuración global*.
+. En la página Configuración global, haga clic en *Configuración de dominio*.
+. Hacer clicimage:../media/edit_icon.gif["Icono de edición"] , y luego proporcione los siguientes detalles:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+FQDN del dominio
+ a| 
+Especifique el FQDN y haga clic en *Resolver*.
+
+
+
+ a| 
+Direcciones IP del controlador de dominio
+ a| 
+Si el FQDN del dominio no se puede resolver, especifique una o más direcciones IP de controlador de dominio.
+
+|===
+. Haga clic en *Aceptar*.
+
+
+
+
+== Anular el registro de dominios de Active Directory que no sean de confianza
+
+Puede anular el registro de un dominio de Active Directory que no sea de confianza si no desea utilizar los activos asociados con ese dominio.
+
+.Antes de empezar
+Deberías haber eliminado los hosts, usuarios, grupos y credenciales asociados con el dominio no confiable.
+
+*Acerca de esta tarea*
+
+* Una vez que se cancela el registro del dominio en SnapCenter Server, los usuarios de ese dominio no pueden acceder a SnapCenter Server.
+* Si hay activos asociados (hosts, usuarios y grupos), después de anular el registro del dominio, los activos no estarán operativos.
+* Para anular el registro de un dominio que no es de confianza, puede utilizar la interfaz de usuario de SnapCenter o los cmdlets de PowerShell.
+
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Configuración global*.
+. En la página Configuración global, haga clic en *Configuración de dominio*.
+. De la lista de dominios, seleccione el dominio cuyo registro desea cancelar.
+. Hacer clicimage:../media/delete_icon.gif["icono de eliminar"] , y luego haga clic en *Aceptar*.
+

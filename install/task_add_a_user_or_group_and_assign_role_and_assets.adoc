@@ -1,0 +1,167 @@
+---
+permalink: install/task_add_a_user_or_group_and_assign_role_and_assets.html 
+sidebar: sidebar 
+keywords: RBAC, add user, add group, assign role, assign assets 
+summary: Para configurar el control de acceso basado en roles para los usuarios de SnapCenter , puede agregar usuarios o grupos y asignar roles.  El rol determina las opciones a las que pueden acceder los usuarios de SnapCenter . 
+---
+= Agregar un usuario o grupo y asignarle roles y activos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para configurar el control de acceso basado en roles para los usuarios de SnapCenter , puede agregar usuarios o grupos y asignar roles.  El rol determina las opciones a las que pueden acceder los usuarios de SnapCenter .
+
+.Antes de empezar
+* Debe haber iniciado sesión como rol "SnapCenterAdmin".
+* Debe haber creado las cuentas de usuario o grupo en Active Directory en el sistema operativo o la base de datos.  No puedes usar SnapCenter para crear estas cuentas.
++
+
+NOTE: Puede incluir solo los siguientes caracteres especiales en los nombres de usuario y de grupo: espacio ( ), guion (-), guión bajo (_) y dos puntos (:).
+
+* SnapCenter incluye varios roles predefinidos.
++
+Puede asignar estos roles al usuario o crear roles nuevos.
+
+* Los usuarios de AD y los grupos de AD que se agregan a SnapCenter RBAC deben tener permiso de LECTURA en el contenedor de usuarios y en el contenedor de equipos en Active Directory.
+* Después de asignar un rol a un usuario o grupo que contenga los permisos adecuados, debe asignar al usuario acceso a los activos de SnapCenter , como hosts y conexiones de almacenamiento.
++
+Esto permite a los usuarios realizar las acciones para las que tienen permiso en los activos que les están asignados.
+
+* Debe asignar un rol al usuario o grupo en algún momento para aprovechar los permisos y las eficiencias de RBAC.
+* Puede asignar activos como host, grupos de recursos, políticas, conexión de almacenamiento, complementos y credenciales al usuario mientras crea el usuario o grupo.
+* Los activos mínimos que debes asignar a un usuario para realizar determinadas operaciones son los siguientes:
++
+|===
+| Operación | Cesión de activos 
+
+
+ a| 
+Proteger los recursos
+ a| 
+anfitrión, política
+
+
+
+ a| 
+Respaldo
+ a| 
+host, grupo de recursos, política
+
+
+
+ a| 
+Restaurar
+ a| 
+anfitrión, grupo de recursos
+
+
+
+ a| 
+Clon
+ a| 
+host, grupo de recursos, política
+
+
+
+ a| 
+Ciclo de vida del clon
+ a| 
+anfitrión
+
+
+
+ a| 
+Crear un grupo de recursos
+ a| 
+anfitrión
+
+|===
+* Cuando se agrega un nuevo nodo a un clúster de Windows o a un activo DAG (grupo de disponibilidad de base de datos de Exchange Server) y este nuevo nodo está asignado a un usuario, debe reasignar el activo al usuario o grupo para incluir el nuevo nodo en el usuario o grupo.
++
+Debe reasignar el usuario o grupo RBAC al clúster o DAG para incluir el nuevo nodo al usuario o grupo RBAC.  Por ejemplo, tiene un clúster de dos nodos y ha asignado un usuario o grupo RBAC al clúster.  Cuando agrega otro nodo al clúster, debe reasignar el usuario o grupo RBAC al clúster para incluir el nuevo nodo para el usuario o grupo RBAC.
+
+* Si planea replicar instantáneas, debe asignar la conexión de almacenamiento tanto para el volumen de origen como para el de destino al usuario que realiza la operación.
++
+Debe agregar activos antes de asignar acceso a los usuarios.
+
+
+
+
+IMPORTANT: Si utiliza las funciones del SnapCenter Plug-in for VMware vSphere para proteger máquinas virtuales, VMDK o almacenes de datos, debe usar la GUI de VMware vSphere para agregar un usuario de vCenter a una SnapCenter Plug-in for VMware vSphere .  Para obtener información sobre los roles de VMware vSphere, consulte https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_predefined_roles_packaged_with_snapcenter.html["Roles predefinidos incluidos en el SnapCenter Plug-in for VMware vSphere"^] .
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página Configuración, haga clic en *Usuarios y acceso* > *image:../media/add_icon_configure_database.gif["Agregar icono en la pantalla de configuración de la base de datos"] *.
+. En la página Agregar usuarios/grupos desde Active Directory o grupo de trabajo:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Tipo de acceso
+ a| 
+Seleccione Dominio o grupo de trabajo
+
+Para el tipo de autenticación de dominio, debe especificar el nombre de dominio del usuario o grupo al que desea agregar el usuario a un rol.
+
+De forma predeterminada, se completa previamente con el nombre de dominio del que se inició sesión.
+
+
+NOTE: Debes registrar el dominio no confiable en la página *Configuración* > *Configuración global* > *Configuración del dominio*.
+
+
+
+ a| 
+Tipo
+ a| 
+Seleccione Usuario o Grupo
+
+
+NOTE: SnapCenter solo admite el grupo de seguridad y no el grupo de distribución.
+
+
+
+ a| 
+Nombre de usuario
+ a| 
+.. Escriba el nombre de usuario parcial y luego haga clic en *Agregar*.
++
+
+NOTE: El nombre de usuario distingue entre mayúsculas y minúsculas.
+
+.. Seleccione el nombre de usuario de la lista de búsqueda.
+
+
+
+NOTE: Cuando agrega usuarios de un dominio diferente o de un dominio que no es de confianza, debe escribir el nombre de usuario completo porque no hay una lista de búsqueda para usuarios de dominios cruzados.
+
+Repita este paso para agregar usuarios o grupos adicionales al rol seleccionado.
+
+
+
+ a| 
+Roles
+ a| 
+Seleccione el rol al que desea agregar el usuario.
+
+|===
+. Haga clic en *Asignar* y, a continuación, en la página Asignar activos:
++
+.. Seleccione el tipo de activo de la lista desplegable *Activo*.
+.. En la tabla Activos, seleccione el activo.
++
+Los activos se enumeran solo si el usuario los ha agregado a SnapCenter.
+
+.. Repita este procedimiento para todos los activos necesarios.
+.. Haga clic en *Guardar*.
+
+
+. Haga clic en *Enviar*.
++
+Después de agregar usuarios o grupos y asignar roles, actualice la lista de recursos.
+
+

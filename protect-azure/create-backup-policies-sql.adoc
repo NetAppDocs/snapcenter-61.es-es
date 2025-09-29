@@ -1,0 +1,71 @@
+---
+permalink: protect-azure/create-backup-policies-sql.html 
+sidebar: sidebar 
+keywords: create policies, sql, backup policies 
+summary: Cree una política de respaldo para el recurso o grupo de recursos que desea respaldar. 
+---
+= Crear políticas de respaldo para bases de datos de SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede crear una política de respaldo para el recurso o el grupo de recursos antes de usar SnapCenter para realizar un respaldo de los recursos de SQL Server, o puede crear una política de respaldo en el momento en que crea un grupo de recursos o realiza un respaldo de un solo recurso.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Políticas*.
+. Haga clic en *Nuevo*.
+. En la página Nombre, ingrese el nombre de la política y la descripción.
+. En la página Tipo de política, realice los siguientes pasos:
++
+.. Seleccione * Azure NetApp Files* como tipo de almacenamiento.
+.. Seleccione el tipo de copia de seguridad.
++
+... Seleccione *Copia de seguridad completa y copia de seguridad de registros* si desea realizar una copia de seguridad de los archivos de base de datos y de los registros de transacciones.
+... Seleccione *Copia de seguridad completa* si desea realizar una copia de seguridad sólo de los archivos de la base de datos.
+... Seleccione *Copia de seguridad del registro* si desea realizar una copia de seguridad solo de los registros de transacciones.
+... Seleccione *Copiar solo copia de seguridad* si desea realizar una copia de seguridad de sus recursos mediante otra aplicación.
+
+
+.. En la sección Configuración del grupo de disponibilidad, realice las siguientes acciones:
++
+... Seleccione Realizar copia de seguridad en la réplica de copia de seguridad preferida si desea realizar una copia de seguridad solo en la réplica.
+... Seleccione la réplica de AG principal o la réplica de AG secundaria para la copia de seguridad.
+... Seleccione la prioridad de la copia de seguridad.
+
+
+
+
+. En la página Instantánea y copia de seguridad, realice los siguientes pasos:
++
+.. Seleccione la frecuencia de la copia de seguridad programada.
+.. Especifique la configuración de retención según el tipo de copia de seguridad seleccionado.
+.. Si desea habilitar la copia de seguridad de Azure NetApp Files , seleccione *Habilitar copia de seguridad* y especifique la configuración de retención.
+
+
+. En la página de Verificación, realice los siguientes pasos:
++
+.. En la sección Ejecutar verificación para las siguientes programaciones de copias de seguridad, seleccione la frecuencia de la programación.
+.. En la sección Opciones de verificación de consistencia de la base de datos, realice las siguientes acciones:
++
+... Seleccione *Limitar la estructura de integridad a la estructura física de la base de datos (PHYSICAL_ONLY)* para limitar la verificación de integridad a la estructura física de la base de datos y detectar páginas rotas, fallas de suma de comprobación y fallas de hardware comunes que afectan la base de datos.
+... Seleccione *Suprimir todos los mensajes de información (NO_INFOMSGS)* para suprimir todos los mensajes informativos.
++
+Seleccionado por defecto.
+
+... Seleccione *Mostrar todos los mensajes de error informados por objeto (ALL_ERRORMSGS)* para mostrar todos los errores informados por objeto.
+... Seleccione *No comprobar índices no agrupados (NOINDEX)* si no desea comprobar índices no agrupados.
++
+La base de datos de SQL Server utiliza el Comprobador de consistencia de base de datos de Microsoft SQL Server (DBCC) para comprobar la integridad lógica y física de los objetos de la base de datos.
+
+... Seleccione *Limitar las comprobaciones y obtener los bloqueos en lugar de utilizar una copia de instantánea de base de datos interna (TABLOCK)* para limitar las comprobaciones y obtener bloqueos en lugar de utilizar una copia de instantánea de base de datos interna.
+
+
+.. En la sección *Copia de seguridad del registro*, seleccione *Verificar copia de seguridad del registro al finalizar* para verificar la copia de seguridad del registro al finalizar.
+.. En la sección *Configuración del script de verificación*, ingrese la ruta y los argumentos del prescript o postscript que deben ejecutarse antes o después de la operación de verificación, respectivamente.
+
+
+. Revise el resumen y haga clic en *Finalizar*.
+

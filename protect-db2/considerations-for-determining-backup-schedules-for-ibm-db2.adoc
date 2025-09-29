@@ -1,0 +1,26 @@
+---
+permalink: protect-db2/considerations-for-determining-backup-schedules-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: 'El factor más crítico para determinar un cronograma de respaldo es la tasa de cambio del recurso.  Es posible que hagas una copia de seguridad de un recurso muy utilizado cada hora, mientras que es posible que hagas una copia de seguridad de un recurso poco utilizado una vez al día.  Otros factores incluyen la importancia del recurso para su organización, su acuerdo de nivel de servicio (SLA) y su objetivo de punto de recuperación (RPO).' 
+---
+= Consideraciones para determinar las programaciones de copias de seguridad para IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El factor más crítico para determinar un cronograma de respaldo es la tasa de cambio del recurso.  Es posible que hagas una copia de seguridad de un recurso muy utilizado cada hora, mientras que es posible que hagas una copia de seguridad de un recurso poco utilizado una vez al día.  Otros factores incluyen la importancia del recurso para su organización, su acuerdo de nivel de servicio (SLA) y su objetivo de punto de recuperación (RPO).
+
+Los programas de respaldo constan de dos partes, como se indica a continuación:
+
+* Frecuencia de copia de seguridad (con qué frecuencia se deben realizar las copias de seguridad)
++
+La frecuencia de copia de seguridad, también llamada tipo de programación para algunos complementos, es parte de una configuración de política.  Por ejemplo, puede configurar la frecuencia de la copia de seguridad como horaria, diaria, semanal o mensual.
+
+* Programaciones de copias de seguridad (cuándo exactamente se realizarán las copias de seguridad)
++
+Las programaciones de copias de seguridad son parte de la configuración de un recurso o de un grupo de recursos.  Por ejemplo, si tiene un grupo de recursos que tiene una política configurada para copias de seguridad semanales, puede configurar la programación para realizar copias de seguridad todos los jueves a las 10:00 p. m.
+
+

@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/concept_sql_server_recovery_models_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Se asignan modelos de recuperación específicos a cada tipo de base de datos de forma predeterminada.  El administrador de la base de datos de SQL Server puede reasignar cada base de datos a un modelo de recuperación diferente. 
+---
+= Modelos de recuperación de SQL Server compatibles con SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se asignan modelos de recuperación específicos a cada tipo de base de datos de forma predeterminada.  El administrador de la base de datos de SQL Server puede reasignar cada base de datos a un modelo de recuperación diferente.
+
+SnapCenter admite tres tipos de modelos de recuperación de SQL Server:
+
+* Modelo de recuperación simple
++
+Cuando utiliza el modelo de recuperación simple, no puede realizar copias de seguridad de los registros de transacciones.
+
+* Modelo de recuperación completa
++
+Cuando utiliza el modelo de recuperación completa, puede restaurar una base de datos a su estado anterior desde el punto de falla.
+
+* Modelo de recuperación de registros masivos
++
+Cuando utiliza el modelo de recuperación de registro masivo, debe volver a ejecutar manualmente la operación de registro masivo.  Debe realizar la operación de registro masivo si no se ha realizado una copia de seguridad del registro de transacciones que contiene el registro de confirmación de la operación antes de la restauración.  Si la operación de registro masivo inserta 10 millones de filas en una base de datos, y la base de datos falla antes de que se realice una copia de seguridad del registro de transacciones, la base de datos restaurada no contendrá las filas que se insertaron mediante la operación de registro masivo.
+
+

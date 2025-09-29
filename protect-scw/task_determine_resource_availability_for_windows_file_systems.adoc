@@ -1,0 +1,32 @@
+---
+permalink: protect-scw/task_determine_resource_availability_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: availability 
+summary: Los recursos son los LUN y componentes similares en su sistema de archivos que son mantenidos por los complementos que ha instalado.  Puede agregar esos recursos a grupos de recursos para poder realizar trabajos de protección de datos en múltiples recursos, pero primero debe identificar qué recursos tiene disponibles.  Al descubrir los recursos disponibles también se verifica que la instalación del complemento se haya completado correctamente. 
+---
+= Determinar la disponibilidad de recursos para los sistemas de archivos de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los recursos son los LUN y componentes similares en su sistema de archivos que son mantenidos por los complementos que ha instalado.  Puede agregar esos recursos a grupos de recursos para poder realizar trabajos de protección de datos en múltiples recursos, pero primero debe identificar qué recursos tiene disponibles.  Al descubrir los recursos disponibles también se verifica que la instalación del complemento se haya completado correctamente.
+
+.Antes de empezar
+* Ya debe haber completado tareas como instalar SnapCenter Server, agregar hosts, crear conexiones de máquinas virtuales de almacenamiento (SVM) y agregar credenciales.
+* Si los archivos residen en LUN o VMDK de VMware RDM, debe implementar el SnapCenter Plug-in for VMware vSphere y registrar el complemento con SnapCenter. Para obtener más información, consulte  https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["Documentación del SnapCenter Plug-in for VMware vSphere"^] .
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Sistemas de archivos* de la lista.
+. Seleccione el host para filtrar la lista de recursos y luego haga clic en *Actualizar recursos*.
++
+Los sistemas de archivos recientemente agregados, renombrados o eliminados se actualizan en el inventario de SnapCenter Server.
+
++
+
+IMPORTANT: Debe actualizar los recursos si se cambia el nombre de las bases de datos fuera de SnapCenter.
+
+

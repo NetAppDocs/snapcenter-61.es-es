@@ -1,0 +1,43 @@
+---
+permalink: protect-sco/backup_types.html 
+sidebar: sidebar 
+keywords: backup type, preferred nodes, catalog backups, schedules, backup name format, retention, verification 
+summary: Tipos de copia de seguridad compatibles con las bases de datos Oracle. 
+---
+= Tipos de copia de seguridad compatibles con las bases de datos Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El tipo de copia de seguridad especifica el tipo de copia de seguridad que desea crear.  SnapCenter admite tipos de copias de seguridad en línea y fuera de línea para bases de datos Oracle.
+
+
+
+== Copia de seguridad en línea
+
+Una copia de seguridad que se crea cuando la base de datos está en estado en línea se denomina copia de seguridad en línea.  También llamada copia de seguridad en caliente, una copia de seguridad en línea le permite crear una copia de seguridad de la base de datos sin apagarla.
+
+Como parte de la copia de seguridad en línea, puede crear una copia de seguridad de los siguientes archivos:
+
+* Solo archivos de datos y archivos de control
+* Solo archivar archivos de registro (la base de datos no pasa al modo de copia de seguridad en este escenario)
+* Base de datos completa que incluye archivos de datos, archivos de control y archivos de registro de archivo
+
+
+
+
+== Copia de seguridad sin conexión
+
+Una copia de seguridad creada cuando la base de datos está en un estado montado o apagado se denomina copia de seguridad sin conexión.  Una copia de seguridad fuera de línea también se denomina copia de seguridad en frío.  Puede incluir únicamente archivos de datos y archivos de control en las copias de seguridad sin conexión.  Puede crear una copia de seguridad de montaje sin conexión o de apagado sin conexión.
+
+* Al crear una copia de seguridad de montaje sin conexión, debe asegurarse de que la base de datos esté en un estado montado.
++
+Si la base de datos está en cualquier otro estado, la operación de copia de seguridad falla.
+
+* Al crear una copia de seguridad de apagado sin conexión, la base de datos puede estar en cualquier estado.
++
+El estado de la base de datos se cambia al estado requerido para crear una copia de seguridad.  Después de crear la copia de seguridad, el estado de la base de datos vuelve al estado original.
+
+

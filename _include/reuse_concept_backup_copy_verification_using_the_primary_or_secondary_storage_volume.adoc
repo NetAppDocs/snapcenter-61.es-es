@@ -1,0 +1,9 @@
+= 
+:allow-uri-read: 
+
+
+Puede verificar copias de seguridad en el volumen de almacenamiento principal o en el volumen de almacenamiento secundario SnapMirror o SnapVault .  La verificación mediante un volumen de almacenamiento secundario reduce la carga en el volumen de almacenamiento primario.
+
+Cuando se verifica una copia de seguridad que se encuentra en el volumen de almacenamiento primario o secundario, todas las instantáneas primarias y secundarias se marcan como verificadas.
+
+Se requiere la licencia de SnapRestore para verificar copias de respaldo en el volumen de almacenamiento secundario SnapMirror y SnapVault .

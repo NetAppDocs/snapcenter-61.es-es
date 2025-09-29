@@ -1,0 +1,212 @@
+---
+permalink: protect-hana/task_create_resource_groups_and_attach_policies.html 
+sidebar: sidebar 
+keywords: resource groups, attach policies, snapcenter 
+summary: Un grupo de recursos es el contenedor al que debe agregar los recursos que desea respaldar y proteger.  Un grupo de recursos le permite realizar copias de seguridad de todos los datos asociados a una aplicación determinada simultáneamente.  Se requiere un grupo de recursos para cualquier trabajo de protección de datos.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar. 
+---
+= Crear grupos de recursos y adjuntar políticas
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un grupo de recursos es el contenedor al que debe agregar los recursos que desea respaldar y proteger.  Un grupo de recursos le permite realizar copias de seguridad de todos los datos asociados a una aplicación determinada simultáneamente.  Se requiere un grupo de recursos para cualquier trabajo de protección de datos.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar.
+
+.Acerca de esta tarea
+* Para crear copias de seguridad de replicación del sistema SAP HANA, se recomienda agregar todos los recursos del sistema SAP HANA en un grupo de recursos.  Esto garantiza una copia de seguridad sin problemas durante el modo de recuperación y toma de control.
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+* No se admite agregar nuevas bases de datos sin sincronización activa de SnapMirror a un grupo de recursos existente que contiene recursos con sincronización activa de SnapMirror .
+* No se admite agregar nuevas bases de datos a un grupo de recursos existente en el modo de conmutación por error de la sincronización activa de SnapMirror .  Puede agregar recursos al grupo de recursos solo en estado normal o de conmutación por recuperación.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, haga clic en *Nuevo grupo de recursos*.
+. En la página Nombre, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Nombre
+ a| 
+Introduzca un nombre para el grupo de recursos.
+
+
+NOTE: El nombre del grupo de recursos no debe exceder los 250 caracteres.
+
+
+
+ a| 
+Etiquetas
+ a| 
+Ingrese una o más etiquetas que le ayudarán a buscar posteriormente el grupo de recursos.
+
+Por ejemplo, si agrega RR.HH. como etiqueta a varios grupos de recursos, más tarde podrá encontrar todos los grupos de recursos asociados con la etiqueta RR.HH.
+
+
+
+ a| 
+Utilice un formato de nombre personalizado para la copia de instantáneas
+ a| 
+Seleccione esta casilla de verificación e ingrese el formato de nombre personalizado que desea utilizar para el nombre de la instantánea.
+
+Por ejemplo, customtext_resource group_policy_hostname o resource group_hostname.  De forma predeterminada, se agrega una marca de tiempo al nombre de la instantánea.
+
+|===
+. En la página Recursos, seleccione un nombre de host de la lista desplegable *Host* y un tipo de recurso de la lista desplegable *Tipo de recurso*.
++
+Esto ayuda a filtrar la información en la pantalla.
+
+. Seleccione los recursos de la sección *Recursos disponibles* y luego haga clic en la flecha derecha para moverlos a la sección *Recursos seleccionados*.
+. En la página Configuración de la aplicación, haga lo siguiente:
++
+.. Haga clic en la flecha *Copias de seguridad* para configurar opciones de copia de seguridad adicionales:
++
+Habilite la copia de seguridad del grupo de consistencia y realice las siguientes tareas:
+
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Dedique tiempo a esperar hasta que se complete la operación de instantánea del grupo de consistencia
+ a| 
+Seleccione *Urgente*, *Medio* o *Relajado* para especificar el tiempo de espera para que se complete la operación de Instantánea.
+
+Urgente = 5 segundos, Medio = 7 segundos y Relajado = 20 segundos.
+
+
+
+ a| 
+Deshabilitar la sincronización de WAFL
+ a| 
+Seleccione esta opción para evitar forzar un punto de consistencia WAFL .
+
+|===
++
+image:../media/application_settings.gif["configuración de la aplicación"]
+
+.. Haga clic en la flecha *Scripts* e ingrese los comandos pre y post para las operaciones de inactividad, instantánea y desactivación del modo inactivo.  También puede ingresar los comandos previos que se ejecutarán antes de salir en caso de falla.
+.. Haga clic en la flecha *Configuraciones personalizadas* e ingrese los pares clave-valor personalizados necesarios para todas las operaciones de protección de datos que utilicen este recurso.
++
+|===
+| Parámetro | Valor | Descripción 
+
+
+ a| 
+HABILITAR REGISTRO DE ARCHIVO
+ a| 
+(T/N)
+ a| 
+Permite que la gestión del registro de archivo elimine los registros de archivo.
+
+
+
+ a| 
+RETENCIÓN DE REGISTRO DE ARCHIVO
+ a| 
+número_de_días
+ a| 
+Especifica el número de días que se conservan los registros de archivo.
+
+Esta configuración debe ser igual o mayor que NTAP_SNAPSHOT_RETENTIONS.
+
+
+
+ a| 
+DIRECCIÓN DE REGISTRO DE ARCHIVO
+ a| 
+directorio_de_información_de_cambio/registros
+ a| 
+Especifica la ruta al directorio que contiene los registros de archivo.
+
+
+
+ a| 
+EXTRACCIÓN DEL REGISTRO DE ARCHIVO
+ a| 
+extensión_de_archivo
+ a| 
+Especifica la longitud de la extensión del archivo de registro de archivo.
+
+Por ejemplo, si el registro de archivo es log_backup_0_0_0_0.161518551942 9 y el valor de file_extension es 5, entonces la extensión del registro retendrá 5 dígitos, que es 16151.
+
+
+
+ a| 
+ARCHIVO_REGISTRO_BÚSQUEDA_RECURSIVA ARCH
+ a| 
+(T/N)
+ a| 
+Permite la gestión de registros de archivo dentro de subdirectorios.
+
+Debe utilizar este parámetro si los registros de archivo se encuentran en subdirectorios.
+
+|===
++
+
+NOTE: Los pares clave-valor personalizados son compatibles con los sistemas de complemento SAP HANA para Linux y no son compatibles con las bases de datos SAP HANA registradas como un complemento centralizado de Windows.
+
+.. Haga clic en la flecha *Herramienta de copia de instantáneas* para seleccionar la herramienta para crear instantáneas:
++
+|===
+| Si quieres... | Entonces... 
+
+
+ a| 
+SnapCenter para utilizar el complemento para Windows y poner el sistema de archivos en un estado consistente antes de crear una instantánea.  Para los recursos de Linux, esta opción no es aplicable.
+ a| 
+Seleccione * SnapCenter con consistencia del sistema de archivos*.
+
+Esta opción no es aplicable al complemento de SnapCenter para la base de datos SAP HANA.
+
+
+
+ a| 
+SnapCenter para crear una instantánea de nivel de almacenamiento
+ a| 
+Seleccione * SnapCenter sin consistencia del sistema de archivos*.
+
+
+
+ a| 
+Ingresar el comando que se ejecutará en el host para crear copias Snapshot.
+ a| 
+Seleccione *Otro* y luego ingrese el comando que se ejecutará en el host para crear una instantánea.
+
+|===
+
+
+. En la página Políticas, realice los siguientes pasos:
++
+.. Seleccione una o más políticas de la lista desplegable.
++
+
+NOTE: También puedes crear una política haciendo clic en *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] *.
+
++
+Las políticas se enumeran en la sección Configurar programaciones para políticas seleccionadas.
+
+.. En la columna Configurar horarios, haga clic en *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] * para la política que desea configurar.
+.. En el cuadro de diálogo Agregar programaciones para la política _policy_name_, configure la programación y luego haga clic en *Aceptar*.
++
+Donde, policy_name es el nombre de la política que ha seleccionado.
+
++
+Los horarios configurados se enumeran en la columna *Horarios aplicados*.
+
++
+Las programaciones de respaldo de terceros no son compatibles cuando se superponen con las programaciones de respaldo de SnapCenter .
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.  El servidor SMTP debe configurarse en *Configuración* > *Configuración global*.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+

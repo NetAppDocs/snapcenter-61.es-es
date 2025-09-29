@@ -1,0 +1,41 @@
+---
+permalink: protect-mysql/back-up-resource-groups-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: Un grupo de recursos es una colección de recursos en un host.  Se realiza una operación de copia de seguridad en el grupo de recursos en todos los recursos definidos en el grupo de recursos. 
+---
+= Realizar copias de seguridad de grupos de recursos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un grupo de recursos es una colección de recursos en un host.  Se realiza una operación de copia de seguridad en el grupo de recursos en todos los recursos definidos en el grupo de recursos.
+
+.Antes de empezar
+* Debe haber creado un grupo de recursos con una política adjunta.
+* Si desea realizar una copia de seguridad de un recurso que tiene una relación SnapMirror con un almacenamiento secundario, la función de ONTAP asignada al usuario de almacenamiento debe incluir el privilegio "`snapmirror all`".  Sin embargo, si está utilizando el rol "`vsadmin`", entonces no se requiere el privilegio "`snapmirror all`".
+
+
+.Acerca de esta tarea
+Puede realizar una copia de seguridad de un grupo de recursos a pedido desde la página Recursos.  Si un grupo de recursos tiene una política adjunta y una programación configurada, las copias de seguridad se realizan automáticamente según la programación.
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Grupo de recursos* de la lista *Ver*.
++
+Puede buscar el grupo de recursos ingresando el nombre del grupo de recursos en el cuadro de búsqueda o seleccionandoimage:../media/filter_icon.gif["icono de filtro"] , y luego seleccionando la etiqueta.  Luego puedes seleccionarimage:../media/filter_icon.gif["icono de filtro"] para cerrar el panel de filtro.
+
+. En la página Grupos de recursos, seleccione el grupo de recursos que desea respaldar y luego seleccione *Hacer copia de seguridad ahora*.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si asoció varias políticas al grupo de recursos, en la lista desplegable *Política*, seleccione la política que desea utilizar para la copia de seguridad.
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
+.. Seleccione *Copia de seguridad*.
+
+
+. Supervise el progreso de la operación seleccionando *Monitor* > *Trabajos*.
+

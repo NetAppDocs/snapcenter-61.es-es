@@ -1,0 +1,130 @@
+---
+permalink: protect-sco/task_restore_and_recover_pluggable_database_using_point_in_time_recovery.html 
+sidebar: sidebar 
+keywords: PDB, pluggable database, restore, CDB, PITR, point-in-time recovery, RMAN 
+summary: 'Puede restaurar y recuperar una base de datos conectable (PDB) que se haya dañado o eliminado sin afectar a las otras PDB en la base de datos contenedora (CDB).  SnapCenter utiliza RMAN para realizar la recuperación en un punto en el tiempo (PITR) del PDB.' 
+---
+= Restaurar y recuperar bases de datos conectables mediante recuperación en un punto determinado del tiempo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede restaurar y recuperar una base de datos conectable (PDB) que se haya dañado o eliminado sin afectar a las otras PDB en la base de datos contenedora (CDB).  SnapCenter utiliza RMAN para realizar la recuperación en un punto en el tiempo (PITR) del PDB.
+
+*Antes de empezar*
+
+* Las copias de seguridad que se requieren para realizar PITR de un PDB deben catalogarse y montarse.
++
+
+NOTE: En una configuración RAC, debe cerrar manualmente el PDB (cambiando el estado a MONTADO) en todos los nodos de la configuración RAC.
+
+* Si ha instalado el complemento como un usuario no root, debe asignar manualmente los permisos de ejecución a los directorios prescript y postscript.
+
+
+*Acerca de esta tarea*
+
+Durante la operación PITR, RMAN crea una instancia auxiliar en el destino auxiliar especificado.  El destino auxiliar podría ser un punto de montaje o un grupo de discos ASM.  Si hay suficiente espacio en la ubicación de montaje, puede reutilizar una de las ubicaciones de montaje en lugar de un punto de montaje dedicado.
+
+Debe especificar la fecha y la hora o SCN para realizar el PITR del PDB.  RMAN puede recuperar PDB de LECTURA, ESCRITURA, SÓLO LECTURA o descartados, incluidos archivos de datos.
+
+Puedes restaurar y recuperar únicamente:
+
+* un PDB a la vez
+* un espacio de tabla en un PDB
+* múltiples espacios de tabla del mismo PDB
+
+
+
+NOTE: En una configuración RAC, puede realizar PITR de espacios de tabla desde cualquier nodo del RAC.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista *Ver*.
+. Seleccione la base de datos de tipo instancia única (multiinquilino) ya sea desde la vista de detalles de la base de datos o desde la vista de detalles del grupo de recursos.
++
+Se muestra la página de topología de la base de datos.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* de los sistemas de almacenamiento primario o secundario (duplicado o reflejado).
++
+Si la copia de seguridad no está catalogada, debe seleccionar la copia de seguridad y hacer clic en *Catálogo*.
+
+. Seleccione la copia de seguridad catalogada y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
+. En la página Restaurar ámbito, realice las siguientes tareas:
++
+.. Si ha seleccionado una copia de seguridad de una base de datos en un entorno de Real Application Clusters (RAC), seleccione el nodo RAC.
+.. Dependiendo de si desea restaurar el PDB o los espacios de tabla en un PDB, realice una de las acciones:
++
+|===
+
+
+| Si quieres... | Pasos... 
+
+
+ a| 
+Restaurar un PDB
+ a| 
+... Seleccione *Bases de datos conectables (PDB)*.
+... Especifique el PDB que desea restaurar.
++
+
+NOTE: No se puede ejecutar PITR en la base de datos PDB$SEED.
+
+
+
+
+
+ a| 
+Restaurar espacios de tabla en un PDB
+ a| 
+... Seleccione *Espacios de tabla de bases de datos conectables (PDB)*.
+... Especifique el PDB.
+... Especifique un solo espacio de tabla o varios espacios de tabla que desee restaurar.
++
+
+NOTE: No se puede ejecutar PITR en los espacios de tabla SYSAUX, SYSTEM y UNDO.
+
+
+
+|===
+.. Seleccione *Cambiar el estado de la base de datos si es necesario para restaurar y recuperar* para cambiar el estado de la base de datos al estado requerido para realizar operaciones de restauración y recuperación.
+
+
+. En la página Ámbito de recuperación, realice una de las siguientes acciones:
++
+** Si desea recuperar un Número de cambio de sistema (SCN) específico, seleccione *Hasta SCN* y especifique el SCN y el destino auxiliar.
+** Si desea recuperar una fecha y hora específicas, seleccione *Fecha y hora* y especifique la fecha y la hora y el destino auxiliar.
++
+SnapCenter identifica y luego monta y cataloga la cantidad óptima de copias de seguridad de datos y registros necesarios para realizar PITR según el SCN especificado o la fecha y hora seleccionadas.
+
+
+
+. En la página PreOps, ingrese la ruta y los argumentos del script que desea ejecutar antes de la operación de restauración.
++
+Debes almacenar los scripts en la ruta /var/opt/snapcenter/spl/scripts o en cualquier carpeta dentro de esta ruta.  De forma predeterminada, se completa la ruta /var/opt/snapcenter/spl/scripts.  Si ha creado alguna carpeta dentro de esta ruta para almacenar los scripts, debe especificar esas carpetas en la ruta.
+
++
+También puede especificar el valor de tiempo de espera del script. El valor predeterminado es 60 segundos.
+
++
+SnapCenter le permite utilizar las variables de entorno predefinidas cuando ejecuta prescript y postscript.link:../protect-sco/predefined-environment-variables-prescript-postscript-restore.html["Más información"^]
+
+. En la página PostOps, realice los siguientes pasos:
++
+.. Introduzca la ruta y los argumentos del postscript que desea ejecutar después de la operación de restauración.
++
+
+NOTE: Si la operación de restauración falla, los postscripts no se ejecutarán y las actividades de limpieza se activarán directamente.
+
+.. Seleccione la casilla de verificación si desea abrir la base de datos después de la recuperación.
++
+En una configuración RAC, el PDB se abrirá solo en el nodo donde se recuperó la base de datos.  Debe abrir manualmente el PDB recuperado en todos los demás nodos de la configuración de RAC.
+
+
+
+. En la página Notificación, en la lista desplegable *Preferencia de correo electrónico*, seleccione los escenarios en los que desea enviar las notificaciones por correo electrónico.
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+

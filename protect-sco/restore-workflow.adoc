@@ -1,0 +1,18 @@
+---
+permalink: protect-sco/restore-workflow.html 
+sidebar: sidebar 
+keywords: restore, workflow 
+summary: El flujo de trabajo de restauración incluye la planificación, la ejecución de las operaciones de restauración y la supervisión de las operaciones. 
+---
+= Restaurar flujo de trabajo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El flujo de trabajo de restauración incluye la planificación, la ejecución de las operaciones de restauración y la supervisión de las operaciones.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar la operación de restauración:
+
+image::../media/all_plug_ins_restore_workflow.gif[flujo de trabajo de restauración de todos los complementos]

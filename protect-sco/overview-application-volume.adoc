@@ -1,0 +1,27 @@
+---
+permalink: protect-sco/overview-application-volume.html 
+sidebar: sidebar 
+keywords: application volume, overview, backup, non-data volumes 
+summary: Los volúmenes de aplicación son el almacenamiento donde se guarda la información relacionada con la base de datos Oracle. 
+---
+= ¿Qué son los volúmenes de aplicación?
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los volúmenes de aplicación son el almacenamiento donde se guarda información como configuración, instalador y otros archivos que no son datos relacionados con la base de datos de Oracle.
+
+El complemento SnapCenter para Oracle Database le permite crear copias de seguridad consistentes de los volúmenes de aplicaciones (volúmenes que no son de datos) junto con las bases de datos Oracle.
+
+El complemento automatiza la copia de seguridad y la clonación de volúmenes de aplicaciones.
+
+* Proteja los volúmenes de aplicaciones junto con los volúmenes de bases de datos de Oracle en un solo grupo de recursos.
+* Crear copias de seguridad de los volúmenes de aplicaciones.
+* Cree copias de seguridad de bases de datos de Oracle junto con volúmenes de aplicaciones.
+* Cree clones de bases de datos junto con volúmenes de aplicaciones hasta un punto en el tiempo.
+* Programar operaciones de respaldo.
+* Supervisar todas las operaciones.
+* Ver informes de operaciones de copia de seguridad y clonación.
+

@@ -1,0 +1,284 @@
+---
+permalink: protect-sco/task_create_backup_policies_for_oracle_database.html 
+sidebar: sidebar 
+keywords: backup policies, policies 
+summary: Antes de utilizar SnapCenter para realizar copias de seguridad de los recursos de base de datos de Oracle, debe crear una política de copia de seguridad para el recurso o el grupo de recursos que desea respaldar.  Una política de copias de seguridad es un conjunto de reglas que rigen cómo administrar, programar y conservar las copias de seguridad.  También puede especificar la configuración de replicación, script y tipo de copia de seguridad.  La creación de una política ahorra tiempo cuando desea reutilizarla en otro recurso o grupo de recursos. 
+---
+= Crear políticas de respaldo para bases de datos de Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de utilizar SnapCenter para realizar copias de seguridad de los recursos de base de datos de Oracle, debe crear una política de copia de seguridad para el recurso o el grupo de recursos que desea respaldar.  Una política de copias de seguridad es un conjunto de reglas que rigen cómo administrar, programar y conservar las copias de seguridad.  También puede especificar la configuración de replicación, script y tipo de copia de seguridad.  La creación de una política ahorra tiempo cuando desea reutilizarla en otro recurso o grupo de recursos.
+
+*Antes de empezar*
+
+* Debes haber definido tu estrategia de backup.
+* Debe estar preparado para la protección de datos completando tareas como instalar SnapCenter, agregar hosts, descubrir bases de datos y crear conexiones del sistema de almacenamiento.
+* Si está replicando instantáneas en un espejo o almacenamiento secundario de bóveda, el administrador de SnapCenter debe haberle asignado las SVM para los volúmenes de origen y destino.
+* Si ha instalado el complemento como un usuario no root, debe asignar manualmente los permisos de ejecución a los directorios prescript y postscript.
+* Revise los requisitos previos y las limitaciones específicos de la sincronización activa de SnapMirror . Para obtener información, consulte https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Límites de objetos para la sincronización activa de SnapMirror"] .
+
+
+.Acerca de esta tarea
+Si se selecciona la opción 'Conservar las copias de seguridad durante una cantidad específica de días', el período de retención de SnapLock debe ser menor o igual a los días de retención mencionados.
+
++ Especificar un período de bloqueo de instantáneas evita la eliminación de las instantáneas hasta que expire el período de retención. Esto podría llevar a retener una cantidad mayor de instantáneas que la cantidad especificada en la política.
+
++ Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Políticas*.
+. Seleccione *Oracle Database* de la lista desplegable.
+. Haga clic en *Nuevo*.
+. En la página Nombre, ingrese el nombre y los detalles de la política.
+. En la página Tipo de política, realice los siguientes pasos:
++
+.. Seleccione su tipo de almacenamiento.
+.. Seleccione el alcance de la política:
++
+*** Si desea *crear una copia de seguridad en línea*, seleccione *Copia de seguridad en línea*.
++
+Debe especificar si desea realizar una copia de seguridad de todos los archivos de datos, archivos de control y archivos de registro de archivo, solo de los archivos de datos y archivos de control, o solo de los archivos de registro de archivo.
+
+*** Si desea *crear una copia de seguridad sin conexión*, seleccione *Copia de seguridad sin conexión* y, a continuación, seleccione una de las siguientes opciones:
++
+**** Si desea crear una copia de seguridad sin conexión cuando la base de datos esté en estado montado, seleccione *Montar*.
+**** Si desea crear una copia de seguridad de apagado sin conexión cambiando la base de datos al estado de apagado, seleccione *Apagado*.
++
+Si tiene bases de datos conectables (PDB) y desea guardar el estado de las PDB antes de crear la copia de seguridad, debe seleccionar *Guardar estado de las PDB*.  Esto le permite llevar los PDB a su estado original después de crear la copia de seguridad.
+
+
+
+
+
+.. Si desea catalogar la copia de seguridad mediante Oracle Recovery Manager (RMAN), seleccione *Catalogar copia de seguridad con Oracle Recovery Manager (RMAN)*.
++
+Puede realizar la catalogación diferida para una copia de seguridad a la vez utilizando la GUI o el comando CLI de SnapCenter Catalog-SmBackupWithOracleRMAN.
+
++
+
+NOTE: Si desea catalogar copias de seguridad de una base de datos RAC, asegúrese de que no haya ningún otro trabajo en ejecución para esa base de datos.  Si se está ejecutando otro trabajo, la operación de catalogación falla en lugar de ponerse en cola.
+
+.. Si desea podar registros de archivo después de la copia de seguridad, seleccione *Podar registros de archivo después de la copia de seguridad*.
++
+
+NOTE: Se omitirá la poda de registros de archivo del destino de registro de archivo que no esté configurado en la base de datos.
+
++
+
+IMPORTANT: Si utiliza Oracle Standard Edition, puede utilizar los parámetros LOG_ARCHIVE_DEST y LOG_ARCHIVE_DUPLEX_DEST al realizar la copia de seguridad del registro de archivo.
+
++
+*** Puede eliminar registros de archivo solo si ha seleccionado los archivos de registro de archivo como parte de su copia de seguridad.
++
+
+NOTE: Debe asegurarse de que todos los nodos en un entorno RAC puedan acceder a todas las ubicaciones del registro de archivo para que la operación de eliminación sea exitosa.
+
++
+|===
+| Si quieres... | Entonces... 
+
+
+ a| 
+Eliminar todos los registros de archivo
+ a| 
+Seleccione *Eliminar todos los registros de archivo*.
+
+
+
+ a| 
+Eliminar registros de archivo que sean más antiguos
+ a| 
+Seleccione *Eliminar registros de archivo anteriores a* y, a continuación, especifique la antigüedad de los registros de archivo que se eliminarán en días y horas.
+
+
+
+ a| 
+Eliminar registros de archivo de todos los destinos
+ a| 
+Seleccione *Eliminar registros de archivo de todos los destinos*.
+
+
+
+ a| 
+Eliminar los registros de archivo de los destinos de registro que forman parte de la copia de seguridad
+ a| 
+Seleccione *Eliminar registros de archivo de los destinos que forman parte de la copia de seguridad*.
+
+|===
++
+image:../media/sco_backuppolicy_prunning.gif["política de poda"]
+
+
+
+
+
+. En la página Instantánea y replicación, realice los siguientes pasos:
++
+.. Especifique la frecuencia de programación seleccionando *A pedido*, *Cada hora*, *Diariamente*, *Semanalmente* o *Mensualmente*.
++
+
+NOTE: Puede especificar la programación (fecha de inicio y fecha de finalización) para la operación de copia de seguridad al crear un grupo de recursos.  Esto le permite crear grupos de recursos que comparten la misma política y frecuencia de respaldo, pero le permite asignar diferentes programas de respaldo a cada política.
+
++
+
+NOTE: Si lo ha programado para las 2:00 a. m., el cronograma no se activará durante el horario de verano (DST).
+
+.. En la sección Configuración de retención de instantáneas de datos, especifique la configuración de retención para el tipo de copia de seguridad y el tipo de programación seleccionados en la página Tipo de copia de seguridad:
++
+|===
+
+
+| Si quieres... | Entonces... 
+
+
+ a| 
+Mantenga una cierta cantidad de instantáneas
+ a| 
+Seleccione *Copias para conservar* y luego especifique la cantidad de instantáneas que desea conservar.
+
+Si el número de instantáneas excede el número especificado, las instantáneas se eliminan primero, comenzando por las copias más antiguas.
+
+
+NOTE: El valor máximo de retención es 1018. Las copias de seguridad fallarán si la retención se establece en un valor superior al que admite la versión subyacente de ONTAP .
+
+
+IMPORTANT: Debe establecer el recuento de retención en 2 o más si planea habilitar la replicación de SnapVault .  Si establece el recuento de retención en 1, la operación de retención puede fallar porque la primera instantánea es la instantánea de referencia para la relación SnapVault hasta que se replique una instantánea más nueva en el destino.
+
+
+
+ a| 
+Conservar las instantáneas durante un número determinado de días
+ a| 
+Seleccione *Conservar copias durante* y, a continuación, especifique la cantidad de días durante los cuales desea conservar las instantáneas antes de eliminarlas.
+
+
+
+ a| 
+Período de bloqueo de copia de instantánea
+ a| 
+Seleccione el *Período de bloqueo de copia de instantánea* y especifique la duración en días, meses o años.
+
+El período de retención de SnapLock debe ser inferior a 100 años.
+
+|===
+.. En la sección Configuración de retención de instantáneas del registro de archivo, especifique la configuración de retención para el tipo de copia de seguridad y el tipo de programación seleccionados en la página Tipo de copia de seguridad:
++
+|===
+
+
+| Si quieres... | Entonces... 
+
+
+ a| 
+Mantenga una cierta cantidad de instantáneas
+ a| 
+Seleccione *Copias para conservar* y luego especifique la cantidad de instantáneas que desea conservar.
+
+Si el número de instantáneas excede el número especificado, las instantáneas se eliminan primero, comenzando por las copias más antiguas.
+
+
+NOTE: El valor máximo de retención es 1018. Las copias de seguridad fallarán si la retención se establece en un valor superior al que admite la versión subyacente de ONTAP .
+
+
+IMPORTANT: Debe establecer el recuento de retención en 2 o más si planea habilitar la replicación de SnapVault .  Si establece el recuento de retención en 1, la operación de retención puede fallar porque la primera instantánea es la instantánea de referencia para la relación SnapVault hasta que se replique una instantánea más nueva en el destino.
+
+
+
+ a| 
+Conservar las instantáneas durante un número determinado de días
+ a| 
+Seleccione *Conservar copias durante* y, a continuación, especifique la cantidad de días durante los cuales desea conservar las instantáneas antes de eliminarlas.
+
+
+
+ a| 
+Período de bloqueo de copia de instantánea
+ a| 
+Seleccione el *Período de bloqueo de copia de instantánea* y especifique la duración en días, meses o años.
+
+El período de retención de SnapLock debe ser inferior a 100 años.
+
+|===
+.. Seleccione la etiqueta de la política.
++
+
+NOTE: Puede asignar etiquetas SnapMirror a instantáneas principales para replicación remota, lo que permite que las instantáneas principales descarguen la operación de replicación de instantáneas de SnapCenter a los sistemas secundarios de ONTAP . Esto se puede hacer sin habilitar la opción SnapMirror o SnapVault en la página de políticas.
+
+
+
+. En la sección Seleccionar opciones de replicación secundaria, seleccione una o ambas de las siguientes opciones de replicación secundaria:
++
+
+NOTE: Debe seleccionar las opciones de replicación secundaria para que el *Período de bloqueo de copia de instantánea secundaria* sea efectivo.
+
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Actualizar SnapMirror después de crear una instantánea local
+ a| 
+Seleccione este campo para crear copias reflejadas de los conjuntos de copias de seguridad en otro volumen (replicación SnapMirror ).
+
+Esta opción debe estar habilitada para la sincronización activa de SnapMirror .
+
+Durante la replicación secundaria, el tiempo de expiración de SnapLock carga el tiempo de expiración de SnapLock principal.
+
+Al hacer clic en el botón *Actualizar* en la página Topología, se actualiza el tiempo de vencimiento de SnapLock primario y secundario que se recuperan de ONTAP.
+
+
+
+ a| 
+Actualizar SnapVault después de crear una instantánea local
+ a| 
+Seleccione esta opción para realizar la replicación de copia de seguridad de disco a disco (copias de seguridad de SnapVault ).
+
+Cuando SnapLock está configurado solo en el secundario de ONTAP conocido como SnapLock Vault, al hacer clic en el botón *Actualizar* en la página Topología se actualiza el período de bloqueo en el secundario que se recupera de ONTAP.
+
+Para obtener más información sobre SnapLock Vault, consulte https://docs.netapp.com/us-en/ontap/snaplock/commit-snapshot-copies-worm-concept.html["Confirmar copias de instantáneas en WORM en un destino de bóveda"]
+
+Ver link:../protect-sco/task_view_oracle_databse_backups_and_clones_in_the_topology_page.html["Ver copias de seguridad y clones de bases de datos de Oracle en la página Topología"] .
+
+
+
+ a| 
+Recuento de reintentos de error
+ a| 
+Introduzca el número máximo de intentos de replicación que se pueden permitir antes de que se detenga la operación.
+
+|===
++
+
+NOTE: Debe configurar la política de retención de SnapMirror en ONTAP para el almacenamiento secundario para evitar alcanzar el límite máximo de instantáneas en el almacenamiento secundario.
+
+. En la página Script, ingrese la ruta y los argumentos del prescript o postscript que desea ejecutar antes o después de la operación de respaldo, respectivamente.
++
+Debes almacenar los prescripts y posscripts en _/var/opt/snapcenter/spl/scripts_ o en cualquier carpeta dentro de esta ruta.  De forma predeterminada, se completa la ruta _/var/opt/snapcenter/spl/scripts_.  Si ha creado alguna carpeta dentro de esta ruta para almacenar los scripts, debe especificar esas carpetas en la ruta.
+
++
+También puede especificar el valor de tiempo de espera del script. El valor predeterminado es 60 segundos.
+
++
+SnapCenter le permite utilizar las variables de entorno predefinidas cuando ejecuta prescript y postscript.link:../protect-sco/predefined-environment-variables-prescript-postscript-backup.html["Más información"^]
+
+. En la página de Verificación, realice los siguientes pasos:
++
+.. Seleccione la programación de copia de seguridad para la que desea realizar la operación de verificación.
+.. En la sección Comandos de script de verificación, ingrese la ruta y los argumentos del script prescript o postscript que desea ejecutar antes o después de la operación de verificación, respectivamente.
++
+Debes almacenar los prescripts y posscripts en _/var/opt/snapcenter/spl/scripts_ o en cualquier carpeta dentro de esta ruta.  De forma predeterminada, se completa la ruta _/var/opt/snapcenter/spl/scripts_.  Si ha creado alguna carpeta dentro de esta ruta para almacenar los scripts, debe especificar esas carpetas en la ruta.
+
++
+También puede especificar el valor de tiempo de espera del script. El valor predeterminado es 60 segundos.
+
+
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+

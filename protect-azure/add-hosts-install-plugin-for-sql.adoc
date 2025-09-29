@@ -1,0 +1,39 @@
+---
+permalink: protect-azure/add-hosts-install-plugin-for-sql.html 
+sidebar: sidebar 
+keywords: add host, install, install plug-in, SQL 
+summary: Agregue hosts y luego instale los paquetes de complementos. 
+---
+= Agregar hosts e instalar el complemento de SnapCenter para la base de datos de SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter admite la protección de datos de instancias de SQL en recursos compartidos SMB en Azure NetApp Files.  Se admiten configuraciones independientes y de grupo de disponibilidad (AG).
+
+Debe utilizar la página Agregar host de SnapCenter para agregar hosts y luego instalar el paquete de complementos.  Los complementos se instalan automáticamente en los hosts remotos.
+
+.Antes de empezar
+* Debe ser un usuario asignado a un rol que tenga permisos de instalación y desinstalación de complementos, como el rol de administrador de SnapCenter .
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.
+
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Hosts*.
+. Verifique que la pestaña *Hosts administrados* esté seleccionada en la parte superior.
+. Seleccione *Agregar*.
+. En la página Hosts haga lo siguiente:
++
+.. En el campo Tipo de host, seleccione el tipo de host.
+.. En el campo Nombre de host, ingrese el nombre de dominio completo (FQDN) o la dirección IP del host.
+.. En el campo Credenciales, ingrese la credencial que creó.
+
+
+. En la sección *Seleccionar complementos para instalar*, seleccione los complementos que desea instalar.
+. (Opcional) Haga clic en *Más opciones* y especifique los detalles.
+. Seleccione *Enviar*.
+. Seleccione *Configurar directorio de registro* y en la página Configurar directorio de registro del host, ingrese la ruta SMB del directorio de registro del host y haga clic en *Guardar*.
+. Haga clic en *Enviar* y supervise el progreso de la instalación.
+

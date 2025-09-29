@@ -1,0 +1,72 @@
+---
+section: protect-azure
+title: Proteger las aplicaciones que se ejecutan en Azure NetApp Files
+entries:
+- title: Proteger las aplicaciones que se ejecutan en Azure NetApp Files
+  url: "/protect-azure/protect-applications-azure-netapp-files.html"
+- title: Instalar SnapCenter y crear credenciales
+  entries:
+  - title: Instalar SnapCenter en una máquina virtual de Azure
+    url: "/protect-azure/install-snapcenter-azure-virtual-machine.html"
+  - title: Crear la credencial de Azure en SnapCenter
+    url: "/protect-azure/create-azure-credential.html"
+  - title: Configurar la cuenta de almacenamiento de Azure
+    url: "/protect-azure/configure-azure-storage-account.html"
+  - title: Cree las credenciales para agregar el host del complemento
+    url: "/protect-azure/create-credential-add-plugin-host.html"
+- title: Proteger las bases de datos de SAP HANA
+  entries:
+  - title: Agregar hosts e instalar el complemento de SnapCenter para la base de datos
+      SAP HANA
+    url: "/protect-azure/add-hosts-install-plugin-for-sap-hana.html"
+  - title: Agregar base de datos SAP HANA
+    url: "/protect-azure/add-sap-hana-database.html"
+  - title: Crear políticas de respaldo para bases de datos de SAP HANA
+    url: "/protect-azure/create-backup-policies-sap-hana.html"
+  - title: Cree grupos de recursos y adjunte políticas de respaldo de SAP HANA
+    url: "/protect-azure/create-resource-groups-attach-sap-hana-backup-policies.html"
+  - title: Realice una copia de seguridad de las bases de datos de SAP HANA que se
+      ejecutan en Azure NetApp Files
+    url: "/protect-azure/backup-sap-hana-databases.html"
+  - title: Realizar copias de seguridad de los grupos de recursos de SAP HANA
+    url: "/protect-azure/backup-sap-hana-resource-groups.html"
+  - title: Restaurar y recuperar bases de datos de SAP HANA
+    url: "/protect-azure/restore-recover-sap-hana-backups.html"
+  - title: Clonar copia de seguridad de la base de datos de SAP HANA
+    url: "/protect-azure/clone-sap-hana-database-backups.html"
+- title: Proteger las bases de datos de Microsoft SQL Server
+  entries:
+  - title: Agregar hosts e instalar el complemento de SnapCenter para la base de datos
+      de SQL Server
+    url: "/protect-azure/add-hosts-install-plugin-for-sql.html"
+  - title: Crear políticas de respaldo para bases de datos de SQL Server
+    url: "/protect-azure/create-backup-policies-sql.html"
+  - title: Crear grupos de recursos y adjuntar políticas de respaldo de SQL
+    url: "/protect-azure/create-resource-groups-attach-sql-backup-policies.html"
+  - title: Realizar copias de seguridad de bases de datos de SQL Server que se ejecutan
+      en Azure NetApp Files
+    url: "/protect-azure/backup-sql-server-databases.html"
+  - title: Realizar copias de seguridad de grupos de recursos de SQL Server
+    url: "/protect-azure/backup-sql-resource-groups.html"
+  - title: Restaurar y recuperar bases de datos de SQL Server
+    url: "/protect-azure/restore-recover-sql-backups.html"
+  - title: Copia de seguridad de la base de datos de clonación de SQL Server
+    url: "/protect-azure/clone-sql-database-backups.html"
+- title: Proteger las bases de datos de Oracle
+  entries:
+  - title: Agregar hosts e instalar el complemento SnapCenter para la base de datos
+      Oracle
+    url: "/protect-azure/add-hosts-install-plugin-for-oracle.html"
+  - title: Crear políticas de respaldo para bases de datos de Oracle
+    url: "/protect-azure/create-backup-policies-oracle.html"
+  - title: Crear grupos de recursos y adjuntar políticas de respaldo de Oracle
+    url: "/protect-azure/create-resource-groups-attach-oracle-backup-policies.html"
+  - title: Realizar copias de seguridad de bases de datos de Oracle que se ejecutan
+      en Azure NetApp Files
+    url: "/protect-azure/backup-oracle-databases.html"
+  - title: Realizar copias de seguridad de grupos de recursos de Oracle
+    url: "/protect-azure/backup-oracle-resource-groups.html"
+  - title: Restaurar y recuperar bases de datos Oracle
+    url: "/protect-azure/restore-recover-oracle-backups.html"
+  - title: Copia de seguridad de la base de datos Clonar Oracle
+    url: "/protect-azure/clone-oracle-database-backups.html"

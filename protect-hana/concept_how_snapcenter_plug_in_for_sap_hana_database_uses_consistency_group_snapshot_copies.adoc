@@ -1,0 +1,16 @@
+---
+permalink: protect-hana/concept_how_snapcenter_plug_in_for_sap_hana_database_uses_consistency_group_snapshot_copies.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Puede utilizar el complemento para crear instantáneas de grupos de consistencia para grupos de recursos.  Un grupo de consistencia es un contenedor que puede albergar múltiples volúmenes para que puedas administrarlos como una sola entidad.  Un grupo de consistencia son instantáneas simultáneas de múltiples volúmenes, que proporcionan copias consistentes de un grupo de volúmenes. 
+---
+= Cómo el complemento SnapCenter para la base de datos SAP HANA utiliza instantáneas del grupo de consistencia
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar el complemento para crear instantáneas de grupos de consistencia para grupos de recursos.  Un grupo de consistencia es un contenedor que puede albergar múltiples volúmenes para que puedas administrarlos como una sola entidad.  Un grupo de consistencia son instantáneas simultáneas de múltiples volúmenes, que proporcionan copias consistentes de un grupo de volúmenes.
+
+También puede especificar el tiempo de espera para que el controlador de almacenamiento agrupe las instantáneas de manera consistente.  Las opciones de tiempo de espera disponibles son *Urgente*, *Medio* y *Relajado*.  También puede habilitar o deshabilitar la sincronización del diseño de archivo Write Anywhere (WAFL) durante la operación de instantánea de grupo consistente.  La sincronización de WAFL mejora el rendimiento de una instantánea de grupo de consistencia.

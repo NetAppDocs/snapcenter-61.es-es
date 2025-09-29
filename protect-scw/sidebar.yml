@@ -1,0 +1,111 @@
+---
+section: protect-scw
+title: Proteger los sistemas de archivos de Windows
+entries:
+- title: Conceptos del complemento SnapCenter para Microsoft Windows
+  entries:
+  - title: Descripción general del complemento SnapCenter para Microsoft Windows
+    url: "/protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html"
+  - title: Qué puede hacer con el complemento SnapCenter para Microsoft Windows
+    url: "/protect-scw/reference_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: Características del complemento SnapCenter para Windows
+    url: "/protect-scw/concept_snapcenter_plug_in_for_windows_features.html"
+  - title: Cómo SnapCenter realiza copias de seguridad de los sistemas de archivos
+      de Windows
+    url: "/protect-scw/concept_how_snapcenter_backs_up_windows_file_systems.html"
+  - title: Tipos de almacenamiento compatibles con el complemento SnapCenter para
+      Microsoft Windows
+    url: "/protect-scw/reference_storage_types_supported_by_snapcenter_plug_ins_for_microsoft_windows.html"
+  - title: Privilegios mínimos de ONTAP necesarios para el complemento de Windows
+    url: "/protect-scw/reference_minimum_ontap_privileges_required_for_windows_plug_in.html"
+  - title: Preparar sistemas de almacenamiento para la replicación de SnapMirror y
+      SnapVault
+    url: "/protect-scw/reference_prepare_storage_system_for_snapmirror_and_snapvault.html"
+  - title: Definir una estrategia de respaldo para los sistemas de archivos de Windows
+    url: "/protect-scw/task_define_a_backup_strategy_for_windows_file_systems.html"
+  - title: Orígenes y destinos de clones para sistemas de archivos de Windows
+    url: "/protect-scw/reference_sources_and_destinations_of_clones_for_windows_file_systems.html"
+- title: Instalar el complemento SnapCenter para Microsoft Windows
+  entries:
+  - title: Flujo de trabajo de instalación del complemento SnapCenter para Microsoft
+      Windows
+    url: "/protect-scw/concept_install_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: Requisitos de instalación del complemento SnapCenter para Microsoft Windows
+    url: "/protect-scw/reference_installation_requirements_for_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: Agregar hosts e instalar el complemento SnapCenter para Microsoft Windows
+    url: "/protect-scw/task_add_hosts_and_install_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: Instalar el complemento SnapCenter para Microsoft Windows en varios hosts
+      remotos mediante cmdlets de PowerShell
+    url: "/protect-scw/task_install_on_multiple_remote_hosts_using_powershell_cmdlets.html"
+  - title: Instale el complemento SnapCenter para Microsoft Windows de forma silenciosa
+      desde la línea de comandos
+    url: "/protect-scw/task_install_the_snapcenter_plug_in_for_windows_silently_from_the_command_line.html"
+  - title: Supervisar el estado de instalación del paquete de complementos de SnapCenter
+    url: "/protect-scw/task_monitor_snapcenter_plug_in_package_installation_status.html"
+  - title: Configurar el certificado de CA
+    entries:
+    - title: Generar archivo CSR de certificado de CA
+      url: "/protect-scw/reference_generate_CA_certificate_CSR_file.html"
+    - title: Importar certificados de CA
+      url: "/protect-scw/task_import_CA_certificates.html"
+    - title: Obtenga la huella digital del certificado CA
+      url: "/protect-scw/task_get_the_CA_certificate_thumbprint.html"
+    - title: Configurar el certificado de CA con los servicios del complemento de
+        host de Windows
+      url: "/protect-scw/task_configure_CA_certificate_with_Windows_host_plug-in_services.html"
+    - title: Habilitar certificados CA para complementos
+      url: "/protect-scw/task_enable_ca_certificates_for_plug-ins.html"
+- title: Instalar el SnapCenter Plug-in for VMware vSphere
+  url: "/protect-scw/task_install_snapcenter_plug_in_for_vmware_vsphere.html"
+- title: Realizar copias de seguridad de los sistemas de archivos de Windows
+  entries:
+  - title: Flujo de trabajo de respaldo
+    url: "/protect-scw/reference_back_up_windows_file_systems.html"
+  - title: Determinar la disponibilidad de recursos para los sistemas de archivos
+      de Windows
+    url: "/protect-scw/task_determine_resource_availability_for_windows_file_systems.html"
+  - title: Crear políticas de respaldo para sistemas de archivos de Windows
+    url: "/protect-scw/task_create_backup_policies_for_windows_file_systems.html"
+  - title: Crear grupos de recursos para sistemas de archivos de Windows
+    url: "/protect-scw/task_create_resource_groups_for_windows_file_systems.html"
+  - title: Cree grupos de recursos y habilite la protección secundaria para los sistemas
+      de archivos de Windows en sistemas ASA r2
+    url: "/protect-scw/create-resource-groups-secondary-protection-for-asa-r2-windows-file-systems.html"
+  - title: Cree una conexión al sistema de almacenamiento y una credencial mediante
+      cmdlets de PowerShell
+    url: "/protect-scw/task_create_a_storage_system_connection_and_a_credential_using_powershell_cmdlets_for_windows.html"
+  - title: Realice una copia de seguridad de un único recurso a pedido para los sistemas
+      de archivos de Windows
+    url: "/protect-scw/task_back_up_a_single_resource_on_demand_for_windows_file_systems.html"
+  - title: Realizar copias de seguridad de grupos de recursos para sistemas de archivos
+      de Windows
+    url: "/protect-scw/task_back_up_resource_groups_for_windows_file_systems.html"
+  - title: Supervisar las operaciones de copia de seguridad
+    url: "/protect-scw/task_monitor_backup_operations.html"
+  - title: Cancelar las operaciones de copia de seguridad
+    url: "/protect-scw/task_cancel_backup_operations_for_windows_file_system.html"
+  - title: Ver copias de seguridad y clones relacionados en la página Topología
+    url: "/protect-scw/task_view_related_backups_and_clones_in_the_topology_page.html"
+  - title: Limpiar el recuento de copias de seguridad secundarias mediante cmdlets
+      de PowerShell
+    url: "/protect-scw/task_clean_up_the_secondary_backup_count_using_powershell_cmdlets_for_windows.html"
+- title: Restaurar sistemas de archivos de Windows
+  entries:
+  - title: Restaurar copias de seguridad del sistema de archivos de Windows
+    url: "/protect-scw/task_restore_windows_file_system_backups.html"
+  - title: Restaurar recursos mediante cmdlets de PowerShell
+    url: "/protect-scw/task_restore_and_recover_resources_using_powershell_cmdlets_for_windows.html"
+  - title: Supervisar las operaciones de restauración
+    url: "/protect-scw/task_monitor_restore_operations.html"
+  - title: Cancelar operaciones de restauración
+    url: "/protect-scw/task_cancel_restore_operations.html"
+- title: Clonar sistemas de archivos de Windows
+  entries:
+  - title: Clonar desde una copia de seguridad del sistema de archivos de Windows
+    url: "/protect-scw/task_clone_from_a_windows_file_system_backup.html"
+  - title: Supervisar las operaciones de clonación
+    url: "/protect-scw/task_monitor_clone_operations.html"
+  - title: Cancelar operaciones de clonación
+    url: "/protect-scw/task_cancel_clone_operations.html"
+  - title: Dividir un clon
+    url: "/protect-scw/task_split_a_clone_for_windows.html"

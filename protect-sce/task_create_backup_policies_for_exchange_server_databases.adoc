@@ -1,0 +1,331 @@
+---
+permalink: protect-sce/task_create_backup_policies_for_exchange_server_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Puede crear una política de respaldo para los recursos de Exchange o para los grupos de recursos antes de usar SnapCenter para realizar copias de seguridad de los recursos de Microsoft Exchange Server, o puede crear una política de respaldo en el momento en que crea un grupo de recursos o realiza una copia de seguridad de un solo recurso. 
+---
+= Crear políticas de copia de seguridad para bases de datos de Exchange Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede crear una política de respaldo para los recursos de Exchange o para los grupos de recursos antes de usar SnapCenter para realizar copias de seguridad de los recursos de Microsoft Exchange Server, o puede crear una política de respaldo en el momento en que crea un grupo de recursos o realiza una copia de seguridad de un solo recurso.
+
+.Antes de empezar
+* Debes haber definido tu estrategia de protección de datos.
++
+Para obtener más detalles, consulte la información sobre cómo definir una estrategia de protección de datos para bases de datos de Exchange.
+
+* Debe estar preparado para la protección de datos completando tareas como instalar SnapCenter, agregar hosts, identificar recursos y crear conexiones del sistema de almacenamiento.
+* Debes haber actualizado (descubierto) los recursos de Exchange Server.
+* Si está replicando instantáneas a un espejo o bóveda, el administrador de SnapCenter debe haberle asignado las máquinas virtuales de almacenamiento (SVM) tanto para los volúmenes de origen como para los volúmenes de destino.
+* Si desea ejecutar los scripts de PowerShell en prescripts y postscripts, debe establecer el valor de `usePowershellProcessforScripts` parámetro a verdadero en el `web.config` archivo.
++
+El valor predeterminado es falso.
+
+* Revise los requisitos previos y las limitaciones específicos de la sincronización activa de SnapMirror . Para obtener información, consulte https://docs.netapp.com/us-en/ontap/smbc/considerations-limits.html#volumes["Límites de objetos para la sincronización activa de SnapMirror"] .
+
+
+.Acerca de esta tarea
+* Una política de respaldo es un conjunto de reglas que regulan cómo administrar y conservar los respaldos, y con qué frecuencia se realizan respaldos del recurso o grupo de recursos.  Además, puede especificar la configuración del script.  Especificar opciones en una política ahorra tiempo cuando desea reutilizar la política para otro grupo de recursos.
+* La retención de copias de seguridad completas es específica de una política determinada.  Una base de datos o un recurso que utiliza la política A con una retención de copia de seguridad completa de 4 retiene 4 copias de seguridad completas y no tiene ningún efecto en la política B para la misma base de datos o recurso, que podría tener una retención de 3 para retener 3 copias de seguridad completas.
+* La retención de copias de seguridad de registros es efectiva en todas las políticas y se aplica a todas las copias de seguridad de registros de una base de datos o un recurso.  Por lo tanto, cuando se realiza una copia de seguridad completa utilizando la política B, la configuración de retención de registros afecta a las copias de seguridad de registros creadas por la política A en la misma base de datos o recurso.  De manera similar, la configuración de retención de registros para la política A afecta las copias de seguridad de registros creadas por la política B en la misma base de datos.
+* SCRIPTS_PATH se define utilizando la clave PredefinedWindowsScriptsDirectory ubicada en el archivo SMCoreServiceHost.exe.Config del host del complemento.
++
+Si es necesario, puede cambiar esta ruta y reiniciar el servicio SMcore.  Se recomienda que utilice la ruta predeterminada por seguridad.
+
++
+El valor de la clave se puede mostrar desde swagger a través de la API: API /4.7/configsettings
+
++
+Puede utilizar la API GET para mostrar el valor de la clave.  La API SET no es compatible.
+
++
+|===
+
+
+| *Mejor práctica:* Es mejor que configure la política de retención secundaria en función de la cantidad general de copias de seguridad completas y de registros que desee conservar.  Al configurar políticas de retención secundaria, tenga en cuenta que cuando las bases de datos y los registros están en diferentes volúmenes, cada copia de seguridad puede tener tres instantáneas, y cuando las bases de datos y los registros están en el mismo volumen, cada copia de seguridad puede tener dos instantáneas. 
+|===
+* SnapLock
++
+** Si se selecciona la opción 'Conservar las copias de seguridad durante una cantidad específica de días', el período de retención de SnapLock debe ser menor o igual a los días de retención mencionados.
++
+Al especificar un período de bloqueo de instantáneas se evita la eliminación de las instantáneas hasta que expire el período de retención. Esto podría llevar a retener una cantidad mayor de instantáneas que la cantidad especificada en la política.
+
++
+Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+
+
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Políticas*.
+. Haga clic en *Nuevo*.
+. En la página Nombre, ingrese el nombre y los detalles de la política.
+. En la página Tipo de copia de seguridad y replicación, realice los siguientes pasos:
++
+.. Elija el tipo de copia de seguridad:
++
+|===
+| Si quieres... | Haz esto... 
+
+
+ a| 
+Realice una copia de seguridad de los archivos de base de datos y de los registros de transacciones necesarios
+ a| 
+Seleccione *Copia de seguridad completa y Copia de seguridad de registro*.
+
+Las bases de datos se respaldan con truncamiento de registros y se respaldan todos los registros, incluidos los registros truncados.
+
+
+NOTE: Este es el tipo de copia de seguridad recomendado.
+
+
+
+ a| 
+Realice una copia de seguridad de los archivos de base de datos y de los registros de transacciones no confirmadas
+ a| 
+Seleccione *Copia de seguridad completa*.
+
+Las bases de datos se respaldan con truncamiento de registros, y los registros truncados no se respaldan.
+
+
+
+ a| 
+Realice una copia de seguridad de todos los registros de transacciones
+ a| 
+Seleccione *Copia de seguridad del registro*.
+
+Se realiza un respaldo de todos los registros de transacciones en el sistema de archivos activo y no se trunca ningún registro.
+
+Se crea un directorio _scebackupinfo_ en el mismo disco que el registro en vivo.  Este directorio contiene el puntero a los cambios incrementales de la base de datos de Exchange y no es equivalente a los archivos de registro completos.
+
+
+
+ a| 
+Realice una copia de seguridad de todos los archivos de base de datos y registros de transacciones sin truncar los archivos de registro de transacciones
+ a| 
+Seleccione *Copiar copia de seguridad*.
+
+Se realizan copias de seguridad de todas las bases de datos y de todos los registros, y no se truncan los registros.  Normalmente, este tipo de copia de seguridad se utiliza para volver a sembrar una réplica o para probar o diagnosticar un problema.
+
+|===
++
+
+NOTE: Debe definir el espacio necesario para las copias de seguridad de registros en función de la retención de copia de seguridad completa y no en función de la retención actualizada al minuto (UTM).
+
++
+
+NOTE: Cree políticas de bóveda independientes para registros y bases de datos cuando trabaje con volúmenes de Exchange (LUN) y configure la conservación (retención) para la política de registro al doble del número para cada etiqueta que la política de base de datos, utilizando las mismas etiquetas.  Para obtener más información, consulte https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_for_Exchange_Backups_only_keep_half_the_Snapshots_on_the_Vault_destination_log_volume["Las copias de seguridad de SnapCenter para Exchange solo conservan la mitad de las instantáneas en el volumen de registro de destino de la bóveda"^]
+
+.. En la sección Configuración del grupo de disponibilidad de la base de datos, seleccione una acción:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Realizar copias de seguridad de copias activas
+ a| 
+Seleccione esta opción para realizar copias de seguridad únicamente de las copias activas de la base de datos seleccionada.
+
+Para los grupos de disponibilidad de bases de datos (DAG), esta opción solo realiza copias de seguridad de las copias activas de todas las bases de datos en el DAG.
+
+Las copias pasivas no están respaldadas.
+
+
+
+ a| 
+Copias de seguridad en servidores que se seleccionarán en el momento de creación del trabajo de copia de seguridad
+ a| 
+Seleccione esta opción para realizar copias de seguridad de cualquier copia de las bases de datos en los servidores seleccionados, tanto activas como pasivas.
+
+Para los DAG, esta opción realiza copias de seguridad tanto activas como pasivas de todas las bases de datos en los servidores seleccionados.
+
+|===
++
+
+NOTE: En las configuraciones de clúster, las copias de seguridad se conservan en cada nodo del clúster según la configuración de retención establecida en la política.  Si el nodo propietario del clúster cambia, se conservarán las copias de seguridad del nodo propietario anterior.  La retención solo se aplica a nivel de nodo.
+
+.. En la sección Frecuencia de programación, seleccione uno o más de los tipos de frecuencia: *A pedido*, *Por hora*, *Diariamente*, *Semanalmente* y *Mensualmente*.
++
+
+NOTE: Puede especificar la programación (fecha de inicio, fecha de finalización) para las operaciones de copia de seguridad al crear un grupo de recursos.  Esto le permite crear grupos de recursos que comparten la misma política y frecuencia de respaldo, pero le permite asignar diferentes programas de respaldo a cada política.
+
++
+
+NOTE: Si lo ha programado para las 2:00 a. m., el cronograma no se activará durante el horario de verano (DST).
+
+.. Seleccione la etiqueta Política.
++
+
+NOTE: Puede asignar etiquetas SnapMirror a instantáneas principales para replicación remota, lo que permite que las instantáneas principales descarguen la operación de replicación de instantáneas de SnapCenter a los sistemas secundarios de ONTAP . Esto se puede hacer sin habilitar la opción SnapMirror o SnapVault en la página de políticas.
+
+.. En la sección Seleccionar opciones de replicación secundaria, seleccione una o ambas de las siguientes opciones de replicación secundaria:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Actualizar SnapMirror después de crear una instantánea local
+ a| 
+Seleccione esta opción para mantener copias reflejadas de los conjuntos de copias de seguridad en otro volumen (SnapMirror).
+
+Durante la replicación secundaria, el tiempo de expiración de SnapLock carga el tiempo de expiración de SnapLock principal.
+
+Esta opción debe estar habilitada para la sincronización activa de SnapMirror .
+
+
+IMPORTANT: La política de solo principal no se puede utilizar si la sincronización activa de SnapMirror está configurada para volúmenes de Exchange ONTAP .  SnapCenter no permite esto.  Debes habilitar la opción "Espejo".
+
+Al hacer clic en el botón *Actualizar* en la página Topología, se actualiza el tiempo de vencimiento de SnapLock primario y secundario que se recuperan de ONTAP.
+
+Ver link:../protect-sce/task_view_exchange_backups_in_the_topology_page.html["Ver copias de seguridad de Exchange en la página Topología"] .
+
+
+
+ a| 
+Actualizar SnapVault después de crear una instantánea local
+ a| 
+Seleccione esta opción para realizar la replicación de copia de seguridad de disco a disco.
+
+
+
+ a| 
+Recuento de reintentos de error
+ a| 
+Introduzca el número de intentos de replicación que deben ocurrir antes de que el proceso se detenga.
+
+|===
++
+
+NOTE: Debe configurar la política de retención de SnapMirror en ONTAP para el almacenamiento secundario para evitar alcanzar el límite máximo de instantáneas en el almacenamiento secundario.
+
+
+
+. En la página Retención, configure los ajustes de retención.
++
+Las opciones que se muestran dependen del tipo de copia de seguridad y del tipo de frecuencia que haya seleccionado previamente.
+
++
+
+NOTE: El valor máximo de retención es 1018. Las copias de seguridad fallarán si la retención se establece en un valor superior al que admite la versión subyacente de ONTAP .
+
++
+
+IMPORTANT: Debe establecer el recuento de retención en 2 o más si planea habilitar la replicación de SnapVault .  Si establece el recuento de retención en 1, la operación de retención puede fallar porque la primera instantánea es la instantánea de referencia para la relación SnapVault hasta que se replique una instantánea más nueva en el destino.
+
++
+.. En la sección Configuración de retención de copias de seguridad de registros, seleccione una de las siguientes opciones:
++
+|===
+| Si quieres... | Haz esto... 
+
+
+ a| 
+Conservar solo un número específico de copias de seguridad de registros
+ a| 
+Seleccione *Número de copias de seguridad completas para las que se conservan registros* y especifique la cantidad de copias de seguridad completas para las que desea capacidad de restauración actualizada al minuto.
+
+La retención actualizada al minuto (UTM) se aplica a las copias de seguridad de registros creadas mediante copias de seguridad completas o de registros.  Por ejemplo, si la configuración de retención de UTM está configurada para conservar las copias de seguridad de los registros de las últimas 5 copias de seguridad completas, entonces se conservan las copias de seguridad de los registros de las últimas 5 copias de seguridad completas.
+
+Las carpetas de registro creadas como parte de las copias de seguridad completas y de registros se eliminan automáticamente como parte de UTM.  No es posible eliminar las carpetas de registro manualmente.  Por ejemplo, si la configuración de retención de copia de seguridad completa o completa y de registro está establecida en 1 mes y la retención de UTM está establecida en 10 días, entonces la carpeta de registro creada como parte de estas copias de seguridad se eliminará según UTM.  Como resultado, solo habrá carpetas de registro de 10 días y todas las demás copias de seguridad estarán marcadas para su restauración en un punto determinado del tiempo.
+
+Puede establecer el valor de retención de UTM como 0, si no desea realizar una restauración actualizada al minuto.  Esto permitirá la operación de restauración en un punto determinado del tiempo.
+
+*Mejor práctica:* Lo ideal es que la configuración sea igual a la configuración de Instantáneas totales (copias de seguridad completas) en la sección Configuración de retención de copia de seguridad completa.  Esto garantiza que los archivos de registro se conserven para cada copia de seguridad completa.
+
+
+
+ a| 
+Conservar las copias de seguridad durante un número específico de días
+ a| 
+Seleccione la opción *Conservar copias de seguridad del registro para el último* y especifique la cantidad de días durante los cuales desea conservar las copias de seguridad del registro.
+
+Se conservan las copias de seguridad de registros hasta el mismo número de días que las copias de seguridad completas.
+
+
+
+ a| 
+Período de bloqueo de instantáneas
+ a| 
+Seleccione *Período de bloqueo de copia de instantánea* y seleccione días, meses o años.
+
+El período de retención de SnapLock debe ser inferior a 100 años.
+
+|===
++
+Si seleccionó *Copia de seguridad de registro* como tipo de copia de seguridad, las copias de seguridad de registro se conservan como parte de la configuración de retención actualizada para copias de seguridad completas.
+
+.. En la sección Configuración de retención de copias de seguridad completas, seleccione una de las siguientes opciones para copias de seguridad a pedido y, luego, seleccione una para copias de seguridad completas:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Conservar solo un número específico de instantáneas
+ a| 
+Si desea especificar la cantidad de copias de seguridad completas que desea conservar, seleccione la opción *Total de copias de instantáneas que desea conservar* y especifique la cantidad de instantáneas (copias de seguridad completas) que desea conservar.
+
+Si el número de copias de seguridad completas excede el número especificado, se eliminan las copias de seguridad completas que exceden el número especificado, y las copias más antiguas se eliminan primero.
+
+
+
+ a| 
+Conservar copias de seguridad completas durante un número específico de días
+ a| 
+Seleccione la opción *Conservar copias instantáneas durante* y especifique la cantidad de días durante los cuales desea conservar las instantáneas (copias de seguridad completas).
+
+
+
+ a| 
+Período de bloqueo de la instantánea principal
+ a| 
+Seleccione *Período de bloqueo de copia de instantánea principal* y seleccione días, meses o años.
+
+El período de retención de SnapLock debe ser inferior a 100 años.
+
+
+
+ a| 
+Período de bloqueo de instantáneas secundarias
+ a| 
+Seleccione *Período de bloqueo de copia de instantánea secundaria* y seleccione días, meses o años.
+
+|===
++
+Si tiene una base de datos con solo copias de seguridad de registros y ninguna copia de seguridad completa en un host en una configuración DAG, las copias de seguridad de registros se conservan de las siguientes maneras:
+
++
+*** De forma predeterminada, SnapCenter busca la copia de seguridad completa más antigua de esta base de datos en todos los demás hosts del DAG y elimina todas las copias de seguridad de registros en este host que se realizaron antes de la copia de seguridad completa.
+*** Puede anular el comportamiento de retención predeterminado anterior para una base de datos en un host en un DAG con solo copias de seguridad de registros agregando la clave *MaxLogBackupOnlyCountWithoutFullBackup* en el archivo _C:\Program Files\ NetApp\ SnapCenter WebApp\web.config_.
++
+ <add key="MaxLogBackupOnlyCountWithoutFullBackup" value="10">
++
+En el ejemplo, el valor 10 significa que mantiene hasta 10 copias de seguridad de registros en el host.
+
+
+
+
+
+. En la página Script, ingrese la ruta y los argumentos del prescript o postscript que se debe ejecutar antes o después de la operación de respaldo, respectivamente.
++
+** Los argumentos de respaldo de prescript incluyen "`$Database`" y "`$ServerInstance`".
+** Los argumentos de respaldo de Postscript incluyen "`$Database`", "`$ServerInstance`", "`$BackupName`", "`$LogDirectory`" y "`$LogSnapshot`".
++
+Puede ejecutar un script para actualizar trampas SNMP, automatizar alertas, enviar registros, etc.
+
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
+
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+

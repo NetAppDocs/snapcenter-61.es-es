@@ -1,0 +1,94 @@
+---
+permalink: protect-sco/concept_snapcenter_plug_in_for_oracle_database_features.html 
+sidebar: sidebar 
+keywords: plug-in for Oracle features 
+summary: El complemento para Oracle Database se integra con la base de datos Oracle en el host Linux o AIX y con las tecnologías NetApp en el sistema de almacenamiento. 
+---
+= Características del complemento para Oracle Database
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El complemento para Oracle Database se integra con la base de datos Oracle en el host Linux o AIX y con las tecnologías NetApp en el sistema de almacenamiento.
+
+* Interfaz gráfica de usuario unificada
++
+La interfaz de SnapCenter proporciona estandarización y consistencia entre complementos y entornos.  La interfaz de SnapCenter le permite completar operaciones consistentes de respaldo, restauración, recuperación y clonación en todos los complementos, utilizar informes centralizados, usar vistas de panel de un vistazo, configurar el control de acceso basado en roles (RBAC) y monitorear trabajos en todos los complementos.
+
+* Administración central automatizada
++
+Puede programar operaciones de copia de seguridad y clonación, configurar la retención de copias de seguridad basada en políticas y realizar operaciones de restauración.  También puede supervisar su entorno de forma proactiva configurando SnapCenter para enviar alertas por correo electrónico.
+
+* Tecnología NetApp Snapshot sin interrupciones
++
+SnapCenter utiliza la tecnología NetApp Snapshot con el complemento para Oracle Database y el complemento para UNIX para realizar copias de seguridad de las bases de datos.  Las instantáneas consumen un espacio de almacenamiento mínimo.
+
+
+
+El complemento para Oracle Database también ofrece los siguientes beneficios:
+
+* Soporte para flujos de trabajo de copia de seguridad, restauración, clonación, montaje, desmontaje y verificación
+* Descubrimiento automático de bases de datos Oracle configuradas en el host
+* Soporte para catalogar y descatalogar mediante Oracle Recovery Manager (RMAN)
+* Seguridad respaldada por RBAC y delegación de roles centralizada
++
+También puede configurar las credenciales para que los usuarios autorizados de SnapCenter tengan permisos a nivel de aplicación.
+
+* Compatibilidad con la gestión de registros de archivo (ALM) para operaciones de restauración y clonación
+* Creación de copias puntuales y con uso eficiente del espacio de bases de datos de producción para pruebas o extracción de datos mediante la tecnología NetApp FlexClone
++
+Se requiere una licencia FlexClone en el sistema de almacenamiento donde desea crear el clon.
+
+* Compatibilidad con la función de grupo de consistencia (CG) de ONTAP como parte de la creación de copias de seguridad en entornos SAN y ASM
+* Verificación de copias de seguridad automatizada y sin interrupciones
+* Capacidad de ejecutar múltiples copias de seguridad simultáneamente en varios hosts de bases de datos
++
+En una sola operación, las instantáneas se consolidan cuando las bases de datos de un solo host comparten el mismo volumen.
+
+* Soporte para infraestructuras físicas y virtualizadas
+* Compatibilidad con NFS, iSCSI, Fibre Channel (FC), RDM, VMDK sobre NFS y VMFS, y ASM sobre NFS, SAN, RDM y VMDK
+* Compatibilidad con la función de mapa LUN selectivo (SLM) de ONTAP
++
+Habilitada de forma predeterminada, la función SLM descubre periódicamente los LUN que no tienen rutas optimizadas y los corrige.  Puede configurar SLM modificando los parámetros en el archivo scu.properties ubicado en /var/opt/snapcenter/scu/etc.
+
++
+** Puede deshabilitar esto estableciendo el valor del parámetro ENABLE_LUNPATH_MONITORING en falso.
+** Puede especificar la frecuencia con la que las rutas LUN se repararán automáticamente asignando el valor (en horas) al parámetro LUNPATH_MONITORING_INTERVAL.  Para obtener información sobre SLM, consulte la https://docs.netapp.com/us-en/ontap/san-admin/index.html["Sección de administración de SAN de ONTAP 9"^] .
+
+
+* Compatibilidad con memoria no volátil express (NVMe) en Linux
++
+** La utilidad NVMe debe estar instalada en el host.
++
+Debes instalar la utilidad NVMe para clonar o montar en un host alternativo.
+
+** Las operaciones de copia de seguridad, restauración, clonación, montaje, desmontaje, catalogación, descatalogación y verificación son compatibles con el hardware NVMe, excepto en entornos virtualizados como RDM.
++
+Las operaciones anteriores son compatibles con dispositivos sin particiones o con una sola partición.
+
++
+
+NOTE: Puede configurar la solución de múltiples rutas para dispositivos NVMe configurando la opción de múltiples rutas nativa en el kernel.  No se admite la multirruta de Device Mapper (DM).
+
+** Los flujos de trabajo de copia de seguridad, restauración, clonación, montaje, desmontaje, catalogación, descatalogación y verificación son compatibles con NVMe sobre TCP/IP.
+** Los flujos de trabajo de copia de seguridad, restauración, clonación, montaje, desmontaje, catalogación, descatalogación y verificación son compatibles con el diseño VMDK creado en NVMe a través de TCP/IP.
+
+
+* Admite la sincronización activa de SnapMirror (lanzada inicialmente como SnapMirror Business Continuity [SM-BC]) que permite que los servicios comerciales sigan funcionando incluso en caso de una falla total del sitio, permitiendo que las aplicaciones conmuten por error de manera transparente mediante una copia secundaria.  No se requiere intervención manual ni secuencias de comandos adicionales para activar una conmutación por error con la sincronización activa de SnapMirror .
+* Admite cualquier usuario no predeterminado en lugar de Oracle y Grid.
++
+Para admitir a los usuarios no predeterminados, debe configurarlos modificando los valores de los parámetros en el archivo *sco.properties* ubicado en _file /var/opt/snapcenter/sco/etc/_.
+
++
+Los valores predeterminados de los parámetros se establecen como oráculo y cuadrícula.
+
++
+** DB_USER=oracle
+** DB_GROUP=desinstalar
+** GI_USER=cuadrícula
+** GI_GROUP=desinstalar
+
+
+

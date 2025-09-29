@@ -1,0 +1,35 @@
+---
+permalink: admin/task_request_reports_of_the_protection_status_from_the_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: Puede solicitar detalles de protección para recursos administrados por complementos específicos mediante el Panel de control. 
+---
+= Solicitar informes del estado de protección desde el panel de control
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede solicitar detalles de protección para recursos administrados por complementos específicos mediante el Panel de control.  Para el resumen de protección de datos solo se consideran las copias de seguridad de datos.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Panel de control*.
+. Localice el mosaico Resumen de protección más reciente en el Panel de control y utilice el menú desplegable para seleccionar un complemento.
++
+El panel muestra un gráfico de anillos para los recursos respaldados en el almacenamiento principal y, si corresponde al complemento, un gráfico de anillos para los recursos respaldados en el almacenamiento secundario.
+
++
+
+NOTE: Los informes de protección de datos solo están disponibles para tipos de complementos específicos.  No se admite la especificación de *Todos los complementos*.
+
+. Haga clic en el segmento de dona que representa el estado para el que desea un informe.
++
+Al hacer clic en el gráfico de anillos, se le redirige de la página del Panel a los Informes y, luego, a la página del Complemento.  El informe muestra solo el estado del complemento que seleccionó.  Puede revisar el informe o descargarlo a su sistema local.
+
++
+
+NOTE: No se admite la redirección a la página Informes para el gráfico de anillos de SnapMirror ni para la copia de seguridad de SAP HANA basada en archivos.
+
+

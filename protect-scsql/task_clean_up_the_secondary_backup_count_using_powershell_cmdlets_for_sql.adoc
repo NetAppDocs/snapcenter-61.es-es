@@ -1,0 +1,39 @@
+---
+permalink: protect-scsql/task_clean_up_the_secondary_backup_count_using_powershell_cmdlets_for_sql.html 
+sidebar: sidebar 
+keywords: backups 
+summary: Puede utilizar el cmdlet Remove-SmBackup para limpiar el recuento de copias de seguridad de las copias de seguridad secundarias que no tienen instantáneas.  Es posible que desee utilizar este cmdlet cuando la cantidad total de instantáneas que se muestran en la topología Administrar copias no coincidan con la configuración de retención de instantáneas de almacenamiento secundario. 
+---
+= Limpiar el recuento de copias de seguridad secundarias mediante cmdlets de PowerShell
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar el cmdlet Remove-SmBackup para limpiar el recuento de copias de seguridad de las copias de seguridad secundarias que no tienen instantánea.  Es posible que desee utilizar este cmdlet cuando la cantidad total de instantáneas que se muestran en la topología Administrar copias no coincidan con la configuración de retención de instantáneas de almacenamiento secundario.
+
+Debe haber preparado el entorno de PowerShell para ejecutar los cmdlets de PowerShell.
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el cmdlet Open-SmConnection.
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. Limpie el recuento de copias de seguridad secundarias utilizando el parámetro -CleanupSecondaryBackups.
++
+Este ejemplo limpia el recuento de copias de seguridad para copias de seguridad secundarias sin instantáneas:
+
++
+[listing]
+----
+Remove-SmBackup -CleanupSecondaryBackups
+Remove-SmBackup
+Are you sure want to remove the backup(s).
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"):
+----
+

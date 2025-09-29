@@ -1,0 +1,452 @@
+---
+permalink: protect-sco/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux_or_aix.html 
+sidebar: sidebar 
+keywords: prerequisites, iSCSI, Oracle path, host requirement for Linux, sudo privileges, non-root user, host requirements for AIX, credentials, authenticate, domain administrator, local administrator, workgroup, sudo, root user 
+summary: Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos. 
+---
+= Requisitos previos para agregar hosts e instalar el paquete de complementos para Linux o AIX
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos.
+
+* Si está utilizando iSCSI, el servicio iSCSI debe estar ejecutándose.
+* Debe haber habilitado la conexión SSH basada en contraseña para el usuario root o no root.
++
+El complemento SnapCenter para Oracle Database puede ser instalado por un usuario que no sea root.  Sin embargo, debe configurar los privilegios de sudo para que el usuario no root pueda instalar e iniciar el proceso del complemento.  Después de instalar el complemento, los procesos se ejecutarán como un usuario no root efectivo.
+
+* Si está instalando el paquete de complementos de SnapCenter para AIX en un host AIX, debe haber resuelto manualmente los enlaces simbólicos de nivel de directorio.
++
+El paquete de complementos de SnapCenter para AIX resuelve automáticamente el enlace simbólico a nivel de archivo, pero no los enlaces simbólicos a nivel de directorio para obtener la ruta absoluta JAVA_HOME.
+
+* Cree credenciales con modo de autenticación como Linux o AIX para el usuario de instalación.
+* Debe tener instalado Java 11 en su host Linux o AIX.
++
+** Java de Oracle y OpenJDK es compatible con Linux
+** IBM Java para AIX.  Puedes descargarlo desde https://developer.ibm.com/languages/java/semeru-runtimes/downloads/?version=11&os=AIX["Descargas de IBM Semeru Runtimes"]
++
+
+NOTE: Asegúrese de haber instalado únicamente la edición certificada de JAVA 11 en el host Linux.
+
+
+
+* Para las bases de datos Oracle que se ejecutan en un host Linux o AIX, debe instalar el complemento SnapCenter para Oracle Database y el complemento SnapCenter para UNIX.
++
+
+NOTE: También puede utilizar el complemento para Oracle Database para administrar bases de datos Oracle para SAP.  Sin embargo, no se admite la integración de SAP BR*Tools.
+
+* Si está utilizando la base de datos Oracle 11.2.0.3 o posterior, debe instalar el parche Oracle 13366202.
+
+
+
+NOTE: SnapCenter no admite la asignación de UUID en el archivo /etc/fstab.
+
+* Debe tener *bash* como el shell predeterminado para la instalación del complemento.
+
+
+
+
+== Requisitos del host Linux
+
+Debe asegurarse de que el host cumpla con los requisitos antes de instalar el paquete de complementos de SnapCenter para Linux.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+* Red Hat Enterprise Linux
+* Oracle Linux
++
+
+NOTE: Si utiliza una base de datos Oracle en LVM en sistemas operativos Oracle Linux o Red Hat Enterprise Linux 6.6 o 7.0, debe instalar la última versión de Logical Volume Manager (LVM).
+
+* Servidor empresarial SUSE Linux (SLES)
+
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+2 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+2 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+Java 11 Oracle y OpenJDK
+
+
+NOTE: Asegúrese de haber instalado únicamente la edición certificada de JAVA 11 en el host Linux.
+
+Si ha actualizado JAVA a la última versión, debe asegurarse de que la opción JAVA_HOME ubicada en /var/opt/snapcenter/spl/etc/spl.properties esté configurada en la versión de JAVA correcta y en la ruta correcta.
+
+|===
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+=== Configurar privilegios de sudo para usuarios no root para el host Linux
+
+SnapCenter 2.0 y versiones posteriores permiten que un usuario no root instale el paquete de complementos de SnapCenter para Linux e inicie el proceso de complemento.  Los procesos del complemento se ejecutarán como un usuario no root efectivo.  Debe configurar privilegios de sudo para el usuario que no sea root para proporcionar acceso a varias rutas.
+
+*Lo que necesitarás*
+
+* Sudo versión 1.8.7 o posterior.
+* Si la umask es 0027, asegúrese de que la carpeta java y todos los archivos dentro de ella tengan el permiso 555.  De lo contrario, la instalación del complemento podría fallar.
+* Para el usuario no root, asegúrese de que el nombre del usuario no root y el grupo del usuario sean los mismos.
+* Edite el archivo _/etc/ssh/sshd_config_ para configurar los algoritmos del código de autenticación de mensajes: MAC hmac-sha2-256 y MAC hmac-sha2-512.
++
+Reinicie el servicio sshd después de actualizar el archivo de configuración.
+
++
+Ejemplo:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*Acerca de esta tarea*
+
+Debe configurar los privilegios de sudo para el usuario no root para proporcionar acceso a las siguientes rutas:
+
+* /inicio/_USUARIO_LINUX_/.sc_netapp/snapcenter_linux_host_plugin.bin
+* /ubicación_personalizada/ NetApp/snapcenter/spl/instalación/complementos/desinstalar
+* /ubicación_personalizada/ NetApp/snapcenter/spl/bin/spl
+
+
+*Pasos*
+
+. Inicie sesión en el host Linux en el que desea instalar el paquete de complementos de SnapCenter para Linux.
+. Agregue las siguientes líneas al archivo /etc/sudoers utilizando la utilidad visudo para Linux.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+
+NOTE: Si tiene una configuración RAC, junto con los otros comandos permitidos, debe agregar lo siguiente al archivo /etc/sudoers: '/<crs_home>/bin/olsnodes'
+
+
+
+Puede obtener el valor de _crs_home_ del archivo _/etc/oracle/olr.loc_.
+
+_LINUX_USER_ es el nombre del usuario no root que usted creó.
+
+Puede obtener el _checksum_value_ del archivo *sc_unix_plugins_checksum.txt*, que se encuentra en:
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host de Windows.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host Linux.
+
+
+
+IMPORTANT: El ejemplo debe utilizarse únicamente como referencia para crear sus propios datos.
+
+
+
+== Requisitos del host AIX
+
+Debe asegurarse de que el host cumpla con los requisitos antes de instalar el paquete de complementos de SnapCenter para AIX.
+
+
+NOTE: El complemento SnapCenter para UNIX, que forma parte del paquete de complementos SnapCenter para AIX, no admite grupos de volúmenes simultáneos.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+AIX 7.1 o posterior
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+4 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+2 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+Java 11 IBM Java
+
+Si ha actualizado JAVA a la última versión, debe asegurarse de que la opción JAVA_HOME ubicada en /var/opt/snapcenter/spl/etc/spl.properties esté configurada en la versión de JAVA correcta y en la ruta correcta.
+
+|===
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+=== Configurar privilegios de sudo para usuarios no root para el host AIX
+
+SnapCenter 4.4 y versiones posteriores permiten que un usuario no root instale el paquete de complementos de SnapCenter para AIX e inicie el proceso de complemento.  Los procesos del complemento se ejecutarán como un usuario no root efectivo.  Debe configurar privilegios de sudo para el usuario que no sea root para proporcionar acceso a varias rutas.
+
+*Lo que necesitarás*
+
+* Sudo versión 1.8.7 o posterior.
+* Si la umask es 0027, asegúrese de que la carpeta java y todos los archivos dentro de ella tengan el permiso 555.  De lo contrario, la instalación del complemento podría fallar.
+* Edite el archivo _/etc/ssh/sshd_config_ para configurar los algoritmos del código de autenticación de mensajes: MAC hmac-sha2-256 y MAC hmac-sha2-512.
++
+Reinicie el servicio sshd después de actualizar el archivo de configuración.
+
++
+Ejemplo:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*Acerca de esta tarea*
+
+Debe configurar los privilegios de sudo para el usuario no root para proporcionar acceso a las siguientes rutas:
+
+* /inicio/_USUARIO_AIX_/.sc_netapp/snapcenter_aix_host_plugin.bsx
+* /ubicación_personalizada/ NetApp/snapcenter/spl/instalación/complementos/desinstalar
+* /ubicación_personalizada/ NetApp/snapcenter/spl/bin/spl
+
+
+*Pasos*
+
+. Inicie sesión en el host AIX en el que desea instalar el paquete de complementos de SnapCenter para AIX.
+. Agregue las siguientes líneas al archivo /etc/sudoers utilizando la utilidad visudo para Linux.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPACMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx,
+/opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/AIX_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+_AIX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPACMD, PRECHECKCMD, CONFIGCHECKCMD, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _AIX_USER_ !visiblepw
+Defaults: _AIX_USER_ !requiretty
+----
++
+
+NOTE: Si tiene una configuración RAC, junto con los otros comandos permitidos, debe agregar lo siguiente al archivo /etc/sudoers: '/<crs_home>/bin/olsnodes'
+
+
+
+Puede obtener el valor de _crs_home_ del archivo _/etc/oracle/olr.loc_.
+
+_AIX_USER_ es el nombre del usuario no root que usted creó.
+
+Puede obtener el _checksum_value_ del archivo *sc_unix_plugins_checksum.txt*, que se encuentra en:
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host de Windows.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host Linux.
+
+
+
+IMPORTANT: El ejemplo debe utilizarse únicamente como referencia para crear sus propios datos.
+
+
+
+== Configurar credenciales
+
+SnapCenter utiliza credenciales para autenticar a los usuarios para las operaciones de SnapCenter .  Debe crear credenciales para instalar el paquete de complemento en hosts Linux o AIX.
+
+*Acerca de esta tarea*
+
+Las credenciales se crean para el usuario root o para un usuario no root que tenga privilegios de sudo para instalar e iniciar el proceso del complemento.
+
+Para obtener información, consulte:<<Configurar privilegios de sudo para usuarios no root para el host Linux>> o<<Configurar privilegios de sudo para usuarios no root para el host AIX>>
+
+|===
+
+
+| *Mejor práctica:* Si bien se le permite crear credenciales después de implementar hosts e instalar complementos, la mejor práctica es crear credenciales después de agregar SVM, antes de implementar hosts e instalar complementos. 
+|===
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Credencial*.
+. Haga clic en *Nuevo*.
+. En la página Credencial, ingrese la información de la credencial:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Nombre de la credencial
+ a| 
+Introduzca un nombre para las credenciales.
+
+
+
+ a| 
+Nombre de usuario/Contraseña
+ a| 
+Introduzca el nombre de usuario y la contraseña que se utilizarán para la autenticación.
+
+** Administrador de dominio
++
+Especifique el administrador del dominio en el sistema donde va a instalar el complemento de SnapCenter . Los formatos válidos para el campo Nombre de usuario son:
+
++
+*** _NetBIOS\Nombre de usuario_
+*** _Dominio FQDN\Nombre de usuario_
+
+
+** Administrador local (sólo para grupos de trabajo)
++
+Para los sistemas que pertenecen a un grupo de trabajo, especifique el administrador local integrado en el sistema donde va a instalar el complemento de SnapCenter . Puede especificar una cuenta de usuario local que pertenezca al grupo de administradores locales si esta cuenta tiene privilegios elevados o si la función de control de acceso de usuario está deshabilitada en el sistema host.  El formato válido para el campo Nombre de usuario es: _NombreDeUsuario_
+
+
+
+
+
+ a| 
+Modo de autenticación
+ a| 
+Seleccione el modo de autenticación que desea utilizar.
+
+Dependiendo del sistema operativo del host del complemento, seleccione Linux o AIX.
+
+
+
+ a| 
+Utilice privilegios de sudo
+ a| 
+Seleccione la casilla de verificación *Usar privilegios de sudo* si está creando credenciales para un usuario que no sea root.
+
+|===
+. Haga clic en *Aceptar*.
+
+
+Una vez que termine de configurar las credenciales, es posible que desee asignar el mantenimiento de credenciales a un usuario o grupo de usuarios en la página *Usuario y acceso*.
+
+
+
+== Configurar credenciales para una base de datos Oracle
+
+Debe configurar las credenciales que se utilizan para realizar operaciones de protección de datos en las bases de datos de Oracle.
+
+*Acerca de esta tarea*
+
+Debe revisar los diferentes métodos de autenticación compatibles con la base de datos Oracle. Para obtener más información, consultelink:../get-started/concept_authentication_methods_for_your_credentials.html["Métodos de autenticación para sus credenciales"^] .
+
+Si configura credenciales para grupos de recursos individuales y el nombre de usuario no tiene privilegios de administrador completos, el nombre de usuario debe tener al menos privilegios de grupo de recursos y de respaldo.
+
+Si ha habilitado la autenticación de la base de datos de Oracle, se muestra un ícono de candado rojo en la vista de recursos.  Debe configurar las credenciales de la base de datos para poder proteger la base de datos o agregarla al grupo de recursos para realizar operaciones de protección de datos.
+
+
+NOTE: Si especifica detalles incorrectos al crear una credencial, se mostrará un mensaje de error.  Debes hacer clic en *Cancelar* y luego volver a intentarlo.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* de la lista *Ver*.
+. Hacer clicimage:../media/filter_icon.gif["icono de filtro"] y luego seleccione el nombre del host y el tipo de base de datos para filtrar los recursos.
++
+Luego puedes hacer clicimage:../media/filter_icon.gif["icono de filtro"] para cerrar el panel de filtro.
+
+. Seleccione la base de datos y luego haga clic en *Configuración de la base de datos* > *Configurar base de datos*.
+. En la sección Configurar parámetros de base de datos, en la lista desplegable *Usar credencial existente*, seleccione la credencial que se debe utilizar para realizar trabajos de protección de datos en la base de datos Oracle.
++
+
+NOTE: El usuario de Oracle debe tener privilegios sysdba.
+
++
+También puede crear una credencial haciendo clic enimage:../media/add_icon_configure_database.gif["Agregar icono en la pantalla de configuración de la base de datos"] .
+
+. En la sección Configurar ajustes de ASM, en la lista desplegable *Usar credencial existente*, seleccione la credencial que se debe usar para realizar trabajos de protección de datos en la instancia de ASM.
++
+
+NOTE: El usuario ASM debe tener privilegios sysasm.
+
++
+También puede crear una credencial haciendo clic enimage:../media/add_icon_configure_database.gif["Agregar icono en la pantalla de configuración de la base de datos"] .
+
+. En la sección Configurar parámetros del catálogo RMAN, en la lista desplegable *Usar credencial existente*, seleccione la credencial que se debe utilizar para realizar trabajos de protección de datos en la base de datos del catálogo de Oracle Recovery Manager (RMAN).
++
+También puede crear una credencial haciendo clic enimage:../media/add_icon_configure_database.gif["Agregar icono en la pantalla de configuración de la base de datos"] .
+
++
+En el campo *TNSName*, ingrese el nombre del archivo de sustrato de red transparente (TNS) que utilizará el servidor SnapCenter para comunicarse con la base de datos.
+
+. En el campo *Nodos RAC preferidos*, especifique los nodos del clúster de aplicaciones reales (RAC) preferidos para la copia de seguridad.
++
+Los nodos preferidos podrían ser uno o todos los nodos del clúster donde están presentes las instancias de la base de datos RAC.  La operación de copia de seguridad se activa solo en estos nodos preferidos en el orden de preferencia.
+
++
+En RAC One Node, solo se incluye un nodo en los nodos preferidos, y este nodo preferido es el nodo donde se encuentra alojada actualmente la base de datos.
+
++
+Después de una conmutación por error o reubicación de la base de datos de RAC One Node, la actualización de los recursos en la página Recursos de SnapCenter eliminará el host de la lista *Nodos RAC preferidos* donde la base de datos estaba alojada anteriormente.  El nodo RAC donde se reubica la base de datos aparecerá en *Nodos RAC* y deberá configurarse manualmente como el nodo RAC preferido.
+
++
+Para obtener más información, consulte link:../protect-sco/task_define_a_backup_strategy_for_oracle_databases.html#preferred-nodes-in-rac-setup["Nodos preferidos en la configuración de RAC"^] .
+
+. Haga clic en *Aceptar*.
+

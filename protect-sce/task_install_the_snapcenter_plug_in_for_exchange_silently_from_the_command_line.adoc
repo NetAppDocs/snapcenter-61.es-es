@@ -1,0 +1,104 @@
+---
+permalink: protect-sce/task_install_the_snapcenter_plug_in_for_exchange_silently_from_the_command_line.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Debe instalar el complemento para Exchange desde la interfaz de usuario de SnapCenter .  Sin embargo, si por algún motivo no puede, puede ejecutar el programa de instalación del complemento para Exchange sin supervisión en modo silencioso desde la línea de comandos de Windows. 
+---
+= Instale el complemento de SnapCenter para Exchange de forma silenciosa desde la línea de comandos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe instalar el complemento para Exchange desde la interfaz de usuario de SnapCenter .  Sin embargo, si por algún motivo no puede, puede ejecutar el programa de instalación del complemento para Exchange sin supervisión en modo silencioso desde la línea de comandos de Windows.
+
+.Antes de empezar
+* Debes haber realizado una copia de seguridad de los recursos de Microsoft Exchange Server.
+* Debe tener instalados los paquetes de complementos de SnapCenter .
+* Debe eliminar la versión anterior del complemento SnapCenter para Microsoft SQL Server antes de instalarlo.
++
+Para obtener más información, consulte  https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_Install_a_SnapCenter_Plug-In_manually_and_directly_from_thePlug-In_Host["Cómo instalar un complemento de SnapCenter de forma manual y directa desde el host del complemento"^] .
+
+
+
+.Pasos
+. Valide si la carpeta _C:\temp_ existe en el host del complemento y si el usuario que inició sesión tiene acceso completo a ella.
+. Descargue el complemento de SnapCenter para Microsoft Windows desde _C:\ProgramData\ NetApp\ SnapCenter\Package_ Repository.
++
+Se puede acceder a esta ruta desde el host donde está instalado el servidor SnapCenter .
+
+. Copie el archivo de instalación en el host en el que desea instalar el complemento.
+. Desde un símbolo del sistema de Windows en el host local, navegue hasta el directorio donde guardó los archivos de instalación del complemento.
+. Introduzca el siguiente comando para instalar el complemento.
++
+_snapcenter_windows_host_plugin.exe"/silent /debuglog"<Ruta_del_registro_de_depuración>" /log"<Ruta_del_registro>" BI_SNAPCENTER_PORT=<Num> SUITE_INSTALLDIR="<Ruta_del_directorio_de_instalación>" BI_SERVICEACCOUNT=<dominio\administrador> BI_SERVICEPWD=<contraseña> ISFeatureInstall=HPPW,SCW,SCE_
+
++
+Por ejemplo:
+
++
+_C:\ProgramData\ NetApp\ SnapCenter\Repositorio de paquetes\snapcenter_windows_host_plugin.exe"/silent /debuglog"C:\HPPW_SCSQL_Install.log" /log"C:\temp" BI_SNAPCENTER_PORT=8145 SUITE_INSTALLDIR="C:\Archivos de programa\ NetApp\ SnapCenter" BI_SERVICEACCOUNT=dominio\administrador BI_SERVICEPWD=contraseña ISFeatureInstall=HPPW,SCW,SCE_
+
++
+
+NOTE: Todos los parámetros pasados durante la instalación del complemento para Exchange distinguen entre mayúsculas y minúsculas.
+
++
+Introduzca los siguientes valores para las variables:
+
++
+|===
+| Variable | Valor 
+
+
+ a| 
+_/debuglog"<Ruta_del_registro_de_depuración>_
+ a| 
+Especifique el nombre y la ubicación del archivo de registro del instalador de la suite, como en el siguiente ejemplo:
+
+_Setup.exe /debuglog"C:\RutaAlRegistro\setupexe.log_
+
+
+
+ a| 
+PUERTO BI_SNAPCENTER
+ a| 
+Especifique el puerto en el que SnapCenter se comunica con SMCore.
+
+
+
+ a| 
+SUITE_INSTALLDIR
+ a| 
+Especifique el directorio de instalación del paquete del complemento de host.
+
+
+
+ a| 
+BI_CUENTA DE SERVICIO
+ a| 
+Especifique el complemento SnapCenter para la cuenta de servicio web de Microsoft Windows.
+
+
+
+ a| 
+BI_SERVICEPWD
+ a| 
+Especifique la contraseña para la cuenta de servicio web del complemento SnapCenter para Microsoft Windows.
+
+
+
+ a| 
+Instalación de ISFeature
+ a| 
+Especifique la solución que SnapCenter implementará en el host remoto.
+
+|===
+. Supervise el programador de tareas de Windows, el archivo de registro de instalación principal _C:\Installdebug.log_ y los archivos de instalación adicionales en _C:\Temp_.
+. Supervise el directorio _%temp%_ para verificar si los instaladores _msiexe.exe_ están instalando el software sin errores.
++
+
+NOTE: La instalación del complemento para Exchange registra el complemento en el host y no en el servidor SnapCenter .  Puede registrar el complemento en el servidor SnapCenter agregando el host mediante la GUI de SnapCenter o el cmdlet de PowerShell.  Una vez agregado el host, el complemento se descubre automáticamente.
+
+

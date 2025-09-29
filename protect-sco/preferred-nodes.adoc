@@ -1,0 +1,42 @@
+---
+permalink: protect-sco/preferred-nodes.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: Cómo SnapCenter descubre bases de datos de Oracle. 
+---
+= Nodos preferidos en la configuración de RAC
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+En la configuración de Oracle Real Application Clusters (RAC), puede especificar los nodos preferidos que SnapCenter utiliza para realizar la operación de copia de seguridad.  Si no especifica el nodo preferido, SnapCenter asigna automáticamente un nodo como preferido y se crea una copia de seguridad en ese nodo.
+
+Los nodos preferidos podrían ser uno o todos los nodos del clúster donde están presentes las instancias de la base de datos RAC.  La operación de copia de seguridad se activa solo en estos nodos preferidos en el orden de preferencia.
+
+.Ejemplo
+La base de datos RAC cdbrac tiene tres instancias: cdbrac1 en el nodo1, cdbrac2 en el nodo2 y cdbrac3 en el nodo3.
+
+Las instancias node1 y node2 están configuradas para ser los nodos preferidos, con node2 como la primera preferencia y node1 como la segunda preferencia.  Cuando se realiza una operación de copia de seguridad, la operación se intenta primero en el nodo 2 porque es el primer nodo preferido.
+
+Si el nodo 2 no está en estado de realizar una copia de seguridad, lo que podría deberse a varias razones, como que el agente del complemento no se está ejecutando en el host, la instancia de la base de datos en el host no está en el estado requerido para el tipo de copia de seguridad especificado o la instancia de la base de datos en el nodo 2 en una configuración FlexASM no está siendo atendida por la instancia de ASM local; entonces se intentará la operación en el nodo 1.
+
+El nodo3 no se utilizará para la copia de seguridad porque no está en la lista de nodos preferidos.
+
+
+
+== Configuración de Flex ASM
+
+En una configuración Flex ASM, los nodos Leaf no aparecerán como nodos preferidos si la cardinalidad es menor que la cantidad de nodos en el clúster RAC.  Si hay algún cambio en los roles de los nodos del clúster Flex ASM, debe descubrirlo manualmente para que se actualicen los nodos preferidos.
+
+
+
+== Estado de la base de datos requerido
+
+Las instancias de la base de datos RAC en los nodos preferidos deben estar en el estado requerido para que la copia de seguridad finalice correctamente:
+
+* Una de las instancias de la base de datos RAC en los nodos preferidos configurados debe estar en estado abierto para crear una copia de seguridad en línea.
+* Una de las instancias de la base de datos RAC en los nodos preferidos configurados debe estar en el estado de montaje, y todas las demás instancias, incluidos otros nodos preferidos, deben estar en el estado de montaje o inferior para crear una copia de seguridad de montaje sin conexión.
+* Las instancias de base de datos RAC pueden estar en cualquier estado, pero debe especificar los nodos preferidos para crear una copia de seguridad de apagado sin conexión.
+

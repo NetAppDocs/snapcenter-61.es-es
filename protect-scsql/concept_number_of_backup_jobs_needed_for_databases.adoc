@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_number_of_backup_jobs_needed_for_databases.html 
+sidebar: sidebar 
+keywords: Number of backup jobs 
+summary: 'Los factores que determinan la cantidad de trabajos de respaldo que necesita incluyen el tamaño de la base de datos, la cantidad de volúmenes utilizados, la tasa de cambio de la base de datos y su Acuerdo de Nivel de Servicio (SLA).' 
+---
+= Número de trabajos de respaldo necesarios para las bases de datos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los factores que determinan la cantidad de trabajos de respaldo que necesita incluyen el tamaño de la base de datos, la cantidad de volúmenes utilizados, la tasa de cambio de la base de datos y su Acuerdo de Nivel de Servicio (SLA).
+
+Para las copias de seguridad de bases de datos, la cantidad de trabajos de copia de seguridad que elija generalmente dependerá de la cantidad de volúmenes en los que colocó sus bases de datos.  Por ejemplo, si coloca un grupo de bases de datos pequeñas en un volumen y una base de datos grande en otro volumen, puede crear un trabajo de respaldo para las bases de datos pequeñas y un trabajo de respaldo para la base de datos grande.

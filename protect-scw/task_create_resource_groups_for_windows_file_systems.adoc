@@ -1,0 +1,136 @@
+---
+permalink: protect-scw/task_create_resource_groups_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: resource groups 
+summary: Un grupo de recursos es el contenedor al que puedes agregar múltiples sistemas de archivos que quieras proteger.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar y luego especificar la programación de copia de seguridad. 
+---
+= Crear grupos de recursos para sistemas de archivos de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un grupo de recursos es el contenedor al que puedes agregar múltiples sistemas de archivos que quieras proteger.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar y luego especificar la programación de copia de seguridad.
+
+.Acerca de esta tarea
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+* No se admite agregar nuevos sistemas de archivos sin sincronización activa de SnapMirror a un grupo de recursos existente que contiene recursos con sincronización activa de SnapMirror .
+* No se admite agregar nuevos sistemas de archivos a un grupo de recursos existente en el modo de conmutación por error de la sincronización activa de SnapMirror .  Puede agregar recursos al grupo de recursos solo en estado normal o de conmutación por recuperación.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Sistemas de archivos* de la lista.
++
+
+NOTE: Si ha agregado recientemente un sistema de archivos a SnapCenter, haga clic en *Actualizar recursos* para ver el recurso recientemente agregado.
+
+. Haga clic en *Nuevo grupo de recursos*.
+. En la página Nombre del asistente, haga lo siguiente:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Nombre
+ a| 
+Introduzca el nombre del grupo de recursos.
+
+
+NOTE: El nombre del grupo de recursos no debe exceder los 250 caracteres.
+
+
+
+ a| 
+Utilice un formato de nombre personalizado para la copia de instantáneas
+ a| 
+Opcional: Ingrese un nombre y formato de instantánea personalizados.
+
+Por ejemplo, customtext_resourcegroup_policy_hostname o resourcegroup_hostname.  De forma predeterminada, se agrega una marca de tiempo al nombre de la instantánea.
+
+
+
+ a| 
+Etiqueta
+ a| 
+Ingrese una etiqueta descriptiva para ayudar a encontrar un grupo de recursos.
+
+|===
+. En la página Recursos, realice las siguientes tareas:
++
+.. Seleccione el host para filtrar la lista de recursos.
++
+Si ha agregado recursos recientemente, aparecerán en la lista de recursos disponibles solo después de actualizar su lista de recursos.
+
+.. En la sección Recursos disponibles, haga clic en los sistemas de archivos que desea respaldar y luego haga clic en la flecha derecha para moverlos a la sección Agregados.
++
+Si selecciona la opción *Seleccionar automáticamente todos los recursos en el mismo volumen de almacenamiento*, se seleccionarán todos los recursos en el mismo volumen.  Cuando los mueve a la sección Agregado, todos los recursos de ese volumen se mueven juntos.
+
++
+Para agregar un solo sistema de archivos, desmarque la opción *Seleccionar automáticamente todos los recursos en el mismo volumen de almacenamiento* y luego seleccione los sistemas de archivos que desea mover a la sección Agregado.
+
+
+
+. En la página Políticas, realice las siguientes tareas:
++
+.. Seleccione una o más políticas de la lista desplegable.
++
+Puede seleccionar cualquier política existente y hacer clic en *Detalles* para determinar si puede utilizar esa política.
+
++
+Si ninguna política existente cumple con sus requisitos, puede crear una nueva política haciendo clic en *image:../media/add_policy_from_resourcegroup.gif["icono más"] * para iniciar el asistente de políticas.
+
++
+Las políticas seleccionadas se enumeran en la columna Política de la sección Configurar programaciones para políticas seleccionadas.
+
+.. En la sección Configurar programaciones para políticas seleccionadas, haga clic en *image:../media/add_policy_from_resourcegroup.gif["icono más"] * en la columna Configurar programaciones de la política para la que desea configurar la programación.
+.. Si la política está asociada a varios tipos de programación (frecuencias), seleccione la frecuencia que desea configurar.
+.. En el cuadro de diálogo Agregar programaciones para la política _policy_name_, configure la programación especificando la fecha de inicio, la fecha de vencimiento y la frecuencia y, luego, haga clic en *Finalizar*.
++
+Los programas configurados se enumeran en la columna Programaciones aplicadas en la sección Configurar programas para políticas seleccionadas.
+
+
+
++
+No se admiten programaciones de respaldo de terceros cuando se superponen con programaciones de respaldo de SnapCenter .  No debe modificar las programaciones del Programador de tareas de Windows ni del Agente SQL Server.
+
+. En la página de Notificación, proporcione información de notificación, de la siguiente manera:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Preferencia de correo electrónico
+ a| 
+Seleccione *Siempre*, *En caso de error* o *En caso de error o advertencia* para enviar correos electrónicos a los destinatarios después de crear grupos de recursos de respaldo, adjuntar políticas y configurar programaciones.  Ingrese el servidor SMTP, la línea de asunto del correo electrónico predeterminada y las direcciones de correo electrónico Para y De.
+
+
+
+ a| 
+De
+ a| 
+Dirección de correo electrónico
+
+
+
+ a| 
+A
+ a| 
+Correo electrónico a la dirección
+
+
+
+ a| 
+Sujeto
+ a| 
+Línea de asunto de correo electrónico predeterminada
+
+|===
+. Revise el resumen y luego haga clic en *Finalizar*.
++
+Puede realizar una copia de seguridad a pedido o esperar a que se realice la copia de seguridad programada.
+
+

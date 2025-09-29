@@ -1,0 +1,14 @@
+---
+permalink: protect-mysql/housekeeping-of-log-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: SnapCenter administra el mantenimiento de las copias de seguridad de registros y datos en los niveles del sistema de almacenamiento y del sistema de archivos, y dentro del catálogo de copias de seguridad de MySQL. 
+---
+= Cómo gestiona SnapCenter el mantenimiento de las copias de seguridad de registros
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter administra el mantenimiento de las copias de seguridad de datos en los niveles del sistema de almacenamiento y del sistema de archivos.

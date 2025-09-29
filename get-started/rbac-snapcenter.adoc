@@ -1,0 +1,932 @@
+---
+permalink: get-started/rbac-snapcenter.html 
+sidebar: sidebar 
+keywords: RBAC, roles, permissions, application-level RBAC, ONTAP permissions, default snapcenter roles, ONTAP permissions, SnapCenter Admin role 
+summary: 'El control de acceso basado en roles (RBAC) de SnapCenter y los permisos de ONTAP permiten a los administradores de SnapCenter crear roles y establecer permisos de acceso.  Este acceso administrado centralmente permite a los administradores de aplicaciones trabajar de forma segura dentro de entornos delegados.' 
+---
+= Control de acceso basado en roles en SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El control de acceso basado en roles (RBAC) de SnapCenter y los permisos de ONTAP permiten a los administradores de SnapCenter delegar el control de los recursos de SnapCenter a diferentes usuarios o grupos de usuarios.  Este acceso administrado centralmente permite a los administradores de aplicaciones trabajar de forma segura dentro de entornos delegados.
+
+Puede crear y modificar roles y agregar acceso a recursos a los usuarios en cualquier momento.  Sin embargo, cuando configure SnapCenter por primera vez, deberá al menos agregar usuarios o grupos de Active Directory a los roles y luego agregar acceso a recursos a esos usuarios o grupos.
+
+
+NOTE: No puede utilizar SnapCenter para crear cuentas de usuario o grupo.  Debe crear cuentas de usuario o grupo en Active Directory del sistema operativo o la base de datos.
+
+
+
+== Tipos de RBAC en SnapCenter
+
+SnapCenter utiliza los siguientes tipos de control de acceso basado en roles:
+
+* RBAC de SnapCenter
+* RBAC a nivel de aplicación
+* Complemento de SnapCenter para VMware vSphere RBAC
+* Permisos de ONTAP
+
+
+
+
+=== RBAC de SnapCenter
+
+SnapCenter tiene roles predefinidos y usted puede asignar usuarios o grupos de usuarios a estos roles.  Los roles predefinidos son:
+
+* Rol de administrador de SnapCenter
+* Rol de administrador de copias de seguridad y clonación de aplicaciones
+* Función de visor de copias de seguridad y clones
+* Rol de administrador de infraestructura
+
+
+Cuando asigna un rol a un usuario, solo los trabajos que son relevantes para ese usuario son visibles en la página Trabajos, a menos que le asigne el rol SnapCenterAdmin.
+
+También puede crear nuevos roles y administrar permisos y usuarios.  Puede asignar permisos a usuarios o grupos para acceder a objetos de SnapCenter , como hosts, conexiones de almacenamiento y grupos de recursos.
+
+Puede asignar permisos RBAC a usuarios y grupos dentro del mismo bosque y a usuarios que pertenecen a diferentes bosques.  No se pueden asignar permisos RBAC a usuarios que pertenecen a grupos anidados en distintos bosques.
+
+
+NOTE: Si crea un rol personalizado, debe contener todos los permisos del rol SnapCenterAdmin.  Si solo copia algunos de los permisos, por ejemplo, agregar host o quitar host, no podrá realizar esas operaciones.
+
+Los usuarios deben proporcionar autenticación durante el inicio de sesión, a través de la interfaz gráfica de usuario (GUI) o utilizando cmdlets de PowerShell.  Si los usuarios son miembros de más de un rol, después de ingresar las credenciales de inicio de sesión, se les solicita que especifiquen el rol que desean usar. Los usuarios también deben proporcionar autenticación para ejecutar las API.
+
+
+
+=== RBAC a nivel de aplicación
+
+SnapCenter utiliza credenciales para verificar que los usuarios autorizados de SnapCenter también tengan permisos a nivel de aplicación.
+
+Por ejemplo, si desea realizar operaciones de protección de datos en un entorno de SQL Server, debe configurar las credenciales con las credenciales de Windows o SQL adecuadas.  El servidor SnapCenter autentica las credenciales establecidas utilizando cualquiera de los métodos. Si desea realizar operaciones de protección de datos en un entorno de sistema de archivos de Windows en el almacenamiento ONTAP , el rol de administrador de SnapCenter debe tener privilegios de administrador en el host de Windows.
+
+De manera similar, si desea realizar operaciones de protección de datos en una base de datos Oracle y si la autenticación del sistema operativo (SO) está deshabilitada en el host de la base de datos, debe configurar las credenciales con la base de datos Oracle o las credenciales de Oracle ASM. El servidor SnapCenter autentica las credenciales establecidas utilizando uno de estos métodos según la operación.
+
+
+
+=== SnapCenter Plug-in for VMware vSphere RBAC
+
+Si utiliza el complemento VMware de SnapCenter para la protección de datos consistente con la máquina virtual, vCenter Server proporciona un nivel adicional de RBAC.  El complemento VMware de SnapCenter admite tanto vCenter Server RBAC como ONTAP RBAC. https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_types_of_rbac_for_snapcenter_users.html["Más información"^]
+
+|===
+
+
+| *Mejor práctica:* NetApp recomienda crear una función de ONTAP para las operaciones del SnapCenter Plug-in for VMware vSphere y asignarle todos los privilegios necesarios. 
+|===
+
+
+=== Permisos de ONTAP
+
+Debe crear una cuenta vsadmin con los permisos necesarios para acceder al sistema de almacenamiento.link:../install/task_add_a_user_or_group_and_assign_role_and_assets.html["Más información"]
+
+
+
+== Permisos asignados a los roles predefinidos de SnapCenter
+
+Cuando agrega un usuario a un rol, debe asignar el permiso StorageConnection para habilitar la comunicación de la máquina virtual de almacenamiento (SVM) o asignar una SVM al usuario para habilitar el permiso para usar la SVM.  El permiso de Conexión de almacenamiento permite a los usuarios crear conexiones SVM.
+
+Por ejemplo, un usuario con el rol de administrador de SnapCenter puede crear conexiones SVM y asignarlas a un usuario con el rol de administrador de copias de seguridad y clones de aplicaciones, que de manera predeterminada no tiene permiso para crear o editar conexiones SVM.  Sin una conexión SVM, los usuarios no pueden completar ninguna operación de copia de seguridad, clonación o restauración.
+
+
+
+=== Rol de administrador de SnapCenter
+
+El rol de administrador de SnapCenter tiene todos los permisos habilitados.  No puedes modificar los permisos para este rol.  Puede agregar usuarios y grupos al rol o eliminarlos.
+
+
+
+=== Rol de administrador de copias de seguridad y clonación de aplicaciones
+
+El rol de administrador de copias de seguridad y clones de aplicaciones tiene los permisos necesarios para realizar acciones administrativas para copias de seguridad de aplicaciones y tareas relacionadas con clones.  Esta función no tiene permisos para administración de host, aprovisionamiento, administración de conexión de almacenamiento o instalación remota.
+
+|===
+| Permisos | Habilitado | Crear | Leer | Actualizar | Borrar 
+
+
+ a| 
+Grupo de recursos
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Política
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Respaldo
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Host
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Conexión de almacenamiento
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Clon
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Disposición
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Consola
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Informes
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Restaurar
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Recurso
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Instalar/desinstalar complementos
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Migración
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Montar
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Desmontar
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Restauración de volumen completo
+ a| 
+No
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Protección secundaria
+ a| 
+No
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Monitor de trabajo
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+|===
+
+
+=== Función de visor de copias de seguridad y clones
+
+La función Visor de copias de seguridad y clones tiene una vista de solo lectura de todos los permisos. Esta función también tiene permisos habilitados para descubrimiento, informes y acceso al Panel de Control.
+
+|===
+| Permisos | Habilitado | Crear | Leer | Actualizar | Borrar 
+
+
+ a| 
+Grupo de recursos
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Política
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Respaldo
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Host
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Conexión de almacenamiento
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Clon
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Disposición
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Consola
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Informes
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Restaurar
+ a| 
+No
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Recurso
+ a| 
+No
+ a| 
+No
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+No
+
+
+
+ a| 
+Instalar/desinstalar complementos
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Migración
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Montar
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Desmontar
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Restauración de volumen completo
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Protección secundaria
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Monitor de trabajo
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+|===
+
+
+=== Rol de administrador de infraestructura
+
+El rol de administrador de infraestructura tiene permisos habilitados para la administración de host, administración de almacenamiento, aprovisionamiento, grupos de recursos, informes de instalación remota y acceso al Panel de control.
+
+|===
+| Permisos | Habilitado | Crear | Leer | Actualizar | Borrar 
+
+
+ a| 
+Grupo de recursos
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Política
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Respaldo
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Host
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Conexión de almacenamiento
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Clon
+ a| 
+No aplicable
+ a| 
+No
+ a| 
+Sí
+ a| 
+No
+ a| 
+No
+
+
+
+ a| 
+Disposición
+ a| 
+No aplicable
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Consola
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Informes
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Restaurar
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Recurso
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+ a| 
+Sí
+
+
+
+ a| 
+Instalar/desinstalar complementos
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Migración
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Montar
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Desmontar
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Restauración de volumen completo
+ a| 
+No
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Protección secundaria
+ a| 
+No
+ a| 
+No
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+
+
+ a| 
+Monitor de trabajo
+ a| 
+Sí
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+ a| 
+No aplicable
+
+|===

@@ -1,0 +1,50 @@
+---
+permalink: protect-sco/task_cancel_oracle_database_restore_operations.html 
+sidebar: sidebar 
+keywords: cancel, restore 
+summary: Puede cancelar trabajos de restauración que estén en cola. 
+---
+= Cancelar operaciones de restauración de bases de datos de Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede cancelar trabajos de restauración que estén en cola.
+
+Debe iniciar sesión como administrador de SnapCenter o propietario del trabajo para cancelar las operaciones de restauración.
+
+.Acerca de esta tarea
+* Puede cancelar una operación de restauración en cola desde la página *Monitor* o desde el panel *Actividad*.
+* No se puede cancelar una operación de restauración en ejecución.
+* Puede utilizar la GUI de SnapCenter , los cmdlets de PowerShell o los comandos CLI para cancelar las operaciones de restauración en cola.
+* El botón *Cancelar trabajo* está deshabilitado para las operaciones de restauración que no se pueden cancelar.
+* Si seleccionó *Todos los miembros de este rol pueden ver y operar en objetos de otros miembros* en la página Usuarios\Grupos al crear un rol, puede cancelar las operaciones de restauración en cola de otros miembros mientras usan ese rol.
+
+
+.Paso
+Ejecute una de las siguientes acciones:
+
+|===
+| Desde... | Acción 
+
+
+ a| 
+Página de monitorización
+ a| 
+. En el panel de navegación izquierdo, haga clic en *Monitor* > *Trabajos*.
+. Seleccione el trabajo y haga clic en *Cancelar trabajo*.
+
+
+
+
+ a| 
+Panel de actividades
+ a| 
+. Después de iniciar la operación de restauración, haga clic enimage:../media/activity_pane_icon.gif["icono del panel de actividad"] en el panel Actividad para ver las cinco operaciones más recientes.
+. Seleccione la operación.
+. En la página Detalles del trabajo, haga clic en *Cancelar trabajo*.
+
+
+|===

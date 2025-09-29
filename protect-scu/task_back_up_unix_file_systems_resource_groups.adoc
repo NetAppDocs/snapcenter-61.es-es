@@ -1,0 +1,34 @@
+---
+permalink: protect-scu/task_back_up_unix_file_systems_resource_groups.html 
+sidebar: sidebar 
+keywords: backup, resource group 
+summary: Se realiza una operación de copia de seguridad en el grupo de recursos en todos los recursos definidos en el grupo de recursos. 
+---
+= Realizar copias de seguridad de los grupos de recursos de los sistemas de archivos Unix
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede realizar una copia de seguridad de los sistemas de archivos Unix definidos en el grupo de recursos.  Puede realizar una copia de seguridad de un grupo de recursos a pedido desde la página Recursos.  Si un grupo de recursos tiene una política adjunta y una programación configurada, las copias de seguridad se crean de acuerdo con la programación.
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Recursos* y el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Grupo de recursos* de la lista *Ver*.
+. Ingrese el nombre del grupo de recursos en el cuadro de búsqueda o haga clic enimage:../media/filter_icon.gif["icono de filtro"] y seleccione la etiqueta.
++
+Hacer clicimage:../media/filter_icon.gif["icono de filtro"] para cerrar el panel de filtro.
+
+. En la página Grupo de recursos, seleccione el grupo de recursos que desea respaldar.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si tiene varias políticas asociadas con el grupo de recursos, seleccione la política de respaldo que desea utilizar en la lista desplegable *Política*.
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
+.. Seleccione *Copia de seguridad*.
+
+
+. Supervise el progreso seleccionando *Monitor > Trabajos*.
+

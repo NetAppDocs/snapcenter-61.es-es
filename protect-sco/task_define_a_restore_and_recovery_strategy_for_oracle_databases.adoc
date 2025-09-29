@@ -1,0 +1,230 @@
+---
+permalink: protect-sco/task_define_a_restore_and_recovery_strategy_for_oracle_databases.html 
+sidebar: sidebar 
+keywords: backup types, restore methods, connect-and-copy restore, full restore, partial restore, in-place restore, recovery type, limitations 
+summary: Debe definir una estrategia antes de restaurar y recuperar su base de datos para poder realizar operaciones de restauración y recuperación con éxito. 
+---
+= Definir una estrategia de restauración y recuperación para bases de datos Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe definir una estrategia antes de restaurar y recuperar su base de datos para poder realizar operaciones de restauración y recuperación con éxito.
+
+
+
+== Tipos de copias de seguridad compatibles con operaciones de restauración y recuperación
+
+SnapCenter admite la restauración y recuperación de diferentes tipos de copias de seguridad de bases de datos Oracle.
+
+* Copia de seguridad de datos en línea
+* Copia de seguridad de datos de apagado sin conexión
+* Copia de seguridad de datos de montaje sin conexión
++
+
+NOTE: Si está restaurando una copia de seguridad de datos de apagado o montaje sin conexión, SnapCenter deja la base de datos en estado sin conexión.  Debe recuperar manualmente la base de datos y restablecer los registros.
+
+* Copia de seguridad completa
+* Copias de seguridad de bases de datos en espera de Data Guard montadas sin conexión
+* Copias de seguridad en línea de solo datos de bases de datos en espera de Active Data Guard
++
+
+NOTE: No se puede realizar la recuperación de bases de datos en espera de Active Data Guard.
+
+* Copias de seguridad de datos en línea, copias de seguridad completas en línea, copias de seguridad de montaje sin conexión y copias de seguridad de apagado sin conexión en una configuración de Real Application Clusters (RAC)
+* Copias de seguridad de datos en línea, copias de seguridad completas en línea, copias de seguridad de montaje sin conexión y copias de seguridad de apagado sin conexión en una configuración de Administración automática de almacenamiento (ASM)
+
+
+
+
+== Tipos de métodos de restauración admitidos para bases de datos Oracle
+
+SnapCenter admite la conexión y copia o la restauración en el lugar para bases de datos Oracle.  Durante una operación de restauración, SnapCenter determina el método de restauración apropiado para el sistema de archivos que se utilizará para restaurar sin pérdida de datos.
+
+
+NOTE: SnapCenter no admite SnapRestore basado en volumen.
+
+
+
+=== Restauración mediante conexión y copia
+
+Si el diseño de la base de datos difiere de la copia de seguridad o si hay archivos nuevos después de crear la copia de seguridad, se realiza una restauración de conexión y copia.  En el método de restauración de conexión y copia, se realizan las siguientes tareas:
+
+*Pasos*
+
+. El volumen se clona desde la instantánea y la pila del sistema de archivos se construye en el host utilizando los LUN o volúmenes clonados.
+. Los archivos se copian de los sistemas de archivos clonados a los sistemas de archivos originales.
+. Luego, los sistemas de archivos clonados se desmontan del host y los volúmenes clonados se eliminan de ONTAP.
+
+
+
+NOTE: Para una configuración de Flex ASM (donde la cardinalidad es menor que la cantidad de nodos en el clúster RAC) o bases de datos ASM RAC en VMDK o RDM, solo se admite el método de restauración de conexión y copia.
+
+Incluso si ha habilitado de forma forzada la restauración en el lugar, SnapCenter realiza una restauración de conexión y copia en los siguientes escenarios:
+
+* Restaurar desde el sistema de almacenamiento secundario
+* Restauración de grupos de discos ASM presentes en nodos de una configuración de Oracle RAC en la que no está configurada la instancia de base de datos
+* En la configuración de Oracle RAC, en cualquiera de los nodos pares si la instancia de ASM o la instancia del clúster no se está ejecutando o si el nodo par está inactivo
+* Restauración de archivos de control únicamente
+* Restaurar un subconjunto de espacios de tabla que residen en un grupo de discos ASM
+* El grupo de discos se comparte entre archivos de datos, archivo sp y archivo de contraseña
+* El servicio SnapCenter Plug-in Loader (SPL) no está instalado o no se está ejecutando en el nodo remoto en un entorno RAC
+* Se agregan nuevos nodos a Oracle RAC y el servidor SnapCenter no tiene conocimiento de los nodos recién agregados
+
+
+
+
+=== Restauración en el lugar
+
+Si el diseño de la base de datos es similar a la copia de seguridad y no ha sufrido ningún cambio de configuración en la pila de almacenamiento y base de datos, se realiza una restauración en el lugar, en donde la restauración del archivo o LUN se realiza en ONTAP.  SnapCenter solo admite SnapRestore de archivo único (SFSR) como parte del método de restauración en el lugar.
+
+
+NOTE: NetApp ONTAP admite la restauración local desde una ubicación secundaria.
+
+Si desea realizar una restauración local en la base de datos, asegúrese de tener solo archivos de datos en el grupo de discos ASM.  Debe crear una copia de seguridad después de realizar cualquier cambio en el grupo de discos ASM o en la estructura física de la base de datos.  Después de realizar una restauración en el lugar, el grupo de discos contendrá la misma cantidad de archivos de datos que en el momento de la copia de seguridad.
+
+La restauración en el lugar se aplicará automáticamente cuando el grupo de discos o el punto de montaje coincidan con los siguientes criterios:
+
+* No se agregan nuevos archivos de datos después de la copia de seguridad (verificación de archivos externos)
+* No se pueden agregar, eliminar ni recrear discos ASM ni LUN después de la copia de seguridad (verificación de cambios estructurales en el grupo de discos ASM)
+* No se pueden agregar, eliminar ni recrear LUN en el grupo de discos LVM (verificación de cambios estructurales en el grupo de discos LVM)
+
+
+
+NOTE: También puede habilitar de manera forzada la restauración en el lugar mediante la GUI, la CLI de SnapCenter o el cmdlet de PowerShell para anular la verificación de archivos externos y la verificación de cambios estructurales del grupo de discos LVM.
+
+
+
+==== Realizar una restauración local en ASM RAC
+
+En SnapCenter, el nodo en el que se realiza la restauración se denomina nodo principal y todos los demás nodos del RAC en el que reside el grupo de discos ASM se denominan nodos pares.  SnapCenter cambia el estado del grupo de discos ASM para desmontarlo en todos los nodos donde el grupo de discos ASM está en estado de montaje antes de realizar la operación de restauración de almacenamiento.  Una vez completada la restauración del almacenamiento, SnapCenter cambia el estado del grupo de discos ASM como estaba antes de la operación de restauración.
+
+En entornos SAN, SnapCenter elimina dispositivos de todos los nodos pares y realiza la operación de anulación de asignación de LUN antes de la operación de restauración del almacenamiento.  Después de la operación de restauración del almacenamiento, SnapCenter realiza la operación de mapa LUN y construye dispositivos en todos los nodos pares.  En un entorno SAN, si el diseño de Oracle RAC ASM reside en LUN, entonces, al restaurar, SnapCenter realiza operaciones de anulación de asignación de LUN, restauración de LUN y asignación de LUN en todos los nodos del clúster RAC donde reside el grupo de discos ASM.  Antes de restaurar, incluso si no se utilizaron todos los iniciadores de los nodos RAC para los LUN, después de restaurar SnapCenter crea un nuevo iGroup con todos los iniciadores de todos los nodos RAC.
+
+* Si se produce algún error durante la actividad de prerestauración en los nodos pares, SnapCenter revierte automáticamente el estado del grupo de discos ASM al que estaba antes de realizar la restauración en los nodos pares en los que la operación de prerestauración fue exitosa.  No se admite la reversión para el nodo principal y el nodo par en el que falló la operación.  Antes de intentar otra restauración, debe solucionar manualmente el problema en el nodo par y devolver el grupo de discos ASM en el nodo principal al estado de montaje.
+* Si ocurre algún error durante la actividad de restauración, la operación de restauración falla y no se realiza ninguna reversión.  Antes de intentar otra restauración, debe solucionar manualmente el problema de restauración del almacenamiento y devolver el grupo de discos ASM en el nodo principal al estado de montaje.
+* Si se produce algún error durante la actividad posterior a la restauración en cualquiera de los nodos pares, SnapCenter continúa con la operación de restauración en los demás nodos pares.  Debes solucionar manualmente el problema posterior a la restauración en el nodo par.
+
+
+
+
+== Tipos de operaciones de restauración compatibles con las bases de datos Oracle
+
+SnapCenter le permite realizar diferentes tipos de operaciones de restauración para bases de datos Oracle.
+
+Antes de restaurar la base de datos, se validan las copias de seguridad para identificar si faltan archivos en comparación con los archivos reales de la base de datos.
+
+
+
+=== Restauración completa
+
+* Restaura solo los archivos de datos
+* Restaura solo los archivos de control
+* Restaura los archivos de datos y los archivos de control.
+* Restaura archivos de datos, archivos de control y archivos de registro de rehacer en bases de datos en espera de Data Guard y en espera de Active Data Guard
+
+
+
+
+=== Restauración parcial
+
+* Restaura solo los espacios de tabla seleccionados
+* Restaura únicamente las bases de datos conectables (PDB) seleccionadas
+* Restaura solo los espacios de tabla seleccionados de un PDB
+
+
+
+
+== Tipos de operaciones de recuperación compatibles con las bases de datos Oracle
+
+SnapCenter le permite realizar diferentes tipos de operaciones de recuperación para bases de datos Oracle.
+
+* La base de datos hasta la última transacción (todos los registros)
+* La base de datos hasta un número de cambio de sistema específico (SCN)
+* La base de datos hasta una fecha y hora específicas
++
+Debe especificar la fecha y la hora de recuperación según la zona horaria del host de la base de datos.
+
++
+SnapCenter también ofrece la opción Sin recuperación para bases de datos Oracle.
+
+
+
+
+NOTE: El complemento para la base de datos Oracle no admite la recuperación si ha realizado una restauración utilizando una copia de seguridad creada con la función de base de datos en espera.  Siempre debe realizar la recuperación manual de las bases de datos físicas en espera.
+
+
+
+== Limitaciones relacionadas con la restauración y recuperación de bases de datos Oracle
+
+Antes de realizar operaciones de restauración y recuperación, debe tener en cuenta las limitaciones.
+
+Si está utilizando cualquier versión de Oracle desde 11.2.0.4 a 12.1.0.1, la operación de restauración quedará bloqueada cuando ejecute el comando _renamedg_.  Puede aplicar el parche 19544733 de Oracle para solucionar este problema.
+
+Las siguientes operaciones de restauración y recuperación no son compatibles:
+
+* Restauración y recuperación de espacios de tabla de la base de datos del contenedor raíz (CDB)
+* Restauración de espacios de tablas temporales y espacios de tablas temporales asociados con PDB
+* Restaurar y recuperar espacios de tabla desde múltiples PDB simultáneamente
+* Restauración de copias de seguridad de registros
+* Restauración de copias de seguridad a una ubicación diferente
+* Restauración de archivos de registro de rehacer en cualquier configuración que no sean bases de datos en espera de Data Guard o en espera de Data Guard activo
+* Restauración de archivo SPFILE y contraseña
+* Cuando se realiza una operación de restauración en una base de datos que se volvió a crear utilizando el nombre de base de datos preexistente en el mismo host, que fue administrada por SnapCenter y que tenía copias de seguridad válidas, la operación de restauración sobrescribe los archivos de base de datos recién creados aunque los DBID sean diferentes.
++
+Esto se puede evitar realizando cualquiera de las siguientes acciones:
+
++
+** Descubra los recursos de SnapCenter después de volver a crear la base de datos
+** Crear una copia de seguridad de la base de datos recreada
+
+
+
+
+
+
+== Limitaciones relacionadas con la recuperación de espacios de tabla en un punto determinado del tiempo
+
+* No se admite la recuperación en un punto en el tiempo (PITR) de los espacios de tabla SYSTEM, SYSAUX y UNDO
+* La PITR de espacios de tabla no se puede realizar junto con otros tipos de restauración
+* Si se cambia el nombre de un espacio de tabla y desea recuperarlo a un punto anterior al cambio de nombre, debe especificar el nombre anterior del espacio de tabla.
+* Si las restricciones para las tablas en un espacio de tabla están contenidas en otro espacio de tabla, debe recuperar ambos espacios de tabla
+* Si una tabla y sus índices se almacenan en diferentes espacios de tabla, entonces los índices deben eliminarse antes de realizar PITR
+* PITR no se puede utilizar para recuperar el espacio de tabla predeterminado actual
+* PITR no se puede utilizar para recuperar espacios de tabla que contengan cualquiera de los siguientes objetos:
++
+** Objetos con objetos subyacentes (como vistas materializadas) u objetos contenidos (como tablas particionadas), a menos que todos los objetos subyacentes o contenidos estén en el conjunto de recuperación
++
+Además, si las particiones de una tabla particionada se almacenan en diferentes espacios de tabla, entonces debe eliminar la tabla antes de realizar PITR o mover todas las particiones al mismo espacio de tabla antes de realizar PITR.
+
+** Deshacer o revertir segmentos
+** Colas avanzadas compatibles con Oracle 8 con múltiples destinatarios
+** Objetos propiedad del usuario SYS
++
+Ejemplos de estos tipos de objetos son PL/SQL, clases Java, programas de llamada, vistas, sinónimos, usuarios, privilegios, dimensiones, directorios y secuencias.
+
+
+
+
+
+
+
+== Orígenes y destinos para restaurar bases de datos Oracle
+
+Puede restaurar una base de datos de Oracle desde una copia de seguridad en el almacenamiento primario o secundario.  Sólo se pueden restaurar bases de datos en la misma ubicación en la misma instancia de base de datos.  Sin embargo, en la configuración de Real Application Cluster (RAC), puede restaurar bases de datos en otros nodos.
+
+
+
+=== Fuentes para operaciones de restauración
+
+Puede restaurar bases de datos desde una copia de seguridad en el almacenamiento primario o secundario.  Si desea restaurar desde una copia de seguridad en el almacenamiento secundario en una configuración de espejo múltiple, puede seleccionar el espejo de almacenamiento secundario como origen.
+
+
+
+=== Destinos para operaciones de restauración
+
+Sólo se pueden restaurar bases de datos en la misma ubicación en la misma instancia de base de datos.
+
+En una configuración RAC, puede restaurar bases de datos RAC desde cualquier nodo del clúster.

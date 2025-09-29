@@ -1,0 +1,45 @@
+---
+permalink: get-started/quick-start-snapcenter.html 
+sidebar: sidebar 
+keywords:  
+summary:  
+---
+= Inicio rápido del SnapCenter software
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+La guía de inicio rápido describe los pasos básicos para instalar y configurar el SnapCenter software.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["1"]Prepárese para instalar SnapCenter Server
+[role="quick-margin-para"]
+Debe asegurarse de que se cumplan todos los requisitos para instalar SnapCenter Server.
+
+[role="quick-margin-list"]
+* link:../install/requirements-to-install-snapcenter-server.html["Requisitos"]
+* link:../install/register_enable_software_access.html["Regístrese para acceder al SnapCenter software"]
+* link:../install/enable_multifactor_authentication.html["Habilitar la autenticación multifactor"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Dos"]Instalar SnapCenter Server
+[role="quick-margin-para"]
+El servidor SnapCenter se puede instalar en hosts Windows o Linux.  Descargue el paquete de instalación de SnapCenter Server desde https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["Sitio de soporte de NetApp"^] y ejecutar el instalador.
+
+[role="quick-margin-list"]
+* link:../install/task_install_the_snapcenter_server_using_the_install_wizard.html["Instalar el servidor SnapCenter en Windows"]
+* link:../install/install_snapcenter_server_linux.html["Instalar SnapCenter Server en Linux"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Tres"]Configurar el servidor SnapCenter
+[role="quick-margin-para"]
+Después de instalar SnapCenter Server, debe configurarlo según su entorno.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Cuatro"]Instale el complemento para su aplicación
+[role="quick-margin-para"]
+Asegúrese de que se cumplan todos los requisitos para instalar el complemento específico de la aplicación en uso y luego proceda con la instalación del complemento correspondiente.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["Cinco"]Proteja su aplicación
+[role="quick-margin-para"]
+Después de instalar exitosamente SnapCenter Server y los complementos necesarios, puede iniciar la creación de copias de seguridad de la aplicación.  Estas copias de seguridad se pueden utilizar posteriormente para fines de restauración y clonación cuando sea necesario.

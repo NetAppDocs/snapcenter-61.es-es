@@ -1,0 +1,56 @@
+---
+permalink: protect-azure/clone-sap-hana-database-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database, clone, database, backups 
+summary: Puede utilizar SnapCenter para clonar una copia de seguridad. 
+---
+= Clonar copia de seguridad de la base de datos de SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para clonar una base de datos de SAP HANA utilizando la copia de seguridad de la base de datos.  Los clones creados son clones gruesos y se crean en el grupo de capacidad principal.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, filtre los recursos de la lista desplegable *Ver* según el tipo de recurso.
+. Seleccione el recurso o grupo de recursos.
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* del sistema de almacenamiento principal.
+. Seleccione la copia de seguridad de datos de la tabla y luego haga clic enimage:../media/clone_icon.gif["icono de clonación"] .
+. En la página Ubicación, realice las siguientes acciones:
++
+.. Seleccione el host que tiene instalado el complemento SAP HANA para administrar el sistema HANA clonado.
++
+Puede ser un host de complemento centralizado o un host de sistema HANA.
+
++
+
+NOTE: Si el complemento HANA está instalado en un host centralizado que administra bases de datos HANA en otros hosts, al crear o eliminar clones, SnapCenter omite intencionalmente las operaciones del lado del host (montar o desmontar el sistema de archivos) ya que el servidor de destino es un host centralizado.  Debes usar scripts personalizados previos o posteriores a la clonación para realizar operaciones de montaje y desmontaje.
+
+.. Ingrese el SID de SAP HANA para clonar desde las copias de seguridad existentes.
+.. Introduzca las direcciones IP o los nombres de host a los que se exportarán los volúmenes clonados.
+.. Si los volúmenes ANF de la base de datos SAP HANA están configurados en un grupo de capacidad de QOS manual, especifique la QOS para los volúmenes clonados.
++
+Si no se especifica la calidad de servicio para los volúmenes clonados, se utilizará la calidad de servicio del volumen de origen.  Si se utiliza el grupo de capacidad de QOS automático, se ignorará el valor de QOS especificado.
+
+
+
+. En la página Scripts, realice los siguientes pasos:
++
+.. Introduzca los comandos para pre-clonar o post-clonar que deben ejecutarse antes o después de la operación de clonación, respectivamente.
+.. Introduzca el comando de montaje para montar un sistema de archivos en un host.
++
+Si el sistema HANA de origen se detecta automáticamente y el complemento del host de destino clonado está instalado en el host SAP HANA, SnapCenter desmonta automáticamente los volúmenes de datos HANA existentes en el host de destino clonado y monta los volúmenes de datos HANA recién clonados.
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
++
+
+NOTE: La división de clones está deshabilitada para los clones ANF porque el clon ANF ya es un volumen independiente creado a partir de la instantánea seleccionada.
+
+

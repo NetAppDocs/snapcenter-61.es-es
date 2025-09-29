@@ -1,0 +1,82 @@
+---
+permalink: protect-scsql/task_determine_whether_resources_are_available_for_backup.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Los recursos son las bases de datos, las instancias de aplicación, los grupos de disponibilidad y componentes similares que mantienen los complementos que ha instalado.  Puede agregar esos recursos a grupos de recursos para poder realizar trabajos de protección de datos, pero primero debe identificar qué recursos tiene disponibles.  La determinación de los recursos disponibles también verifica que la instalación del complemento se haya completado correctamente. 
+---
+= Determinar si hay recursos disponibles para realizar copias de seguridad
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los recursos son las bases de datos, las instancias de aplicación, los grupos de disponibilidad y componentes similares que mantienen los complementos que ha instalado.  Puede agregar esos recursos a grupos de recursos para poder realizar trabajos de protección de datos, pero primero debe identificar qué recursos tiene disponibles.  La determinación de los recursos disponibles también verifica que la instalación del complemento se haya completado correctamente.
+
+.Antes de empezar
+* Debe haber completado ya tareas como instalar SnapCenter Server, agregar hosts, crear conexiones del sistema de almacenamiento y agregar credenciales.
+* Para descubrir las bases de datos de Microsoft SQL, se debe cumplir una de las siguientes condiciones.
++
+** El usuario que se utilizó para agregar el host del complemento a SnapCenter Server debe tener los permisos necesarios (sysadmin) en Microsoft SQL Server.
+** Si no se cumple la condición anterior, en SnapCenter Server debe configurar el usuario que tenga los permisos necesarios (sysadmin) en Microsoft SQL Server.  El usuario debe configurarse en el nivel de instancia de Microsoft SQL Server y puede ser un usuario de SQL o de Windows.
+
+
+* Para descubrir las bases de datos de Microsoft SQL en un clúster de Windows, debe desbloquear el puerto TCP/IP de la instancia de clúster de conmutación por error (FCI).
+* Si las bases de datos residen en LUN o VMDK de VMware RDM, debe implementar el SnapCenter Plug-in for VMware vSphere y registrar el complemento con SnapCenter.
++
+Para obtener más información, consulte https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html["Implementar el SnapCenter Plug-in for VMware vSphere"^]
+
+* Si el host se agrega con gMSA y si el gMSA tiene privilegios de inicio de sesión y de administrador del sistema, se utilizará el gMSA para conectarse a la instancia de SQL.
+
+
+.Acerca de esta tarea
+No se pueden realizar copias de seguridad de bases de datos cuando la opción *Estado general* en la página Detalles está configurada en No disponible para copia de seguridad.  La opción *Estado general* se establece como No disponible para copia de seguridad cuando se cumple alguna de las siguientes condiciones:
+
+* Las bases de datos no están en un LUN de NetApp .
+* Las bases de datos no están en estado normal.
++
+Las bases de datos no están en estado normal cuando están fuera de línea, en restauración, con recuperación pendiente, sospechosas, etc.
+
+* Las bases de datos no tienen privilegios suficientes.
++
+Por ejemplo, si un usuario sólo tiene acceso de visualización a la base de datos, no se podrán identificar los archivos ni las propiedades de la base de datos y, por lo tanto, no se podrán realizar copias de seguridad.
+
+
+
+
+NOTE: SnapCenter solo puede realizar copias de seguridad de la base de datos principal si tiene una configuración de grupo de disponibilidad en SQL Server Standard Edition.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos*, o *Instancia*, o *Grupo de disponibilidad*, de la lista desplegable *Ver*.
++
+Hacer clicimage:../media/filter_icon.gif["icono de filtro"] y seleccione el nombre del host y la instancia de SQL Server para filtrar los recursos.  Luego puedes hacer clicimage:../media/filter_icon.gif["icono de filtro"] para cerrar el panel de filtro.
+
+. Haga clic en *Actualizar recursos*.
++
+Los recursos recientemente agregados, renombrados o eliminados se actualizan en el inventario de SnapCenter Server.
+
++
+
+IMPORTANT: Debe actualizar los recursos si se cambia el nombre de las bases de datos fuera de SnapCenter.
+
++
+Los recursos se muestran junto con información como el tipo de recurso, el nombre del host o clúster, los grupos de recursos asociados, el tipo de copia de seguridad, las políticas y el estado general.
+
++
+** Si la base de datos está en un almacenamiento que no es NetApp , `Not available for backup` se muestra en la columna *Estado general*.
++
+No se pueden realizar operaciones de protección de datos en una base de datos que se encuentre en un almacenamiento que no sea NetApp .
+
+** Si la base de datos está en un almacenamiento NetApp y no está protegida, `Not protected` se muestra en la columna *Estado general*.
+** Si la base de datos está en un sistema de almacenamiento NetApp y está protegida, la interfaz de usuario muestra `Backup not run` mensaje en la columna *Estado general*.
+** Si la base de datos está en un sistema de almacenamiento NetApp y está protegida y si se activa la copia de seguridad para la base de datos, la interfaz de usuario muestra `Backup succeeded` mensaje en la columna *Estado general*.
+
+
+
+
+
+NOTE: Si habilitó una autenticación SQL al configurar las credenciales, la instancia o base de datos detectada se muestra con un ícono de candado rojo.  Si aparece el ícono del candado, debe especificar las credenciales de la instancia o base de datos para agregar correctamente la instancia o base de datos a un grupo de recursos.
+
+. Después de que el administrador de SnapCenter asigna los recursos a un usuario RBAC, el usuario RBAC debe iniciar sesión y hacer clic en *Actualizar recursos* para ver el *Estado general* más reciente de los recursos.
+

@@ -1,0 +1,30 @@
+---
+permalink: protect-postgresql/delete-or-split-postgresql-clones-after-upgrading-snapcenter.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL cluster 
+summary: Después de actualizar a SnapCenter 4.3, ya no verá los clones.  Puede eliminar el clon o dividir los clones desde la página Topología del recurso desde el cual se crearon los clones. 
+---
+= Eliminar o dividir clones del clúster PostgreSQL después de actualizar SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Después de actualizar a SnapCenter 4.3, ya no verá los clones.  Puede eliminar el clon o dividir los clones desde la página Topología del recurso desde el cual se crearon los clones.
+
+.Acerca de esta tarea
+Si desea localizar la huella de almacenamiento de los clones ocultos, ejecute el siguiente comando: `Get-SmClone -ListStorageFootprint`
+
+.Pasos
+. Elimine las copias de seguridad de los recursos clonados mediante el cmdlet remove-smbackup.
+. Elimine el grupo de recursos de los recursos clonados mediante el cmdlet remove-smresourcegroup.
+. Elimine la protección del recurso clonado mediante el cmdlet remove-smprotectresource.
+. Seleccione el recurso principal en la página Recursos.
++
+Se muestra la página de topología de recursos.
+
+. Desde la vista Administrar copias, seleccione los clones de los sistemas de almacenamiento primario o secundario (duplicados o reflejados).
+. Seleccione los clones y luego haga clicimage:../media/delete_icon.gif["icono de eliminar"] Para eliminar clones o hacer clicimage:../media/split_clone.gif["clon dividido"] Para dividir los clones.
+. Haga clic en *Aceptar*.
+

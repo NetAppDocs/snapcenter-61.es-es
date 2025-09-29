@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_define_a_clone_strategy_for_sql_server.html 
+sidebar: sidebar 
+keywords: clone strategy 
+summary: Definir una estrategia de clonación le permitirá clonar su base de datos con éxito. 
+---
+= Definir una estrategia de clonación para SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Definir una estrategia de clonación le permitirá clonar su base de datos con éxito.
+
+. Revise las limitaciones relacionadas con las operaciones de clonación.
+. Decide el tipo de clon que necesitas.
+
+
+
+
+== Limitaciones de las operaciones de clonación
+
+Debe tener en cuenta las limitaciones de las operaciones de clonación antes de clonar las bases de datos.
+
+* Si está utilizando cualquier versión de Oracle desde 11.2.0.4 a 12.1.0.1, la operación de clonación quedará bloqueada cuando ejecute el comando _renamedg_.  Puede aplicar el parche de Oracle 19544733 para solucionar este problema.
+* No se admite la clonación de bases de datos desde un LUN que está conectado directamente a un host (por ejemplo, mediante el iniciador iSCSI de Microsoft en un host de Windows) a un VMDK o un LUN RDM en el mismo host de Windows u otro host de Windows, o viceversa.
+* El directorio raíz del punto de montaje del volumen no puede ser un directorio compartido.
+* Si mueve un LUN que contiene un clon a un nuevo volumen, el clon no se podrá eliminar.
+
+
+
+
+== Tipos de operaciones de clonación
+
+Puede utilizar SnapCenter para clonar una copia de seguridad de una base de datos de SQL Server o una base de datos de producción.
+
+* Clonar desde una copia de seguridad de la base de datos
++
+La base de datos clonada puede servir como base para desarrollar nuevas aplicaciones y ayudar a aislar errores de aplicaciones que ocurren en el entorno de producción.  La base de datos clonada también se puede utilizar para recuperarse de errores de bases de datos suaves.
+
+* Ciclo de vida del clon
++
+Puede utilizar SnapCenter para programar trabajos de clonación recurrentes que se realizarán cuando la base de datos de producción no esté ocupada.
+
+

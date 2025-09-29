@@ -1,0 +1,54 @@
+---
+permalink: protect-nsp/cancel_backup_operations.html 
+sidebar: sidebar 
+keywords: cancel backup, NetApp supported plug-ins 
+summary: Puede cancelar operaciones de copia de seguridad que estén en cola. 
+---
+= Cancelar operaciones de copia de seguridad para complementos compatibles con NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede cancelar operaciones de copia de seguridad que estén en cola.
+
+*Lo que necesitarás*
+
+* Debe iniciar sesión como administrador de SnapCenter o propietario del trabajo para cancelar operaciones.
+* Puede cancelar una operación de copia de seguridad desde la página *Monitor* o desde el panel *Actividad*.
+* No se puede cancelar una operación de copia de seguridad en ejecución.
+* Puede utilizar la GUI de SnapCenter , los cmdlets de PowerShell o los comandos CLI para cancelar las operaciones de copia de seguridad.
+* El botón *Cancelar trabajo* está deshabilitado para las operaciones que no se pueden cancelar.
+* Si seleccionó *Todos los miembros de este rol pueden ver y operar en objetos de otros miembros* en la página Usuarios\Grupos al crear un rol, puede cancelar las operaciones de respaldo en cola de otros miembros mientras usan ese rol.
+
+
+*Pasos*
+
+. Ejecute una de las siguientes acciones:
++
+|===
+| Desde... | Acción 
+
+
+ a| 
+Página de monitorización
+ a| 
+.. En el panel de navegación izquierdo, haga clic en *Monitor* > *Trabajos*.
+.. Seleccione la operación y luego haga clic en *Cancelar trabajo*.
+
+
+
+
+ a| 
+Panel de actividades
+ a| 
+.. Después de iniciar la operación de copia de seguridad, haga clic en *image:../media/activity_pane_icon.gif["icono del panel de actividad"] * en el panel Actividad para ver las cinco operaciones más recientes.
+.. Seleccione la operación.
+.. En la página Detalles del trabajo, haga clic en *Cancelar trabajo*.
+
+
+|===
+
+
+La operación se cancela y el recurso vuelve al estado anterior.

@@ -1,0 +1,304 @@
+---
+permalink: protect-sco/task_define_a_backup_strategy_for_oracle_databases.html 
+sidebar: sidebar 
+keywords: backup type, preferred nodes, catalog backups, schedules, backup name format, retention, verification 
+summary: Definir una estrategia de respaldo le garantiza tener los medios para restaurar o clonar con éxito sus bases de datos. 
+---
+= Definir una estrategia de respaldo para bases de datos Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Defina una estrategia de respaldo para asegurarse de tener los medios para restaurar o clonar con éxito sus bases de datos.
+
+Su acuerdo de nivel de servicio (SLA), su objetivo de tiempo de recuperación (RTO) y su objetivo de punto de recuperación (RPO) determinan en gran medida su estrategia de respaldo.
+
+* SLA define el nivel de servicio esperado y aborda cuestiones relacionadas con el servicio, como la disponibilidad y el rendimiento del servicio.
+* RTO define el tiempo que debe transcurrir para restaurar un proceso empresarial tras una interrupción del servicio.
+* RPO define la antigüedad de los archivos que deben recuperarse del almacenamiento de respaldo para que las operaciones normales se reanuden después de una falla.
+
+
+
+
+== Configuraciones de base de datos Oracle compatibles para copias de seguridad
+
+SnapCenter admite la copia de seguridad de diferentes configuraciones de bases de datos de Oracle.
+
+* Oracle independiente
+* Clústeres de aplicaciones reales de Oracle (RAC)
+* Oracle Standalone Legacy
+* Base de datos de contenedores independiente de Oracle (CDB)
+* Oracle Data Guard en espera
++
+Solo puede crear copias de seguridad de montaje sin conexión de bases de datos en espera de Data Guard.  No se admiten copias de seguridad con apagado sin conexión, copias de seguridad solo del registro de archivo ni copias de seguridad completas.
+
+* Oracle Active Data Guard en espera
++
+Solo puede crear copias de seguridad en línea de las bases de datos en espera de Active Data Guard.  No se admiten solo copias de seguridad del registro de archivo ni copias de seguridad completas.
+
++
+
+NOTE: Antes de crear una copia de seguridad de la base de datos en espera de Data Guard o de la base de datos en espera de Data Guard activa, se detiene el proceso de recuperación administrada (MRP) y, una vez creada la copia de seguridad, se inicia MRP.
+
+* Gestión automática del almacenamiento (ASM)
++
+** ASM independiente y ASM RAC en disco de máquina virtual (VMDK)
++
+
+NOTE: Entre todos los métodos de restauración admitidos para las bases de datos Oracle, solo puede realizar una restauración de conexión y copia de bases de datos ASM RAC en VMDK.
+
+** ASM independiente y ASM RAC en mapeo de dispositivos Raw (RDM) Puede realizar operaciones de respaldo, restauración y clonación en bases de datos Oracle en ASM, con o sin ASMLib.
+** Controlador de filtro Oracle ASM (ASMFD)
++
+
+NOTE: No se admiten operaciones de migración de PDB ni de clonación de PDB.
+
+** Oracle Flex ASM
+
+
+
+
+Para obtener la información más reciente sobre las versiones compatibles de Oracle, consulte https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+== Tipos de copia de seguridad compatibles con las bases de datos Oracle
+
+El tipo de copia de seguridad especifica el tipo de copia de seguridad que desea crear.  SnapCenter admite tipos de copias de seguridad en línea y fuera de línea para bases de datos Oracle.
+
+
+
+=== Copia de seguridad en línea
+
+Una copia de seguridad que se crea cuando la base de datos está en estado en línea se denomina copia de seguridad en línea.  También llamada copia de seguridad en caliente, una copia de seguridad en línea le permite crear una copia de seguridad de la base de datos sin apagarla.
+
+Como parte de la copia de seguridad en línea, puede crear una copia de seguridad de los siguientes archivos:
+
+* Solo archivos de datos y archivos de control
+* Solo archivar archivos de registro (la base de datos no pasa al modo de copia de seguridad en este escenario)
+* Base de datos completa que incluye archivos de datos, archivos de control y archivos de registro de archivo
+
+
+
+
+=== Copia de seguridad sin conexión
+
+Una copia de seguridad creada cuando la base de datos está en un estado montado o apagado se denomina copia de seguridad sin conexión.  Una copia de seguridad fuera de línea también se denomina copia de seguridad en frío.  Puede incluir únicamente archivos de datos y archivos de control en las copias de seguridad sin conexión.  Puede crear una copia de seguridad de montaje sin conexión o de apagado sin conexión.
+
+* Al crear una copia de seguridad de montaje sin conexión, debe asegurarse de que la base de datos esté en un estado montado.
++
+Si la base de datos está en cualquier otro estado, la operación de copia de seguridad falla.
+
+* Al crear una copia de seguridad de apagado sin conexión, la base de datos puede estar en cualquier estado.
++
+El estado de la base de datos se cambia al estado requerido para crear una copia de seguridad.  Después de crear la copia de seguridad, el estado de la base de datos vuelve al estado original.
+
+
+
+
+
+== Cómo SnapCenter descubre bases de datos de Oracle
+
+Los "recursos" son bases de datos de Oracle en el host que mantiene SnapCenter.  Puede agregar estas bases de datos a grupos de recursos para realizar operaciones de protección de datos después de descubrir las bases de datos que están disponibles.  Debe conocer el proceso que sigue SnapCenter para descubrir diferentes tipos y versiones de bases de datos de Oracle.
+
+|===
+| Para las versiones de Oracle 11__g__ a 12__c__R1 | Para las versiones de Oracle 12__c__R2 a 18__c__ 
+
+
+ a| 
+*Base de datos RAC*: Las bases de datos RAC se descubren únicamente en función de las entradas /etc/oratab.
+
+Debes tener las entradas de la base de datos en el archivo /etc/oratab.
+ a| 
+*Base de datos RAC*: Las bases de datos RAC se descubren utilizando el comando srvctl config.
+
+
+
+ a| 
+*Independiente*: Las bases de datos independientes se descubren únicamente en función de las entradas /etc/oratab.
+
+Debes tener las entradas de la base de datos en el archivo /etc/oratab.
+ a| 
+*Independiente*: Las bases de datos independientes se descubren en función de las entradas en el archivo /etc/oratab y la salida del comando srvctl config.
+
+
+
+ a| 
+*ASM*: La entrada de la instancia ASM debe estar disponible en el archivo /etc/oratab.
+ a| 
+*ASM*: La entrada de la instancia de ASM no necesita estar en el archivo /etc/oratab.
+
+
+
+ a| 
+*RAC One Node*: Las bases de datos de RAC One Node se descubren únicamente en función de las entradas /etc/oratab.
+
+Las bases de datos deben estar en estado _nomount_, _mount_ o _open_.  Debes tener las entradas de la base de datos en el archivo /etc/oratab.
+
+El estado de la base de datos de RAC One Node se marcará como renombrado o eliminado si la base de datos ya está descubierta y hay copias de seguridad asociadas con ella.
+
+Debe realizar los siguientes pasos si se reubica la base de datos:
+
+. Agregue manualmente la entrada de base de datos reubicada en el archivo /etc/oratab en el nodo RAC conmutado por error.
+. Actualizar manualmente los recursos.
+. Seleccione la base de datos RAC One Node desde la página de recursos y luego haga clic en *Configuración de la base de datos*.
+. Configure la base de datos para establecer los nodos de clúster preferidos en el nodo RAC que actualmente aloja la base de datos.
+. Realizar las operaciones de SnapCenter .
+
+
+
+NOTE: Si ha reubicado una base de datos de un nodo a otro y la entrada oratab en el nodo anterior no se elimina, debe eliminar manualmente la entrada oratab para evitar que la misma base de datos se muestre dos veces.
+ a| 
+*RAC One Node*: Las bases de datos de RAC One Node se descubren utilizando únicamente el comando srvctl config.
+
+Las bases de datos deben estar en estado _nomount_, _mount_ o _open_.  El estado de la base de datos de RAC One Node se marcará como renombrada o eliminada si la base de datos ya está descubierta y hay copias de seguridad asociadas con ella.
+
+Debe realizar los siguientes pasos si se reubica la base de datos:
+
+. Actualizar manualmente los recursos.
+. Seleccione la base de datos RAC One Node desde la página de recursos y luego haga clic en **Configuración de la base de datos**.
+. Configure la base de datos para establecer los nodos de clúster preferidos en el nodo RAC que actualmente aloja la base de datos.
+. Realizar las operaciones de SnapCenter .
+
+
+|===
+
+NOTE: Si hay entradas de base de datos Oracle 12__c__R2 y 18__c__ en el archivo /etc/oratab y la misma base de datos está registrada con el comando srvctl config, SnapCenter eliminará las entradas de base de datos duplicadas.  Si hay entradas obsoletas en la base de datos, se descubrirá la base de datos, pero no se podrá acceder a ella y el estado será fuera de línea.
+
+
+
+== Nodos preferidos en la configuración de RAC
+
+En la configuración de Oracle Real Application Clusters (RAC), puede especificar los nodos preferidos en los que se realizará la operación de copia de seguridad.  Si no especifica el nodo preferido, SnapCenter asigna automáticamente un nodo como preferido y se crea una copia de seguridad en ese nodo.
+
+Los nodos preferidos podrían ser uno o todos los nodos del clúster donde están presentes las instancias de la base de datos RAC.  La operación de copia de seguridad se activará solo en estos nodos preferidos en el orden de preferencia.
+
+Ejemplo: La base de datos RAC cdbrac tiene tres instancias: cdbrac1 en el nodo1, cdbrac2 en el nodo2 y cdbrac3 en el nodo3.  Las instancias node1 y node2 están configuradas para ser los nodos preferidos, con node2 como la primera preferencia y node1 como la segunda preferencia.  Cuando se realiza una operación de copia de seguridad, la operación se intenta primero en el nodo 2 porque es el primer nodo preferido.  Si el nodo 2 no está en estado de realizar una copia de seguridad, lo que podría deberse a varias razones, como que el agente del complemento no se está ejecutando en el host, la instancia de la base de datos en el host no está en el estado requerido para el tipo de copia de seguridad especificado o la instancia de la base de datos en el nodo 2 en una configuración FlexASM no está siendo atendida por la instancia de ASM local; entonces se intentará la operación en el nodo 1.  El nodo3 no se utilizará para la copia de seguridad porque no está en la lista de nodos preferidos.
+
+En una configuración Flex ASM, los nodos Leaf no aparecerán como nodos preferidos si la cardinalidad es menor que la cantidad de nodos en el clúster RAC.  Si hay algún cambio en los roles de los nodos del clúster Flex ASM, debe descubrirlo manualmente para que se actualicen los nodos preferidos.
+
+
+
+=== Estado de la base de datos requerido
+
+Las instancias de la base de datos RAC en los nodos preferidos deben estar en el estado requerido para que la copia de seguridad finalice correctamente:
+
+* Una de las instancias de la base de datos RAC en los nodos preferidos configurados debe estar en estado abierto para crear una copia de seguridad en línea.
+* Una de las instancias de la base de datos RAC en los nodos preferidos configurados debe estar en el estado de montaje, y todas las demás instancias, incluidos otros nodos preferidos, deben estar en el estado de montaje o inferior para crear una copia de seguridad de montaje sin conexión.
+* Las instancias de base de datos RAC pueden estar en cualquier estado, pero debe especificar los nodos preferidos para crear una copia de seguridad de apagado sin conexión.
+
+
+
+
+== Cómo catalogar copias de seguridad con Oracle Recovery Manager
+
+Las copias de seguridad de las bases de datos Oracle se pueden catalogar con Oracle Recovery Manager (RMAN) para almacenar la información de la copia de seguridad en el repositorio Oracle RMAN.
+
+Las copias de seguridad catalogadas se pueden utilizar más adelante para operaciones de restauración a nivel de bloque o de recuperación de puntos en el tiempo del espacio de tabla.  Cuando no necesite estas copias de seguridad catalogadas, puede eliminar la información del catálogo.
+
+La base de datos debe estar montada o en un estado superior para poder catalogar.  Puede realizar la catalogación de copias de seguridad de datos, copias de seguridad de registros de archivo y copias de seguridad completas.  Si la catalogación está habilitada para una copia de seguridad de un grupo de recursos que tiene varias bases de datos, la catalogación se realiza para cada base de datos.  Para las bases de datos Oracle RAC, la catalogación se realizará en el nodo preferido donde la base de datos esté al menos en estado montado.
+
+
+NOTE: Si desea catalogar copias de seguridad de una base de datos RAC, asegúrese de que no haya ningún otro trabajo en ejecución para esa base de datos.  Si se está ejecutando otro trabajo, la operación de catalogación falla en lugar de ponerse en cola.
+
+De forma predeterminada, se utiliza el archivo de control de la base de datos de destino para la catalogación.  Si desea agregar una base de datos de catálogo externa, puede configurarla especificando la credencial y el nombre del sustrato de red transparente (TNS) del catálogo externo mediante el asistente de configuración de base de datos desde la interfaz gráfica de usuario (GUI) de SnapCenter .  También puede configurar la base de datos del catálogo externo desde la CLI ejecutando el comando Configure-SmOracleDatabase con las opciones -OracleRmanCatalogCredentialName y -OracleRmanCatalogTnsName.
+
+Si habilitó la opción de catalogación al crear una política de respaldo de Oracle desde la GUI de SnapCenter , los respaldos se catalogan utilizando Oracle RMAN como parte de la operación de respaldo.  También puede realizar la catalogación diferida de copias de seguridad ejecutando el comando Catalog-SmBackupWithOracleRMAN.  Después de catalogar las copias de seguridad, puede ejecutar el comando Get-SmBackupDetails para obtener la información de la copia de seguridad catalogada, como la etiqueta de los archivos de datos catalogados, la ruta del catálogo de archivos de control y las ubicaciones de los registros de archivo catalogados.
+
+Si el nombre del grupo de discos ASM es mayor o igual a 16 caracteres, a partir de SnapCenter 3.0, el formato de nombre utilizado para la copia de seguridad es SC_HASHCODEofDISKGROUP_DBSID_BACKUPID.  Sin embargo, si el nombre del grupo de discos tiene menos de 16 caracteres, el formato de nombre utilizado para la copia de seguridad es DISKGROUPNAME_DBSID_BACKUPID, que es el mismo formato utilizado en SnapCenter 2.0.
+
+
+NOTE: El HASHCODEofDISKGROUP es un número generado automáticamente (de 2 a 10 dígitos) único para cada grupo de discos ASM.
+
+Puede realizar comprobaciones cruzadas para actualizar información obsoleta del repositorio RMAN sobre las copias de seguridad cuyos registros del repositorio no coinciden con su estado físico.  Por ejemplo, si un usuario elimina registros archivados del disco con un comando del sistema operativo, el archivo de control aún indica que los registros están en el disco, cuando en realidad no es así.  La operación de verificación cruzada le permite actualizar el archivo de control con la información.  Puede habilitar la verificación cruzada ejecutando el comando Set-SmConfigSettings y asignando el valor TRUE al parámetro ENABLE_CROSSCHECK.  El valor predeterminado se establece en FALSO.
+
+`sccli Set-SmConfigSettings-ConfigSettingsTypePlugin-PluginCodeSCO-ConfigSettings "KEY=ENABLE_CROSSCHECK, VALUE=TRUE"`
+
+Puede eliminar la información del catálogo ejecutando el comando Uncatalog-SmBackupWithOracleRMAN.  No es posible eliminar la información del catálogo mediante la GUI de SnapCenter .  Sin embargo, la información de una copia de seguridad catalogada se elimina al eliminar la copia de seguridad o al eliminar el grupo de retención y recursos asociados con esa copia de seguridad catalogada.
+
+
+NOTE: Cuando se fuerza la eliminación del host de SnapCenter , la información de las copias de seguridad catalogadas asociadas con ese host no se elimina.  Debe eliminar la información de todas las copias de seguridad catalogadas para ese host antes de forzar la eliminación del host.
+
+Si la catalogación y descatalogación falla porque el tiempo de operación excedió el valor de tiempo de espera especificado para el parámetro ORACLE_PLUGIN_RMAN_CATALOG_TIMEOUT, debe modificar el valor del parámetro ejecutando el siguiente comando:
+
+`/opt/Netapp/snapcenter/spl/bin/sccli Set-SmConfigSettings-ConfigSettingsType Plugin -PluginCode SCO-ConfigSettings "KEY=ORACLE_PLUGIN_RMAN_CATALOG_TIMEOUT,VALUE=user_defined_value"`
+
+Después de modificar el valor del parámetro, reinicie el servicio SnapCenter Plug-in Loader (SPL) ejecutando el siguiente comando:
+
+`/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+La información sobre los parámetros que se pueden utilizar con el comando y sus descripciones se puede obtener ejecutando Get-Help command_name. Alternativamente, también puede consultar la https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["Guía de referencia de comandos del software SnapCenter"^] .
+
+
+
+== Programaciones de copias de seguridad
+
+La frecuencia de copia de seguridad (tipo de programación) se especifica en las políticas; una programación de copia de seguridad se especifica en la configuración del grupo de recursos.  El factor más crítico a la hora de determinar la frecuencia o el cronograma de una copia de seguridad es la tasa de cambio del recurso y la importancia de los datos.  Es posible que hagas una copia de seguridad de un recurso muy utilizado cada hora, mientras que es posible que hagas una copia de seguridad de un recurso poco utilizado una vez al día.  Otros factores incluyen la importancia del recurso para su organización, su Acuerdo de Nivel de Servicio (SLA) y su Objetivo de Punto de Recuperación (RPO).
+
+Un SLA define el nivel de servicio esperado y aborda muchas cuestiones relacionadas con el servicio, incluida la disponibilidad y el rendimiento del servicio.  Un RPO define la estrategia para la antigüedad de los archivos que deben recuperarse del almacenamiento de respaldo para que las operaciones normales se reanuden después de una falla.  El SLA y el RPO contribuyen a la estrategia de protección de datos.
+
+Incluso para un recurso muy utilizado, no es necesario ejecutar una copia de seguridad completa más de una o dos veces al día.  Por ejemplo, las copias de seguridad periódicas del registro de transacciones podrían ser suficientes para garantizar que tenga las copias de seguridad que necesita.  Cuanto más a menudo realice copias de seguridad de sus bases de datos, menos registros de transacciones tendrá que utilizar SnapCenter en el momento de la restauración, lo que puede generar operaciones de restauración más rápidas.
+
+Los programas de respaldo constan de dos partes, como se indica a continuación:
+
+* Frecuencia de respaldo
++
+La frecuencia de las copias de seguridad (con qué frecuencia se deben realizar las copias de seguridad), denominada _tipo de programación_ para algunos complementos, es parte de una configuración de políticas.  Puede seleccionar la frecuencia de respaldo para la política: horaria, diaria, semanal o mensual.  Si no selecciona ninguna de estas frecuencias, la política creada será solo a pedido.  Puede acceder a las políticas haciendo clic en *Configuración* > *Políticas*.
+
+* Programaciones de copias de seguridad
++
+Las programaciones de copias de seguridad (exactamente cuándo se deben realizar las copias de seguridad) son parte de la configuración de un grupo de recursos.  Por ejemplo, si tiene un grupo de recursos que tiene una política configurada para realizar copias de seguridad semanales, puede configurar la programación para realizar copias de seguridad todos los jueves a las 10:00 p. m.  Puede acceder a los programas de grupos de recursos haciendo clic en *Recursos* > *Grupos de recursos*.
+
+
+
+
+
+== Convenciones de nombres de copias de seguridad
+
+Puede utilizar la convención de nombres de instantáneas predeterminada o utilizar una convención de nombres personalizada.  La convención de nombres de copia de seguridad predeterminada agrega una marca de tiempo a los nombres de las instantáneas que le ayuda a identificar cuándo se crearon las copias.
+
+La instantánea utiliza la siguiente convención de nombres predeterminada:
+
+`resourcegroupname_hostname_timestamp`
+
+Debes nombrar tus grupos de recursos de respaldo de forma lógica, como en el siguiente ejemplo:
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+En este ejemplo, los elementos de sintaxis tienen los siguientes significados:
+
+* _dts1_ es el nombre del grupo de recursos.
+* _mach1x88_ es el nombre del host.
+* _03-12-2015_23.17.26_ es la fecha y la marca de tiempo.
+
+
+Como alternativa, puede especificar el formato del nombre de la instantánea mientras protege recursos o grupos de recursos seleccionando *Usar formato de nombre personalizado para copia de instantánea*.  Por ejemplo, customtext_resourcegroup_policy_hostname o resourcegroup_hostname.  De forma predeterminada, el sufijo de marca de tiempo se agrega al nombre de la instantánea.
+
+
+
+== Opciones de retención de copias de seguridad
+
+Puede elegir la cantidad de días durante los cuales desea conservar copias de seguridad o especificar la cantidad de copias de seguridad que desea conservar, hasta un máximo de 255 copias en ONTAP .  Por ejemplo, su organización podría exigirle que conserve 10 días de copias de seguridad o 130 copias de seguridad.
+
+Al crear una política, puede especificar las opciones de retención para el tipo de copia de seguridad y el tipo de programación.
+
+Si configura la replicación de SnapMirror , la política de retención se refleja en el volumen de destino.
+
+SnapCenter elimina las copias de seguridad retenidas que tienen etiquetas de retención que coinciden con el tipo de programación.  Si se modificó el tipo de programación del recurso o del grupo de recursos, es posible que las copias de seguridad con la etiqueta del tipo de programación anterior aún permanezcan en el sistema.
+
+
+NOTE: Para la retención a largo plazo de copias de seguridad, debe utilizar la copia de seguridad SnapVault .
+
+
+
+== Verificar la copia de seguridad utilizando el volumen de almacenamiento primario o secundario
+
+Puede verificar copias de seguridad en el volumen de almacenamiento principal o en el volumen de almacenamiento secundario SnapMirror o SnapVault .  La verificación mediante un volumen de almacenamiento secundario reduce la carga en el volumen de almacenamiento primario.
+
+Cuando se verifica una copia de seguridad que se encuentra en el volumen de almacenamiento primario o secundario, todas las instantáneas primarias y secundarias se marcan como verificadas.
+
+Se requiere la licencia de SnapRestore para verificar copias de respaldo en el volumen de almacenamiento secundario SnapMirror y SnapVault .

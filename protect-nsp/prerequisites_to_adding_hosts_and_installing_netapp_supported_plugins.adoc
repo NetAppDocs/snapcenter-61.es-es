@@ -1,0 +1,230 @@
+---
+permalink: protect-nsp/prerequisites_to_adding_hosts_and_installing_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos.  Los complementos compatibles con NetApp se pueden utilizar en entornos Windows, Linux o AIX. 
+---
+= Requisitos previos para agregar hosts e instalar paquetes de complementos para Windows, Linux o AIX
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos.  Los complementos compatibles con NetApp son compatibles con entornos Windows, Linux y AIX.
+
+
+NOTE: Las aplicaciones de almacenamiento y Oracle son compatibles con AIX.
+
+* Debe tener instalado Java 11 en su host Linux, Windows o AIX.
++
+
+NOTE: IBM Java no es compatible con hosts Windows y Linux.
+
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.
+* Los complementos compatibles con NetApp , como MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB y el complemento de almacenamiento, deben estar disponibles en el host del cliente desde donde se realiza la operación de agregar host.
+
+
+
+
+== General
+
+Si está utilizando iSCSI, el servicio iSCSI debería estar ejecutándose.
+
+
+
+== Hosts de Windows
+
+* Debe tener un usuario de dominio con privilegios de administrador local con permisos de inicio de sesión local en el host remoto.
+* Si administra nodos de clúster en SnapCenter, debe tener un usuario con privilegios administrativos para todos los nodos del clúster.
+* Debe elegir manualmente el complemento SnapCenter para Microsoft Windows.
++
+http://www.java.com/en/download/manual.jsp["Descargar JAVA para Windows"]
+
+
+
+
+
+== Hosts Linux y AIX
+
+
+NOTE: Las aplicaciones de almacenamiento y Oracle son compatibles con AIX.
+
+* Debe haber habilitado la conexión SSH basada en contraseña para el usuario root o no root.
+* Debes tener instalado Java 11 en tu host Linux.
++
+Si utiliza Windows Server 2019 o Windows Server 2016 para el host de SnapCenter Server, debe instalar Java 11.  La herramienta Matriz de Interoperabilidad (IMT) contiene la información más reciente sobre los requisitos.
+
++
+http://www.java.com/en/download/manual.jsp["Descargar JAVA para Linux"]
+
++
+https://developer.ibm.com/languages/java/semeru-runtimes/downloads/?license=IBM["Descargar JAVA para AIX"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=117018;&solution=1259&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"]
+
+* Debe configurar privilegios de sudo para el usuario que no es root para proporcionar acceso a varias rutas.  Agregue las siguientes líneas al archivo /etc/sudoers utilizando la utilidad visudo para Linux.
++
+
+NOTE: Asegúrese de estar utilizando la versión 1.8.7 o posterior de Sudo.
+
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+_LINUX_USER_ es el nombre del usuario no root que usted creó.
+
++
+Puede obtener el _checksum_value_ del archivo *sc_unix_plugins_checksum.txt*, que se encuentra en:
+
++
+** _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host de Windows.
+** _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host Linux.
++
+
+IMPORTANT: El ejemplo debe utilizarse únicamente como referencia para crear sus propios datos.
+
+
+
+
+
+
+
+== Requisitos del host AIX
+
+Debe asegurarse de que el host cumpla con los requisitos antes de instalar el paquete de complementos de SnapCenter para AIX.
+
+
+NOTE: Las aplicaciones de almacenamiento y Oracle son compatibles con AIX.
+
+
+NOTE: El complemento SnapCenter para UNIX, que forma parte del paquete de complementos SnapCenter para AIX, no admite grupos de volúmenes simultáneos.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+AIX 7.1 o posterior
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+4 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+2 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+Java 11 IBM Java
+
+Si ha actualizado JAVA a la última versión, debe asegurarse de que la opción JAVA_HOME ubicada en /var/opt/snapcenter/spl/etc/spl.properties esté configurada en la versión de JAVA correcta y en la ruta correcta.
+
+|===
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+=== Configurar privilegios de sudo para usuarios no root para el host AIX
+
+SnapCenter 4.4 y versiones posteriores permiten que un usuario no root instale el paquete de complementos de SnapCenter para AIX e inicie el proceso de complemento.  Los procesos del complemento se ejecutarán como un usuario no root efectivo.  Debe configurar privilegios de sudo para el usuario que no sea root para proporcionar acceso a varias rutas.
+
+*Lo que necesitarás*
+
+* Sudo versión 1.8.7 o posterior.
+* Edite el archivo _/etc/ssh/sshd_config_ para configurar los algoritmos del código de autenticación de mensajes: MAC hmac-sha2-256 y MAC hmac-sha2-512.
++
+Reinicie el servicio sshd después de actualizar el archivo de configuración.
+
++
+Ejemplo:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*Acerca de esta tarea*
+
+Debe configurar los privilegios de sudo para el usuario no root para proporcionar acceso a las siguientes rutas:
+
+* /inicio/_USUARIO_AIX_/.sc_netapp/snapcenter_aix_host_plugin.bsx
+* /ubicación_personalizada/ NetApp/snapcenter/spl/instalación/complementos/desinstalar
+* /ubicación_personalizada/ NetApp/snapcenter/spl/bin/spl
+
+
+*Pasos*
+
+. Inicie sesión en el host AIX en el que desea instalar el paquete de complementos de SnapCenter para AIX.
+. Agregue las siguientes líneas al archivo /etc/sudoers utilizando la utilidad visudo para Linux.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPACMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx,
+/opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/AIX_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+_AIX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPACMD, PRECHECKCMD, CONFIGCHECKCMD, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _AIX_USER_ !visiblepw
+Defaults: _AIX_USER_ !requiretty
+----
++
+
+NOTE: Si tiene una configuración RAC, junto con los otros comandos permitidos, debe agregar lo siguiente al archivo /etc/sudoers: '/<crs_home>/bin/olsnodes'
+
+
+
+Puede obtener el valor de _crs_home_ del archivo _/etc/oracle/olr.loc_.
+
+_AIX_USER_ es el nombre del usuario no root que usted creó.
+
+Puede obtener el _checksum_value_ del archivo *sc_unix_plugins_checksum.txt*, que se encuentra en:
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host de Windows.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ si SnapCenter Server está instalado en el host Linux.
+
+
+
+IMPORTANT: El ejemplo debe utilizarse únicamente como referencia para crear sus propios datos.

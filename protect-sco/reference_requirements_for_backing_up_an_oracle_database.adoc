@@ -1,0 +1,26 @@
+---
+permalink: protect-sco/reference_requirements_for_backing_up_an_oracle_database.html 
+sidebar: sidebar 
+keywords: requirements, prerequisites 
+summary: Antes de realizar una copia de seguridad de una base de datos de Oracle, debe asegurarse de que se cumplan los requisitos previos. 
+---
+= Requisitos para realizar una copia de seguridad de una base de datos Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de realizar una copia de seguridad de una base de datos de Oracle, debe asegurarse de que se cumplan los requisitos previos.
+
+* Debe haber creado un grupo de recursos con una política adjunta.
+* Si desea realizar una copia de seguridad de un recurso que tiene una relación SnapMirror con un almacenamiento secundario, la función de ONTAP asignada al usuario de almacenamiento debe incluir el privilegio "`snapmirror all`".  Sin embargo, si está utilizando el rol "`vsadmin`", entonces no se requiere el privilegio "`snapmirror all`".
+* Debe haber asignado el agregado que utiliza la operación de respaldo a la máquina virtual de almacenamiento (SVM) utilizada por la base de datos.
+* Debería haber verificado que todos los volúmenes de datos y volúmenes de registro de archivo que pertenecen a la base de datos estén protegidos si la protección secundaria está habilitada para esa base de datos.
+* Debería haber verificado que la base de datos que tiene archivos en los grupos de discos ASM esté en estado "`MOUNT`" o "`OPEN`" para verificar sus copias de seguridad utilizando la utilidad Oracle DBVERIFY.
+* Deberías haber verificado que la longitud del punto de montaje del volumen no exceda los 240 caracteres.
+* Debe aumentar el valor de RESTTimeout a 86400000 ms en el archivo _C:\Program Files\ NetApp \SMCore\SMCoreServiceHost.exe.config_ en el host del servidor SnapCenter , si la base de datos de la que se está realizando una copia de seguridad es grande (tamaño en TB).
++
+Al modificar los valores, asegúrese de que no haya trabajos en ejecución y reinicie el servicio SnapCenter SMCore después de aumentar el valor.
+
+

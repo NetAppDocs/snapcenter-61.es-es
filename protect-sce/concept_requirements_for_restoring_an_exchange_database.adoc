@@ -1,0 +1,27 @@
+---
+permalink: protect-sce/concept_requirements_for_restoring_an_exchange_database.html 
+sidebar: sidebar 
+keywords: restoring an Exchange database 
+summary: Antes de restaurar una base de datos de Exchange Server desde una copia de seguridad del complemento de SnapCenter para Microsoft Exchange Server, debe asegurarse de que se cumplan varios requisitos. 
+---
+= Requisitos para restaurar una base de datos de Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de restaurar una base de datos de Exchange Server desde una copia de seguridad del complemento de SnapCenter para Microsoft Exchange Server, debe asegurarse de que se cumplan varios requisitos.
+
+
+NOTE: Para utilizar la funcionalidad de restauración por completo, debe actualizar tanto SnapCenter Server como la base de datos del complemento SnapCenter para Exchange a 4.6.
+
+* El servidor Exchange debe estar en línea y en ejecución antes de poder restaurar una base de datos.
+* Las bases de datos deben existir en el servidor Exchange.
++
+
+NOTE: No se admite la restauración de bases de datos eliminadas.
+
+* Las programaciones de SnapCenter para la base de datos deben suspenderse.
+* El servidor SnapCenter y el complemento SnapCenter para el host de Microsoft Exchange Server deben estar conectados al almacenamiento principal y secundario que contiene las copias de seguridad que desea restaurar.
+

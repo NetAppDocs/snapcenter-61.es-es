@@ -1,0 +1,258 @@
+---
+permalink: admin/concept_overview_of_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: 'Desde el panel de navegación izquierdo de SnapCenter , el Tablero le brinda un primer vistazo del estado de su sistema, incluida la actividad laboral reciente, alertas, resumen de protección, uso y eficiencia del almacenamiento, estado de los trabajos de SnapCenter (Copia de seguridad, Clonación, Restauración), estado de configuración para hosts independientes y de clúster de Windows, cantidad de máquinas virtuales de almacenamiento (SVM) administradas por SnapCenter y capacidad de licencia.' 
+---
+= Descripción general del panel de control
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Desde el panel de navegación izquierdo de SnapCenter , el Tablero le brinda un primer vistazo del estado de su sistema, incluida la actividad laboral reciente, alertas, resumen de protección, uso y eficiencia del almacenamiento, estado de los trabajos de SnapCenter (Copia de seguridad, Clonación, Restauración), estado de configuración para hosts independientes y de clúster de Windows, cantidad de máquinas virtuales de almacenamiento (SVM) administradas por SnapCenter y capacidad de licencia.
+
+La información que se muestra en la vista del Panel depende del rol asignado al usuario que actualmente está conectado a SnapCenter.  Es posible que algunos contenidos no se muestren si el usuario no tiene permiso para ver esa información.
+
+En muchos casos, puedes ver más información sobre una pantalla colocando el cursor sobre *i*.  En algunos casos, la información que se muestra en el panel está vinculada a información de origen detallada en las páginas de la GUI de SnapCenter , como Recursos, Monitor e Informes.
+
+
+
+== Actividades laborales recientes
+
+El mosaico Actividades laborales recientes muestra la actividad laboral más reciente de cualquier trabajo de Copia de seguridad, Restauración y Clonación al que tenga acceso.  Los trabajos en esta pantalla tienen uno de los siguientes estados: Completado, Advertencia, Fallido, En ejecución, En cola y Cancelado.
+
+Al pasar el cursor sobre un trabajo se proporciona más información.  Puede ver información adicional del trabajo haciendo clic en un número de trabajo específico, lo que lo redireccionará a la página Monitor.  Desde allí, puede obtener detalles del trabajo o registrar información y generar un informe específico para ese trabajo.
+
+Haga clic en *Ver todo* para ver un historial de todos los trabajos de SnapCenter .
+
+
+
+== Alertas
+
+El mosaico Alertas muestra las últimas alertas críticas y de advertencia sin resolver para los hosts y el servidor SnapCenter .
+
+El recuento total de alertas de categoría Crítica y Advertencia se muestra en la parte superior de la pantalla.  Al hacer clic en los totales críticos o de advertencia, se le redirigirá a la página de Alertas con el filtro específico aplicado en la página de Alertas.
+
+Al hacer clic en una alerta específica, se le redirigirá a la página Alertas para obtener detalles sobre esa alerta.  Al hacer clic en *Ver todo* en la parte inferior de la pantalla, se le redirigirá a la página de Alertas para obtener una lista de todas las alertas.
+
+
+
+== Resumen de protección más reciente
+
+El mosaico Resumen de protección más reciente le brinda el estado de protección de todas las entidades a las que tiene acceso.  De forma predeterminada, la pantalla está configurada para proporcionar el estado de todos los complementos.  Se proporciona información sobre el estado de los recursos respaldados en el almacenamiento principal como instantáneas y en el almacenamiento secundario mediante las tecnologías SnapMirror y SnapVault .  La disponibilidad de la información sobre el estado de protección para el almacenamiento secundario se basa en el tipo de complemento seleccionado.
+
+
+NOTE: Si está utilizando una política de protección de bóveda reflejada, los contadores del resumen de protección se muestran en el gráfico de resumen de SnapVault y no en el gráfico de SnapMirror .
+
+El estado de protección de los complementos individuales está disponible seleccionando un complemento en el menú desplegable.  Un gráfico de anillo muestra el porcentaje de recursos protegidos del complemento seleccionado. Al hacer clic en un segmento de anillo, se le redirige a la página *Informes* > *Complemento*, que proporciona un informe detallado de toda la actividad de almacenamiento principal y secundario del complemento especificado.
+
+
+IMPORTANT: Los informes sobre almacenamiento secundario se aplican únicamente a SnapVault ; los informes de SnapMirror no son compatibles.
+
+
+NOTE: SAP HANA proporciona información sobre el estado de protección para el almacenamiento primario y secundario para instantáneas.  Solo el estado de protección de almacenamiento principal está disponible para las copias de seguridad basadas en archivos.
+
+|===
+| Estado de protección | Almacenamiento primario | Almacenamiento secundario 
+
+
+ a| 
+Con errores
+ a| 
+Recuento de entidades que forman parte de un grupo de recursos, donde el grupo de recursos ejecutó una copia de seguridad, pero esta falló.
+ a| 
+Recuento de entidades con copias de seguridad que no se pudieron transferir a un destino secundario.
+
+
+
+ a| 
+Exitoso
+ a| 
+Recuento de entidades en un grupo de recursos, donde se realizó una copia de seguridad exitosa del grupo de recursos.
+ a| 
+Recuento de entidades con copias de seguridad que se han transferido correctamente a un destino secundario.
+
+
+
+ a| 
+No configurado
+ a| 
+Recuento de entidades que no forman parte de ningún grupo de recursos y que no han sido respaldadas.
+ a| 
+Recuento de entidades que forman parte de uno o más grupos de recursos que no están configurados para que las copias de seguridad se transfieran a un destino secundario.
+
+
+
+ a| 
+No iniciado
+ a| 
+Recuento de entidades que forman parte de un grupo de recursos, pero no se ha ejecutado ninguna copia de seguridad.
+ a| 
+No aplicable.
+
+|===
+
+NOTE: Si está utilizando SnapCenter Server 4.2 y una versión anterior del complemento (anterior a 4.2) para crear copias de seguridad, el mosaico *Resumen de protección más reciente* no muestra el estado de protección de SnapMirror de estas copias de seguridad.
+
+
+
+== Empleos
+
+El mosaico Trabajos le proporciona un resumen de los trabajos de copia de seguridad, restauración y clonación a los que tiene acceso.  Puede personalizar el período de tiempo para cualquier informe utilizando el menú desplegable.  Las opciones de marco de tiempo se fijan en las últimas 24 horas, los últimos 7 días y los últimos 30 días.  El informe predeterminado muestra los trabajos de protección de datos ejecutados durante los últimos 7 días.
+
+La información de los trabajos de copia de seguridad, restauración y clonación se muestra en gráficos de anillos.  Al hacer clic en un segmento de dona, se le redirige a la página Monitor con filtros de trabajo aplicados previamente a la selección.
+
+|===
+| Estado del trabajo | Descripción 
+
+
+ a| 
+Con errores
+ a| 
+Recuento de trabajos que han fallado.
+
+
+
+ a| 
+Advertencia
+ a| 
+Recuento de trabajos que han experimentado un error.
+
+
+
+ a| 
+Exitoso
+ a| 
+Recuento de trabajos que se han completado con éxito.
+
+
+
+ a| 
+Correr
+ a| 
+Recuento de trabajos que se están ejecutando actualmente.
+
+|===
+
+
+== Almacenamiento
+
+El mosaico Almacenamiento muestra el almacenamiento primario y secundario consumido por los trabajos de protección durante un período de 90 días, representa gráficamente las tendencias de consumo y calcula los ahorros de almacenamiento primario.  La información de almacenamiento se actualiza una vez cada 24 horas a las 12 a. m.
+
+El consumo total del día, que incluye la cantidad total de copias de seguridad disponibles en SnapCenter y el tamaño ocupado por estas copias de seguridad, se mostrará en la parte superior de la pantalla.  Una copia de seguridad podría tener varias instantáneas asociadas y el recuento reflejará lo mismo.  Esto se aplica tanto a las instantáneas primarias como a las secundarias.  Por ejemplo, ha creado 10 copias de seguridad, de las cuales 2 se eliminan debido a la retención de copias de seguridad basada en políticas y 1 copia de seguridad es eliminada explícitamente por usted.  De esta forma se mostrará un recuento de 7 copias de seguridad junto con el tamaño ocupado por estas 7 copias de seguridad.
+
+El factor de ahorro de almacenamiento para el almacenamiento primario es la relación entre la capacidad lógica (ahorro de clones e instantáneas más el almacenamiento consumido) y la capacidad física del almacenamiento primario.  Un gráfico de barras ilustra el ahorro de almacenamiento.
+
+El gráfico de líneas representa por separado el consumo de almacenamiento primario y secundario día a día durante un período continuo de 90 días.  Al pasar el cursor sobre los gráficos se obtienen resultados detallados día a día.
+
+
+NOTE: Si usa SnapCenter Server 4.2 y una versión anterior del complemento (anterior a 4.2) para crear copias de seguridad, el mosaico *Almacenamiento* no muestra la cantidad de copias de seguridad, el almacenamiento consumido por estas copias de seguridad, los ahorros de instantáneas, los ahorros de clones y el tamaño de las instantáneas.
+
+
+
+== Configuración
+
+El mosaico Configuración proporciona información de estado consolidada para todos los hosts activos independientes y de clúster de Windows que SnapCenter administra y a los que usted tiene acceso.  Esto incluye la información del estado del complemento asociado con esos hosts.
+
+Al hacer clic en el número junto a Hosts, se le redirigirá a la sección Hosts administrados en la página Hosts.  Desde allí, puede obtener información detallada de un host seleccionado.
+
+Además, esta pantalla muestra la suma de las SVM independientes de ONTAP y las SVM de Cluster ONTAP que administra SnapCenter y a las que usted tiene acceso.  Al hacer clic en el número junto a SVM, se le redirigirá a la página Sistemas de almacenamiento.  Desde allí, puede obtener información detallada de un SVM seleccionado.
+
+El estado de configuración del host se presenta como rojo (crítico), amarillo (advertencia) y verde (activo), junto con la cantidad de hosts en cada estado.  Se proporcionan mensajes de estado para cada estado.
+
+|===
+| Estado de configuración | Descripción 
+
+
+ a| 
+Actualización obligatoria
+ a| 
+Recuento de hosts que ejecutan complementos no compatibles y necesitan una actualización.  Un complemento no compatible no es compatible con esta versión de SnapCenter.
+
+
+
+ a| 
+Migración obligatoria
+ a| 
+Recuento de hosts que ejecutan complementos no compatibles y necesitan migración.  Un complemento no compatible no es compatible con esta versión de SnapCenter.
+
+
+
+ a| 
+No hay complementos instalados
+ a| 
+Recuento de hosts que se agregaron correctamente pero es necesario instalar los complementos o la instalación de los complementos falló.
+
+
+
+ a| 
+Suspendida
+ a| 
+Recuento de hosts cuyos horarios están suspendidos y se encuentran en mantenimiento.
+
+
+
+ a| 
+Detenido
+ a| 
+Recuento de hosts que están activos, pero los servicios del complemento no se están ejecutando.
+
+
+
+ a| 
+Host caído
+ a| 
+Recuento de hosts que están inactivos o no son accesibles.
+
+
+
+ a| 
+Actualización disponible (opcional)
+ a| 
+Cantidad de hosts donde hay una versión más nueva del paquete de complemento disponible para actualización.
+
+
+
+ a| 
+Migración disponible (opcional)
+ a| 
+Cantidad de hosts donde hay una versión más nueva del complemento disponible para la migración.
+
+
+
+ a| 
+Configurar el directorio de registro
+ a| 
+Cantidad de hosts donde se debe configurar el directorio de registro para que SCSQL realice una copia de seguridad del registro de transacciones.
+
+
+
+ a| 
+Configurar complementos de VMware
+ a| 
+Cantidad de hosts donde es necesario agregar el SnapCenter Plug-in for VMware vSphere .
+
+
+
+ a| 
+Desconocido
+ a| 
+Recuento de hosts que se han registrado pero cuya instalación aún no se ha activado.
+
+
+
+ a| 
+Correr
+ a| 
+Recuento de hosts que están activos y complementos en ejecución.  Y en el caso de los complementos SCSQL, se configuran el directorio de registro y el hipervisor.
+
+
+
+ a| 
+Instalación/desinstalación de complementos
+ a| 
+Recuento de hosts donde la instalación o desinstalación del complemento está en curso.
+
+|===

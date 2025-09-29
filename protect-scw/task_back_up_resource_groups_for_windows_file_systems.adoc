@@ -1,0 +1,57 @@
+---
+permalink: protect-scw/task_back_up_resource_groups_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backing up 
+summary: Un grupo de recursos es una colección de recursos en un host o clúster.  Se realiza una operación de copia de seguridad en el grupo de recursos en todos los recursos definidos en el grupo de recursos.  Puede realizar una copia de seguridad de un grupo de recursos a pedido desde la página Recursos.  Si un grupo de recursos tiene una política adjunta y una programación configurada, las copias de seguridad se realizan automáticamente según la programación. 
+---
+= Realizar copias de seguridad de grupos de recursos para sistemas de archivos de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un grupo de recursos es una colección de recursos en un host o clúster.  Se realiza una operación de copia de seguridad en el grupo de recursos en todos los recursos definidos en el grupo de recursos.  Puede realizar una copia de seguridad de un grupo de recursos a pedido desde la página Recursos.  Si un grupo de recursos tiene una política adjunta y una programación configurada, las copias de seguridad se realizan automáticamente según la programación.
+
+.Antes de empezar
+* Debe haber creado un grupo de recursos con una política adjunta.
+* Si desea realizar una copia de seguridad de un recurso que tiene una relación SnapMirror con un almacenamiento secundario, la función asignada al usuario de almacenamiento debe incluir el privilegio "`snapmirror all`".  Sin embargo, si está utilizando el rol "`vsadmin`", entonces no se requiere el privilegio "`snapmirror all`".
+* Si un grupo de recursos tiene varias bases de datos de diferentes hosts, la operación de respaldo en algunos de los hosts podría activarse tarde debido a problemas de red.  Debe configurar el valor de MaxRetryForUninitializedHosts en web.config mediante el cmdlet de PowerShell Set-SmConfigSettings
+
+
+
+NOTE: Al realizar una copia de seguridad de un sistema de archivos, SnapCenter no realiza una copia de seguridad de los LUN que están montados en un punto de montaje de volumen (VMP) en el sistema de archivos que se está respaldando.
+
+
+IMPORTANT: Si está trabajando en un contexto de sistema de archivos de Windows, no haga copias de seguridad de los archivos de base de datos.  Al hacerlo se crea una copia de seguridad inconsistente y una posible pérdida de datos durante la restauración.  Para proteger los archivos de base de datos, debe utilizar el complemento de SnapCenter adecuado para la base de datos (por ejemplo, Complemento de SnapCenter para Microsoft SQL Server o Complemento de SnapCenter para Microsoft Exchange Server).
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Grupo de recursos* de la lista *Ver*.
++
+Puede buscar el grupo de recursos ingresando el nombre del grupo de recursos en el cuadro de búsqueda o haciendo clic enimage:../media/filter_icon.gif["icono de filtro"] y seleccionando la etiqueta.  Luego puedes hacer clicimage:../media/filter_icon.gif["icono de filtro"] para cerrar el panel de filtro.
+
+. En la página Grupos de recursos, seleccione el grupo de recursos que desea respaldar y haga clic en *Hacer copia de seguridad ahora*.
++
+
+NOTE: En el caso del complemento SnapCenter para Oracle Database, si tiene un grupo de recursos federados con dos bases de datos y una de las bases de datos tiene un archivo de datos en un almacenamiento que no es de NetApp , la operación de respaldo se cancela incluso si la otra base de datos está en un almacenamiento de NetApp .
+
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si ha asociado varias políticas al grupo de recursos, en la lista desplegable *Política*, seleccione la política que desea utilizar para la copia de seguridad.
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
+.. Haga clic en *Copia de seguridad*.
+
+
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
++
+** En configuraciones de MetroCluster , es posible que SnapCenter no pueda detectar una relación de protección después de una conmutación por error.
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["No se puede detectar la relación entre SnapMirror o SnapVault después de una conmutación por error de MetroCluster"^]
+
+** Si está realizando una copia de seguridad de los datos de la aplicación en VMDK y el tamaño del montón de Java para el SnapCenter Plug-in for VMware vSphere no es lo suficientemente grande, la copia de seguridad podría fallar.  Para aumentar el tamaño del montón de Java, localice el archivo de script `/opt/netapp/init_scripts/scvservice` .  En ese guión, el `do_start method` El comando inicia el servicio del complemento VMware de SnapCenter .  Actualice ese comando a lo siguiente: `Java -jar -Xmx8192M -Xms4096M` .
+
+
+

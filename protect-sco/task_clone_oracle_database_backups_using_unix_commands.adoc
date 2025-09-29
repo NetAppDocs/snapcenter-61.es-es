@@ -1,0 +1,43 @@
+---
+permalink: protect-sco/task_clone_oracle_database_backups_using_unix_commands.html 
+sidebar: sidebar 
+keywords: clone, CLI, commands 
+summary: El flujo de trabajo de clonación incluye la planificación, la ejecución de la operación de clonación y la supervisión de la operación. 
+---
+= Clonar copias de seguridad de bases de datos de Oracle mediante comandos UNIX
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El flujo de trabajo de clonación incluye la planificación, la ejecución de la operación de clonación y la supervisión de la operación.
+
+*Acerca de esta tarea*
+
+Debe ejecutar los siguientes comandos para crear el archivo de especificación de clonación de la base de datos Oracle e iniciar la operación de clonación.
+
+La información sobre los parámetros que se pueden utilizar con el comando y sus descripciones se pueden obtener ejecutando Get-Help _command_name_. Alternativamente, también puede consultar la https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["Guía de referencia de comandos del software SnapCenter"^] .
+
+*Pasos*
+
+. Cree una especificación de clon de base de datos Oracle a partir de una copia de seguridad especificada: _New-SmOracleCloneSpecification_
++
+
+NOTE: Si la política de protección de datos secundaria es espejo-bóveda unificada, especifique solo -IncludeSecondaryDetails.  No es necesario especificar -SecondaryStorageType.
+
++
+Este comando crea automáticamente un archivo de especificación de clonación de base de datos de Oracle para la base de datos de origen especificada y su copia de seguridad.  También debe proporcionar un SID de base de datos clonada para que el archivo de especificación creado tenga los valores generados automáticamente para la base de datos clonada que creará.
+
++
+
+NOTE: El archivo de especificación de clon se crea en _/var/opt/snapcenter/sco/clone_specs_.
+
+. Iniciar una operación de clonación desde un grupo de recursos de clonación o una copia de seguridad existente: _New-SmClone_
++
+Este comando inicia una operación de clonación.  También debe proporcionar una ruta de archivo de especificación de clonación de Oracle para la operación de clonación.  También puede especificar las opciones de recuperación, el host donde se realizará la operación de clonación, prescripts, postscripts y otros detalles.
+
++
+De forma predeterminada, el archivo de destino del registro de archivo para la base de datos clonada se completa automáticamente en _$ORACLE_HOME/CLONE_SIDs_.
+
+

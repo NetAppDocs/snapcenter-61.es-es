@@ -1,0 +1,50 @@
+---
+permalink: protect-hana/reference_types_of_restore_performed_for_auto_discovered_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Databases 
+summary: 'SnapCenter admite SnapRestore basado en volumen (VBSR), SnapRestore de archivo único y tipos de restauración de conexión y copia para bases de datos SAP HANA detectadas automáticamente.' 
+---
+= Tipos de operaciones de restauración para bases de datos SAP HANA detectadas automáticamente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter admite SnapRestore basado en volumen (VBSR), SnapRestore de archivo único y tipos de restauración de conexión y copia para bases de datos SAP HANA detectadas automáticamente.
+
+
+
+== SnapRestore basado en volumen (VBSR) se realiza en entornos NFS para los siguientes escenarios:
+
+* Cuando la copia de seguridad seleccionada para restaurar se realiza en versiones anteriores a SnapCenter 4.3, y solo si está seleccionada la opción **Recurso completo**
+* Cuando la copia de seguridad seleccionada para restaurar se toma en SnapCenter 4.3 y si la opción *Volume Revert* está seleccionada
+
+
+
+
+== SnapRestore de archivo único se realiza en entornos NFS para los siguientes escenarios:
+
+* Cuando la copia de seguridad seleccionada para restaurar se toma en SnapCenter 4.3 y solo se selecciona la opción *Recurso completo*
+* Para contenedores de bases de datos multiinquilino (MDC), cuando la copia de seguridad seleccionada para restaurar se toma en SnapCenter 4.3 y se selecciona la opción *Base de datos de inquilino*
+* Cuando la copia de seguridad seleccionada es de una ubicación secundaria de SnapMirror o SnapVault y está seleccionada la opción *Recurso completo*
+
+
+
+
+== SnapRestore de archivo único se realiza en entornos SAN para los siguientes escenarios:
+
+* Cuando se realizan copias de seguridad en versiones anteriores a SnapCenter 4.3, y solo si está seleccionada la opción *Recurso completo*
+* Cuando se realizan copias de seguridad en SnapCenter 4.3, y solo si está seleccionada la opción *Recurso completo*
+* Cuando se selecciona la copia de seguridad desde una ubicación secundaria de SnapMirror o SnapVault y se selecciona la opción *Recurso completo*
+
+
+
+
+== La restauración basada en conectar y copiar se realiza en entornos SAN para el siguiente escenario:
+
+* Para MDC, cuando la copia de seguridad seleccionada para restaurar se toma en SnapCenter 4.3 y se selecciona la opción *Base de datos de inquilinos*
+
+
+
+NOTE: Las opciones *Recurso completo*, *Reversión de volumen* y *Base de datos de inquilinos* están disponibles en la página Restaurar alcance.

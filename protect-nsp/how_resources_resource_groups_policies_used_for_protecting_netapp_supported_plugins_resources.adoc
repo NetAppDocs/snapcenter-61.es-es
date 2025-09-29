@@ -1,0 +1,30 @@
+---
+permalink: protect-nsp/how_resources_resource_groups_policies_used_for_protecting_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-in 
+summary: Antes de utilizar SnapCenter, es útil comprender los conceptos básicos relacionados con las operaciones de copia de seguridad, clonación y restauración que desea realizar.  Interactúa con recursos, grupos de recursos y políticas para diferentes operaciones. 
+---
+= Cómo se utilizan los recursos, los grupos de recursos y las políticas para proteger los recursos de complementos compatibles con NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de utilizar SnapCenter, es útil comprender los conceptos básicos relacionados con las operaciones de copia de seguridad, clonación y restauración que desea realizar.  Interactúa con recursos, grupos de recursos y políticas para diferentes operaciones.
+
+* Los recursos suelen ser bases de datos, sistemas de archivos de Windows o máquinas virtuales que usted respalda o clona con SnapCenter.
+* Un grupo de recursos de SnapCenter es una colección de recursos en un host o clúster.
++
+Cuando se realiza una operación en un grupo de recursos, dicha operación se realiza en los recursos definidos en el grupo de recursos según la programación que especifique para el grupo de recursos.
+
++
+Puede realizar una copia de seguridad a pedido de un solo recurso o de un grupo de recursos.  También puede realizar copias de seguridad programadas para recursos individuales y grupos de recursos.
+
+* Las políticas especifican la frecuencia de las copias de seguridad, la retención de copias, la replicación, los scripts y otras características de las operaciones de protección de datos.
++
+Cuando crea un grupo de recursos, selecciona una o más políticas para ese grupo.  También puede seleccionar una política cuando realiza una copia de seguridad a pedido para un solo recurso.
+
+
+
+Piense en un grupo de recursos como si definiera _qué_ desea proteger y cuándo desea protegerlo en términos de día y hora.  Piense en una política como si definiera _cómo_ desea protegerla.  Si está realizando una copia de seguridad de todas las bases de datos o de todos los sistemas de archivos de un host, por ejemplo, puede crear un grupo de recursos que incluya todas las bases de datos o todos los sistemas de archivos del host.  Luego, puede adjuntar dos políticas al grupo de recursos: una política diaria y una política por hora.  Cuando crea el grupo de recursos y adjunta las políticas, puede configurar el grupo de recursos para realizar una copia de seguridad basada en archivos diariamente y otra programación que realice una copia de seguridad basada en instantáneas cada hora.

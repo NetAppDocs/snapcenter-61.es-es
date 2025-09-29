@@ -1,0 +1,22 @@
+---
+permalink: protect-sce/concept_what_you_can_do_with_snapcenter_plug_in_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: Puede utilizar el complemento para Exchange para realizar copias de seguridad y restaurar bases de datos de Exchange Server. 
+---
+= Qué puede hacer con el complemento SnapCenter para Microsoft Exchange Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar el complemento para Exchange para realizar copias de seguridad y restaurar bases de datos de Exchange Server.
+
+* Ver y administrar un inventario activo de grupos de disponibilidad de bases de datos (DAG) de Exchange, bases de datos y conjuntos de réplicas
+* Definir políticas que proporcionen las configuraciones de protección para la automatización de copias de seguridad
+* Asignar políticas a grupos de recursos
+* Proteger DAG y bases de datos individuales
+* Realizar copias de seguridad de las bases de datos de buzones de correo de Exchange principales y secundarios
+* Restaurar bases de datos desde copias de seguridad primarias y secundarias
+

@@ -1,0 +1,179 @@
+---
+permalink: protect-nsp/add_hosts_and_install_plug_in_packages_on_remote_hosts.html 
+sidebar: sidebar 
+keywords: add hostsNetApp supported plug-ins, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: Debe utilizar la página Agregar host de SnapCenter para agregar hosts y luego instalar los paquetes de complementos.  Los complementos se instalan automáticamente en los hosts remotos.  Puede agregar un host e instalar los paquetes de complementos para un host individual o para un clúster. 
+---
+= Agregar hosts e instalar paquetes de complementos en hosts remotos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe utilizar la página Agregar host de SnapCenter para agregar hosts y luego instalar los paquetes de complementos.  Los complementos se instalan automáticamente en los hosts remotos.  Puede agregar un host e instalar los paquetes de complementos para un host individual o para un clúster.
+
+.Antes de empezar
+* Debe ser un usuario asignado a un rol que tenga permisos de instalación y desinstalación de complementos, como el rol de administrador de SnapCenter .
+* Debe asegurarse de que el servicio de cola de mensajes esté ejecutándose.
+* Si está utilizando una cuenta de servicio administrada grupal (gMSA), debe configurar gMSA con privilegios administrativos.
++
+link:configure_gMSA_on_windows_server_2012_or_later.html["Configurar una cuenta de servicio administrada grupal en Windows Server 2016 o posterior para aplicaciones personalizadas"]
+
+* Para el host de Windows, debe asegurarse de seleccionar el complemento SnapCenter para Windows.
+
+
+.Acerca de esta tarea
+* No es posible agregar un servidor SnapCenter como host de complemento a otro servidor SnapCenter .
+* Si instala complementos en un clúster (WSFC), los complementos se instalan en todos los nodos del clúster.
+
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Hosts*.
+. Verifique que la pestaña *Hosts administrados* esté seleccionada en la parte superior.
+. Seleccione *Agregar*.
+. En la página Hosts, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Tipo de host
+ a| 
+Seleccione el tipo de host:
+
+** Ventanas
+** Linux
+** AIX
+
+
+
+NOTE: Los complementos compatibles con NetApp se pueden utilizar en entornos Windows, Linux y AIX.
+
+
+NOTE: Las aplicaciones de almacenamiento y Oracle son compatibles con AIX.
+
+
+
+ a| 
+Host name
+ a| 
+Introduzca el nombre de dominio completo (FQDN) o la dirección IP del host.
+
+SnapCenter depende de la configuración adecuada del DNS.  Por lo tanto, la mejor práctica es ingresar el FQDN.
+
+En entornos Windows, la dirección IP solo es compatible con hosts de dominio no confiables si se resuelve en el FQDN.
+
+Puede ingresar las direcciones IP o FQDN de un host independiente.
+
+Si está agregando un host mediante SnapCenter y el host es parte de un subdominio, debe proporcionar el FQDN.
+
+
+
+ a| 
+Cartas credenciales
+ a| 
+Seleccione el nombre de la credencial que creó o cree credenciales nuevas.
+
+Las credenciales deben tener derechos administrativos en el host remoto.  Para obtener más detalles, consulte la información sobre la creación de credenciales.
+
+Puede ver detalles sobre las credenciales colocando el cursor sobre el nombre de la credencial que especificó.
+
+
+NOTE: El modo de autenticación de credenciales está determinado por el tipo de host que especifique en el asistente Agregar host.
+
+|===
+. En la sección *Seleccionar complementos para instalar*, seleccione los complementos que desea instalar.
++
+Puede instalar los siguientes complementos de la lista:
+
++
+** MongoDB
+** ORASCPM (mostrado como Aplicaciones Oracle)
+** SAP ASE
+** SAP MaxDB
+** Almacenamiento
+
+
+. (Opcional) Seleccione *Más opciones* para instalar los otros complementos.
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Puerto
+ a| 
+Mantenga el número de puerto predeterminado o especifique el número de puerto.
+
+El número de puerto predeterminado es 8145.  Si el servidor SnapCenter se instaló en un puerto personalizado, ese número de puerto se mostrará como el puerto predeterminado.
+
+
+NOTE: Si instaló manualmente los complementos y especificó un puerto personalizado, debe especificar el mismo puerto.  De lo contrario la operación falla.
+
+
+
+ a| 
+Ruta de instalación
+ a| 
+Los complementos compatibles con NetApp se pueden instalar en un sistema Windows o en un sistema Linux.
+
+** Para el paquete de complementos de SnapCenter para Windows, la ruta predeterminada es C:\Program Files\ NetApp\ SnapCenter.
++
+Opcionalmente, puedes personalizar la ruta.
+
+** Para el paquete de complementos de SnapCenter para Linux y el paquete de complementos de SnapCenter para AIX, la ruta predeterminada es `/opt/NetApp/snapcenter` .
++
+Opcionalmente, puedes personalizar la ruta.
+
+
+
+
+
+ a| 
+Omitir comprobaciones de preinstalación
+ a| 
+Seleccione esta casilla de verificación si ya instaló los complementos manualmente y no desea validar si el host cumple con los requisitos para instalar el complemento.
+
+
+
+ a| 
+Utilice la cuenta de servicio administrada grupal (gMSA) para ejecutar los servicios del complemento
+ a| 
+Para el host de Windows, seleccione esta casilla de verificación si desea utilizar la cuenta de servicio administrada de grupo (gMSA) para ejecutar los servicios del complemento.
+
+
+IMPORTANT: Proporcione el nombre gMSA en el siguiente formato: domainName\accountName$.
+
+
+NOTE: gMSA se utilizará como una cuenta de servicio de inicio de sesión únicamente para el servicio del complemento SnapCenter para Windows.
+
+|===
+. Seleccione *Enviar*.
++
+Si no ha seleccionado la casilla *Omitir comprobaciones previas*, se valida el host para verificar si cumple los requisitos para instalar el complemento. El espacio en disco, la RAM, la versión de PowerShell, la versión de .NET, la ubicación (para complementos de Windows) y la versión de Java (para complementos de Linux) se verifican según los requisitos mínimos.  Si no se cumplen los requisitos mínimos, se muestran mensajes de error o advertencia correspondientes.
+
++
+Si el error está relacionado con el espacio en disco o la RAM, puede actualizar el archivo web.config ubicado en `C:\Program Files\NetApp\SnapCenter WebApp` para modificar los valores predeterminados.  Si el error está relacionado con otros parámetros, debes solucionar el problema.
+
++
+
+NOTE: En una configuración de alta disponibilidad, si está actualizando SnapManager.Web.UI.dll.config, debe actualizar el archivo en ambos nodos y reiniciar el grupo de aplicaciones de SnapCenter .
+
++
+La ruta predeterminada de Windows es `C:\Program Files\NetApp\SnapCenter WebApp\SnapManager.Web.UI.dll.config`
+
++
+La ruta predeterminada de Linux es `/opt/NetApp/snapcenter/SnapManagerWeb/SnapManager.Web.UI.dll.config`
+
+. Si el tipo de host es Linux, verifique la huella digital y luego seleccione *Confirmar y Enviar*.
++
+
+NOTE: La verificación de huellas dactilares es obligatoria incluso si el mismo host se agregó anteriormente a SnapCenter y se confirmó la huella dactilar.
+
+. Supervisar el progreso de la instalación.
++
+Los archivos de registro específicos de la instalación se encuentran en `/custom_location/snapcenter/` registros.
+
+

@@ -1,0 +1,40 @@
+---
+permalink: uninstall/task_remove_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, remove, remove host 
+summary: Cuando SnapCenter Server elimina un host, primero elimina las copias de seguridad, los clones, los trabajos de clonación, los grupos de recursos y los recursos enumerados para ese host en la página Recursos de SnapCenter y, luego, desinstala los paquetes de complementos en el host. 
+---
+= Eliminar un host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando SnapCenter Server elimina un host, primero elimina las copias de seguridad, los clones, los trabajos de clonación, los grupos de recursos y los recursos enumerados para ese host en la página Recursos de SnapCenter y, luego, desinstala los paquetes de complementos en el host.
+
+.Acerca de esta tarea
+* Si elimina un host, las copias de seguridad, los clones y los grupos de recursos asociados con el host también se eliminan.
+* Al eliminar los grupos de recursos, también se eliminan todas las programaciones asociadas.
+* Si el host tiene un grupo de recursos compartido con otro host y usted elimina el host, el grupo de recursos también se elimina.
+* Debe utilizar el cmdlet _Remove-SmHost_ para eliminar los hosts de complementos fuera de servicio o inaccesibles.
++
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_.  Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^]
+
+* El tiempo necesario para eliminar un host depende de la cantidad de copias de seguridad y de la configuración de retención.  Esto se debe a que las instantáneas se eliminan de cada uno de los controladores y se limpian los metadatos.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. En la página *Hosts*, haga clic en *Hosts administrados*.
+. Seleccione el host que desea eliminar y luego haga clic en *Eliminar*.
+. Para los clústeres Oracle RAC, para eliminar el SnapCenter software de todos los hosts del clúster, seleccione *Incluir todos los hosts del clúster*.
++
+También puedes eliminar un nodo de un clúster y de esa manera eliminar todos los nodos uno por uno.
+
+. Haga clic en *Aceptar*.
++
+
+NOTE: Cuando desinstala y reinstala complementos de host en un clúster, los recursos del clúster no se detectan automáticamente.  Seleccione el nombre de host del clúster y luego haga clic en *Actualizar recursos* para descubrir automáticamente los recursos del clúster.
+
+

@@ -1,0 +1,99 @@
+---
+permalink: protect-scsql/task_migrate_resources_to_netapp_storage.html 
+sidebar: sidebar 
+keywords: migrate resources 
+summary: 'Una vez que haya aprovisionado su sistema de almacenamiento NetApp mediante el complemento SnapCenter para Microsoft Windows, puede migrar sus recursos al sistema de almacenamiento NetApp o de un LUN NetApp a otro LUN NetApp mediante la interfaz gráfica de usuario de SnapCenter (GUI) o mediante los cmdlets de PowerShell.' 
+---
+= Migrar recursos al sistema de almacenamiento NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Una vez que haya aprovisionado su sistema de almacenamiento NetApp mediante el complemento SnapCenter para Microsoft Windows, puede migrar sus recursos al sistema de almacenamiento NetApp o de un LUN NetApp a otro LUN NetApp mediante la interfaz gráfica de usuario (GUI) de SnapCenter o mediante los cmdlets de PowerShell.
+
+.Antes de empezar
+* Debe haber agregado sistemas de almacenamiento a SnapCenter Server.
+* Debes haber actualizado (descubierto) los recursos de SQL Server.
+
+
+La mayoría de los campos de estas páginas del asistente se explican por sí solos.  La siguiente información describe algunos de los campos para los que podría necesitar orientación.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Instancia* de la lista desplegable *Ver*.
+. Seleccione la base de datos o la instancia de la lista y haga clic en *Migrar*.
+. En la página Recursos, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+*Nombre de la base de datos* (opcional)
+ a| 
+Si ha seleccionado una instancia para migrar, debe seleccionar las bases de datos de esa instancia en la lista desplegable *Bases de datos*.
+
+
+
+ a| 
+*Elegir destinos*
+ a| 
+Seleccione la ubicación de destino para los archivos de datos y registro.
+
+Los archivos de datos y de registro se mueven a las carpetas Datos y Registro respectivamente en la unidad NetApp seleccionada.  Si alguna carpeta en la estructura de carpetas no está presente, se crea una carpeta y se migra el recurso.
+
+
+
+ a| 
+*Mostrar detalles del archivo de base de datos* (opcional)
+ a| 
+Seleccione esta opción cuando desee migrar varios archivos de una sola base de datos.
+
+
+NOTE: Esta opción no se muestra cuando selecciona el recurso *Instancia*.
+
+
+
+ a| 
+*Opciones*
+ a| 
+Seleccione *Eliminar copia de la base de datos migrada en la ubicación original* para eliminar la copia de la base de datos de la fuente.
+
+Opcional: *EJECUTAR ACTUALIZAR ESTADÍSTICAS en las tablas antes de separar la base de datos*.
+
+|===
+. En la página Verificar, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+*Opciones de comprobación de consistencia de la base de datos*
+ a| 
+Seleccione *Ejecutar antes* para comprobar la integridad de la base de datos antes de la migración.  Seleccione *Ejecutar después* para comprobar la integridad de la base de datos después de la migración.
+
+
+
+ a| 
+*Opciones DBCC CHECKDB*
+ a| 
+** Seleccione la opción *PHYSICAL_ONLY* para limitar la verificación de integridad a la estructura física de la base de datos y para detectar páginas rotas, fallas de suma de comprobación y fallas de hardware comunes que afectan la base de datos.
+** Seleccione la opción *NO_INFOMSGS* para suprimir todos los mensajes informativos.
+** Seleccione la opción *ALL_ERRORMSGS* para mostrar todos los errores informados por objeto.
+** Seleccione la opción *NOINDEX* si no desea comprobar índices no agrupados.
++
+La base de datos de SQL Server utiliza el Comprobador de consistencia de base de datos de Microsoft SQL Server (DBCC) para comprobar la integridad lógica y física de los objetos de la base de datos.
+
++
+
+NOTE: Es posible que desees seleccionar esta opción para disminuir el tiempo de ejecución.
+
+** Seleccione la opción **TABLOCK** para limitar las comprobaciones y obtener bloqueos en lugar de utilizar una instantánea de base de datos interna.
+
+
+|===
+. Revise el resumen y luego haga clic en **Finalizar**.
+

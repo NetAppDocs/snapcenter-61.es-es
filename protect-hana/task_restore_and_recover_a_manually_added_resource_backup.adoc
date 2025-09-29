@@ -1,0 +1,195 @@
+---
+permalink: protect-hana/task_restore_and_recover_a_manually_added_resource_backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad. 
+---
+= Restaurar y recuperar una copia de seguridad de un recurso agregado manualmente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad.
+
+.Antes de empezar
+* Debes haber realizado una copia de seguridad del recurso o del grupo de recursos.
+* Debe haber cancelado cualquier operación de respaldo que esté actualmente en curso para el recurso o grupo de recursos que desea restaurar.
+* Para los comandos de pre-restauración, post-restauración, montaje y desmontaje, debe verificar si los comandos existen en la lista de comandos disponible en el host del complemento desde las siguientes rutas:
++
+** Ubicación predeterminada en el host de Windows: _C:\Archivos de programa\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Ubicación predeterminada en el host Linux: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Si los comandos no existen en la lista de comandos, la operación fallará.
+
+.Acerca de esta tarea
+* Las copias de seguridad basadas en archivos no se pueden restaurar desde SnapCenter.
+* Después de actualizar a SnapCenter 4.3, las copias de seguridad realizadas en SnapCenter 4.2 se pueden restaurar, pero no se pueden recuperar.  Debe utilizar HANA Studio o scripts de recuperación de HANA externos a SnapCenter para recuperar las copias de seguridad realizadas en SnapCenter 4.2.
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+* Para la operación de restauración de sincronización activa de SnapMirror , debe seleccionar la copia de seguridad de la ubicación principal.
+
+
+[role="tabbed-block"]
+====
+.Interfaz de usuario de SnapCenter
+--
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, filtre los recursos de la lista desplegable *Ver* según el tipo de recurso.
++
+Los recursos se muestran junto con el tipo, el host, los grupos de recursos y políticas asociados y el estado.
+
++
+
+NOTE: Aunque una copia de seguridad puede ser para un grupo de recursos, al restaurarla debe seleccionar los recursos individuales que desea restaurar.
+
++
+Si el recurso no está protegido, se muestra "No protegido" en la columna Estado general.  Esto puede significar que el recurso no está protegido o que fue respaldado por un usuario diferente.
+
+. Seleccione el recurso o seleccione un grupo de recursos y luego seleccione un recurso en ese grupo.
++
+Se muestra la página de topología de recursos.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* de los sistemas de almacenamiento primario o secundario (duplicado o almacenado en bóveda).
+. En la tabla Copias de seguridad principales, seleccione la copia de seguridad que desea restaurar y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
++
+image::../media/restoring_resource.gif[restauración de recursos]
+
+. En la página Restaurar alcance, seleccione *Recurso completo* o *Nivel de archivo*.
++
+.. Si selecciona *Recurso completo*, se restauran todos los volúmenes de datos configurados de la base de datos de SAP HANA.
++
+Si el recurso contiene volúmenes o qtrees, las instantáneas tomadas después de la instantánea seleccionada para restaurar en dichos volúmenes o qtrees se eliminan y no se pueden recuperar.  Además, si algún otro recurso está alojado en los mismos volúmenes o qtrees, ese recurso también se elimina.
+
+.. Si selecciona *Nivel de archivo*, puede seleccionar *Todos* o seleccionar los volúmenes o qtrees específicos y luego ingresar la ruta relacionada con esos volúmenes o qtrees, separados por comas.
++
+*** Puede seleccionar varios volúmenes y qtrees.
+*** Si el tipo de recurso es LUN, se restaura el LUN completo.
++
+Puede seleccionar varios LUN.
+
+
+
+
+
++
+
+NOTE: Si selecciona *Todos*, se restaurarán todos los archivos en los volúmenes, qtrees o LUN.
+
+. En la página Operaciones previas, ingrese los comandos de restauración previa y de desmontaje para ejecutar antes de realizar un trabajo de restauración.
++
+Los comandos de desmontaje no están disponibles para los recursos descubiertos automáticamente.
+
+. En la página Operaciones posteriores, ingrese los comandos de montaje y restauración posterior para ejecutarlos después de realizar un trabajo de restauración.
++
+Los comandos de montaje no están disponibles para los recursos descubiertos automáticamente.
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario y el asunto del correo electrónico.  El SMTP también debe configurarse en la página *Configuración* > *Configuración global*.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+
+
+--
+.Cmdlets de PowerShell
+--
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el cmdlet Open-SmConnection.
++
+[listing]
+----
+PS C:\> Open-Smconnection
+----
+. Recupere la información sobre una o más copias de seguridad que desee restaurar mediante los cmdlets Get-SmBackup y Get-SmBackupReport.
++
+Este ejemplo muestra información sobre todas las copias de seguridad disponibles:
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+  1               Payroll Dataset_vise-f6_08... 8/4/2015    11:02:32 AM                 Full Backup
+  2               Payroll Dataset_vise-f6_08... 8/4/2015    11:23:17 AM
+----
++
+Este ejemplo muestra información detallada sobre la copia de seguridad del 29 de enero de 2015 al 3 de febrero de 2015:
+
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -FromDateTime "1/29/2015" -ToDateTime "2/3/2015"
+
+   SmBackupId           : 113
+   SmJobId              : 2032
+   StartDateTime        : 2/2/2015 6:57:03 AM
+   EndDateTime          : 2/2/2015 6:57:11 AM
+   Duration             : 00:00:07.3060000
+   CreatedDateTime      : 2/2/2015 6:57:23 AM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_06.57.08
+   VerificationStatus   : NotVerified
+
+   SmBackupId           : 114
+   SmJobId              : 2183
+   StartDateTime        : 2/2/2015 1:02:41 PM
+   EndDateTime          : 2/2/2015 1:02:38 PM
+   Duration             : -00:00:03.2300000
+   CreatedDateTime      : 2/2/2015 1:02:53 PM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_13.02.45
+   VerificationStatus   : NotVerified
+----
+. Restaure datos de la copia de seguridad mediante el cmdlet Restore-SmBackup.
++
+[listing]
+----
+Restore-SmBackup -PluginCode 'DummyPlugin' -AppObjectId 'scc54.sccore.test.com\DummyPlugin\NTP\DB1' -BackupId 269 -Confirm:$false
+output:
+Name                : Restore 'scc54.sccore.test.com\DummyPlugin\NTP\DB1'
+Id                  : 2368
+StartTime           : 10/4/2016 11:22:02 PM
+EndTime             :
+IsCancellable       : False
+IsRestartable       : False
+IsCompleted         : False
+IsVisible           : True
+IsScheduled         : False
+PercentageCompleted : 0
+Description         :
+Status              : Queued
+Owner               :
+Error               :
+Priority            : None
+Tasks               : {}
+ParentJobID         : 0
+EventId             : 0
+JobTypeId           :
+ApisJobKey          :
+ObjectId            : 0
+PluginCode          : NONE
+PluginName          :
+----
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+--
+====

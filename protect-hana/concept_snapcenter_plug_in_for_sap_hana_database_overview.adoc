@@ -1,0 +1,20 @@
+---
+permalink: protect-hana/concept_snapcenter_plug_in_for_sap_hana_database_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: El complemento SnapCenter para la base de datos SAP HANA es un componente del lado del host del SnapCenter software de NetApp que permite la gestión de protección de datos consciente de la aplicación de las bases de datos SAP HANA.  El complemento para la base de datos SAP HANA automatiza la copia de seguridad, la restauración y la clonación de bases de datos SAP HANA en su entorno SnapCenter . 
+---
+= Descripción general del complemento de SnapCenter para la base de datos SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El complemento SnapCenter para la base de datos SAP HANA es un componente del lado del host del SnapCenter software de NetApp que permite la gestión de protección de datos consciente de la aplicación de las bases de datos SAP HANA.  El complemento para la base de datos SAP HANA automatiza la copia de seguridad, la restauración y la clonación de bases de datos SAP HANA en su entorno SnapCenter .
+
+SnapCenter admite contenedores de bases de datos de contenedores únicos y multiinquilino (MDC).  Puede utilizar el complemento para la base de datos SAP HANA en entornos Windows y Linux.  El complemento que no está instalado en el host de la base de datos HANA se conoce como complemento de host centralizado. Este complemento puede administrar varias bases de datos HANA en diferentes hosts.
+
+Cuando se instala el complemento para la base de datos SAP HANA, puede utilizar SnapCenter con la tecnología NetApp SnapMirror para crear copias reflejadas de conjuntos de copias de seguridad en otro volumen.  También puede utilizar el complemento con la tecnología NetApp SnapVault para realizar la replicación de copias de seguridad de disco a disco para el cumplimiento de los estándares.
+
+El complemento para la base de datos SAP HANA admite la sincronización activa de SnapMirror (inicialmente lanzada como SnapMirror Business Continuity [SM-BC]) que permite que los servicios comerciales sigan funcionando incluso ante una falla total del sitio, lo que permite que las aplicaciones conmuten por error de manera transparente mediante una copia secundaria.  No se requiere intervención manual ni secuencias de comandos adicionales para activar una conmutación por error con la sincronización activa de SnapMirror .

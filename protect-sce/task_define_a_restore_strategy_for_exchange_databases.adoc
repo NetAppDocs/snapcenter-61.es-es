@@ -1,0 +1,73 @@
+---
+permalink: protect-sce/task_define_a_restore_strategy_for_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Definir una estrategia de restauración para Exchange Server le permitirá restaurar su base de datos con éxito. 
+---
+= Definir una estrategia de restauración para bases de datos de Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Definir una estrategia de restauración para Exchange Server le permitirá restaurar su base de datos con éxito.
+
+
+
+== Fuentes para una operación de restauración en Exchange Server
+
+Puede restaurar una base de datos de Exchange Server desde una copia de seguridad en el almacenamiento principal.
+
+Puede restaurar bases de datos únicamente desde el almacenamiento principal.
+
+
+
+== Tipos de operaciones de restauración compatibles con Exchange Server
+
+Puede utilizar SnapCenter para realizar distintos tipos de operaciones de restauración en recursos de Exchange.
+
+* Restaurar actualizado al minuto
+* Restaurar a un punto anterior en el tiempo
+
+
+
+
+=== Restaurar al minuto
+
+En una operación de restauración actualizada, las bases de datos se recuperan hasta el punto de falla.  SnapCenter logra esto realizando la siguiente secuencia:
+
+. Restaura las bases de datos desde la copia de seguridad completa de la base de datos que seleccione.
+. Aplica todos los registros de transacciones que fueron respaldados, así como también cualquier registro nuevo que haya sido creado desde la copia de seguridad más reciente.
++
+Los registros de transacciones se mueven hacia adelante y se aplican a cualquier base de datos seleccionada.
+
++
+Exchange crea una nueva cadena de registro después de que se completa una restauración.
+
++
+|===
+
+
+| *Mejor práctica:* Se recomienda realizar una nueva copia de seguridad completa y del registro después de que se complete una restauración. 
+|===
++
+Una operación de restauración actualizada requiere un conjunto contiguo de registros de transacciones.
+
++
+Después de realizar una restauración actualizada, la copia de seguridad que utilizó para la restauración solo estará disponible para operaciones de restauración en un momento determinado.
+
++
+Si no necesita conservar la capacidad de restauración actualizada para todas las copias de seguridad, puede configurar la retención de la copia de seguridad del registro de transacciones de su sistema a través de las políticas de copia de seguridad.
+
+
+
+
+
+=== Restaurar a un punto anterior en el tiempo
+
+En una operación de restauración a un punto en el tiempo, las bases de datos se restauran únicamente a un momento específico del pasado.  Una operación de restauración a un punto en el tiempo ocurre en las siguientes situaciones de restauración:
+
+* La base de datos se restaura a un momento determinado en un registro de transacciones respaldado.
+* Se restaura la base de datos y solo se le aplica un subconjunto de los registros de transacciones respaldados.
+

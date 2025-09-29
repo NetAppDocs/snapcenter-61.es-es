@@ -1,0 +1,20 @@
+---
+permalink: protect-db2/type-of-backups-supported.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: El tipo de copia de seguridad especifica el tipo de copia de seguridad que desea crear.  SnapCenter admite el tipo de copia de seguridad basado en instantáneas para bases de datos IBM Db2. 
+---
+= Tipo de backups admitido
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El tipo de copia de seguridad especifica el tipo de copia de seguridad que desea crear.  SnapCenter admite el tipo de copia de seguridad basado en instantáneas para bases de datos IBM Db2.
+
+
+
+== Copia de seguridad basada en instantáneas
+
+Las copias de seguridad basadas en instantáneas aprovechan la tecnología de instantáneas de NetApp para crear copias en línea, de solo lectura, de los volúmenes en los que residen las bases de datos de IBM Db2.

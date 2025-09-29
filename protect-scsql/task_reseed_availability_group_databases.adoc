@@ -1,0 +1,33 @@
+---
+permalink: protect-scsql/task_reseed_availability_group_databases.html 
+sidebar: sidebar 
+keywords: reseed 
+summary: 'Reseed es una opción para restaurar las bases de datos del grupo de disponibilidad (AG).  Si una base de datos secundaria se desincroniza con la base de datos principal en un AG, puede volver a generar la base de datos secundaria.' 
+---
+= Resembrar bases de datos del grupo de disponibilidad
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Reseed es una opción para restaurar bases de datos del grupo de disponibilidad (AG).  Si una base de datos secundaria se desincroniza con la base de datos principal en un AG, puede volver a generar la base de datos secundaria.
+
+.Antes de empezar
+* Debe haber creado una copia de seguridad de la base de datos AG secundaria que desea restaurar.
+* El servidor SnapCenter y el host del complemento deben tener la misma versión de SnapCenter instalada.
+
+
+.Acerca de esta tarea
+* No se puede realizar la operación de resiembra en bases de datos primarias.
+* No se puede realizar una operación de resiembra si la base de datos de réplica se elimina del grupo de disponibilidad.  Cuando se elimina la réplica, la operación de resiembra falla.
+* Mientras se ejecuta la operación de resiembra en la base de datos del grupo de disponibilidad de SQL, no debe activar copias de seguridad de registros en las bases de datos de réplica de la base de datos de ese grupo de disponibilidad.  Si activa copias de seguridad de registros durante la operación de resiembra, la operación de resiembra falla con el mensaje de error La base de datos reflejada, "database_name" no tiene suficientes datos del registro de transacciones para preservar la cadena de copia de seguridad de registros de la base de datos principal.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y, a continuación, seleccione *Complemento de SnapCenter para SQL Server* de la lista.
+. En la página Recursos, seleccione *Base de datos* de la lista *Ver*.
+. Seleccione la base de datos AG secundaria de la lista.
+. Haga clic en *Resembrar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+

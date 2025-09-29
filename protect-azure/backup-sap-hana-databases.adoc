@@ -1,0 +1,58 @@
+---
+permalink: protect-azure/backup-sap-hana-databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database, back up, databases, Azure NetApp Files 
+summary: Realice una copia de seguridad del recurso desde la página Recursos. 
+---
+= Realice una copia de seguridad de las bases de datos de SAP HANA que se ejecutan en Azure NetApp Files
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si un recurso aún no forma parte de ningún grupo de recursos, puede realizar una copia de seguridad del recurso desde la página Recursos.
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, filtre los recursos de la lista desplegable *Ver* según el tipo de recurso.
+. Seleccione el recurso que desea respaldar.
+. En la página Recursos, seleccione *Usar formato de nombre personalizado para copia de instantánea* y luego ingrese el formato de nombre personalizado que desee usar para el nombre de la instantánea.
+. En la página Configuración de la aplicación, haga lo siguiente:
++
+.. Seleccione la flecha *Copias de seguridad* para configurar opciones de copia de seguridad adicionales.
+.. Seleccione la flecha *Scripts* para ejecutar comandos previos y posteriores para operaciones de inactividad, instantánea y desactivación del modo inactivo.
+.. Seleccione la flecha *Configuraciones personalizadas* y luego ingrese los pares de valores personalizados necesarios para todos los trabajos que utilicen este recurso.
+.. Seleccione la *Herramienta de copia de instantáneas > SnapCenter sin consistencia del sistema de archivos* para crear instantáneas.
++
+La opción *Consistencia del sistema de archivos* solo se aplica a aplicaciones que se ejecutan en hosts de Windows.
+
+
+
+. En la página Políticas, realice los siguientes pasos:
++
+.. Seleccione una o más políticas de la lista desplegable.
+.. Seleccionar *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] * en la columna Configurar programaciones de la política para la que desea configurar una programación.
+.. En el cuadro de diálogo Agregar programaciones para la política _policy_name_, configure la programación y luego seleccione *Aceptar*.
++
+_policy_name_ es el nombre de la política que usted seleccionó.
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.  El SMTP también debe configurarse en *Configuración* > *Configuración global*.
+
+. Revise el resumen y luego seleccione *Finalizar*.
+. Seleccione *Hacer copia de seguridad ahora*.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si hay varias políticas asociadas al recurso, en la lista desplegable *Política*, seleccione la política que desea utilizar para la copia de seguridad.
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
+
+
+. Seleccione *Copia de seguridad*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+

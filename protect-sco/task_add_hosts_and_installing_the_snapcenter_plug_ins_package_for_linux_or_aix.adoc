@@ -1,0 +1,193 @@
+---
+permalink: protect-sco/task_add_hosts_and_installing_the_snapcenter_plug_ins_package_for_linux_or_aix.html 
+sidebar: sidebar 
+keywords: credentials, install plug-in, Linux, AIX, GUI, add host, monitor 
+summary: Puede utilizar la página Agregar host de SnapCenter para agregar hosts y luego instalar el Paquete de complementos de SnapCenter para Linux o el Paquete de complementos de SnapCenter para AIX.  Los complementos se instalan automáticamente en los hosts remotos. 
+---
+= Agregue hosts e instale el paquete de complementos para Linux o AIX mediante GUI
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar la página Agregar host para agregar hosts y luego instalar el paquete de complementos de SnapCenter para Linux o el paquete de complementos de SnapCenter para AIX.  Los complementos se instalan automáticamente en los hosts remotos.
+
+*Acerca de esta tarea*
+
+Puede agregar un host e instalar paquetes de complementos para un host individual o para un clúster.  Si está instalando el complemento en un clúster (Oracle RAC), el complemento se instala en todos los nodos del clúster.  Para Oracle RAC One Node, debe instalar el complemento en los nodos activos y pasivos.
+
+
+NOTE: Solo se admite la autenticación basada en contraseña cuando se instala el complemento en un Oracle RAC.  No se admite la autenticación basada en clave SSH.
+
+Se le debe asignar un rol que tenga permisos de instalación y desinstalación de complementos, como el rol de administrador de SnapCenter .
+
+
+NOTE: No es posible agregar un servidor SnapCenter como host de complemento a otro servidor SnapCenter .
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. Verifique que la pestaña *Hosts administrados* esté seleccionada en la parte superior.
+. Haga clic en *Agregar*.
+. En la página Hosts, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Tipo de host
+ a| 
+Seleccione *Linux* o *AIX* como tipo de host.
+
+El servidor SnapCenter agrega el host y luego instala el complemento para Oracle Database y el complemento para UNIX si los complementos aún no están instalados en el host.
+
+
+
+ a| 
+Host name
+ a| 
+Introduzca el nombre de dominio completo (FQDN) o la dirección IP del host.
+
+SnapCenter depende de la configuración adecuada del DNS.  Por lo tanto, la mejor práctica es ingresar el FQDN.
+
+Puede introducir las direcciones IP o el FQDN de uno de los siguientes:
+
+** Host independiente
+** Cualquier nodo en el entorno de Oracle Real Application Clusters (RAC)
++
+
+NOTE: No se admite el VIP del nodo ni la IP de escaneo
+
++
+Si está agregando un host mediante SnapCenter y el host es parte de un subdominio, debe proporcionar el FQDN.
+
+
+
+
+
+ a| 
+Cartas credenciales
+ a| 
+Seleccione el nombre de la credencial que creó o cree nuevas credenciales.
+
+La credencial debe tener derechos administrativos en el host remoto.  Para obtener más detalles, consulte la información sobre la creación de credenciales.
+
+Puede ver detalles sobre las credenciales colocando el cursor sobre el nombre de la credencial que especificó.
+
+
+NOTE: El modo de autenticación de credenciales está determinado por el tipo de host que especifique en el asistente Agregar host.
+
+|===
+. En la sección Seleccionar complementos para instalar, seleccione los complementos que desea instalar.
+. (Opcional) Haga clic en *Más opciones*.
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Puerto
+ a| 
+Mantenga el número de puerto predeterminado o especifique el número de puerto.
+
+El número de puerto predeterminado es 8145.  Si el servidor SnapCenter se instaló en un puerto personalizado, ese número de puerto se mostrará como el puerto predeterminado.
+
+
+NOTE: Si instaló manualmente los complementos y especificó un puerto personalizado, debe especificar el mismo puerto.  De lo contrario la operación falla.
+
+
+
+ a| 
+Ruta de instalación
+ a| 
+La ruta predeterminada es _/opt/ NetApp/snapcenter_.
+
+Opcionalmente puedes personalizar la ruta.
+
+
+
+ a| 
+Agregar todos los hosts en Oracle RAC
+ a| 
+Seleccione esta casilla de verificación para agregar todos los nodos del clúster en un Oracle RAC.
+
+En una configuración de Flex ASM, se agregarán todos los nodos, independientemente de si son nodos centrales o de hoja.
+
+
+
+ a| 
+Omitir comprobaciones de preinstalación opcionales
+ a| 
+Seleccione esta casilla de verificación si ya ha instalado los complementos manualmente y no desea validar si el host cumple con los requisitos para instalar el complemento.
+
+|===
+. Haga clic en *Enviar*.
++
+Si no ha seleccionado la casilla de verificación Omitir comprobaciones previas, se valida el host para verificar si cumple con los requisitos para instalar el complemento.
+
++
+
+NOTE: El script de verificación previa no valida el estado del firewall del puerto del complemento si está especificado en las reglas de rechazo del firewall.
+
++
+Se muestran mensajes de error o advertencia apropiados si no se cumplen los requisitos mínimos.  Si el error está relacionado con el espacio en disco o la RAM, puede actualizar el archivo web.config ubicado en _C:\Program Files\ NetApp\ SnapCenter WebApp_ para modificar los valores predeterminados.  Si el error está relacionado con otros parámetros, debes solucionar el problema.
+
++
+
+NOTE: En una configuración de alta disponibilidad, si está actualizando el archivo web.config, debe actualizar el archivo en ambos nodos.
+
+. Verifique la huella digital y luego haga clic en *Confirmar y enviar*.
++
+En una configuración de clúster, debe verificar la huella digital de cada uno de los nodos del clúster.
+
++
+
+NOTE: SnapCenter no admite el algoritmo ECDSA.
+
++
+
+NOTE: La verificación de huellas dactilares es obligatoria incluso si el mismo host se agregó anteriormente a SnapCenter y se confirmó la huella dactilar.
+
+. Supervisar el progreso de la instalación.
++
+Los archivos de registro específicos de la instalación se encuentran en _/custom_location/snapcenter/logs_.
+
+
+
+*Resultado*
+
+Todas las bases de datos del host se descubren automáticamente y se muestran en la página Recursos.  Si no se muestra nada, haga clic en *Actualizar recursos*.
+
+
+
+== Supervisar el estado de la instalación
+
+Puede supervisar el progreso de la instalación del paquete de complementos de SnapCenter mediante la página Trabajos.  Es posible que desees verificar el progreso de la instalación para determinar cuándo está completa o si hay algún problema.
+
+.Acerca de esta tarea
+Los siguientes iconos aparecen en la página Trabajos e indican el estado de la operación:
+
+* image:../media/progress_icon.gif["Icono en progreso"]En curso
+* image:../media/success_icon.gif["Icono completado"]Completado exitosamente
+* image:../media/failed_icon.gif["Icono de error"]Fallido
+* image:../media/warning_icon.gif["Completado con icono de advertencias"]Completado con advertencias o no se pudo iniciar debido a advertencias
+* image:../media/verification_job_in_queue.gif["El trabajo de verificación está en cola"]En cola
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Monitor*.
+. En la página *Monitor*, haga clic en *Trabajos*.
+. En la página *Trabajos*, para filtrar la lista de modo que solo se incluyan las operaciones de instalación de complementos, haga lo siguiente:
++
+.. Haga clic en *Filtro*.
+.. Opcional: especifique la fecha de inicio y finalización.
+.. En el menú desplegable Tipo, seleccione *Instalación de complemento*.
+.. En el menú desplegable Estado, seleccione el estado de la instalación.
+.. Haga clic en *Aplicar*.
+
+
+. Seleccione el trabajo de instalación y haga clic en *Detalles* para ver los detalles del trabajo.
+. En la página *Detalles del trabajo*, haga clic en *Ver registros*.
+

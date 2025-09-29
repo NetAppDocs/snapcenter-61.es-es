@@ -1,0 +1,36 @@
+---
+permalink: install/register_enable_software_access.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install, register, new customer, NetApp account, enable, Amazon FSx for NetApp ONTAP, Azure NetApp Files 
+summary: Si no tiene una cuenta de NetApp existente, debe seguir estos pasos para registrarse y acceder al software. 
+---
+= Regístrese para acceder al SnapCenter software
+:allow-uri-read: 
+
+
+[role="lead"]
+Debe registrarse para acceder al SnapCenter software si es nuevo en Amazon FSx for NetApp ONTAP o Azure NetApp Files y no tiene una cuenta de NetApp existente.
+
+.Antes de empezar
+* Debe tener acceso a la ID de correo electrónico corporativa.
+* Si usa Azure NetApp Files, debe tener el identificador de suscripción de Azure.
+* Si está utilizando Amazon FSx for NetApp ONTAP, debe tener el ID del sistema de archivos de su sistema de archivos FSx para ONTAP .
+
+
+.Acerca de esta tarea
+Su registro está sujeto a validaciones de información y puede demorar hasta un día para confirmar y actualizar la nueva cuenta del Sitio de soporte de NetApp (NSS) a acceso *completo* desde acceso *de invitado*.
+
+.Pasos
+. Hacer clic https://mysupport.netapp.com/site/user/registration[] para registro.
+. Ingrese su ID de correo electrónico corporativo, complete el captcha, acepte la política de privacidad de NetApp y haga clic en *Enviar*.
+. Autentica el registro ingresando el OTP enviado a tu ID de correo electrónico y haz clic en *Continuar*.
+. En la página de finalización del registro, ingrese los siguientes detalles para completar el registro.
++
+.. Seleccione *Cliente de NetApp /Usuario final*.
+.. En el campo NÚMERO DE SERIE, ingrese el ID de suscripción de Azure si usa Azure NetApp Files o el ID del sistema de archivos si usa Amazon FSx for NetApp ONTAP.
+
+
+
+
+
+NOTE: Puedes generar un ticket en https://mysupport.netapp.com/site/help[] Si enfrenta algún problema durante el registro o para conocer el estado.

@@ -1,0 +1,162 @@
+---
+section: protect-db2
+title: Proteger IBM Db2
+entries:
+- title: Complemento de SnapCenter para IBM Db2
+  entries:
+  - title: Descripción general del complemento SnapCenter para IBM Db2
+    url: "/protect-db2/snapcenter-plug-in-for-ibm-db2-overview.html"
+  - title: Qué puede hacer utilizando el complemento SnapCenter para IBM Db2
+    url: "/protect-db2/what-you-can-do-using-the-snapcenter-plug-in-for-ibm-db2.html"
+  - title: Funciones del complemento SnapCenter para IBM Db2
+    url: "/protect-db2/snapcenter-plug-in-for-ibm-db2-features.html"
+  - title: Tipos de almacenamiento compatibles con el complemento SnapCenter para
+      IBM Db2
+    url: "/protect-db2/storage-types-supported-by-snapcenter-plug-in-for-ibm-db2.html"
+  - title: Privilegios mínimos de ONTAP requeridos
+    url: "/protect-db2/minimum-privileges-required-for-ibm-db2.html"
+  - title: Preparar sistemas de almacenamiento para la replicación de SnapMirror y
+      SnapVault
+    url: "/protect-db2/prepare-storage-systems-for-snapmirror-and-snapvault-replication-for-plugin-for-db2.html"
+  - title: Estrategia de respaldo para IBM Db2
+    entries:
+    - title: Definir una estrategia de respaldo para IBM Db2
+      url: "/protect-db2/define-a-backup-strategy-for-ibm-db2.html"
+    - title: Descubrimiento automático de recursos en el host Linux
+      url: "/protect-db2/auto-discovery-of-resources-on-linux-host.html"
+    - title: Tipo de backups admitido
+      url: "/protect-db2/type-of-backups-supported.html"
+    - title: Cómo el complemento SnapCenter para IBM Db2 utiliza copias de instantáneas
+        del grupo de consistencia
+      url: "/protect-db2/how-snapcenter-plug-in-for-ibm-db2-uses-consistency-group-snapshot-copies.html"
+    - title: Cómo gestiona SnapCenter el mantenimiento de las copias de seguridad
+        de registros
+      url: "/protect-db2/housekeeping-of-log-backups.html"
+    - title: Consideraciones para determinar las programaciones de copias de seguridad
+        para IBM Db2
+      url: "/protect-db2/considerations-for-determining-backup-schedules-for-ibm-db2.html"
+    - title: Número de trabajos de respaldo necesarios para IBM Db2
+      url: "/protect-db2/number-of-backup-jobs-needed-for-ibm-db2.html"
+    - title: Convenciones de nombres de copias de seguridad
+      url: "/protect-db2/backup-naming-conventions-for-plugin-for-ibm-db2.html"
+  - title: Estrategia de restauración y recuperación para IBM Db2
+    entries:
+    - title: Definir una estrategia de restauración y recuperación para los recursos
+        de IBM Db2
+      url: "/protect-db2/define-a-restore-and-recovery-strategy-for-ibm-db2-resources.html"
+    - title: Tipos de estrategias de restauración compatibles con recursos de IBM
+        Db2 agregados manualmente
+      url: "/protect-db2/types-of-restore-strategies-supported-for-manually-added-ibm-db2.html"
+    - title: Tipos de estrategias de restauración compatibles con IBM Db2 detectados
+        automáticamente
+      url: "/protect-db2/types-of-restore-strategies-supported-for-auto-discovered-ibm-db2.html"
+    - title: Tipos de operaciones de restauración para IBM Db2 detectado automáticamente
+      url: "/protect-db2/types-of-restore-performed-for-auto-discovered-ibm-db2.html"
+- title: Prepárese para instalar el complemento SnapCenter para IBM Db2
+  entries:
+  - title: Flujo de trabajo de instalación del complemento SnapCenter para IBM Db2
+    url: "/protect-db2/install-snapcenter-plug-in-for-ibm-db2.html"
+  - title: Requisitos previos para agregar hosts e instalar paquetes de complementos
+      para Windows, Linux o AIX
+    url: "/protect-db2/prerequisites-to-adding-hosts-and-installing-snapcenter-plug-in-for-ibm-db2.html"
+  - title: Requisitos del host para instalar el paquete de complementos de SnapCenter
+      para Windows
+    url: "/protect-db2/host-requirements-to-install-snapcenter-plug-in-package-for-windows-db2.html"
+  - title: Requisitos de host para instalar el paquete de complementos de SnapCenter
+      para Linux
+    url: "/protect-db2/host-requirements-to-install-snapcenter-plug-in-package-for-linux.html"
+  - title: Configurar credenciales para el complemento SnapCenter para IBM Db2
+    url: "/protect-db2/set-up-credentials-for-snapcenter-plug-in-for-ibm-db2.html"
+  - title: Configurar gMSA en Windows Server 2016 o posterior
+    url: "/protect-db2/configure-gMSA-on-windows-server-2012-or-later.html"
+  - title: Instalar el complemento SnapCenter para IBM Db2
+    entries:
+    - title: Agregar hosts e instalar paquetes de complementos en hosts remotos
+      url: "/protect-db2/add-hosts-and-install-plug-in-packages-on-remote-hosts-ibm-db2.html"
+    - title: Instalar paquetes de complementos de SnapCenter para Linux o Windows
+        en varios hosts remotos mediante cmdlets
+      url: "/protect-db2/install-snapcenter-plug-in-packages-for-linux-or-windows-on-multiple-remote-hosts-using-cmdlets-ibm-db2.html"
+    - title: Instale el complemento SnapCenter para IBM Db2 en hosts Linux mediante
+        la interfaz de línea de comandos
+      url: "/protect-db2/install-the-snapcenter-plug-in-for-ibm-db2-on-linux-hosts-using-the-command-line-interface.html"
+    - title: Supervisar el estado de instalación del paquete de complementos de SnapCenter
+      url: "/protect-db2/monitor-the-status-of-installing-plugin-for-ibm-db2.html"
+  - title: Configurar el certificado de CA
+    entries:
+    - title: Generar archivo CSR de certificado de CA
+      url: "/protect-db2/generate-CA-certificate-CSR-file.html"
+    - title: Importar certificados de CA
+      url: "/protect-db2/import-CA-certificates.html"
+    - title: Obtenga la huella digital del certificado CA
+      url: "/protect-db2/get-the-CA-certificate-thumbprint.html"
+    - title: Configurar el certificado de CA con los servicios del complemento de
+        host de Windows
+      url: "/protect-db2/configure-CA-certificate-with-Windows-host-plug-in-services.html"
+    - title: Configurar el certificado CA para el servicio de complementos IBM Db2
+        de SnapCenter en el host Linux
+      url: "/protect-db2/configure-CA-certificate-for-ibm-db2-on-Linux-host.html"
+    - title: Configurar el certificado CA para el servicio de complementos IBM Db2
+        de SnapCenter en el host de Windows
+      url: "/protect-db2/configure-CA-certificate-for-ibm-db2-on-windows-host.html"
+    - title: Habilitar certificados CA para complementos
+      url: "/protect-db2/enable-ca-certificates-for-plug-ins.html"
+- title: Prepárese para la protección de datos
+  entries:
+  - title: Requisitos previos para utilizar el complemento SnapCenter para IBM Db2
+    url: "/protect-db2/prerequisites-for-using-snapcenter-plug-in-for-ibm-db2.html"
+  - title: Cómo se utilizan los recursos, los grupos de recursos y las políticas para
+      proteger IBM Db2
+    url: "/protect-db2/how-resources-resource-groups-and-policies-are-used-for-protecting-ibm-db2.html"
+- title: Realizar copias de seguridad de los recursos de IBM Db2
+  entries:
+  - title: Realizar copias de seguridad del flujo de trabajo
+    url: "/protect-db2/back-up-ibm-db2-resources.html"
+  - title: Descubra las bases de datos automáticamente
+    url: "/protect-db2/discover-the-databases-automatically.html"
+  - title: Agregar recursos manualmente al host del complemento
+    url: "/protect-db2/add-resources-manually-to-the-plug-in-host.html"
+  - title: Crear políticas de copia de seguridad para IBM Db2
+    url: "/protect-db2/create-backup-policies-for-ibm-db2.html"
+  - title: Crear grupos de recursos y adjuntar políticas
+    url: "/protect-db2/create-resource-groups-and-attach-policies.html"
+  - title: Cree grupos de recursos y habilite la protección secundaria para los recursos
+      de IBM Db2 en sistemas ASA r2
+    url: "/protect-db2/create-resource-groups-secondary-protection-for-asa-r2-db2-resources.html"
+  - title: Cree una conexión al sistema de almacenamiento y una credencial mediante
+      cmdlets de PowerShell para IBM Db2
+    url: "/protect-db2/create-a-storage-system-connection-and-a-run-as-account-using-powershell-cmdlets-for-ibm-db2.html"
+  - title: Realizar copias de seguridad de bases de datos db2
+    url: "/protect-db2/back-up-db2-databases.html"
+  - title: Realizar copias de seguridad de grupos de recursos
+    url: "/protect-db2/back-up-resource-groups-ibm-db2.html"
+  - title: Supervisar las operaciones de copia de seguridad en la página Trabajos
+      de SnapCenter
+    url: "/protect-db2/monitor-db2-backup-operations.html"
+  - title: Cancelar las operaciones de copia de seguridad
+    url: "/protect-db2/cancel-backup-operations-for-ibm-db2.html"
+  - title: Ver copias de seguridad y clones de bases de datos de IBM Db2 en la página
+      Topología
+    url: "/protect-db2/view-ibm-db2-database-backups-and-clones-in-the-topology-page.html"
+- title: Restaurar IBM Db2
+  entries:
+  - title: Restaurar flujo de trabajo
+    url: "/protect-db2/restore-ibm-db2.html"
+  - title: Restaurar una copia de seguridad de un recurso agregado manualmente
+    url: "/protect-db2/restore-manually-added-resource-backup.html"
+  - title: Restaurar una copia de seguridad de una base de datos descubierta automáticamente
+    url: "/protect-db2/restore-auto-discovered-database-backup.html"
+  - title: Supervisar las operaciones de restauración
+    url: "/protect-db2/monitor-db2-restore-operations.html"
+- title: Clonar copias de seguridad de recursos de IBM Db2
+  entries:
+  - title: Flujo de trabajo de clonación
+    url: "/protect-db2/clone-ibm-db2-resource-backups.html"
+  - title: Clonar una copia de seguridad de una base de datos IBM Db2
+    url: "/protect-db2/clone-ibm-db2-backup.html"
+  - title: Supervisar las operaciones de clonación en SnapCenter
+    url: "/protect-db2/monitor-db2-clone-operations.html"
+  - title: Dividir un clon
+    url: "/protect-db2/split-a-clone-for-db2.html"
+  - title: Eliminar o dividir clones de bases de datos de IBM Db2 después de actualizar
+      SnapCenter
+    url: "/protect-db2/delete-or-split-ibm-db2-clones-after-upgrading-snapcenter.html"

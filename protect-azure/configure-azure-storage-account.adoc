@@ -1,0 +1,26 @@
+---
+permalink: protect-azure/configure-azure-storage-account.html 
+sidebar: sidebar 
+keywords: snapcenter, azure, azure storage account, subscription ID, azure credential, azure netapp account 
+summary: Configurar la cuenta de almacenamiento de Azure en SnapCenter. 
+---
+= Configurar la cuenta de almacenamiento de Azure
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe configurar la cuenta de almacenamiento de Azure en SnapCenter.
+
+La cuenta de almacenamiento de Azure contiene detalles sobre el identificador de suscripción, las credenciales de Azure y la cuenta de Azure NetApp .
+
+
+NOTE: Las licencias estándar y las licencias basadas en capacidad no son necesarias para Azure NetApp Files.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Sistemas de almacenamiento*.
+. En la página Sistemas de almacenamiento, seleccione * Azure NetApp Files* y haga clic en *Nuevo*.
+. Seleccione la credencial, el ID de suscripción y la cuenta de NetApp de las respectivas listas desplegables.
+. Haga clic en *Enviar*.
+

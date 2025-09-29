@@ -1,0 +1,203 @@
+---
+permalink: protect-sce/task_restore_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Puede utilizar SnapCenter para restaurar bases de datos de Exchange respaldadas. 
+---
+= Restaurar bases de datos de Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar bases de datos de Exchange respaldadas.
+
+.Antes de empezar
+* Debe haber realizado una copia de seguridad de los grupos de recursos, la base de datos o los grupos de disponibilidad de bases de datos (DAG).
+* Cuando se migra una base de datos de Exchange a otra ubicación, la operación de restauración no funciona para copias de seguridad antiguas.
+* Si está replicando instantáneas a un espejo o bóveda, el administrador de SnapCenter debe haberle asignado las SVM para los volúmenes de origen y de destino.
+* En un DAG, si una copia de base de datos activa está en un almacenamiento que no es NetApp y desea restaurarla desde la copia de seguridad de la copia de base de datos pasiva que está en un almacenamiento NetApp , haga la copia pasiva (almacenamiento NetApp ) como copia activa, actualice los recursos y realice la operación de restauración.
++
+Ejecutar el `Move-ActiveMailboxDatabase` Comando para hacer que la copia de la base de datos pasiva sea una copia de la base de datos activa.
+
++
+El https://docs.microsoft.com/en-us/powershell/module/exchange/move-activemailboxdatabase?view=exchange-ps["Documentación de Microsoft"^] Contiene información sobre este comando.
+
+
+
+.Acerca de esta tarea
+* Cuando se realiza una operación de restauración en una base de datos, la base de datos se vuelve a montar en el mismo host y no se crea ningún volumen nuevo.
+* Las copias de seguridad a nivel DAG deben restaurarse desde bases de datos individuales.
+* No se admite la restauración completa del disco cuando existen archivos distintos del archivo de base de datos de Exchange (.edb).
++
+El complemento para Exchange no realiza una restauración completa en un disco si el disco contiene archivos de Exchange como los que se utilizan para la replicación.  Cuando una restauración completa puede afectar la funcionalidad de Exchange, el complemento para Exchange realiza una única operación de restauración de archivo.
+
+* El complemento para Exchange no puede restaurar unidades cifradas con BitLocker.
+* SCRIPTS_PATH se define utilizando la clave PredefinedWindowsScriptsDirectory ubicada en el archivo SMCoreServiceHost.exe.Config del host del complemento.
++
+Si es necesario, puede cambiar esta ruta y reiniciar el servicio SMcore.  Se recomienda que utilice la ruta predeterminada por seguridad.
+
++
+El valor de la clave se puede mostrar desde swagger a través de la API: API /4.7/configsettings
+
++
+Puede utilizar la API GET para mostrar el valor de la clave.  La API SET no es compatible.
+
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+* Para la operación de restauración de sincronización activa de SnapMirror , debe seleccionar la copia de seguridad de la ubicación principal.
+
+
+[role="tabbed-block"]
+====
+.Interfaz de usuario de SnapCenter
+--
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* en la esquina superior izquierda de la página Recursos.
+. Seleccione el complemento de Exchange Server de la lista desplegable.
+. En la página Recursos, seleccione *Base de datos* de la lista Ver.
+. Seleccione la base de datos de la lista.
+. Desde la vista Administrar copias, seleccione *Copias de seguridad*, en la tabla Copias de seguridad principales, y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
+. En la página Opciones, seleccione una de las siguientes opciones de copia de seguridad de registros:
++
+|===
+| Opción | Descripción 
+
+
+ a| 
+Todas las copias de seguridad de registros
+ a| 
+Seleccione *Todas las copias de seguridad de registros* para realizar una operación de restauración de copia de seguridad actualizada para restaurar todas las copias de seguridad de registros disponibles después de la copia de seguridad completa.
+
+
+
+ a| 
+Mediante copias de seguridad de registros hasta
+ a| 
+Seleccione *Por copias de seguridad de registros hasta* para realizar una operación de restauración en un punto en el tiempo, que restaura la base de datos basándose en las copias de seguridad de registros hasta el registro seleccionado.
+
+
+NOTE: La cantidad de registros que se muestran en la lista desplegable se basa en UTM.  Por ejemplo, si la retención de copia de seguridad completa es 5 y la retención de UTM es 3, la cantidad de copias de seguridad de registros disponibles es 5, pero en el menú desplegable solo se enumerarán 3 registros para realizar la operación de restauración.
+
+
+
+ a| 
+Por fecha específica hasta
+ a| 
+Seleccione *Por fecha específica hasta* para especificar la fecha y la hora hasta la cual se aplicarán los registros de transacciones a la base de datos restaurada.  Esta operación de restauración en un punto determinado del tiempo restaura las entradas del registro de transacciones que se registraron hasta la última copia de seguridad en la fecha y hora especificadas.
+
+
+
+ a| 
+Ninguno
+ a| 
+Elija *Ninguno* cuando necesite restaurar solo la copia de seguridad completa sin ninguna copia de seguridad de registros.
+
+|===
++
+Puede realizar una de las siguientes acciones:
+
++
+** *Recuperar y montar la base de datos después de la restauración*: esta opción está seleccionada de forma predeterminada.
+** *No verificar la integridad de los registros de transacciones en la copia de seguridad antes de restaurar*: de forma predeterminada, SnapCenter verifica la integridad de los registros de transacciones en una copia de seguridad antes de realizar una operación de restauración.
++
+|===
+
+
+| *Mejor práctica:* No debe seleccionar esta opción. 
+|===
+
+
+. En la página Script, ingrese la ruta y los argumentos del prescript o postscript que deben ejecutarse antes o después de la operación de restauración, respectivamente.
++
+Los argumentos de restauración del script incluyen $Database y $ServerInstance.
+
++
+Los argumentos de restauración de postscript incluyen $Database, $ServerInstance, $BackupName, $LogDirectory y $TargetServerInstance.
+
++
+Puede ejecutar un script para actualizar trampas SNMP, automatizar alertas, enviar registros, etc.
+
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Puede ver el estado del trabajo de restauración expandiendo el panel Actividad en la parte inferior de la página.
++
+Debes supervisar el proceso de restauración utilizando la página *Monitor* > *Trabajos*.
+
+
+
+Al restaurar una base de datos activa desde una copia de seguridad, la base de datos pasiva puede entrar en estado suspendido o fallido si hay un retraso entre la réplica y la base de datos activa.
+
+El cambio de estado puede ocurrir cuando la cadena de registro de la base de datos activa se bifurca y comienza una nueva rama que interrumpe la replicación.  Exchange Server intenta reparar la réplica, pero si no puede hacerlo, después de la restauración debe crear una nueva copia de seguridad y luego volver a iniciar la réplica.
+
+--
+.Cmdlets de PowerShell
+--
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el uso del `Open-SmConnection` cmdlet.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
+. Recupere la información sobre una o más copias de seguridad que desea restaurar mediante el uso de `Get-SmBackup` cmdlet.
++
+Este ejemplo muestra información sobre todas las copias de seguridad disponibles:
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+341                           ResourceGroup_36304978_UTM... 12/8/2017 4:13:24 PM          Full Backup
+342                           ResourceGroup_36304978_UTM... 12/8/2017 4:16:23 PM          Full Backup
+355                           ResourceGroup_06140588_UTM... 12/8/2017 6:32:36 PM          Log Backup
+356                           ResourceGroup_06140588_UTM... 12/8/2017 6:36:20 PM          Full Backup
+----
+. Restaurar datos desde la copia de seguridad mediante el uso de `Restore-SmBackup` cmdlet.
++
+Este ejemplo restaura una copia de seguridad actualizada al minuto:
+
++
+[listing]
+----
+C:\PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true
+----
++
+Este ejemplo restaura una copia de seguridad de un punto en el tiempo:
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true -LogRestoreType ByTransactionLogs -LogCount 2
+----
++
+Este ejemplo restaura una copia de seguridad del almacenamiento secundario en la historia principal:
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode 'SCE' -AppObjectId 'DB2' -BackupId 81 -IsRecoverMount:$true -Confirm:$false
+-archive @{Primary="paw_vs:vol1";Secondary="paw_vs:vol1_mirror"} -logrestoretype All
+----
++
+El `-archive` Este parámetro le permite especificar los volúmenes primarios y secundarios que desea utilizar para la restauración.
+
++
+El `-IsRecoverMount:$true` El parámetro le permite montar la base de datos después de la restauración.
+
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+--
+====

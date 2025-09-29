@@ -1,0 +1,142 @@
+---
+permalink: admin/concept_overview_of_snapcenter_reports.html 
+sidebar: sidebar 
+keywords: SnapCenter reports 
+summary: SnapCenter ofrece una variedad de opciones de informes que le permiten supervisar y administrar el estado del sistema y el éxito operativo. 
+---
+= Descripción general de las capacidades de generación de informes de SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter ofrece una variedad de opciones de informes que le permiten supervisar y administrar el estado del sistema y el éxito operativo.
+
+|===
+| Tipo de informe | Descripción 
+
+
+ a| 
+Informe de respaldo
+ a| 
+El Informe de copia de seguridad proporciona datos generales sobre las tendencias de copia de seguridad para su entorno de SnapCenter , la tasa de éxito de la copia de seguridad y cierta información sobre cada copia de seguridad realizada durante el tiempo especificado.  Si se elimina una copia de seguridad, el informe no muestra ninguna información sobre el estado de la copia de seguridad eliminada.  El Informe detallado de copia de seguridad proporciona información detallada sobre un trabajo de copia de seguridad específico y enumera los recursos respaldados exitosamente y aquellos que fallaron.
+
+
+
+ a| 
+Informe de clonación
+ a| 
+El informe de clonación proporciona datos generales sobre las tendencias de clonación para su entorno de SnapCenter , la tasa de éxito de clonación y cierta información sobre cada trabajo de clonación realizado durante el tiempo especificado.  Si se elimina un clon, el informe no muestra ninguna información sobre el estado del clon eliminado.  El Informe detallado de clonación proporciona detalles sobre el clon especificado, el host de clonación y el estado de la tarea del trabajo de clonación.  Si una tarea falla, el Informe detallado de clonación muestra información sobre la falla.
+
+
+
+ a| 
+Informe de restauración
+ a| 
+El informe de restauración proporciona información general sobre los trabajos de restauración.  El Informe detallado de restauración proporciona detalles sobre un trabajo de restauración específico, incluido el nombre del host, el nombre de la copia de seguridad, el inicio y la duración del trabajo y el estado de las tareas de trabajo individuales.  Si una tarea falla, el Informe detallado de restauración muestra información sobre la falla.
+
+
+
+ a| 
+Informe de protección
+ a| 
+Estos informes proporcionan detalles de protección para los recursos administrados por todas las instancias del complemento SnapCenter .  Este informe proporciona detalles de protección para los recursos administrados por todas las instancias del complemento.  Puede ver una descripción general, detalles de los recursos no protegidos, recursos que no se respaldaron cuando se generó el informe, recursos de un grupo de recursos para los cuales fallaron las operaciones de respaldo y el estado de SnapVault .
+
+
+
+ a| 
+Informe programado
+ a| 
+Estos informes están programados para ejecutarse periódicamente, como diariamente, semanalmente o mensualmente.  Los informes se generan automáticamente en la fecha y hora especificadas y se envían a las personas respectivas por correo electrónico.  Puede habilitar, deshabilitar, modificar o eliminar los horarios.  La programación habilitada se puede ejecutar a pedido haciendo clic en el botón *Ejecutar ahora*.  El administrador puede ejecutar cualquier programación, pero el informe generado contendrá datos basados en el permiso proporcionado por el usuario que creó la programación.
+
+Cualquier otro usuario que no sea Administrador podrá ver o modificar la programación según su permiso. Si la opción Todos los miembros de este rol pueden ver los objetos de otros miembros está seleccionada en la página Agregar rol, entonces otros miembros del rol podrán ver y modificar.
+
+|===
+
+
+== Informes de acceso
+
+Puede utilizar el panel de control de SnapCenter para obtener una descripción general rápida del estado de su sistema.  Desde el Panel de Control puedes obtener más detalles.  Alternativamente, puede acceder directamente a los informes detallados.
+
+Puede acceder a los informes mediante uno de los siguientes métodos:
+
+* En el panel de navegación izquierdo, haga clic en *Panel de control* y, a continuación, haga clic en el gráfico circular *Resumen de la última protección* para ver más detalles en la página Informes.
+* En el panel de navegación izquierdo, haga clic en *Informes*.
+
+
+
+
+== Filtrar su informe
+
+Es posible que desee filtrar los datos de su informe según una variedad de parámetros, dependiendo del nivel de detalle y el período de tiempo de la información que necesita.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Informes*.
+. Si no se muestra la vista de Parámetros, haga clic en el ícono *Alternar área de parámetros* en la barra de herramientas del informe.
+. Especifique el rango de tiempo para el cual desea ejecutar su informe.  + Si omite la fecha de finalización, recupera toda la información disponible.
+. Filtre la información de su informe según cualquiera de los siguientes criterios:
++
+** Grupo de recursos
+** Host
+** Política
+** Recurso
+** Estado
+** Nombre del complemento
+
+
+. Haga clic en *Aplicar*.
+
+
+
+
+== Exportar o imprimir informes
+
+La exportación de informes de SnapCenter le permite ver el informe en una variedad de formatos alternativos.  También puede imprimir informes.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Informes*.
+. Desde la barra de herramientas de informes, realice una de las siguientes acciones:
++
+** Haga clic en el ícono *Alternar vista previa de impresión* para obtener una vista previa de un informe imprimible.
+** Seleccione un formato de la lista desplegable del icono *Exportar* para exportar un informe a un formato alternativo.
+
+
+. Para imprimir un informe, haga clic en el icono *Imprimir*.
+. Para ver un resumen de un informe específico, desplácese hasta la sección correspondiente del informe.
+
+
+
+
+== Configurar el servidor SMTP para notificaciones por correo electrónico
+
+Puede especificar el servidor SMTP que se utilizará para enviar informes de trabajos de protección de datos a usted mismo o a otras personas.  También puede enviar un correo electrónico de prueba para verificar la configuración.  La configuración se aplica globalmente para cualquier trabajo de SnapCenter para el que configure la notificación por correo electrónico.
+
+Esta opción configura el servidor SMTP para enviar todos los informes de trabajos de protección de datos.  Sin embargo, si desea recibir actualizaciones periódicas de trabajos de protección de datos de SnapCenter para un recurso en particular enviadas a usted o a otras personas para poder supervisar el estado de esas actualizaciones, puede configurar la opción para enviar por correo electrónico los informes de SnapCenter cuando crea un grupo de recursos.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Configuración global*.
+. Ingrese el servidor SMTP y haga clic en *Guardar*.
+. Para enviar un correo electrónico de prueba, ingrese la dirección de correo electrónico desde y hacia la cual enviará el correo electrónico, ingrese el asunto y haga clic en *Enviar*.
+
+
+
+
+== Configurar la opción de enviar informes por correo electrónico
+
+Si desea que se le envíen actualizaciones periódicas de trabajos de protección de datos de SnapCenter a usted o a otras personas para poder supervisar el estado de dichas actualizaciones, puede configurar la opción para enviar por correo electrónico los informes de SnapCenter cuando crea un grupo de recursos.
+
+.Antes de empezar
+Debes haber configurado tu servidor SMTP en la página de Configuración global en Configuración.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. Seleccione el tipo de recurso que desea ver y haga clic en *Nuevo grupo de recursos*, o seleccione un grupo de recursos existente y haga clic en *Modificar* para configurar informes por correo electrónico para un grupo de recursos existente.
+. En el panel de notificaciones del asistente para nuevo grupo de recursos, seleccione en el menú desplegable si desea recibir informes siempre, en caso de error o en caso de error o advertencia.
+. Introduzca la dirección desde donde se envía el correo electrónico, la dirección a la que se envía el correo electrónico y el asunto del correo electrónico.
+

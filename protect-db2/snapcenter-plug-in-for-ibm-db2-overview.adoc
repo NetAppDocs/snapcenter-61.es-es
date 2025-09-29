@@ -1,0 +1,29 @@
+---
+permalink: protect-db2/snapcenter-plug-in-for-ibm-db2-overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: El complemento SnapCenter para IBM Db2 es un componente del lado del host del SnapCenter software de NetApp que permite la gestión de protección de datos consciente de la aplicación de las bases de datos IBM Db2.  El complemento para IBM Db2 Database automatiza la copia de seguridad, la restauración y la clonación de bases de datos IBM Db2 en su entorno SnapCenter . 
+---
+= Descripción general del complemento SnapCenter para IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El complemento SnapCenter para la base de datos IBM Db2 es un componente del lado del host del SnapCenter software de NetApp que permite la gestión de protección de datos teniendo en cuenta las aplicaciones de las bases de datos IBM Db2.  El complemento para IBM Db2 Database automatiza la copia de seguridad, la restauración y la clonación de bases de datos IBM Db2 en su entorno SnapCenter .
+
+* SnapCenter 6.0 es compatible con IBM Db2 10.5 y versiones posteriores.
+* SnapCenter 6.0.1 es compatible con IBM Db2 9.7.x y versiones posteriores.  Además, a partir de SnapCenter 6.0.1, se admite IBM Db2 en AIX.
+
+
+SnapCenter admite configuraciones de Db2 de instancia única y de instancias múltiples.  Puede utilizar el complemento para IBM Db2 Database en entornos Linux y Windows.  En entornos Windows, Db2 se admitirá como recurso manual.
+
+
+NOTE: El entorno Db2 pureScale y los sistemas Db2 multinodo (DPF) no son compatibles.
+
+Cuando se instala el complemento para IBM Db2 Database, puede utilizar SnapCenter con la tecnología NetApp SnapMirror para crear copias reflejadas de conjuntos de copias de seguridad en otro volumen.  También puede utilizar el complemento con la tecnología NetApp SnapVault para realizar la replicación de copias de seguridad de disco a disco para el cumplimiento de los estándares.
+
+El complemento SnapCenter para Db2 admite NFS y SAN en diseños de almacenamiento de archivos ONTAP y Azure NetApp .
+
+Se admite el diseño de almacenamiento virtual VMDK, vVol y RDM.

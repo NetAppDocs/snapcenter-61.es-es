@@ -1,0 +1,90 @@
+---
+permalink: admin/concept_manage_policies.html 
+sidebar: sidebar 
+keywords: Manage policies 
+summary: Puede separar políticas de un recurso o grupo de recursos, modificarlas, eliminarlas, verlas y copiarlas. 
+---
+= Administrar políticas
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede separar políticas de un recurso o grupo de recursos, modificarlas, eliminarlas, verlas y copiarlas.
+
+
+
+== Modificar políticas
+
+Puede modificar las opciones de replicación, la configuración de retención de instantáneas, el recuento de reintentos de error o la información de los scripts mientras una política está asociada a un recurso o grupo de recursos.  Puede modificar el tipo de programación (frecuencia) solo después de separar una política.
+
+*Acerca de esta tarea*
+
+Modificar el tipo de programación en una política requiere pasos adicionales porque SnapCenter Server registra el tipo de programación solo en el momento en que la política se adjunta a un recurso o grupo de recursos.
+
+|===
+| Si quieres... | Entonces... 
+
+
+ a| 
+Agregar un tipo de programación adicional
+ a| 
+Cree una nueva política y adjúntela a los recursos o grupos de recursos necesarios.
+
+Por ejemplo, si una política de grupo de recursos especifica solo copias de seguridad cada hora y desea agregar también copias de seguridad diarias, puede crear una política con un tipo de programación diaria y agregarla al grupo de recursos.  El grupo de recursos tendría entonces dos políticas: horaria y diaria.
+
+
+
+ a| 
+Eliminar o cambiar un tipo de programación
+ a| 
+Realice lo siguiente:
+
+. Separe la política de cada recurso y grupo de recursos que utilice esa política.
+. Modificar el tipo de programación.
+. Adjunte la política nuevamente a todos los recursos y grupos de recursos.
+
+
+Por ejemplo, si una política especifica copias de seguridad cada hora y desea cambiarlas a copias de seguridad diarias, primero debe separar la política.
+
+|===
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Políticas*.
+. Seleccione la política y luego haga clic en *Modificar*.
+. Modifique la información y luego haga clic en *Finalizar*.
+
+
+
+
+== Desvincular políticas
+
+Puede separar políticas de un recurso o grupo de recursos en cualquier momento si ya no desea que esas políticas rijan la protección de datos de los recursos.  Debes separar una política antes de poder eliminarla o antes de modificar el tipo de programación.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Grupo de recursos* de la lista *Ver*.
+. Seleccione el grupo de recursos y luego haga clic en *Modificar grupo de recursos*.
+. En la página Políticas del asistente Modificar grupo de recursos, en la lista desplegable, desmarque la marca de verificación junto a las políticas que desea separar.
+. Realice cualquier modificación adicional al grupo de recursos en el resto del asistente y luego haga clic en *Finalizar*.
+
+
+
+
+== Eliminar políticas
+
+Si ya no necesita las políticas, es posible que desee eliminarlas.
+
+.Antes de empezar
+Debe separar la política del recurso o del grupo de recursos si la política está asociada con algún recurso o grupo de recursos.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página de Configuración, haga clic en *Políticas*.
+. Seleccione la política y luego haga clic en *Eliminar*.
+. Haga clic en *Sí*.
+

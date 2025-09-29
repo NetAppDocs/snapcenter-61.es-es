@@ -1,0 +1,27 @@
+---
+permalink: install/task_configure_iis_application_pools_to_enable_active_directory_read_permissions.html 
+sidebar: sidebar 
+keywords: IIS application pool, active directory, enable 
+summary: 'Puede configurar Internet Information Services (IIS) en su servidor Windows para crear una cuenta de grupo de aplicaciones personalizada cuando necesite habilitar permisos de lectura de Active Directory para SnapCenter.' 
+---
+= Configurar los grupos de aplicaciones de IIS para habilitar los permisos de lectura de Active Directory
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede configurar Internet Information Services (IIS) en su servidor Windows para crear una cuenta de grupo de aplicaciones personalizada cuando necesite habilitar permisos de lectura de Active Directory para SnapCenter.
+
+*Pasos*
+
+. Abra el Administrador de IIS en el servidor Windows donde está instalado SnapCenter .
+. En el panel de navegación izquierdo, haga clic en *Grupos de aplicaciones*.
+. Seleccione SnapCenter en la lista de Grupos de aplicaciones y luego haga clic en *Configuración avanzada* en el panel Acciones.
+. Seleccione Identidad y luego haga clic en *...* para editar la identidad del grupo de aplicaciones de SnapCenter .
+. En el campo Cuenta personalizada, ingrese un nombre de cuenta de usuario de dominio o de administrador de dominio con permiso de lectura de Active Directory.
+. Haga clic en Aceptar.
++
+La cuenta personalizada reemplaza la cuenta ApplicationPoolIdentity incorporada para el grupo de aplicaciones de SnapCenter .
+
+

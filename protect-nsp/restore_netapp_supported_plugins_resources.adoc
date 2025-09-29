@@ -1,0 +1,21 @@
+---
+permalink: protect-nsp/restore_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords:  
+summary: El flujo de trabajo de restauración y recuperación incluye la planificación, la ejecución de las operaciones de restauración y la supervisión de las operaciones. 
+---
+= Restaurar recursos de complementos compatibles con NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El flujo de trabajo de restauración y recuperación incluye la planificación, la ejecución de las operaciones de restauración y la supervisión de las operaciones.
+
+.Acerca de esta tarea
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar la operación de restauración:
+
+image::../media/all_plug_ins_restore_workflow.gif[Restaurar flujo de trabajo]
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad, restauración y clonación.  Para obtener información sobre los cmdlets de PowerShell, utilice la ayuda de cmdlets de SnapCenter o consulte la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"] .

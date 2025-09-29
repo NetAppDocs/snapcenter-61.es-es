@@ -1,0 +1,95 @@
+---
+permalink: admin/concept_manage_backups.html 
+sidebar: sidebar 
+keywords: Manage backups 
+summary: Puede cambiar el nombre y eliminar copias de seguridad.  También puedes eliminar varias copias de seguridad simultáneamente. 
+---
+= Administrar copias de seguridad
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede cambiar el nombre y eliminar copias de seguridad.  También puedes eliminar varias copias de seguridad simultáneamente.
+
+
+
+== Cambiar el nombre de las copias de seguridad
+
+Puede cambiar el nombre de las copias de seguridad si desea proporcionar un nombre mejor para mejorar la capacidad de búsqueda.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione el recurso o el grupo de recursos de la lista desplegable *Ver*.
+. Seleccione el recurso o grupo de recursos de la lista.
++
+Se muestra la página de topología de recursos o grupos de recursos.  Si el recurso o el grupo de recursos no está configurado para la protección de datos, se muestra el asistente de protección en lugar de la página de topología.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* de los sistemas de almacenamiento principales.
++
+No se puede cambiar el nombre de las copias de seguridad que están en el sistema de almacenamiento secundario.
+
++
+Si ha catalogado las copias de seguridad de las bases de datos Oracle mediante Oracle Recovery Manager (RMAN), no podrá cambiar el nombre de esas copias de seguridad catalogadas.
+
+. Seleccione la copia de seguridad y luego haga clic enimage:../media/rename_icon.gif["renombrar icono"] .
+. En el campo *Cambiar nombre de copia de seguridad como*, ingrese un nuevo nombre y haga clic en *Aceptar*.
+
+
+
+
+== Eliminar copias de seguridad
+
+Puede eliminar copias de seguridad si ya no las necesita para otras operaciones de protección de datos.
+
+.Antes de empezar
+Debe haber eliminado los clones asociados antes de eliminar un backup.
+
+
+NOTE: Si una copia de seguridad está asociada a un recurso clonado, no podrás eliminarla.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione el recurso o el grupo de recursos de la lista desplegable *Ver*.
+. Seleccione el recurso o grupo de recursos de la lista.
++
+Se muestra la página de topología de recursos o grupos de recursos.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* de los sistemas de almacenamiento principales.
++
+No se pueden eliminar las copias de seguridad que están en el sistema de almacenamiento secundario.
+
+. Seleccione la copia de seguridad y luego haga clic enimage:../media/delete_icon.gif["icono de eliminar"] .
++
+Si elimina una copia de seguridad de la base de datos de SAP HANA, los catálogos de SAP HANA asociados a la copia de seguridad también se eliminan.
+
++
+
+NOTE: Si se elimina la última copia de seguridad restante, no se podrán eliminar las entradas del catálogo de HANA asociadas.
+
+. Haga clic en *Aceptar*.
++
+
+NOTE: Si tiene algunas copias de seguridad de bases de datos obsoletas en SnapCenter que no tienen copias de seguridad correspondientes en el sistema de almacenamiento, debe usar el comando remove-smbackup para limpiar estas entradas de copia de seguridad obsoletas.  Si se catalogaron las copias de seguridad obsoletas, se descatalogarán de la base de datos del catálogo de recuperación.
+
+
+
+
+
+== Quitar la protección
+
+Eliminar protección elimina todas las copias de seguridad y separa todas las políticas.  Antes de eliminar la protección, debe asegurarse de que las copias de seguridad no estén montadas y que no haya clones asociados con la copia de seguridad.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione el recurso o el grupo de recursos de la lista desplegable *Ver*.
+. Seleccione el recurso o grupo de recursos de la lista.
++
+Se muestra la página de topología de recursos o grupos de recursos.
+
+. Seleccione la copia de seguridad y haga clic en *Eliminar protección*.
+

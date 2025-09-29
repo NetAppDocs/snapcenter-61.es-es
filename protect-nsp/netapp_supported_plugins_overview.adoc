@@ -1,0 +1,28 @@
+---
+permalink: protect-nsp/netapp_supported_plugins_overview.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: Puede desarrollar complementos compatibles con NetApp para las aplicaciones que utiliza y luego usar SnapCenter para realizar copias de seguridad, restaurar o clonar estas aplicaciones.  Al igual que otros complementos de SnapCenter , los complementos compatibles con NetApp actúan como componentes del lado del host del software SnapCenter de NetApp , lo que permite la protección de datos y la gestión de recursos teniendo en cuenta las aplicaciones. 
+---
+= Descripción general de los complementos compatibles con NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar los complementos compatibles con NetApp , como MongoDB, ORASCPM (Oracle Applications), SAP ASE, SAP MaxDB y el complemento de almacenamiento para las aplicaciones que utiliza y luego usar SnapCenter para realizar copias de seguridad, restaurar o clonar estas aplicaciones.  Los complementos compatibles con NetApp actúan como componentes del lado del host del software NetApp SnapCenter , lo que permite la protección de datos y la gestión de recursos teniendo en cuenta las aplicaciones.
+
+Cuando se instalan complementos compatibles con NetApp , puede usar SnapCenter con la tecnología NetApp SnapMirror para crear copias reflejadas de conjuntos de respaldo en otro volumen y usar la tecnología NetApp SnapVault para realizar la replicación de respaldo de disco a disco.  Los complementos compatibles con NetApp se pueden utilizar en entornos Windows y Linux.
+
+
+NOTE: SnapCenterCLI no admite los comandos de complementos compatibles con NetApp .
+
+NetApp proporciona el complemento de almacenamiento para realizar operaciones de protección de datos del volumen de datos en el almacenamiento ONTAP utilizando el marco de complemento integrado en SnapCenter.
+
+Puede instalar los complementos compatibles con NetApp desde la página Agregar host.
+
+link:add_hosts_and_install_plug_in_packages_on_remote_hosts.html["Agregue hosts e instale paquetes de complementos en hosts remotos."^]
+
+
+NOTE: La política de soporte de SnapCenter cubrirá el soporte para el marco del complemento, el motor principal y las API asociadas.  El soporte no cubrirá el código fuente del complemento ni los scripts asociados creados en el marco del complemento.

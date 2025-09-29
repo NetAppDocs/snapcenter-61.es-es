@@ -1,0 +1,40 @@
+---
+permalink: protect-hana/task_monitor_the_status_of_installing_plugin_for_sap_hana.html 
+sidebar: sidebar 
+keywords: monitor, install, snapCenter plug-in for SAP HANA 
+summary: Puede supervisar el progreso de la instalación del paquete de complementos de SnapCenter mediante la página Trabajos.  Es posible que desees verificar el progreso de la instalación para determinar cuándo está completa o si hay algún problema. 
+---
+= Supervisar el estado de instalación del complemento para SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede supervisar el progreso de la instalación del paquete de complementos de SnapCenter mediante la página Trabajos.  Es posible que desees verificar el progreso de la instalación para determinar cuándo está completa o si hay algún problema.
+
+.Acerca de esta tarea
+Los siguientes iconos aparecen en la página Trabajos e indican el estado de la operación:
+
+* image:../media/progress_icon.gif["Icono en progreso"]En curso
+* image:../media/success_icon.gif["Icono completado"]Completado exitosamente
+* image:../media/failed_icon.gif["Icono de error"]Fallido
+* image:../media/warning_icon.gif["Completado con icono de advertencias"]Completado con advertencias o no se pudo iniciar debido a advertencias
+* image:../media/verification_job_in_queue.gif["El trabajo de verificación está en cola"]En cola
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Monitor*.
+. En la página *Monitor*, haga clic en *Trabajos*.
+. En la página *Trabajos*, para filtrar la lista de modo que solo se incluyan las operaciones de instalación de complementos, haga lo siguiente:
++
+.. Haga clic en *Filtro*.
+.. Opcional: especifique la fecha de inicio y finalización.
+.. En el menú desplegable Tipo, seleccione *Instalación de complemento*.
+.. En el menú desplegable Estado, seleccione el estado de la instalación.
+.. Haga clic en *Aplicar*.
+
+
+. Seleccione el trabajo de instalación y haga clic en *Detalles* para ver los detalles del trabajo.
+. En la página *Detalles del trabajo*, haga clic en *Ver registros*.
+

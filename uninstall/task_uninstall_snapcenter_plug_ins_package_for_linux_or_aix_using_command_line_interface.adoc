@@ -1,0 +1,22 @@
+---
+permalink: uninstall/task_uninstall_snapcenter_plug_ins_package_for_linux_or_aix_using_command_line_interface.html 
+sidebar: sidebar 
+keywords: uninstall plug-ins, linux, aix, command-line interface, cli 
+summary: Puede desinstalar el paquete de complementos de SnapCenter para Linux o el paquete de complementos de SnapCenter para AIX mediante la interfaz de línea de comandos. 
+---
+= Desinstalar el paquete de complementos para Linux o AIX mediante CLI
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede desinstalar el paquete de complementos de SnapCenter para Linux o el paquete de complementos de SnapCenter para AIX mediante la interfaz de línea de comandos.
+
+.Antes de empezar
+* Asegúrese de haber eliminado los trabajos programados
+* Asegúrese de que todos los trabajos en ejecución se hayan completado.
+
+
+.Paso
+Ejecute _/custom_location/ NetApp/snapcenter/spl/installation/plugins/uninstall_ para desinstalar.

@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_when_to_schedule_verification_jobs.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: 'Si bien SnapCenter puede verificar las copias de seguridad inmediatamente después de crearlas, hacerlo puede aumentar significativamente el tiempo necesario para completar el trabajo de copia de seguridad y consume muchos recursos.  Por lo tanto, casi siempre es mejor programar la verificación en un trabajo separado para un momento posterior.  Por ejemplo, si realiza una copia de seguridad de una base de datos a las 5:00 p. m. todos los días, puede programar que la verificación se realice una hora más tarde, a las 6:00 p. m.' 
+---
+= Cuándo programar trabajos de verificación
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si bien SnapCenter puede verificar las copias de seguridad inmediatamente después de crearlas, hacerlo puede aumentar significativamente el tiempo necesario para completar el trabajo de copia de seguridad y consume muchos recursos.  Por lo tanto, casi siempre es mejor programar la verificación en un trabajo separado para un momento posterior.  Por ejemplo, si realiza una copia de seguridad de una base de datos a las 5:00 p. m. todos los días, puede programar que la verificación se realice una hora más tarde, a las 6:00 p. m.
+
+Por la misma razón, normalmente no es necesario ejecutar la verificación de respaldo cada vez que se realiza una copia de seguridad.  Realizar una verificación a intervalos regulares pero menos frecuentes suele ser suficiente para garantizar la integridad de la copia de seguridad. Una misma tarea de verificación puede verificar varios backups a la vez.

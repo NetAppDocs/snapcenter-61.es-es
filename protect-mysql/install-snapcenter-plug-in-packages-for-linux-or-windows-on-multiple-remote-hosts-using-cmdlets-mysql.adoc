@@ -1,0 +1,30 @@
+---
+permalink: protect-mysql/install-snapcenter-plug-in-packages-for-linux-or-windows-on-multiple-remote-hosts-using-cmdlets-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in Packages for Linux, SnapCenter Plug-in Packages for Windows 
+summary: Puede instalar los paquetes de complementos de SnapCenter para Linux o Windows en varios hosts simultáneamente mediante el cmdlet de PowerShell Install-SmHostPackage. 
+---
+= Instalar paquetes de complementos de SnapCenter para Linux o Windows en varios hosts remotos mediante cmdlets
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede instalar los paquetes de complementos de SnapCenter para Linux o Windows en varios hosts simultáneamente mediante el cmdlet de PowerShell Install-SmHostPackage.
+
+.Antes de empezar
+Debe haber iniciado sesión en SnapCenter como usuario de dominio con derechos de administrador local en cada host en el que desee instalar el paquete de complemento.
+
+.Pasos
+. Inicie PowerShell.
+. En el host del servidor SnapCenter , establezca una sesión mediante el cmdlet Open-SmConnection y luego ingrese sus credenciales.
+. Instale el complemento en varios hosts utilizando el cmdlet Install-SmHostPackage y los parámetros necesarios.
++
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
++
+Puede utilizar la opción -skipprecheck cuando haya instalado los complementos manualmente y no desee validar si el host cumple con los requisitos para instalar el complemento.
+
+. Introduzca sus credenciales para la instalación remota.
+

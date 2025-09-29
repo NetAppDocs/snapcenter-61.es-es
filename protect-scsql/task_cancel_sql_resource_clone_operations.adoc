@@ -1,0 +1,49 @@
+---
+permalink: protect-scsql/task_cancel_sql_resource_clone_operations.html 
+sidebar: sidebar 
+keywords: clone, cancel 
+summary: Puede cancelar operaciones de clonación que estén en cola. 
+---
+= Cancelar operaciones de clonación de recursos SQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede cancelar operaciones de clonación que estén en cola.
+
+Debe iniciar sesión como administrador de SnapCenter o propietario del trabajo para cancelar operaciones de clonación.
+
+.Acerca de esta tarea
+* Puede cancelar una operación de clonación en cola desde la página *Monitor* o desde el panel *Actividad*.
+* No se puede cancelar una operación de clonación en ejecución.
+* Puede utilizar la GUI de SnapCenter , los cmdlets de PowerShell o los comandos CLI para cancelar las operaciones de clonación en cola.
+* Si seleccionó *Todos los miembros de este rol pueden ver y operar en objetos de otros miembros* en la página Usuarios\Grupos al crear un rol, puede cancelar las operaciones de clonación en cola de otros miembros mientras usan ese rol.
+
+
+.Paso
+Ejecute una de las siguientes acciones:
+
+|===
+| Desde... | Acción 
+
+
+ a| 
+Página de monitorización
+ a| 
+. En el panel de navegación izquierdo, haga clic en *Monitor* > *Trabajos*.
+. Seleccione la operación y haga clic en *Cancelar trabajo*.
+
+
+
+
+ a| 
+Panel de actividades
+ a| 
+. Después de iniciar la operación de clonación, haga clic enimage:../media/activity_pane_icon.gif["icono del panel de actividad"] en el panel Actividad para ver las cinco operaciones más recientes.
+. Seleccione la operación.
+. En la página *Detalles del trabajo*, haga clic en *Cancelar trabajo*.
+
+
+|===

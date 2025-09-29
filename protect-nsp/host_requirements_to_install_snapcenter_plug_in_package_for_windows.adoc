@@ -1,0 +1,61 @@
+---
+permalink: protect-nsp/host_requirements_to_install_snapcenter_plug_in_package_for_windows.html 
+sidebar: sidebar 
+keywords: SAP HANA, NetApp supported plug-in 
+summary: Antes de instalar el paquete de complementos de SnapCenter para Windows, debe familiarizarse con algunos requisitos básicos de espacio y tamaño del sistema host. 
+---
+= Requisitos del host para instalar el paquete de complementos de SnapCenter para Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de instalar el paquete de complementos de SnapCenter para Windows, debe familiarizarse con algunos requisitos básicos de espacio y tamaño del sistema host.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+Microsoft Windows
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+1 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+5 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+* Paquete de alojamiento de ASP.NET Core Runtime 8.0.12 (y todos los parches 8.0.x posteriores)
+* PowerShell Core 7.4.2
+* Java 11 Oracle Java y OpenJDK
++
+Java 11 Oracle Java y OpenJDK solo se requieren para SAP HANA, IBM Db2, PostgreSQL, MySQL, complementos compatibles con NetApp y otras aplicaciones personalizadas que se puedan instalar en el host de Windows.
+
+
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+Para obtener información de solución de problemas específicos de .NET, consulte https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["La actualización o instalación de SnapCenter falla en los sistemas heredados que no tienen conectividad a Internet."]
+
+|===

@@ -1,0 +1,41 @@
+---
+permalink: uninstall/task_uninstalling_the_snapcenter_server.html 
+sidebar: sidebar 
+keywords: uninstall, snapcenter server, windows 
+summary: Si ya no desea utilizar SnapCenter Server para administrar trabajos de protección de datos, puede desinstalar SnapCenter Server mediante el Panel de control de programas y características en el host de SnapCenter Server.  Al desinstalar SnapCenter Server se eliminan todos sus componentes. 
+---
+= Desinstalar el servidor SnapCenter en el host de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si ya no desea utilizar SnapCenter Server para administrar trabajos de protección de datos, puede desinstalar SnapCenter Server mediante el Panel de control de programas y características en el host de SnapCenter Server.  Al desinstalar SnapCenter Server se eliminan todos sus componentes.
+
+.Antes de empezar
+* Asegúrese de tener al menos 2 GB de espacio libre en la unidad donde está instalado SnapCenter Server.
+* Asegúrese de que el dominio en el que está instalado SnapCenter Server no se elimine.
++
+Si elimina el dominio donde se instaló SnapCenter Server y luego intenta desinstalarlo, la operación falla.
+
+* Deberías haber realizado una copia de seguridad de la base de datos del repositorio porque esta se limpiará y desinstalará.
+
+
+.Pasos
+. En el host del servidor SnapCenter , navegue hasta el Panel de control.
+. Asegúrate de estar en la vista *Categoría*.
+. En Programas, haga clic en *Desinstalar un programa*.
++
+Se abre la ventana Programas y características.
+
+. Seleccione NetApp SnapCenter Server y haga clic en *Desinstalar*.
++
+A partir de SnapCenter 4.2, cuando desinstala SnapCenter Server, se desinstalan todos sus componentes, incluida la base de datos del repositorio de MySQL Server.
+
++
+** Para eliminar el nodo NLB de un clúster NLB es necesario reiniciar el host del servidor SnapCenter .  Si no reinicia el host, es posible que experimente una falla si intenta reinstalar SnapCenter Server.
+** Debe desinstalar manualmente .NET Framework que no se elimina durante la desinstalación.
+
+
+

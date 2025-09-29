@@ -1,0 +1,49 @@
+---
+permalink: uninstall/reference_prerequisites_for_removing_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, prerequisites, plug-in, plug-in packages 
+summary: Puede eliminar un host si ya no desea utilizar SnapCenter para administrar sus trabajos de protección de datos.  Por ejemplo, es posible que desee eliminar un host si ya no tiene datos que necesiten protección.  Antes de eliminar un host de SnapCenter Server, debe realizar las tareas previas necesarias. 
+---
+= Requisitos previos para eliminar un host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede eliminar hosts y desinstalar complementos individuales o paquetes de complementos mediante la GUI de SnapCenter .  También puede desinstalar complementos individuales o paquetes de complementos en hosts remotos mediante la interfaz de línea de comandos (CLI) en su host de SnapCenter Server o mediante la opción *Desinstalar un programa* de Windows localmente en cualquier host.
+
+Antes de eliminar un host de SnapCenter Server, debe completar los requisitos previos.
+
+* Debes iniciar sesión como administrador.
+* Debe asegurarse de que no se estén ejecutando trabajos de descubrimiento en el host.
+* Se le debe asignar un rol con los permisos necesarios para eliminar todos los objetos asociados con el host.  De lo contrario, la operación de eliminación fallará.
+* Debe confirmar la huella digital si la clave SSH se modificó después de agregar el host a SnapCenter.
+* Debe confirmar la huella digital si el host de SnapCenter se actualiza a una versión posterior de SnapCenter pero el host del complemento aún ejecuta una versión anterior del complemento.
+
+
+
+
+== Requisitos previos para eliminar un host mediante el control de acceso basado en roles
+
+* Debería haber iniciado sesión utilizando un rol RBAC que tenga permisos de lectura, eliminación de host, instalación, desinstalación de complementos y eliminación de objetos.
++
+Los objetos pueden ser clones, copias de seguridad, grupos de recursos, sistemas de almacenamiento, etc.
+
+* Debería haber agregado el usuario RBAC al rol RBAC.
+* Debe asignar el usuario RBAC al host, al complemento, a las credenciales, a los grupos de recursos y al sistema de almacenamiento (para clones) que desea eliminar.
+* Debería haber iniciado sesión en SnapCenter como usuario RBAC.
+
+
+
+
+== Requisitos previos para eliminar un host con clones creados a partir de la operación del ciclo de vida de clonación
+
+* Deberías haber creado trabajos de clonación utilizando la gestión del ciclo de vida de clonación para bases de datos SQL.
+* Debería haber creado una función RBAC con permisos de lectura y eliminación de clones, lectura y eliminación de recursos, lectura y eliminación de grupos de recursos, lectura y eliminación de almacenamiento, lectura y eliminación de aprovisionamiento, montaje, desmontaje, instalación y desinstalación de complementos y lectura y eliminación de host.
+* Debería haber asignado el usuario RBAC al rol RBAC.
+* Debería haber asignado el usuario RBAC al host, al complemento de SnapCenter para Microsoft SQL Server, a las credenciales, al grupo de recursos del ciclo de vida de clones y al sistema de almacenamiento.
+* Debería haber iniciado sesión en SnapCenter como usuario RBAC.
+
+
+Para obtener información sobre cómo desinstalar el SnapCenter Plug-in for VMware vSphere, consulte https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_remove_plugin.html["Eliminar el SnapCenter Plug-in for VMware vSphere"^] .

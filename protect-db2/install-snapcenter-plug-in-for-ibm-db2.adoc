@@ -1,0 +1,16 @@
+---
+permalink: protect-db2/install-snapcenter-plug-in-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: installing 
+summary: Debe instalar y configurar el complemento SnapCenter para IBM Db2 si desea proteger IBM Db2. 
+---
+= Flujo de trabajo de instalación del complemento SnapCenter para IBM Db2
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe instalar y configurar el complemento SnapCenter para IBM Db2 si desea proteger las bases de datos de IBM Db2.
+
+image::../media/sap_hana_install_configure_workflow.gif[instalar el complemento SAP HANA]

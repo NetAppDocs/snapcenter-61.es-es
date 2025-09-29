@@ -1,0 +1,142 @@
+---
+permalink: protect-scsql/reference_storage_types_supported_by_snapcenter_plug_ins_for_microsoft_windows_and_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: SnapCenter admite una amplia gama de tipos de almacenamiento tanto en máquinas físicas como virtuales.  Debe verificar si hay soporte disponible para su tipo de almacenamiento antes de instalar el paquete para su host. 
+---
+= Tipos de almacenamiento compatibles con el complemento SnapCenter para Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter admite una amplia gama de tipos de almacenamiento tanto en máquinas físicas como virtuales.  Debe verificar si hay soporte disponible para su tipo de almacenamiento antes de instalar el paquete para su host.
+
+El soporte de aprovisionamiento y protección de datos de SnapCenter está disponible en Windows Server.  Para obtener la información más reciente sobre las versiones compatibles, consulte lahttps://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+|===
+| Máquina | Tipo de almacenamiento | Provisión utilizando | Notas de soporte 
+
+
+ a| 
+Servidor físico
+ a| 
+LUN conectados a FC
+ a| 
+Interfaz gráfica de usuario (GUI) de SnapCenter o cmdlets de PowerShell
+ a| 
+
+
+
+ a| 
+Servidor físico
+ a| 
+LUN conectados a iSCSI
+ a| 
+GUI de SnapCenter o cmdlets de PowerShell
+ a| 
+
+
+
+ a| 
+Servidor físico
+ a| 
+Recursos compartidos SMB3 (CIFS) que residen en una máquina virtual de almacenamiento (SVM)
+ a| 
+GUI de SnapCenter o cmdlets de PowerShell
+ a| 
+Soporte únicamente para aprovisionamiento.
+
+
+
+ a| 
+Máquina virtual de VMware
+ a| 
+LUN RDM conectados mediante un HBA FC o iSCSI
+ a| 
+Cmdlets de PowerShell
+ a| 
+
+
+
+ a| 
+Máquina virtual de VMware
+ a| 
+LUN iSCSI conectados directamente al sistema invitado por el iniciador iSCSI
+ a| 
+GUI de SnapCenter o cmdlets de PowerShell
+ a| 
+
+
+
+ a| 
+Máquina virtual de VMware
+ a| 
+Sistemas de archivos de máquinas virtuales (VMFS) o almacenes de datos NFS
+ a| 
+VMware vSphere
+ a| 
+
+
+
+ a| 
+Máquina virtual de VMware
+ a| 
+Un sistema invitado conectado a recursos compartidos SMB3 que residen en una SVM
+ a| 
+GUI de SnapCenter o cmdlets de PowerShell
+ a| 
+Soporte únicamente para aprovisionamiento.
+
+
+
+ a| 
+Máquina virtual de VMware
+ a| 
+Almacenes de datos vVol tanto en NFS como en SAN
+ a| 
+Herramientas ONTAP para VMware vSphere
+ a| 
+
+
+
+ a| 
+Máquina virtual Hyper-V
+ a| 
+LUN de FC virtuales (vFC) conectados mediante un conmutador de canal de fibra virtual
+ a| 
+GUI de SnapCenter o cmdlets de PowerShell
+ a| 
+Debe utilizar Hyper-V Manager para aprovisionar LUN de FC virtual (vFC) conectados mediante un conmutador de canal de fibra virtual.
+
+
+NOTE: No se admiten los discos de paso de Hyper-V ni la copia de seguridad de bases de datos en VHD(x) aprovisionados en el almacenamiento de NetApp .
+
+
+
+ a| 
+Máquina virtual Hyper-V
+ a| 
+LUN iSCSI conectados directamente al sistema invitado por el iniciador iSCSI
+ a| 
+GUI de SnapCenter o cmdlets de PowerShell
+ a| 
+
+NOTE: No se admiten los discos de paso de Hyper-V ni la copia de seguridad de bases de datos en VHD(x) aprovisionados en el almacenamiento de NetApp .
+
+
+
+ a| 
+Máquina virtual Hyper-V
+ a| 
+Un sistema invitado conectado a recursos compartidos SMB3 que residen en una SVM
+ a| 
+GUI de SnapCenter o cmdlets de PowerShell
+ a| 
+Soporte únicamente para aprovisionamiento.
+
+
+NOTE: No se admiten los discos de paso de Hyper-V ni la copia de seguridad de bases de datos en VHD(x) aprovisionados en el almacenamiento de NetApp .
+
+|===

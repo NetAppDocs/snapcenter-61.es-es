@@ -1,0 +1,64 @@
+---
+permalink: protect-sco/task_refresh_a_clone.html 
+sidebar: sidebar 
+keywords: refresh clone, clone 
+summary: Puede actualizar el clon ejecutando el comando “Refresh-SmClone”.  Este comando crea una copia de seguridad de la base de datos, elimina el clon existente y crea un clon con el mismo nombre. 
+---
+= Actualizar un clon
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede actualizar el clon ejecutando el comando _Refresh-SmClone_.  Este comando crea una copia de seguridad de la base de datos, elimina el clon existente y crea un clon con el mismo nombre.
+
+
+NOTE: No es posible actualizar un clon PDB.
+
+*Lo que necesitarás*
+
+* Cree una copia de seguridad completa en línea o una política de copia de seguridad de datos fuera de línea sin copias de seguridad programadas habilitadas.
+* Configure la notificación por correo electrónico en la política solo para fallas de copia de seguridad.
+* Defina el recuento de retención para las copias de seguridad a pedido de manera adecuada para garantizar que no haya copias de seguridad no deseadas.
+* Asegúrese de que solo una copia de seguridad completa en línea o una política de copia de seguridad de datos sin conexión esté asociada con el grupo de recursos identificado para la operación de clonación de actualización.
+* Cree un grupo de recursos con una sola base de datos.
+* Si se crea un trabajo cron para el comando de actualización de clonación, asegúrese de que las programaciones de SnapCenter y las programaciones de cron no se superpongan para el grupo de recursos de la base de datos.
++
+Para un trabajo cron creado para el comando de actualización de clonación, asegúrese de ejecutar Open-SmConnection cada 24 horas.
+
+* Asegúrese de que el SID del clon sea único para un host.
++
+Si varias operaciones de actualización de clones usan el mismo archivo de especificación de clones o usan el archivo de especificación de clones con el mismo SID de clon, se eliminará el clon existente con el SID en el host y luego se creará el clon.
+
+* Asegúrese de que la política de respaldo esté habilitada con protección secundaria y que el archivo de especificación de clonación se cree con "`-IncludeSecondaryDetails`" para crear los clones utilizando copias de seguridad secundarias.
++
+** Si se especifica el archivo de especificación del clon principal, pero la política tiene seleccionada la opción de actualización secundaria, se creará la copia de seguridad y la actualización se transferirá a la secundaria.  Sin embargo, el clon se creará a partir de la copia de seguridad principal.
+** Si se especifica el archivo de especificación del clon principal y la política no tiene seleccionada la opción de actualización secundaria, la copia de seguridad se creará en el principal y el clon se creará desde el principal.
+
+
+
+
+*Pasos*
+
+. Iniciar una sesión de conexión con el servidor SnapCenter para un usuario específico: _Open-SmConnection_
+. Cree una especificación de clon de base de datos Oracle a partir de una copia de seguridad especificada: _New-SmOracleCloneSpecification_
++
+
+NOTE: Si la política de protección de datos secundaria es espejo-bóveda unificada, especifique solo -IncludeSecondaryDetails.  No es necesario especificar -SecondaryStorageType.
+
++
+Este comando crea automáticamente un archivo de especificación de clonación de base de datos de Oracle para la base de datos de origen especificada y su copia de seguridad.  También debe proporcionar un SID de base de datos clonada para que el archivo de especificación creado tenga los valores generados automáticamente para la base de datos clonada que creará.
+
++
+
+NOTE: El archivo de especificación de clon se crea en _/var/opt/snapcenter/sco/clone_specs_.
+
+. Ejecute _Refresh-SmClone_.
++
+Si la operación falla con el mensaje de error "PL-SCO-20032: la operación canExecute falló con el error: PL-SCO-30031: existe el archivo de registro de rehacer +SC_2959770772_clmdb/clmdb/redolog/redo01_01.log", especifique un valor más alto para _-WaitToTriggerClone_.
+
++
+Para obtener información detallada sobre los comandos de UNIX, consulte la https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["Guía de referencia de comandos del software SnapCenter"^] .
+
+

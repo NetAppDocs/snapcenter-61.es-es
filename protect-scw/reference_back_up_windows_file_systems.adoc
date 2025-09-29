@@ -1,0 +1,24 @@
+---
+permalink: protect-scw/reference_back_up_windows_file_systems.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Cuando instala el complemento SnapCenter para Microsoft Windows en su entorno, puede usar SnapCenter para realizar copias de seguridad de los sistemas de archivos de Windows.  Puede realizar una copia de seguridad de un solo sistema de archivos o de un grupo de recursos que contenga varios sistemas de archivos.  Puede realizar copias de seguridad a pedido o según un programa de protección definido. 
+---
+= Realizar copias de seguridad de los sistemas de archivos de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando instala el complemento SnapCenter para Microsoft Windows en su entorno, puede usar SnapCenter para realizar copias de seguridad de los sistemas de archivos de Windows.  Puede realizar una copia de seguridad de un solo sistema de archivos o de un grupo de recursos que contenga varios sistemas de archivos.  Puede realizar copias de seguridad a pedido o según un programa de protección definido.
+
+Puede programar varias copias de seguridad para que se ejecuten en todos los servidores simultáneamente.  Las operaciones de copia de seguridad y restauración no se pueden realizar simultáneamente en el mismo recurso.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar las operaciones de copia de seguridad:
+
+image::../media/sce_backup_workflow.gif[flujo de trabajo de respaldo]
+
+image::../media/sce_backup_workflow.gif[Flujo de trabajo de respaldo de la base de datos de Exchange]
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad, restauración y clonación.  La ayuda del cmdlet de SnapCenter o el https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] Contiene información detallada sobre los cmdlets de PowerShell.

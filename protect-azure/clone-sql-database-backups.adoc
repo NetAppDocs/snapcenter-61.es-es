@@ -1,0 +1,81 @@
+---
+permalink: protect-azure/clone-sql-database-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server Database, clone, database, backups 
+summary: Puede utilizar SnapCenter para clonar una copia de seguridad. 
+---
+= Copia de seguridad de la base de datos de clonación de SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para clonar una base de datos SQL utilizando la copia de seguridad de la base de datos.  Los clones creados son clones gruesos y se crean en el grupo de capacidad principal.
+
+.Acerca de esta tarea
+Debe asegurarse de que la instancia de destino para el clon esté configurada con un usuario de directorio activo que pertenezca al dominio de directorio activo de SMB AD y tenga permisos para configurar los permisos de archivo de forma adecuada.  Debe configurar las credenciales en SnapCenter a nivel de instancia.
+
+La autenticación SQL para la instancia de destino no será compatible con configuraciones SMB.  La instancia de destino debe configurarse en SnapCenter con el usuario del directorio activo que tenga los permisos necesarios.
+
+Si la cuenta de servicio de servicios del complemento SnapCenter no es un usuario de directorio activo, al realizar la clonación, se requiere el usuario que tiene control total sobre los volúmenes de origen para poder suplantarlo y realizar la operación requerida.
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista *Ver*.
+. Seleccione la base de datos o el grupo de recursos.
+. Desde la página de vista *Administrar copias*, seleccione la copia de seguridad del sistema de almacenamiento principal.
+. Seleccione la copia de seguridad y luego seleccione *image:../media/clone_icon.gif["icono de clonación"] *.
+. En la página *Opciones de clonación*, proporcione todos los detalles requeridos.
+. En la página Ubicación, seleccione una ubicación de almacenamiento para crear un clon.
++
+Si los volúmenes ANF de la base de datos de SQL Server están configurados en un grupo de capacidad de QOS manual, especifique la QOS para los volúmenes clonados.
+
++
+Si no se especifica la calidad de servicio para los volúmenes clonados, se utilizará la calidad de servicio del volumen de origen.  Si se utiliza el grupo de capacidad de QOS automático, se ignorará el valor de QOS especificado.
+
+. En la página Registros, seleccione una de las siguientes opciones:
++
+.. Seleccione *Ninguno* si desea clonar solo la copia de seguridad completa sin ningún registro.
+.. Seleccione *Todas las copias de seguridad de registros* si desea clonar todas las copias de seguridad de registros disponibles con fecha posterior a la copia de seguridad completa.
+.. Seleccione *Por copias de seguridad de registros hasta* si desea clonar la base de datos en función de los registros de copia de seguridad que se crearon hasta el registro de copia de seguridad con la fecha seleccionada.
+.. Seleccione *Por fecha específica hasta* si no desea aplicar los registros de transacciones después de la fecha y hora especificadas.
+
+
+. En la página *Script*, ingrese el tiempo de espera del script, la ruta y los argumentos del prescript o postscript que se deben ejecutar antes o después de la operación de clonación, respectivamente.
+. En la página *Notificación*, de la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego seleccione *Finalizar*.
+. Supervise el progreso de la operación seleccionando *Monitor* > *Trabajos*.
+
+
+
+
+== Realizar ciclo de vida de clonación
+
+Con SnapCenter, puede crear clones desde un grupo de recursos o una base de datos.  Puede realizar una clonación a pedido o programar operaciones de clonación recurrentes de un grupo de recursos o una base de datos.  Si clona una copia de seguridad periódicamente, puede usar el clon para desarrollar aplicaciones, completar datos o recuperar datos.
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista *Ver*.
+. Seleccione la base de datos o el grupo de recursos.
+. Desde la página de vista *Administrar copias*, seleccione la copia de seguridad del sistema de almacenamiento principal.
+. Seleccione la copia de seguridad y luego seleccione *image:../media/clone_icon.gif["icono de clonación"] *.
+. En la página *Opciones de clonación*, proporcione todos los detalles requeridos.
+. En la página Ubicación, seleccione una ubicación de almacenamiento para crear un clon.
++
+Si los volúmenes ANF de la base de datos de SQL Server están configurados en un grupo de capacidad de QOS manual, especifique la QOS para los volúmenes clonados.
+
++
+Si no se especifica la calidad de servicio para los volúmenes clonados, se utilizará la calidad de servicio del volumen de origen.  Si se utiliza el grupo de capacidad de QOS automático, se ignorará el valor de QOS especificado.
+
+. En la página *Script*, ingrese el tiempo de espera del script, la ruta y los argumentos del prescript o postscript que se deben ejecutar antes o después de la operación de clonación, respectivamente.
+. En la página Programación, realice una de las siguientes acciones:
++
+** Seleccione *Ejecutar ahora* si desea ejecutar el trabajo de clonación inmediatamente.
+** Seleccione *Configurar programación* cuando desee determinar con qué frecuencia debe ocurrir la operación de clonación, cuándo debe comenzar la programación de clonación, en qué día debe ocurrir la operación de clonación, cuándo debe expirar la programación y si los clones deben eliminarse después de que expire la programación.
+
+
+. En la página *Notificación*, de la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego seleccione *Finalizar*.
+. Supervise el progreso de la operación seleccionando *Monitor* > *Trabajos*.
+

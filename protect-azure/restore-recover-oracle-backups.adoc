@@ -1,0 +1,125 @@
+---
+permalink: protect-azure/restore-recover-oracle-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Oracle Database, restore, recover, tablespaces, pluggable databases, point-in-time 
+summary: Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad. 
+---
+= Restaurar y recuperar bases de datos Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+En caso de pérdida de datos, puede utilizar SnapCenter para restaurar datos de una o más copias de seguridad en su sistema de archivos activo y luego recuperar la base de datos.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista Ver.
+. Seleccione la base de datos o el grupo de recursos de la lista.
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* del sistema de almacenamiento principal.
+. Seleccione la copia de seguridad de la tabla y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
+. En la página Restaurar ámbito, realice las siguientes tareas:
++
+.. Seleccione RAC si ha seleccionado una copia de seguridad de una base de datos en el entorno RAC.
+.. Realice las siguientes acciones:
++
+... Seleccione *Todos los archivos de datos* si desea restaurar solo los archivos de la base de datos.
+... Seleccione *Espacios de tabla* si desea restaurar solo los espacios de tabla.
+... Seleccione *Rehacer archivos de registro* si desea restaurar los archivos de registro de rehacer de las bases de datos de espera de Data Guard o de espera de Data Guard activo.
+... Seleccione *Bases de datos conectables* y especifique los PDB que desea restaurar.
+... Seleccione *Espacios de tabla de base de datos conectable (PDB)* y, a continuación, especifique la PDB y los espacios de tabla de esa PDB que desea restaurar.
+... Seleccione *Restaurar la base de datos en el mismo host donde se creó la copia de seguridad* si desea restaurar la base de datos en el mismo servidor SQL donde se realizaron las copias de seguridad.
+... Seleccione *Restaurar la base de datos en un host alternativo* si desea que la base de datos se restaure en un servidor SQL diferente en el mismo host o en uno diferente donde se realizan las copias de seguridad.
+... Seleccione *Cambiar el estado de la base de datos si es necesario para restaurar y recuperar* para cambiar el estado de la base de datos al estado requerido para realizar operaciones de restauración y recuperación.
+... Seleccione *Forzar restauración en el lugar* si desea realizar una restauración en el lugar en los escenarios en los que se agregan nuevos archivos de datos después de la copia de seguridad o cuando se agregan, eliminan o vuelven a crear LUN en un grupo de discos LVM.
+
+
+
+
+. En la página Ámbito de recuperación, seleccione una de las siguientes opciones:
++
+.. Seleccione *Todos los registros* si desea recuperar la última transacción.
+.. Seleccione *Hasta SCN (Número de cambio de sistema)* si desea recuperar un SCN específico.
+.. Seleccione *Fecha y hora* si desea recuperar una fecha y hora específicas.
+.. Seleccione *Sin recuperación* si no desea recuperar.
+.. Seleccione *Especificar ubicaciones de registros de archivo externos* si desea especificar la ubicación de los archivos de registro de archivo externos.
+
+
+. En la página Preoperatorio y Postoperatorio, especifique los detalles requeridos.
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+
+
+
+
+== Restaurar y recuperar espacios de tabla mediante la recuperación en un punto en el tiempo
+
+Puede restaurar un subconjunto de espacios de tabla que se hayan dañado o eliminado sin afectar a los demás espacios de tabla de la base de datos.  SnapCenter utiliza RMAN para realizar la recuperación en un punto en el tiempo (PITR) de los espacios de tabla.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista Ver.
+. Seleccione la base de datos de tipo instancia única (multiinquilino).
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* del sistema de almacenamiento.
++
+Si la copia de seguridad no está catalogada, debe seleccionar la copia de seguridad y hacer clic en *Catálogo*.
+
+. Seleccione la copia de seguridad catalogada y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
+. En la página Restaurar ámbito, realice las siguientes tareas:
++
+.. Seleccione *RAC* si ha seleccionado una copia de seguridad de una base de datos en el entorno RAC.
+.. Seleccione *Espacios de tabla* si desea restaurar solo los espacios de tabla.
+.. Seleccione *Cambiar el estado de la base de datos si es necesario para restaurar y recuperar* para cambiar el estado de la base de datos al estado requerido para realizar operaciones de restauración y recuperación.
+
+
+. En la página Ámbito de recuperación, seleccione una de las siguientes opciones:
++
+.. Seleccione *Hasta SCN (Número de cambio de sistema)* si desea recuperar un SCN específico.
+.. Seleccione *Fecha y hora* si desea recuperar una fecha y hora específicas.
+
+
+. En la página Preoperatorio y Postoperatorio, especifique los detalles requeridos.
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el proceso de restauración utilizando la página *Monitor* > *Trabajos*.
+
+
+
+
+== Restaurar y recuperar bases de datos conectables mediante recuperación en un punto determinado del tiempo
+
+Puede restaurar y recuperar una base de datos conectable (PDB) que se haya dañado o eliminado sin afectar a las otras PDB en la base de datos contenedora (CDB).  SnapCenter utiliza RMAN para realizar la recuperación en un punto en el tiempo (PITR) del PDB.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista Ver.
+. Seleccione la base de datos de tipo instancia única (multiinquilino).
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* del sistema de almacenamiento.
++
+Si la copia de seguridad no está catalogada, debe seleccionar la copia de seguridad y hacer clic en *Catálogo*.
+
+. Seleccione la copia de seguridad catalogada y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
+. En la página Restaurar ámbito, realice las siguientes tareas:
++
+.. Seleccione *RAC* si ha seleccionado una copia de seguridad de una base de datos en el entorno RAC.
+.. Dependiendo de si desea restaurar el PDB o los espacios de tabla en un PDB, realice una de las acciones:
++
+*** Seleccione *Bases de datos conectables (PDB)* si desea restaurar una PDB.
+*** Seleccione *Espacios de tabla de base de datos conectable (PDB)* si desea restaurar espacios de tabla en una PDB.
+
+
+
+
+. En la página Ámbito de recuperación, seleccione una de las siguientes opciones:
++
+.. Seleccione *Hasta SCN (Número de cambio de sistema)* si desea recuperar un SCN específico.
+.. Seleccione *Fecha y hora* si desea recuperar una fecha y hora específicas.
+
+
+. En la página Preoperatorio y Postoperatorio, especifique los detalles requeridos.
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el proceso de restauración utilizando la página *Monitor* > *Trabajos*.
+

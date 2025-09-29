@@ -1,0 +1,37 @@
+---
+permalink: protect-sce/task_install_plug_in_for_exchange_from_the_snapcenter_server_host_using_powershell_cmdlets.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Debe instalar el complemento para Exchange desde la GUI de SnapCenter .  Si no desea utilizar la GUI, puede usar cmdlets de PowerShell en el host del servidor SnapCenter o en un host remoto. 
+---
+= Instalar el complemento para Exchange desde el host del servidor SnapCenter mediante cmdlets de PowerShell
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe instalar el complemento para Exchange desde la GUI de SnapCenter .  Si no desea utilizar la GUI, puede usar cmdlets de PowerShell en el host del servidor SnapCenter o en un host remoto.
+
+.Antes de empezar
+* Es necesario haber instalado y configurado SnapCenter Server.
+* Debe ser un administrador local en el host o un usuario con privilegios administrativos.
+* Debe ser un usuario asignado a un rol que tenga permisos de complemento, instalación y desinstalación, como el administrador de SnapCenter .
+* Debe haber revisado los requisitos de instalación y los tipos de configuraciones compatibles antes de instalar el complemento para Exchange.
+* El host en el que desea instalar el complemento para Exchange debe ser un host Windows.
+
+
+.Pasos
+. En el host del servidor SnapCenter , establezca una sesión mediante el cmdlet _Open-SmConnection_ y luego ingrese sus credenciales.
+. Agregue el host en el que desea instalar el complemento para Exchange mediante el cmdlet _Add-SmHost_ con los parámetros necesarios.
++
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
++
+El host puede ser un host independiente o un DAG.  Si especifica un DAG, se requiere el parámetro _-IsDAG_.
+
+. Instale el complemento para Exchange mediante el cmdlet _Install-SmHostPackage_ con los parámetros necesarios.
++
+Este comando instala el complemento para Exchange en el host especificado y luego registra el complemento con SnapCenter.
+
+

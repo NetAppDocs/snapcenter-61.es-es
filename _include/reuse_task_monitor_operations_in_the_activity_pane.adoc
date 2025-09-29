@@ -1,0 +1,15 @@
+= 
+:allow-uri-read: 
+
+
+El panel Actividad muestra las cinco operaciones más recientes realizadas.  El panel Actividad también muestra cuándo se inició la operación y el estado de la operación.
+
+El panel Actividad muestra información sobre operaciones de copia de seguridad, restauración, clonación y copia de seguridad programada.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. Hacer clicimage:../media/activity_pane_icon.gif["icono del panel de actividad"] en el panel Actividad para ver las cinco operaciones más recientes.
++
+Al hacer clic en una de las operaciones, los detalles de la operación se enumeran en la página *Detalles del trabajo*.
+
+

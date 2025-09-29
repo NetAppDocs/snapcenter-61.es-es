@@ -1,0 +1,14 @@
+---
+permalink: protect-hana/concept_number_of_backup_jobs_needed_for_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: 'Los factores que determinan la cantidad de trabajos de respaldo que necesita incluyen el tamaño del recurso, la cantidad de volúmenes utilizados, la tasa de cambio del recurso y su Acuerdo de Nivel de Servicio (SLA).' 
+---
+= Número de trabajos de respaldo necesarios para las bases de datos de SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Los factores que determinan la cantidad de trabajos de respaldo que necesita incluyen el tamaño del recurso, la cantidad de volúmenes utilizados, la tasa de cambio del recurso y su Acuerdo de Nivel de Servicio (SLA).

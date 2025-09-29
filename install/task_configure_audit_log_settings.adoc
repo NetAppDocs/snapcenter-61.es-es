@@ -1,0 +1,70 @@
+---
+permalink: install/task_configure_audit_log_settings.html 
+sidebar: sidebar 
+keywords: audit, log, configure 
+summary: Puede configurar para registrar los eventos de seguridad de las plataformas de software y todo el software que se ejecuta en esas plataformas. 
+---
+= Configurar los ajustes del registro de auditoría
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se generan registros de auditoría para todas y cada una de las actividades del servidor SnapCenter .  De forma predeterminada, los registros de auditoría están protegidos en la ubicación de instalación predeterminada _C:\Program Files\ NetApp\ SnapCenter WebApp\audit\_.
+
+Los registros de auditoría se protegen mediante la generación de un resumen firmado digitalmente para cada evento de auditoría para protegerlos de modificaciones no autorizadas.  Los resúmenes generados se mantienen en un archivo de suma de verificación de auditoría separado y se someten a controles de integridad periódicos para garantizar la integridad del contenido.
+
+Deberías haber iniciado sesión como rol "SnapCenterAdmin".
+
+.Acerca de esta tarea
+* Las alertas se envían en los siguientes escenarios:
++
+** La programación de verificación de integridad del registro de auditoría o el servidor Syslog está habilitado o deshabilitado
+** Comprobación de la integridad del registro de auditoría, registro de auditoría o error del registro del servidor Syslog
+** Poco espacio en disco
+
+
+* El correo electrónico se envía sólo cuando falla la verificación de integridad.
+* Debes modificar las rutas del directorio del registro de auditoría y del directorio del registro de suma de comprobación de auditoría juntas.  No puedes modificar sólo uno de ellos.
+* Cuando se modifican las rutas del directorio del registro de auditoría y del directorio del registro de suma de comprobación de auditoría, no se puede realizar la verificación de integridad en los registros de auditoría presentes en la ubicación anterior.
+* Las rutas del directorio del registro de auditoría y del directorio del registro de suma de comprobación de auditoría deben estar en la unidad local del servidor SnapCenter .
++
+No se admiten unidades compartidas o montadas en red.
+
+* Si se utiliza el protocolo UDP en la configuración del servidor Syslog, los errores debidos a que el puerto está inactivo o no está disponible no se pueden capturar como un error o una alerta en SnapCenter.
+* Puede utilizar los comandos Set-SmAuditSettings y Get-SmAuditSettings para configurar los registros de auditoría.
++
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando Get-Help command_name.  Alternativamente, también puede consultar el https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+
+
+.Pasos
+. En la página *Configuración*, navegue a *Configuración* > *Configuración global* > *Configuración del registro de auditoría*.
+. En la sección Registro de auditoría, ingrese los detalles.
+. Ingrese al *Directorio de registro de auditoría* y al *Directorio de registro de suma de comprobación de auditoría*
++
+.. Introduzca el tamaño máximo del archivo
+.. Introduzca el máximo de archivos de registro
+.. Introduzca el porcentaje de uso del espacio en disco para enviar una alerta
+
+
+. (Opcional) Habilitar *Registrar hora UTC*.
+. (Opcional) Habilite *Programación de verificación de integridad del registro de auditoría* y haga clic en *Iniciar verificación de integridad* para realizar una verificación de integridad a pedido.
++
+También puede ejecutar el comando *Start-SmAuditIntegrityCheck* para iniciar una verificación de integridad a pedido.
+
+. (Opcional) Habilite los registros de auditoría reenviados al servidor syslog remoto e ingrese los detalles del servidor syslog.
++
+Debe importar el certificado del servidor Syslog a la 'Raíz confiable' para el protocolo TLS 1.2.
+
++
+.. Ingresar al host del servidor Syslog
+.. Ingrese el puerto del servidor Syslog
+.. Introducir el protocolo del servidor Syslog
+.. Ingresar formato RFC
+
+
+. Haga clic en *Guardar*.
+. Puede ver las comprobaciones de integridad de auditoría y de espacio en disco haciendo clic en *Monitor* > *Trabajos*.
+

@@ -1,0 +1,55 @@
+---
+permalink: protect-scsql/reference_storage_layout_recommendations_for_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: Storage layout 
+summary: Un diseño de almacenamiento bien diseñado permite que SnapCenter Server realice copias de seguridad de sus bases de datos para cumplir con sus objetivos de recuperación.  Debe tener en cuenta varios factores al definir el diseño de su almacenamiento, incluido el tamaño de la base de datos, la tasa de cambio de la base de datos y la frecuencia con la que realiza copias de seguridad. 
+---
+= Recomendaciones de diseño de almacenamiento para el complemento SnapCenter para Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un diseño de almacenamiento bien diseñado permite que SnapCenter Server realice copias de seguridad de sus bases de datos para cumplir con sus objetivos de recuperación.  Debe tener en cuenta varios factores al definir el diseño de su almacenamiento, incluido el tamaño de la base de datos, la tasa de cambio de la base de datos y la frecuencia con la que realiza copias de seguridad.
+
+Las siguientes secciones definen las recomendaciones y restricciones de diseño de almacenamiento para LUN y discos de máquinas virtuales (VMDK) con el complemento SnapCenter para Microsoft SQL Server instalado en su entorno.
+
+En este caso, los LUN pueden incluir discos VMware RDM y LUN conectados directamente iSCSI que están asignados al invitado.
+
+
+
+== Requisitos de LUN y VMDK
+
+Opcionalmente, puede utilizar LUN o VMDK dedicados para lograr un rendimiento y una gestión óptimos de las siguientes bases de datos:
+
+* Bases de datos de sistemas maestros y modelos
+* Base de datos temporal
+* Archivos de base de datos de usuario (.mdf y .ndf)
+* Archivos de registro de transacciones de la base de datos de usuario (.ldf)
+* Directorio de registro
+
+
+Para restaurar bases de datos grandes, la mejor práctica es utilizar LUN o VMDK dedicados.  El tiempo que lleva restaurar un LUN o VMDK completo es menor que el tiempo que lleva restaurar los archivos individuales almacenados en el LUN o VMDK.
+
+Para el directorio de registro, debe crear un LUN o VMDK separado para que haya suficiente espacio libre en los discos de datos o archivos de registro.
+
+
+
+== Diseños de muestra de LUN y VMDK
+
+El siguiente gráfico muestra cómo puede configurar el diseño de almacenamiento para bases de datos grandes en LUN:
+
+image::../media/smsql_storage_layout_mult_vols_snapcenter.gif[Diagrama de LUN múltiples]
+
+El siguiente gráfico muestra cómo puede configurar el diseño de almacenamiento para bases de datos medianas o pequeñas en LUN:
+
+image::../media/smsql_storage_layout_mult_dbs_luns_snapcenter.gif[Varias bases de datos por diagrama LUN]
+
+El siguiente gráfico muestra cómo puede configurar el diseño de almacenamiento para bases de datos grandes en VMDK:
+
+image::../media/smsql_storage_layout_large_dbs_vmdk.gif[Disposición de almacenamiento para bases de datos grandes en VMDK]
+
+El siguiente gráfico muestra cómo puede configurar el diseño de almacenamiento para bases de datos medianas o pequeñas en VMDK:
+
+image::../media/smsql_storage_layout_med_small_dbs_vmdk.gif[Disposición de almacenamiento para bases de datos medianas o pequeñas en VMDK]

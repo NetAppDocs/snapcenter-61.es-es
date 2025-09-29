@@ -1,0 +1,24 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Windows 
+summary: El complemento SnapCenter para Microsoft Windows es un componente del lado del host del software SnapCenter de NetApp que permite la gestión de protección de datos consciente de la aplicación de los recursos del sistema de archivos de Microsoft.  Además, proporciona aprovisionamiento de almacenamiento, consistencia de instantáneas y recuperación de espacio para sistemas de archivos de Windows.  El complemento para Windows automatiza las operaciones de copia de seguridad, restauración y clonación del sistema de archivos en su entorno de SnapCenter . 
+---
+= Descripción general del complemento SnapCenter para Microsoft Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El complemento SnapCenter para Microsoft Windows es un componente del lado del host del software SnapCenter de NetApp que permite la gestión de protección de datos consciente de la aplicación de los recursos del sistema de archivos de Microsoft.  Además, proporciona aprovisionamiento de almacenamiento, consistencia de instantáneas y recuperación de espacio para sistemas de archivos de Windows.  El complemento para Windows automatiza las operaciones de copia de seguridad, restauración y clonación del sistema de archivos en su entorno de SnapCenter .
+
+Cuando se instala el complemento para Windows, puede utilizar SnapCenter con la tecnología NetApp SnapMirror para crear copias reflejadas de conjuntos de copias de seguridad en otro volumen y con la tecnología NetApp SnapVault para realizar replicación de copias de seguridad de disco a disco para archivado o cumplimiento de estándares.
+
+* Habilita la protección de datos basada en aplicaciones para otros complementos que se ejecutan en hosts de Windows en su entorno de SnapCenter
+* Automatiza operaciones de copia de seguridad, restauración y clonación basadas en aplicaciones para sistemas de archivos de Microsoft en su entorno de SnapCenter
+* Admite aprovisionamiento de almacenamiento, consistencia de instantáneas y recuperación de espacio para hosts de Windows
+
+
+
+NOTE: El complemento para Windows aprovisiona recursos compartidos SMB y sistemas de archivos de Windows en LUN físicos y RDM, pero no admite operaciones de respaldo para sistemas de archivos de Windows en recursos compartidos SMB.

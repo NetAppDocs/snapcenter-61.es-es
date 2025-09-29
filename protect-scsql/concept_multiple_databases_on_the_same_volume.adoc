@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_multiple_databases_on_the_same_volume.html 
+sidebar: sidebar 
+keywords: Multiple databases 
+summary: 'Puede colocar todas las bases de datos en el mismo volumen, porque la política de respaldo tiene una opción para establecer el máximo de bases de datos por respaldo (el valor predeterminado es 100).' 
+---
+= Varias bases de datos en el mismo volumen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede colocar todas las bases de datos en el mismo volumen, porque la política de respaldo tiene una opción para establecer el máximo de bases de datos por respaldo (el valor predeterminado es 100).
+
+Por ejemplo, si tiene 200 bases de datos en el mismo volumen, se crean dos instantáneas con 100 bases de datos en cada una de ellas.

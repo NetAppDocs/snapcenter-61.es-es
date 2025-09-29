@@ -1,0 +1,101 @@
+---
+permalink: install/concept_create_and_manage_smb_shares.html 
+sidebar: sidebar 
+keywords: SMB shares 
+summary: 'Para configurar un recurso compartido SMB3 en una máquina virtual de almacenamiento (SVM), puede utilizar la interfaz de usuario de SnapCenter o los cmdlets de PowerShell.' 
+---
+= Crear y administrar recursos compartidos SMB
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para configurar un recurso compartido SMB3 en una máquina virtual de almacenamiento (SVM), puede utilizar la interfaz de usuario de SnapCenter o los cmdlets de PowerShell.
+
+|===
+
+
+| *Mejores prácticas:* Se recomienda usar los cmdlets porque le permiten aprovechar las plantillas proporcionadas con SnapCenter para automatizar la configuración de recursos compartidos. 
+|===
+Las plantillas encapsulan las mejores prácticas para la configuración de volúmenes y recursos compartidos.  Puede encontrar las plantillas en la carpeta Plantillas en la carpeta de instalación del paquete de complementos de SnapCenter para Windows.
+
+
+TIP: Si te sientes cómodo haciéndolo, puedes crear tus propias plantillas siguiendo los modelos proporcionados.  Debe revisar los parámetros en la documentación del cmdlet antes de crear una plantilla personalizada.
+
+
+
+== Crear un recurso compartido SMB
+
+Puede utilizar la página Recursos compartidos de SnapCenter para crear un recurso compartido SMB3 en una máquina virtual de almacenamiento (SVM).
+
+No puede utilizar SnapCenter para realizar copias de seguridad de bases de datos en recursos compartidos SMB.  El soporte de SMB se limita únicamente al aprovisionamiento.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. En la página Hosts, haga clic en *Compartir*.
+. Seleccione la SVM de la lista desplegable *Máquina virtual de almacenamiento*.
+. Haga clic en *Nuevo*.
++
+Se abre el cuadro de diálogo Nuevo recurso compartido.
+
+. En el cuadro de diálogo Nuevo recurso compartido, defina el recurso compartido:
++
+|===
+| En este campo... | Haz esto... 
+
+
+ a| 
+Descripción
+ a| 
+Introduzca un texto descriptivo para la acción.
+
+
+
+ a| 
+Compartir nombre
+ a| 
+Introduzca el nombre del recurso compartido, por ejemplo, test_share.
+
+El nombre que ingrese para el recurso compartido también se utilizará como nombre del volumen.
+
+El nombre de la acción:
+
+** Debe ser una cadena UTF-8.
+** No debe incluir los siguientes caracteres: caracteres de control de 0x00 a 0x1F (ambos incluidos), 0x22 (comillas dobles) y los caracteres especiales `\ / [ ] : (vertical bar) < > + = ; , ?`
+
+
+
+
+ a| 
+Compartir ruta
+ a| 
+** Haga clic en el campo para ingresar una nueva ruta del sistema de archivos, por ejemplo, /.
+** Haga doble clic en el campo para seleccionar de una lista de rutas de sistemas de archivos existentes.
+
+
+|===
+. Cuando esté satisfecho con sus entradas, haga clic en *Aceptar*.
++
+SnapCenter crea el recurso compartido SMB en la SVM.
+
+
+
+
+
+== Eliminar un recurso compartido SMB
+
+Puedes eliminar un recurso compartido SMB cuando ya no lo necesites.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. En la página Hosts, haga clic en *Compartir*.
+. En la página Recursos compartidos, haga clic en el campo *Máquina virtual de almacenamiento* para mostrar un menú desplegable con una lista de máquinas virtuales de almacenamiento (SVM) disponibles, luego seleccione la SVM para el recurso compartido que desea eliminar.
+. De la lista de recursos compartidos en el SVM, seleccione el recurso compartido que desea eliminar y haga clic en *Eliminar*.
+. En el cuadro de diálogo Eliminar recurso compartido, haga clic en *Aceptar*.
++
+SnapCenter elimina el recurso compartido SMB del SVM.
+
+

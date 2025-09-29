@@ -1,0 +1,20 @@
+---
+permalink: protect-postgresql/back-up-postgresql-resources.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL 
+summary: 'Puede crear una copia de seguridad de un recurso (clúster) o de un grupo de recursos.  El flujo de trabajo de respaldo incluye la planificación, la identificación de los clústeres para el respaldo, la administración de políticas de respaldo, la creación de grupos de recursos y la asociación de políticas, la creación de respaldos y el monitoreo de las operaciones.' 
+---
+= Realizar copias de seguridad de los recursos de PostgreSQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede crear una copia de seguridad de un recurso (clúster) o de un grupo de recursos.  El flujo de trabajo de respaldo incluye la planificación, la identificación de los clústeres para el respaldo, la administración de políticas de respaldo, la creación de grupos de recursos y la asociación de políticas, la creación de respaldos y el monitoreo de las operaciones.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar la operación de copia de seguridad:
+
+image::../media/db2_backup_workflow.gif[Flujo de trabajo de copia de seguridad de PostgreSQL]
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad, restauración y clonación.  La ayuda del cmdlet de SnapCenter y la información de referencia del cmdlet contienen más información sobre los cmdlets de PowerShell. https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .

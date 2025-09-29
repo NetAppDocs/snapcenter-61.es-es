@@ -1,0 +1,83 @@
+---
+permalink: protect-sce/task_view_exchange_backups_in_the_topology_page.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Cuando se prepara para realizar una copia de seguridad de un recurso, puede resultarle útil ver una representación gráfica de todas las copias de seguridad en los almacenamientos primario y secundario. 
+---
+= Ver copias de seguridad de Exchange en la página Topología
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando se prepara para realizar una copia de seguridad de un recurso, puede resultarle útil ver una representación gráfica de todas las copias de seguridad en los almacenamientos primario y secundario.
+
+.Acerca de esta tarea
+En la página Topología, puede ver todas las copias de seguridad disponibles para el recurso o grupo de recursos seleccionado.  Puede ver los detalles de esas copias de seguridad y luego seleccionarlas para realizar operaciones de protección de datos.
+
+Puede revisar el siguiente ícono en la vista Administrar copias para determinar si las copias de seguridad están disponibles en el almacenamiento principal o secundario (copias espejo o copias de bóveda).
+
+* image:../media/topology_primary_storage.gif["icono de almacenamiento principal"]muestra la cantidad de copias de seguridad que están disponibles en el almacenamiento principal.
+* image:../media/topology_mirror_secondary_storage.gif["Icono de espejo de almacenamiento secundario"]muestra la cantidad de copias de seguridad reflejadas en el almacenamiento secundario mediante la tecnología SnapMirror .
+* image:../media/topology_vault_secondary_storage.gif["icono de bóveda secundaria"]muestra la cantidad de copias de seguridad que se replican en el almacenamiento secundario mediante la tecnología SnapVault .
++
+** La cantidad de copias de seguridad mostradas incluye las copias de seguridad eliminadas del almacenamiento secundario.
++
+Por ejemplo, si creó 6 copias de seguridad utilizando una política para conservar solo 4 copias de seguridad, la cantidad de copias de seguridad que se muestra es 6.
+
++
+|===
+
+
+| *Mejor práctica:* para garantizar que se muestre la cantidad correcta de copias de seguridad replicadas, recomendamos actualizar la topología. 
+|===
+
+
+
+
+Si tiene una relación secundaria como SnapMirror Active Sync (inicialmente lanzada como SnapMirror Business Continuity [SM-BC]), puede ver los siguientes íconos adicionales:
+
+* image:../media/topology_replica_site_up.png["sitio de réplica en funcionamiento"]El sitio de réplica está activo.
+* image:../media/topology_replica_site_down.png["sitio de réplica caído"]El sitio de réplica está inactivo.
+* image:../media/topology_reestablished.png["la relación se restablece"]No se ha restablecido la relación de espejo secundario o bóveda.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione la base de datos, el recurso o el grupo de recursos de la lista desplegable *Ver*.
+. Seleccione el recurso desde la vista de detalles de la base de datos o desde la vista de detalles del grupo de recursos.
++
+Si el recurso está protegido, se muestra la página Topología del recurso seleccionado.
+
+. Revise la sección de la tarjeta Resumen para ver un resumen de la cantidad de copias de seguridad disponibles en el almacenamiento primario y secundario.
++
+La sección Tarjeta de resumen muestra el número total de copias de seguridad y el número total de copias de seguridad de registros.
+
++
+Al hacer clic en el botón *Actualizar* se inicia una consulta del almacenamiento para mostrar un recuento preciso.
+
++
+Si se realiza una copia de seguridad habilitada SnapLock , al hacer clic en el botón *Actualizar* se actualiza el tiempo de vencimiento de SnapLock primario y secundario recuperado de ONTAP.  Una programación semanal también actualiza el tiempo de vencimiento de SnapLock primario y secundario recuperado de ONTAP.
+
++
+Cuando el recurso de la aplicación se distribuye en varios volúmenes, el tiempo de expiración de SnapLock para la copia de seguridad será el tiempo de expiración de SnapLock más largo configurado para una instantánea en un volumen.  El tiempo de expiración de SnapLock más largo se recupera de ONTAP.
+
++
+Para la sincronización activa de SnapMirror , al hacer clic en el botón *Actualizar* se actualiza el inventario de respaldo de SnapCenter consultando a ONTAP los sitios principales y de réplica.  Una programación semanal también realiza esta actividad para todas las bases de datos que contienen una relación de sincronización activa de SnapMirror .
+
++
+** Para la sincronización activa de SnapMirror y solo para ONTAP 9.14.1, las relaciones de Async Mirror o Async MirrorVault con el nuevo destino principal se deben configurar manualmente después de la conmutación por error.  Desde ONTAP 9.15.1 en adelante, Async Mirror o Async MirrorVault se configura automáticamente en el nuevo destino principal después de la conmutación por error.
+** Después de la conmutación por error, se debe crear una copia de seguridad para que SnapCenter esté al tanto de la conmutación por error.  Puede hacer clic en *Actualizar* sólo después de haber creado una copia de seguridad.
+
+
+. En la vista Administrar copias, haga clic en *Copias de seguridad* desde el almacenamiento principal o secundario para ver los detalles de una copia de seguridad.
++
+Los detalles de las copias de seguridad se muestran en formato de tabla.
+
+. Seleccione la copia de seguridad de la tabla y luego haga clic en los íconos de protección de datos para realizar operaciones de restauración, cambio de nombre y eliminación.
++
+
+NOTE: No puede cambiar el nombre ni eliminar las copias de seguridad que se encuentran en el almacenamiento secundario.  La eliminación de instantáneas se gestiona mediante la configuración de retención de ONTAP .
+
+

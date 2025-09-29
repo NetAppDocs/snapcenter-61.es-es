@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/reference_clone_sql_server_database_resources.html 
+sidebar: sidebar 
+keywords: Clone workflow 
+summary: Debe realizar varias tareas utilizando SnapCenter Server antes de clonar recursos de base de datos desde una copia de seguridad.  La clonación de bases de datos es el proceso de crear una copia en un punto determinado del tiempo de una base de datos de producción o de su conjunto de copias de seguridad.  Puede clonar bases de datos para probar la funcionalidad que debe implementarse utilizando la estructura y el contenido de la base de datos actual durante los ciclos de desarrollo de aplicaciones, para utilizar las herramientas de extracción y manipulación de datos al completar almacenes de datos, o para recuperar datos que se eliminaron o modificaron por error. 
+---
+= Flujo de trabajo de clonación
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe realizar varias tareas utilizando SnapCenter Server antes de clonar recursos de base de datos desde una copia de seguridad.  La clonación de bases de datos es el proceso de crear una copia en un punto determinado del tiempo de una base de datos de producción o de su conjunto de copias de seguridad.  Puede clonar bases de datos para probar la funcionalidad que debe implementarse utilizando la estructura y el contenido de la base de datos actual durante los ciclos de desarrollo de aplicaciones, para utilizar las herramientas de extracción y manipulación de datos al completar almacenes de datos, o para recuperar datos que se eliminaron o modificaron por error.
+
+Una operación de clonación de base de datos genera informes basados en los ID de trabajo.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar las operaciones de clonación:
+
+image::../media/scsql_clone_workflow.gif[Diagrama de flujo de trabajo de clonación]
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad, restauración, recuperación, verificación y clonación.  Para obtener información detallada sobre los cmdlets de PowerShell, utilice la ayuda de cmdlets de SnapCenter o consulte la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"]
+
+*Encuentre más información*
+
+link:task_clone_from_a_sql_server_database_backup.html["Clonar desde una copia de seguridad de la base de datos de SQL Server"]
+
+link:task_perform_clone_lifecycle_management.html["Realizar ciclo de vida de clonación"]
+
+link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["La operación de clonación puede fallar o tardar más tiempo en completarse con el valor TCP_TIMEOUT predeterminado"]

@@ -1,0 +1,87 @@
+---
+permalink: protect-scsql/reference_types_of_restore_operations.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: Puede utilizar SnapCenter para realizar distintos tipos de operaciones de restauración en recursos de SQL Server. 
+---
+= Tipos de operaciones de restauración
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para realizar distintos tipos de operaciones de restauración en recursos de SQL Server.
+
+* Restaurar actualizado al minuto
+* Restaurar a un punto anterior en el tiempo
+
+
+Puede restaurar hasta el minuto o restaurar a un punto anterior en el tiempo en las siguientes situaciones:
+
+* Restaurar desde el almacenamiento secundario de SnapMirror o SnapVault
+* Restaurar a ruta alternativa (ubicación)
+
+
+
+NOTE: SnapCenter no admite SnapRestore basado en volumen.
+
+
+
+== Restaurar al minuto
+
+En una operación de restauración actualizada (seleccionada de manera predeterminada), las bases de datos se recuperan hasta el punto de falla.  SnapCenter logra esto realizando la siguiente secuencia:
+
+. Realiza una copia de seguridad del último registro de transacciones activas antes de restaurar la base de datos.
+. Restaura las bases de datos desde la copia de seguridad completa de la base de datos que seleccione.
+. Aplica todos los registros de transacciones que no se confirmaron en las bases de datos (incluidos los registros de transacciones de las copias de seguridad desde el momento en que se creó la copia de seguridad hasta el momento más actual).
++
+Los registros de transacciones se mueven hacia adelante y se aplican a cualquier base de datos seleccionada.
+
+
+
+Una operación de restauración actualizada requiere un conjunto contiguo de registros de transacciones.
+
+Debido a que SnapCenter no puede restaurar registros de transacciones de bases de datos de SQL Server a partir de archivos de respaldo de envío de registros (el envío de registros le permite enviar automáticamente copias de respaldo de registros de transacciones desde una base de datos principal en una instancia de servidor principal a una o más bases de datos secundarias en instancias de servidor secundario independientes), no puede realizar una operación de restauración actualizada a partir de las copias de respaldo de registros de transacciones.  Por este motivo, debe utilizar SnapCenter para realizar copias de seguridad de los archivos de registro de transacciones de la base de datos de SQL Server.
+
+Si no necesita conservar la capacidad de restauración actualizada para todas las copias de seguridad, puede configurar la retención de la copia de seguridad del registro de transacciones de su sistema a través de las políticas de copia de seguridad.
+
+
+
+== Ejemplo de una operación de restauración actualizada
+
+Supongamos que ejecuta la copia de seguridad de SQL Server todos los días al mediodía y el miércoles a las 4:00 p. m. necesita restaurar desde una copia de seguridad.  Por alguna razón, la copia de seguridad del miércoles al mediodía no pasó la verificación, por lo que decide restaurar desde la copia de seguridad del martes al mediodía.  Después de eso, si se restaura la copia de seguridad, todos los registros de transacciones se mueven hacia adelante y se aplican a las bases de datos restauradas, comenzando con aquellos que no se confirmaron cuando creó la copia de seguridad del martes y continuando con el último registro de transacciones escrito el miércoles a las 4:00 p. m. (si se realizó una copia de seguridad de los registros de transacciones).
+
+
+
+== Restaurar a un punto anterior en el tiempo
+
+En una operación de restauración a un punto en el tiempo, las bases de datos se restauran únicamente a un momento específico del pasado.  Una operación de restauración a un punto en el tiempo ocurre en las siguientes situaciones de restauración:
+
+* La base de datos se restaura a un momento determinado en un registro de transacciones respaldado.
+* Se restaura la base de datos y solo se le aplica un subconjunto de los registros de transacciones respaldados.
+
+
+
+NOTE: Restaurar una base de datos a un punto en el tiempo da como resultado una nueva ruta de recuperación.
+
+La siguiente imagen ilustra los problemas que surgen cuando se realiza una operación de restauración en un punto en el tiempo:
+
+image::../media/point_in_time_recovery_path.gif[Restaurar a un punto anterior en el tiempo]
+
+En la imagen, la ruta de recuperación 1 consta de una copia de seguridad completa seguida de varias copias de seguridad del registro de transacciones.  Restaura la base de datos a un punto en el tiempo.  Se crean nuevas copias de seguridad del registro de transacciones después de la operación de restauración en un punto en el tiempo, lo que da como resultado la ruta de recuperación 2.  Las nuevas copias de seguridad del registro de transacciones se crean sin crear una nueva copia de seguridad completa.  Debido a la corrupción de datos u otros problemas, no es posible restaurar la base de datos actual hasta que se cree una nueva copia de seguridad completa.  Además, no es posible aplicar los registros de transacciones creados en la ruta de recuperación 2 a la copia de seguridad completa perteneciente a la ruta de recuperación 1.
+
+Si aplica copias de seguridad del registro de transacciones, también puede especificar una fecha y hora particulares en las que desea detener la aplicación de las transacciones respaldadas.  Para hacer esto, especifique una fecha y hora dentro del rango disponible y SnapCenter elimina cualquier transacción que no se haya confirmado antes de ese momento.  Puede utilizar este método para restaurar bases de datos a un punto en el tiempo anterior a que ocurriera una corrupción, o para recuperarse de una eliminación accidental de una base de datos o tabla.
+
+
+
+== Ejemplo de una operación de restauración en un punto en el tiempo
+
+Supongamos que realiza copias de seguridad completas de la base de datos una vez a medianoche y una copia de seguridad del registro de transacciones cada hora.  La base de datos falla a las 9:45 a. m., pero aún así se realizan copias de seguridad de los registros de transacciones de la base de datos fallida.  Puede elegir entre estos escenarios de restauración en un momento determinado:
+
+* Restaurar la copia de seguridad completa de la base de datos realizada a medianoche y aceptar la pérdida de los cambios en la base de datos realizados posteriormente.  (Opción: Ninguna)
+* Restaurar la copia de seguridad completa de la base de datos y aplicar todas las copias de seguridad del registro de transacciones hasta las 9:45 a. m. (Opción: Registrar hasta)
+* Restaure la copia de seguridad completa de la base de datos y aplique las copias de seguridad del registro de transacciones, especificando la hora en que desea que se restauren las transacciones desde el último conjunto de copias de seguridad del registro de transacciones.  (Opción: Por hora específica)
+
+
+En este caso, es necesario calcular la fecha y hora en que se informó el error. Se eliminan todas las transacciones que no se hayan confirmado antes de la fecha y hora especificadas.

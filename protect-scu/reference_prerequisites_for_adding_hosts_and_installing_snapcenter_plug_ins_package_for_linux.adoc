@@ -1,0 +1,81 @@
+---
+permalink: protect-scu/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux.html 
+sidebar: sidebar 
+keywords: prerequisites, iSCSI, host requirement for Linux, sudo privileges, non-root user, credentials, authenticate, domain administrator, local administrator, workgroup, sudo, root user 
+summary: Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos. 
+---
+= Requisitos previos para agregar hosts e instalar el paquete de complementos para Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de agregar un host e instalar el paquete de complementos para Linux, debe completar todos los requisitos.
+
+* Si está utilizando iSCSI, el servicio iSCSI debe estar ejecutándose.
+* Puede utilizar la autenticación basada en contraseña para el usuario root o no root o la autenticación basada en clave SSH.
++
+El complemento SnapCenter para sistemas de archivos Unix puede ser instalado por un usuario que no sea root.  Sin embargo, debe configurar los privilegios de sudo para que el usuario no root pueda instalar e iniciar el proceso del complemento.  Después de instalar el complemento, los procesos se ejecutarán como un usuario no root efectivo.
+
+* Cree credenciales con modo de autenticación como Linux para el usuario de instalación.
+* Debes tener instalado Java 11 en tu host Linux.
++
+
+NOTE: Asegúrese de haber instalado únicamente la edición certificada de JAVA 11 en el host Linux.
+
++
+Para obtener información sobre cómo descargar JAVA, consulte: http://www.java.com/en/download/manual.jsp["Descargas de Java para todos los sistemas operativos"^]
+
+* Debe tener *bash* como el shell predeterminado para la instalación del complemento.
+
+
+
+
+== Requisitos del host Linux
+
+Debe asegurarse de que el host cumpla con los requisitos antes de instalar el paquete de complementos de SnapCenter para Linux.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+* Red Hat Enterprise Linux
+* Oracle Linux
+* Servidor empresarial SUSE Linux (SLES)
+
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+2 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+2 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+Java 11 Oracle Java y OpenJDK
+
+
+NOTE: Asegúrese de haber instalado únicamente la edición certificada de JAVA 11 en el host Linux.
+
+Si ha actualizado JAVA a la última versión, debe asegurarse de que la opción JAVA_HOME ubicada en /var/opt/snapcenter/spl/etc/spl.properties esté configurada en la versión de JAVA correcta y en la ruta correcta.
+
+|===
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .

@@ -1,0 +1,22 @@
+---
+permalink: protect-hana/task_restore_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: El flujo de trabajo de restauración y recuperación incluye la planificación, la ejecución de las operaciones de restauración y la supervisión de las operaciones. 
+---
+= Restaurar flujo de trabajo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El flujo de trabajo de restauración y recuperación incluye la planificación, la ejecución de las operaciones de restauración y la supervisión de las operaciones.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar la operación de restauración:
+
+image::../media/restore_workflow.gif[Restaurar flujo de trabajo]
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad, restauración y clonación.  La ayuda del cmdlet de SnapCenter y la información de referencia del cmdlet contienen información detallada sobre los cmdlets de PowerShell.
+
+https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .

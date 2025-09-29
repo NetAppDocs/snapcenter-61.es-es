@@ -1,0 +1,50 @@
+---
+permalink: protect-scsql/task_storage_disaster_recovery_for_scsql.html 
+sidebar: sidebar 
+keywords: disaster recovery 
+summary: Puede recuperar el complemento de SnapCenter para el almacenamiento de SQL Server habilitando el modo DR para almacenamiento en la página Configuración global. 
+---
+= Recuperación ante desastres de almacenamiento (DR) para el complemento SnapCenter para SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede recuperar el complemento de SnapCenter para el almacenamiento de SQL Server habilitando el modo DR para almacenamiento en la página Configuración global.
+
+.Antes de empezar
+* Asegúrese de que los complementos estén en modo de mantenimiento.
+* Romper la relación SnapMirror/ SnapVault .link:https://docs.netapp.com/ontap-9/topic/com.netapp.doc.onc-sm-help-950/GUID-8A3F828F-CD3D-48E8-A171-393581FEB2ED.html["Romper las relaciones de SnapMirror"]
+* Conecte el LUN desde la unidad secundaria a la máquina host con la misma letra de unidad.
+* Asegúrese de que todos los discos estén conectados utilizando las mismas letras de unidad que se usaron antes de la recuperación ante desastres.
+* Reinicie el servicio del servidor MSSQL.
+* Asegúrese de que los recursos de SQL vuelvan a estar en línea.
+
+
+.Acerca de esta tarea
+La recuperación ante desastres (DR) no es compatible con configuraciones VMDK y RDM.
+
+.Pasos
+. En la página de Configuración, navegue a *Configuración* > *Configuración global* > *Recuperación ante desastres*.
+. Seleccione *Habilitar recuperación ante desastres*.
+. Haga clic en *Aplicar*.
+. Verifique si el trabajo de DR está habilitado o no haciendo clic en *Monitor* > *Trabajos*.
+
+
+.Después de terminar
+* Si se crean nuevas bases de datos después de la conmutación por error, las bases de datos estarán en modo no DR.
++
+Las nuevas bases de datos continuarán funcionando como lo hacían antes de la conmutación por error.
+
+* Las nuevas copias de seguridad que se crearon en modo DR aparecerán en SnapMirror o SnapVault (secundario) en la página Topología.
++
+Se muestra un ícono "i" junto a las nuevas copias de seguridad para indicar que estas copias de seguridad se crearon durante el modo DR.
+
+* Puede eliminar las copias de seguridad del complemento SnapCenter para SQL Server que se crearon durante la conmutación por error mediante la interfaz de usuario o el siguiente cmdlet: `Remove-SmBackup`
+* Después de la conmutación por error, si desea que algunos de los recursos estén en modo no DR, utilice el siguiente cmdlet: `Remove-SmResourceDRMode`
++
+Para obtener más información, consulte la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+* SnapCenter Server administrará los recursos de almacenamiento individuales (bases de datos SQL) que estén en modo DR o no DR, pero no el grupo de recursos con recursos de almacenamiento que estén en modo DR o no DR.
+

@@ -1,0 +1,23 @@
+---
+permalink: protect-scw/concept_how_snapcenter_backs_up_windows_file_systems.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 'SnapCenter utiliza la tecnología Snapshot para realizar copias de seguridad de los recursos del sistema de archivos de Windows que residen en LUN, CSV (volúmenes compartidos de clúster), volúmenes RDM (asignación de dispositivos sin procesar), ALM (asignación de LUN asimétrica) en clústeres de Windows y VMDK basados ​​en VMFS/NFS (sistema de archivos de máquina virtual VMware que utiliza NFS).' 
+---
+= Cómo SnapCenter realiza copias de seguridad de los sistemas de archivos de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter utiliza la tecnología Snapshot para realizar copias de seguridad de los recursos del sistema de archivos de Windows que residen en LUN, CSV (volúmenes compartidos de clúster), volúmenes RDM (asignación de dispositivos sin procesar), ALM (asignación de LUN asimétrica) en clústeres de Windows y VMDK basados ​​en VMFS/NFS (sistema de archivos de máquina virtual VMware que utiliza NFS).
+
+SnapCenter crea copias de seguridad mediante la creación de instantáneas de los sistemas de archivos.  Las copias de seguridad federadas, en las que un volumen contiene LUN de varios hosts, son más rápidas y eficientes que las copias de seguridad de cada LUN individual porque solo se crea una instantánea del volumen en comparación con las instantáneas individuales de cada sistema de archivos.
+
+Cuando SnapCenter crea una instantánea, todo el volumen del sistema de almacenamiento se captura en la instantánea.  Sin embargo, la copia de seguridad sólo es válida para el servidor host para el que se creó.
+
+Si los datos de otros servidores host residen en el mismo volumen, estos datos no se pueden restaurar desde la instantánea.
+
+
+NOTE: Si un sistema de archivos Windows contiene una base de datos, el proceso de backup del sistema de archivos no es igual que el de la base de datos. Para realizar una copia de seguridad de una base de datos, debe utilizar uno de los complementos de base de datos.

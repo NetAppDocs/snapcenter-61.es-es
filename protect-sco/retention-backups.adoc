@@ -1,0 +1,23 @@
+---
+permalink: protect-sco/retention-backups.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: Opciones de retención de copias de seguridad. 
+---
+= Opciones de retención de copias de seguridad
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede elegir la cantidad de días durante los cuales desea conservar copias de seguridad o especificar la cantidad de copias de seguridad que desea conservar, hasta un máximo de 255 copias en ONTAP .  Por ejemplo, su organización podría exigirle que conserve 10 días de copias de seguridad o 130 copias de seguridad.
+
+Al crear una política, puede especificar las opciones de retención para el tipo de copia de seguridad y el tipo de programación.
+
+Si configura la replicación de SnapMirror , la política de retención se refleja en el volumen de destino.
+
+SnapCenter elimina las copias de seguridad retenidas que tienen etiquetas de retención que coinciden con el tipo de programación.  Si se modificó el tipo de programación del recurso o del grupo de recursos, es posible que las copias de seguridad con la etiqueta del tipo de programación anterior aún permanezcan en el sistema.
+
+
+NOTE: Para la retención a largo plazo de copias de seguridad, debe utilizar la copia de seguridad SnapVault .

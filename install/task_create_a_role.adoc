@@ -1,0 +1,37 @@
+---
+permalink: install/task_create_a_role.html 
+sidebar: sidebar 
+keywords: role, create, permission 
+summary: Además de utilizar los roles existentes de SnapCenter , puede crear sus propios roles y personalizar los permisos. 
+---
+= Crear un rol
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Además de utilizar los roles existentes de SnapCenter , puede crear sus propios roles y personalizar los permisos.
+
+Para crear sus propios roles, es necesario iniciar sesión como el rol "SnapCenterAdmin".
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Configuración*.
+. En la página Configuración, haga clic en *Roles*.
+. Hacer clicimage:../media/add_icon_configure_database.gif["Agregar icono en la pantalla de configuración de la base de datos"] .
+. Especifique un nombre y una descripción para el nuevo rol.
++
+
+NOTE: Solo se pueden utilizar los siguientes caracteres especiales en los nombres de usuario y de grupo: espacio ( ), guion (-), guión bajo (_) y dos puntos (:).
+
+. Seleccione *Todos los miembros de este rol pueden ver los objetos de otros miembros* para permitir que otros miembros del rol vean recursos como volúmenes y hosts después de actualizar la lista de recursos.
++
+Debe deseleccionar esta opción si no desea que los miembros de este rol vean los objetos a los que están asignados otros miembros.
+
++
+
+NOTE: Cuando esta opción está habilitada, no es necesario asignar a los usuarios acceso a objetos o recursos si los usuarios pertenecen al mismo rol que el usuario que creó los objetos o recursos.
+
+. En la página Permisos, seleccione los permisos que desea asignar al rol o haga clic en *Seleccionar todo* para otorgar todos los permisos al rol.
+. Haga clic en *Enviar*.
+

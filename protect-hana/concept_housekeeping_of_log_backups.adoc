@@ -1,0 +1,16 @@
+---
+permalink: protect-hana/concept_housekeeping_of_log_backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: SnapCenter administra el mantenimiento de las copias de seguridad de registros y datos en los niveles del sistema de almacenamiento y del sistema de archivos, y dentro del catálogo de copias de seguridad de SAP HANA. 
+---
+= Cómo gestiona SnapCenter el mantenimiento de las copias de seguridad de registros y datos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter administra el mantenimiento de las copias de seguridad de registros y datos en los niveles del sistema de almacenamiento y del sistema de archivos, y dentro del catálogo de copias de seguridad de SAP HANA.
+
+Las instantáneas del almacenamiento primario o secundario y sus entradas correspondientes en el catálogo de SAP HANA se eliminan según la configuración de retención.  Las entradas del catálogo de SAP HANA también se eliminan durante la copia de seguridad y la eliminación del grupo de recursos.

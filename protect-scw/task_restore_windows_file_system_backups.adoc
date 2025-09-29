@@ -1,0 +1,188 @@
+---
+permalink: protect-scw/task_restore_windows_file_system_backups.html 
+sidebar: sidebar 
+keywords: restore 
+summary: Puede utilizar SnapCenter para restaurar copias de seguridad del sistema de archivos.  La restauración del sistema de archivos es un proceso de varias fases que copia todos los datos de una copia de seguridad específica a la ubicación original del sistema de archivos. 
+---
+= Restaurar copias de seguridad del sistema de archivos de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar copias de seguridad del sistema de archivos.  La restauración del sistema de archivos es un proceso de varias fases que copia todos los datos de una copia de seguridad específica a la ubicación original del sistema de archivos.
+
+.Antes de empezar
+* Debes haber realizado una copia de seguridad del sistema de archivos.
+* Si una operación programada, como una operación de respaldo, está actualmente en progreso para un sistema de archivos, entonces esa operación debe cancelarse antes de poder iniciar una operación de restauración.
+* Solo se puede restaurar una copia de seguridad del sistema de archivos en la ubicación original, no en una ruta alternativa.
++
+No se puede restaurar un solo archivo desde una copia de seguridad porque el sistema de archivos restaurado sobrescribe cualquier dato en la ubicación original del sistema de archivos.  Para restaurar un solo archivo desde una copia de seguridad del sistema de archivos, debe clonar la copia de seguridad y acceder al archivo en el clon.
+
+* No es posible restaurar un sistema o un volumen de arranque.
+* SnapCenter puede restaurar sistemas de archivos en un clúster de Windows sin desconectar el grupo de clústeres.
+
+
+.Acerca de esta tarea
+* SCRIPTS_PATH se define utilizando la clave PredefinedWindowsScriptsDirectory ubicada en el archivo SMCoreServiceHost.exe.Config del host del complemento.
++
+Si es necesario, puede cambiar esta ruta y reiniciar el servicio SMcore.  Se recomienda que utilice la ruta predeterminada por seguridad.
+
++
+El valor de la clave se puede mostrar desde swagger a través de la API: API /4.7/configsettings
+
++
+Puede utilizar la API GET para mostrar el valor de la clave.  La API SET no es compatible.
+
+* Para la operación de restauración de sincronización activa de SnapMirror , debe seleccionar la copia de seguridad de la ubicación principal.
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+
+[role="tabbed-block"]
+====
+.Interfaz de usuario de SnapCenter
+--
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. Para filtrar la lista de recursos, seleccione las opciones Sistema de archivos y Grupo de recursos.
+. Seleccione un grupo de recursos de la lista y haga clic en *Restaurar*.
+. En la página Copias de seguridad, seleccione si desea restaurar desde sistemas de almacenamiento primarios o secundarios y luego seleccione una copia de seguridad para restaurar.
+. Seleccione sus opciones en el asistente de restauración.
+. Puede ingresar la ruta y los argumentos del prescript o postscript que desea que SnapCenter ejecute antes o después de la operación de restauración, respectivamente.
++
+Por ejemplo, puede ejecutar un script para actualizar trampas SNMP, automatizar alertas, enviar registros, etc.
+
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
+. En la página de Notificación, seleccione una de las siguientes opciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Registrar eventos del servidor SnapCenter en el syslog del sistema de almacenamiento
+ a| 
+Seleccione esta opción para registrar eventos de SnapCenter Server en el syslog del sistema de almacenamiento.
+
+
+
+ a| 
+Enviar notificación de AutoSupport para operaciones fallidas al sistema de almacenamiento
+ a| 
+Seleccione esta opción para enviar información sobre cualquier operación fallida a NetApp mediante AutoSupport.
+
+
+
+ a| 
+Preferencia de correo electrónico
+ a| 
+Seleccione *Siempre*, *En caso de error* o *En caso de error o advertencia* para enviar mensajes de correo electrónico a los destinatarios después de restaurar las copias de seguridad.  Ingrese el servidor SMTP, la línea de asunto del correo electrónico predeterminada y las direcciones de correo electrónico de destino y de origen.
+
+|===
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+
+
+
+IMPORTANT: Si el sistema de archivos restaurado contiene una base de datos, también deberá restaurar la base de datos.  Si no restaura la base de datos, es posible que ésta se encuentre en un estado no válido.  Para obtener información sobre cómo restaurar bases de datos, consulte la Guía de protección de datos correspondiente a esa base de datos.
+
+--
+.Cmdlets de PowerShell
+--
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el cmdlet Open-SmConnection.
++
+[listing]
+----
+PS C:\> Open-Smconnection
+----
+. Recupere la información sobre una o más copias de seguridad que desee restaurar mediante los cmdlets Get-SmBackup y Get-SmBackupReport.
++
+Este ejemplo muestra información sobre todas las copias de seguridad disponibles:
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+  1               Payroll Dataset_vise-f6_08... 8/4/2015    11:02:32 AM                 Full Backup
+  2               Payroll Dataset_vise-f6_08... 8/4/2015    11:23:17 AM
+----
++
+Este ejemplo muestra información detallada sobre la copia de seguridad del 29 de enero de 2015 al 3 de febrero de 2015:
+
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -FromDateTime "1/29/2015" -ToDateTime "2/3/2015"
+
+   SmBackupId           : 113
+   SmJobId              : 2032
+   StartDateTime        : 2/2/2015 6:57:03 AM
+   EndDateTime          : 2/2/2015 6:57:11 AM
+   Duration             : 00:00:07.3060000
+   CreatedDateTime      : 2/2/2015 6:57:23 AM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_06.57.08
+   VerificationStatus   : NotVerified
+
+   SmBackupId           : 114
+   SmJobId              : 2183
+   StartDateTime        : 2/2/2015 1:02:41 PM
+   EndDateTime          : 2/2/2015 1:02:38 PM
+   Duration             : -00:00:03.2300000
+   CreatedDateTime      : 2/2/2015 1:02:53 PM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_13.02.45
+   VerificationStatus   : NotVerified
+----
+. Restaure datos de la copia de seguridad mediante el cmdlet Restore-SmBackup.
++
+[listing]
+----
+Restore-SmBackup -PluginCode 'DummyPlugin' -AppObjectId 'scc54.sccore.test.com\DummyPlugin\NTP\DB1' -BackupId 269 -Confirm:$false
+output:
+Name                : Restore 'scc54.sccore.test.com\DummyPlugin\NTP\DB1'
+Id                  : 2368
+StartTime           : 10/4/2016 11:22:02 PM
+EndTime             :
+IsCancellable       : False
+IsRestartable       : False
+IsCompleted         : False
+IsVisible           : True
+IsScheduled         : False
+PercentageCompleted : 0
+Description         :
+Status              : Queued
+Owner               :
+Error               :
+Priority            : None
+Tasks               : {}
+ParentJobID         : 0
+EventId             : 0
+JobTypeId           :
+ApisJobKey          :
+ObjectId            : 0
+PluginCode          : NONE
+PluginName          :
+----
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+--
+====

@@ -1,0 +1,31 @@
+---
+permalink: protect-scu/task_determine_whether_unix_file_systems_are_available_for_backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for UNIX file systems, discovery,file systems, UNIX, Unix file systems 
+summary: Después de instalar el complemento para sistemas de archivos Unix, los sistemas de archivos en el host se detectan automáticamente y se muestran en la página Recursos. 
+---
+= Descubra los sistemas de archivos UNIX disponibles para realizar copias de seguridad
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Después de instalar el complemento, todos los sistemas de archivos de ese host se detectan automáticamente y se muestran en la página Recursos.  Puede agregar estos sistemas de archivos a grupos de recursos para realizar operaciones de protección de datos.
+
+.Antes de empezar
+* Debe haber completado tareas como instalar el servidor SnapCenter , agregar hosts y crear conexiones del sistema de almacenamiento.
+* Si los sistemas de archivos residen en un disco de máquina virtual (VMDK) o en una asignación de dispositivos sin procesar (RDM), debe implementar el SnapCenter Plug-in for VMware vSphere y registrar el complemento con SnapCenter.
++
+Para obtener más información, consulte  https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html["Implementar el SnapCenter Plug-in for VMware vSphere"^] .
+
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Ruta* en la lista Ver.
+. Haga clic en *Actualizar recursos*.
++
+Los sistemas de archivos se muestran junto con información como el tipo, el nombre de host, los grupos de recursos y políticas asociados y el estado.
+
+

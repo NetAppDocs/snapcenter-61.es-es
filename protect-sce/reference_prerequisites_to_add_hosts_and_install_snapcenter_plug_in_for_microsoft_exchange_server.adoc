@@ -1,0 +1,183 @@
+---
+permalink: protect-sce/reference_prerequisites_to_add_hosts_and_install_snapcenter_plug_in_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos. 
+---
+= Requisitos previos para agregar hosts e instalar el complemento de SnapCenter para Microsoft Exchange Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos.
+
+* Si está utilizando iSCSI, el servicio iSCSI debe estar ejecutándose.
+* Debe tener un usuario de dominio con privilegios de administrador local con permisos de inicio de sesión local en el host remoto.
+* Debe utilizar Microsoft Exchange Server 2013, 2016 o 2019 para configuraciones independientes y de grupo de disponibilidad de base de datos.
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.
+* Si administra nodos de clúster en SnapCenter, debe tener un usuario con privilegios administrativos para todos los nodos del clúster.
+* Debe tener un usuario con permisos administrativos en el servidor Exchange.
+* Si SnapManager para Microsoft Exchange Server y SnapDrive para Windows ya están instalados, debe anular el registro del proveedor de hardware VSS utilizado por SnapDrive para Windows antes de instalar el complemento para Exchange en el mismo Exchange Server para garantizar una protección de datos exitosa mediante SnapCenter.
+* Si SnapManager para Microsoft Exchange Server y el complemento para Exchange están instalados en el mismo servidor, debe suspender o eliminar del programador de Windows todas las programaciones creadas por SnapManager para Microsoft Exchange Server.
+* El host debe poder resolverse al nombre de dominio completo (FQDN) desde el servidor.  Si se modifica el archivo de hosts para que se pueda resolver y si tanto el nombre corto como el FQDN se especifican en el archivo de hosts, cree una entrada en el archivo de hosts de SnapCenter con el siguiente formato: _<dirección_ip> <fqdn_de_host> <nombre_de_host>_.
+* Asegúrese de que los siguientes puertos no estén bloqueados en el firewall; de lo contrario, la operación de agregar host fallará.  Para resolver este problema, debe configurar el rango de puertos dinámicos. Para obtener más información, consulte  https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-rpc-dynamic-port-allocation-with-firewalls["Documentación de Microsoft"^] .
++
+** Rango de puertos 50000 - 51000 para Windows 2016 y Exchange 2016
+** Rango de puertos 6000-6500 para Windows 2012 R2 y Exchange 2013
+** Rango de puertos 49152-65536 para Windows 2019
+
+
+
+
+[NOTE]
+====
+Para identificar el rango de puertos, ejecute los siguientes comandos:
+
+* netsh int ipv4 muestra puerto dinámico tcp
+* netsh int ipv4 muestra puerto dinámico udp
+* netsh int ipv6 muestra puerto dinámico tcp
+* netsh int ipv6 mostrar puerto dinámico udp
+
+
+====
+
+
+== Requisitos del host para instalar el paquete de complementos de SnapCenter para Windows
+
+Antes de instalar el paquete de complementos de SnapCenter para Windows, debe familiarizarse con algunos requisitos básicos de espacio y tamaño del sistema host.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+Microsoft Windows
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+1 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+5 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+* Paquete de alojamiento de ASP.NET Core Runtime 8.0.12 (y todos los parches 8.0.x posteriores)
+* PowerShell Core 7.4.2
+* Java 11 Oracle Java y OpenJDK
++
+Java 11 Oracle Java y OpenJDK solo se requieren para SAP HANA, IBM Db2, PostgreSQL, MySQL, complementos compatibles con NetApp y otras aplicaciones personalizadas que se puedan instalar en el host de Windows.
+
+
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+Para obtener información de solución de problemas específicos de .NET, consulte https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["La actualización o instalación de SnapCenter falla en los sistemas heredados que no tienen conectividad a Internet."]
+
+|===
+
+
+== Se requieren privilegios de Exchange Server
+
+Para permitir que SnapCenter agregue Exchange Server o DAG, e instalar el complemento de SnapCenter para Microsoft Exchange Server en un host o DAG, debe configurar SnapCenter con credenciales para un usuario con un conjunto mínimo de privilegios y permisos.
+
+Debe tener un usuario de dominio con privilegios de administrador local y con permisos de inicio de sesión local en el host de Exchange remoto, así como permisos administrativos en todos los nodos del DAG.  El usuario del dominio requiere los siguientes permisos mínimos:
+
+* Agregar copia de base de datos de buzón
+* Desmontar base de datos
+* Obtener la configuración del servidor de anuncios
+* Obtener grupo de disponibilidad de base de datos
+* Obtener servidor de intercambio
+* Obtener base de datos del buzón
+* Obtener estado de copia de la base de datos del buzón
+* Obtener servidor de buzón
+* Obtener estadísticas del buzón
+* Obtener base de datos de carpeta pública
+* Mover base de datos de buzones activos
+* Mover-RutaDeBaseDeDatos -ConfiguraciónSolo:$true
+* Base de datos de montaje
+* Nueva base de datos de buzones
+* Nueva base de datos de carpetas públicas
+* Eliminar base de datos de buzones
+* Eliminar copia de la base de datos del buzón
+* Eliminar base de datos de carpetas públicas
+* Copia de la base de datos del buzón de currículum
+* Establecer la configuración del servidor de anuncios
+* Establecer-MailboxDatabase -allowfilerestore:$true
+* Copiar base de datos del buzón de correo
+* Establecer-Base de datos de carpeta pública
+* Suspender-Copia de base de datos de buzones
+* Actualizar-Copia de base de datos del buzón
+
+
+
+
+== Requisitos del host para instalar el paquete de complementos de SnapCenter para Windows
+
+Antes de instalar el paquete de complementos de SnapCenter para Windows, debe familiarizarse con algunos requisitos básicos de espacio y tamaño del sistema host.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+Microsoft Windows
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+1 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+5 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+* Paquete de alojamiento de ASP.NET Core Runtime 8.0.12 (y todos los parches 8.0.x posteriores)
+* PowerShell Core 7.4.2
+* Java 11 Oracle Java y OpenJDK
++
+Java 11 Oracle Java y OpenJDK solo se requieren para SAP HANA, IBM Db2, PostgreSQL, MySQL, complementos compatibles con NetApp y otras aplicaciones personalizadas que se puedan instalar en el host de Windows.
+
+
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .
+
+Para obtener información de solución de problemas específicos de .NET, consulte https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["La actualización o instalación de SnapCenter falla en los sistemas heredados que no tienen conectividad a Internet."]
+
+|===

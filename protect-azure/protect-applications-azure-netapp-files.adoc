@@ -1,0 +1,30 @@
+---
+permalink: protect-azure/protect-applications-azure-netapp-files.html 
+sidebar: sidebar 
+keywords: azure netapp files, ANF, back up, restore, clone, ANF backup, Azure Blob storage 
+summary: Puede realizar copias de seguridad, restaurar y clonar aplicaciones que se ejecutan en Azure NetApp Files. 
+---
+= Proteger las aplicaciones que se ejecutan en Azure NetApp Files
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter admite la protección de sus aplicaciones, como Oracle, SQL y SAP HANA, que residen en Azure NetApp Files.  A partir de la versión 6.0.1, SnapCenter admite la función de respaldo de Azure NetApp Files que amplía las capacidades de protección de datos de Azure NetApp Files al proporcionar una solución de respaldo completamente administrada para recuperación, archivo y cumplimiento a largo plazo.
+
+Azure NetApp Files es una solución de almacenamiento premium que puede resultar costosa para la retención de copias de seguridad a largo plazo.  Para optimizar los costos, puede mover las copias de seguridad del almacenamiento de Azure NetApp Files a un almacén de objetos de Azure.  A partir de SnapCenter 6.0.1, puede realizar copias de seguridad y clonar aplicaciones que residen en Azure NetApp Files en Azure Blob Storage (almacén de objetos).  Puede mantener dos copias de sus datos: copias de instantáneas de volumen en el almacenamiento de Azure NetApp Files para la recuperación a corto plazo y otra copia en Azure Blob Storage para la recuperación a largo plazo.
+
+Cuando una política con copia de seguridad de Azure NetApp Files está habilitada y asociada a un recurso, SnapCenter controla la creación de instantáneas de volumen y su respaldo en Azure Blob Storage.  SnapCenter crea la Bóveda de respaldo y habilita la copia de seguridad para el volumen.  Si ha habilitado la copia de seguridad para el volumen, SnapCenter utiliza la bóveda existente.
+
+
+
+== Limitaciones
+
+* Las funcionalidades de almacenamiento de objetos para FAS, ASA o AFF ONTAP y Amazon FSx for NetApp ONTAP no son compatibles.
+* Los flujos de trabajo de montaje y catálogo de Oracle y SAP HANA no son compatibles con las copias de seguridad de almacenamiento de objetos, pero sí con las instantáneas.
+* Los clones de Oracle PDB no son compatibles con las copias de seguridad de almacenamiento de objetos, pero sí con las instantáneas.
+* No se admiten la verificación de copias de seguridad desde el almacenamiento de objetos, la compatibilidad con API REST, la gestión del ciclo de vida de los clones desde el almacenamiento de objetos ni las funciones de informes para las copias de seguridad del almacenamiento de objetos.
+* No se admite la restauración desde copias de seguridad en Azure Blob Storage a Azure NetApp Files .  También puedes utilizar la opción de clonar.
+* No se admite la división de clones.
+

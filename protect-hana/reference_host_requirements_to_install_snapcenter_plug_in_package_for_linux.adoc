@@ -1,0 +1,57 @@
+---
+permalink: protect-hana/reference_host_requirements_to_install_snapcenter_plug_in_package_for_linux.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Antes de instalar el paquete de complementos de SnapCenter para Linux, debe familiarizarse con algunos requisitos básicos de tamaño y espacio del sistema host. 
+---
+= Requisitos de host para instalar el paquete de complementos de SnapCenter para Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de instalar el paquete de complementos de SnapCenter para Linux, debe familiarizarse con algunos requisitos básicos de tamaño y espacio del sistema host.
+
+|===
+| Artículo | Requisitos 
+
+
+ a| 
+Sistemas operativos
+ a| 
+* Red Hat Enterprise Linux
+* Servidor empresarial SUSE Linux (SLES)
+
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"] .
+
+
+
+ a| 
+RAM mínima para el complemento SnapCenter en el host
+ a| 
+1 GB
+
+
+
+ a| 
+Espacio mínimo de instalación y registro para el complemento SnapCenter en el host
+ a| 
+2 GB
+
+
+NOTE: Debe asignar suficiente espacio en disco y supervisar el consumo de almacenamiento de la carpeta de registros.  El espacio de registro necesario varía según la cantidad de entidades a proteger y la frecuencia de las operaciones de protección de datos.  Si no hay suficiente espacio en disco, no se crearán registros para las operaciones ejecutadas recientemente.
+
+
+
+ a| 
+Paquetes de software necesarios
+ a| 
+Java 11 Oracle Java y OpenJDK
+
+Si ha actualizado JAVA a la última versión, debe asegurarse de que la opción JAVA_HOME ubicada en /var/opt/snapcenter/spl/etc/spl.properties esté configurada en la versión de JAVA correcta y en la ruta correcta.
+
+Para obtener la información más reciente sobre las versiones compatibles, consulte la https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"] .
+
+|===

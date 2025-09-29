@@ -1,0 +1,261 @@
+---
+permalink: protect-scsql/task_back_up_sql_resources.html 
+sidebar: sidebar 
+keywords: backup 
+summary: Si un recurso aún no forma parte de ningún grupo de recursos, puede realizar una copia de seguridad del recurso desde la página Recursos. 
+---
+= Realizar copias de seguridad de los recursos de SQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si un recurso aún no forma parte de ningún grupo de recursos, puede realizar una copia de seguridad del recurso desde la página Recursos.
+
+.Acerca de esta tarea
+* Para optimizar la operación de copia de seguridad, debe crear un registro de búsqueda inversa de nombres de clúster y direcciones IP de Windows en el servidor DNS.
+* Para la autenticación de credenciales de Windows, debe configurar sus credenciales antes de instalar los complementos.
+* Para la autenticación de la instancia de SQL Server, debe agregar la credencial después de instalar los complementos.
+* Para la autenticación gMSA, debe configurar gMSA mientras registra el host con SnapCenter en la página *Agregar host* o *Modificar host* para habilitar y usar gMSA.
+* Si el host se agrega con gMSA y si gMSA tiene privilegios de inicio de sesión y de administrador del sistema, entonces gMSA puede conectarse a la instancia de SQL.
++
+** SnapCenter verificará si la autenticación para instancias de SQL está configurada.  Si la autenticación está configurada, se accederá a la instancia de SQL utilizando esta credencial.
+** Si la autenticación no está configurada, utilice gMSA para ver si el complemento SQL está funcionando actualmente.  Si el complemento está en funcionamiento, se utilizará para establecer una conexión a la instancia de SQL.
+** Se accederá a la instancia de SQL a través de la autenticación de credenciales de Windows cuando la autenticación para las instancias de SQL no esté configurada y el complemento no esté operativo.
+
+
+
+
+[role="tabbed-block"]
+====
+.Interfaz de usuario de SnapCenter
+--
+.Pasos
+. En el panel de navegación izquierdo, seleccione *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos*, *Instancia* o *Grupo de disponibilidad* en la lista desplegable *Ver*.
++
+.. Seleccione la base de datos, instancia o grupo de disponibilidad que desea respaldar.
++
+Cuando realiza una copia de seguridad de una instancia, la información sobre el estado de la última copia de seguridad o la marca de tiempo de esa instancia no estará disponible en la página de recursos.
+
++
+En la vista de topología, no se puede diferenciar si el estado de la copia de seguridad, la marca de tiempo o la copia de seguridad son para una instancia o una base de datos.
+
+
+
+. En la página Recursos, seleccione la casilla de verificación *formato de nombre personalizado para copia de instantánea* y luego ingrese el formato de nombre personalizado que desee usar para el nombre de la instantánea.
++
+Por ejemplo, customtext_policy_hostname o resource_hostname.  De forma predeterminada, se agrega una marca de tiempo al nombre de la instantánea.
+
+. En la página Políticas, realice las siguientes tareas:
++
+.. En la sección Políticas, seleccione una o más políticas de la lista desplegable.
++
+Puede crear una política seleccionando *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] * para iniciar el asistente de políticas.
+
++
+En la sección *Configurar programaciones para políticas seleccionadas*, se enumeran las políticas seleccionadas.
+
+.. Seleccionar *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] * en la columna Configurar programaciones de la política para la que desea configurar una programación.
+.. En *Agregar horarios para la política* `policy_name` Cuadro de diálogo, configure la programación y luego seleccione *Aceptar*.
++
+Aquí `policy_name` es el nombre de la política que has seleccionado.
+
++
+Los horarios configurados se enumeran en la columna *Horarios aplicados*.
+
+.. Seleccione *Usar programador de Microsoft SQL Server* y, a continuación, seleccione la instancia del programador de la lista desplegable *Instancia del programador* que esté asociada con la política de programación.
+
+
+. En la página de Verificación, realice los siguientes pasos:
++
+.. Seleccione el servidor de verificación de la lista desplegable *Servidor de verificación*.
++
+Puede seleccionar varios servidores de verificación (host local o host remoto).
+
++
+
+NOTE: La versión del servidor de verificación debe ser igual o superior a la versión de la edición del servidor SQL que aloja la base de datos principal.
+
+.. Seleccione *Cargar localizadores secundarios para verificar copias de seguridad en el secundario* para verificar sus copias de seguridad en el sistema de almacenamiento secundario.
+.. Seleccione la política para la que desea configurar su programa de verificación y luego seleccione *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] *.
+.. En el cuadro de diálogo Agregar programaciones de verificación _policy_name_, realice las siguientes acciones:
++
+|===
+| Si quieres... | Haz esto... 
+
+
+ a| 
+Ejecutar la verificación después de la copia de seguridad
+ a| 
+Seleccione *Ejecutar verificación después de la copia de seguridad*.
+
+
+
+ a| 
+Programar una verificación
+ a| 
+Seleccione *Ejecutar verificación programada*.
+
+|===
++
+
+NOTE: Si el servidor de verificación no tiene una conexión de almacenamiento, la operación de verificación falla con el error: No se pudo montar el disco.
+
+.. Seleccione *Aceptar*.
++
+Los horarios configurados se enumeran en la columna Horarios aplicados.
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.  Si desea adjuntar el informe de la operación realizada en el grupo de recursos, seleccione *Adjuntar informe de trabajo*.
+
++
+
+NOTE: Para recibir notificaciones por correo electrónico, debe haber especificado los detalles del servidor SMTP mediante la GUI o el comando de PowerShell Set-SmSmtpServer.
+
+. Revise el resumen y luego seleccione *Finalizar*.
++
+Se muestra la página de topología de la base de datos.
+
+. Seleccione *Hacer copia de seguridad ahora*.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si ha aplicado varias políticas al recurso, en la lista desplegable *Política*, seleccione la política que desea utilizar para la copia de seguridad.
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
+.. Seleccione *Verificar después de la copia de seguridad* para verificar su copia de seguridad.
+.. Seleccione *Copia de seguridad*.
++
+
+NOTE: No debe cambiar el nombre del trabajo de copia de seguridad creado en el programador de Windows o en el agente de SQL Server.
+
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
++
+Se crea un grupo de recursos implícito.  Puede ver esto seleccionando el usuario o grupo respectivo en la página de Acceso de usuario.  El tipo de grupo de recursos implícito es "`Recurso`".
+
+
+
+. Supervise el progreso de la operación seleccionando *Monitor* > *Trabajos*.
+
+
+.Después de terminar
+* En configuraciones de MetroCluster , es posible que SnapCenter no pueda detectar una relación de protección después de una conmutación por error.
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["No se puede detectar la relación entre SnapMirror o SnapVault después de una conmutación por error de MetroCluster"]
+
+* Si está realizando una copia de seguridad de los datos de la aplicación en VMDK y el tamaño del montón de Java para el SnapCenter Plug-in for VMware vSphere no es lo suficientemente grande, la copia de seguridad podría fallar.  Para aumentar el tamaño del montón de Java, ubique el archivo de script /opt/netapp/init_scripts/scvservice.  En ese guión, el `do_start method` El comando inicia el servicio del complemento VMware de SnapCenter .  Actualice ese comando a lo siguiente: `Java -jar -Xmx8192M -Xms4096M` .
+
+
+.Información relacionada
+link:task_create_backup_policies_for_sql_server_databases.html["Crear políticas de respaldo para bases de datos de SQL Server"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["Las operaciones de respaldo fallan con un error de conexión MySQL debido al retraso en TCP_TIMEOUT"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["La copia de seguridad falla con el error del programador de Windows"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Quiesce_or_grouping_resources_operations_fail["Las operaciones de inactividad o agrupación de recursos fallan"]
+
+--
+.Cmdlets de PowerShell
+--
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el cmdlet Open-SmConnection.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+Se muestra la solicitud de nombre de usuario y contraseña.
+
+. Cree una política de respaldo mediante el cmdlet Add-SmPolicy.
++
+Este ejemplo crea una nueva política de respaldo con un tipo de respaldo SQL de FullBackup:
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+Este ejemplo crea una nueva política de respaldo con un tipo de respaldo del sistema de archivos de Windows de CrashConsistent:
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Descubra los recursos del host mediante el cmdlet Get-SmResources.
++
+Este ejemplo descubre los recursos para el complemento de Microsoft SQL en el host especificado:
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+Este ejemplo descubre los recursos de los sistemas de archivos de Windows en el host especificado:
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Agregue un nuevo grupo de recursos a SnapCenter mediante el cmdlet Add-SmResourceGroup.
++
+Este ejemplo crea un nuevo grupo de recursos de respaldo de base de datos SQL con la política y los recursos especificados:
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+Este ejemplo crea un nuevo grupo de recursos de respaldo del sistema de archivos de Windows con la política y los recursos especificados:
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. Inicie un nuevo trabajo de respaldo mediante el cmdlet New-SmBackup.
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Vea el estado del trabajo de respaldo mediante el cmdlet Get-SmBackupReport.
++
+Este ejemplo muestra un informe de resumen de trabajos de todos los trabajos que se ejecutaron en la fecha especificada:
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+--
+====

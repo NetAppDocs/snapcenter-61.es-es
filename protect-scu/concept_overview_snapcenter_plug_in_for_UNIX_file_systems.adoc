@@ -1,0 +1,112 @@
+---
+permalink: protect-scu/concept_overview_snapcenter_plug_in_for_UNIX_file_systems.html 
+sidebar: sidebar 
+keywords: overview, unix file system, plug-in for unix file system, backup, restore, clone 
+summary: El complemento para sistemas de archivos Unix admite la realización de copias de seguridad, la restauración y la clonación de sistemas de archivos Unix. 
+---
+= Qué puede hacer con el complemento SnapCenter para sistemas de archivos Unix
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando el complemento para sistemas de archivos Unix está instalado en su entorno, puede usar SnapCenter para realizar copias de seguridad, restaurar y clonar sistemas de archivos Unix.  También puede realizar tareas que respalden dichas operaciones.
+
+* Descubra recursos
+* Realizar copias de seguridad de los sistemas de archivos Unix
+* Programar operaciones de respaldo
+* Restaurar copias de seguridad del sistema de archivos
+* Copias de seguridad del sistema de archivos clonado
+* Supervisar operaciones de copia de seguridad, restauración y clonación
+
+
+
+
+== Configuraciones compatibles
+
+|===
+| Artículo | Configuración compatible 
+
+
+ a| 
+Entornos
+ a| 
+* Servidor físico
+* Servidor virtual
++
+Almacenes de datos vVol tanto en NFS como en SAN. Los almacenes de datos vVol solo se pueden aprovisionar con ONTAP Tools para VMware vSphere.
+
+
+
+
+
+ a| 
+Sistemas operativos
+ a| 
+* Red Hat Enterprise Linux
+* Oracle Linux
+* Servidor empresarial SUSE Linux (SLES)
+
+
+
+
+ a| 
+Sistemas de archivos
+ a| 
+* SAN:
++
+** Sistemas de archivos basados en LVM y no basados en LVM
+** LVM sobre VMDK ext3, ext4 y xfs
+
+
+* NFS: NFS v3, NFS v4.x
+
+
+
+
+ a| 
+Protocolos
+ a| 
+* FC
+* FCoE
+* iSCSI
+* Sistema Nacional de Archivos
+
+
+
+
+ a| 
+Multitrayecto
+ a| 
+Sí
+
+|===
+
+
+== Limitaciones
+
+* No se admite la combinación de RDM y discos virtuales en un grupo de volúmenes.
+* No se admite la restauración a nivel de archivo.
++
+Sin embargo, puede realizar manualmente una restauración a nivel de archivo clonando la copia de seguridad y luego copiando los archivos manualmente.
+
+* No se admite la combinación de sistemas de archivos distribuidos en VMDK que provienen de almacenes de datos NFS y VMFS.
+* NVMe no es compatible.
+* No se admite el aprovisionamiento.
+
+
+
+
+== Funciones
+
+* Permite que el complemento para Oracle Database realice operaciones de protección de datos en bases de datos Oracle mediante el manejo de la pila de almacenamiento del host subyacente en sistemas Linux o AIX
+* Admite protocolos de sistema de archivos de red (NFS) y red de área de almacenamiento (SAN) en un sistema de almacenamiento que ejecuta ONTAP.
+* Para los sistemas Linux, se admiten bases de datos Oracle en LUN VMDK y RDM cuando implementa el SnapCenter Plug-in for VMware vSphere y registra el complemento con SnapCenter.
+* Admite Mount Guard para AIX en sistemas de archivos SAN y diseño LVM.
+* Admite el sistema de archivos con registro mejorado (JFS2) con registro en línea en sistemas de archivos SAN y diseño LVM solo para sistemas AIX.
++
+Se admiten dispositivos nativos SAN, sistemas de archivos y diseños LVM creados en dispositivos SAN.
+
+* Automatiza operaciones de copia de seguridad, restauración y clonación teniendo en cuenta las aplicaciones para sistemas de archivos UNIX en su entorno SnapCenter
+

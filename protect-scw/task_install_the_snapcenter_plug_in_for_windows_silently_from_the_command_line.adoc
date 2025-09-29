@@ -1,0 +1,104 @@
+---
+permalink: protect-scw/task_install_the_snapcenter_plug_in_for_windows_silently_from_the_command_line.html 
+sidebar: sidebar 
+keywords: install, snapcenter 
+summary: Puede instalar el complemento de SnapCenter para Microsoft Windows localmente en un host de Windows si no puede instalar el complemento de forma remota desde la GUI de SnapCenter .  Puede ejecutar el programa de instalación del complemento SnapCenter para Microsoft Windows sin supervisión, en modo silencioso, desde la línea de comandos de Windows. 
+---
+= Instale el complemento SnapCenter para Microsoft Windows de forma silenciosa desde la línea de comandos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede instalar el complemento de SnapCenter para Microsoft Windows localmente en un host de Windows si no puede instalar el complemento de forma remota desde la GUI de SnapCenter .  Puede ejecutar el programa de instalación del complemento SnapCenter para Microsoft Windows sin supervisión, en modo silencioso, desde la línea de comandos de Windows.
+
+.Antes de empezar
+* Debe tener instalado el paquete de alojamiento ASP.NET Core Runtime 8.0.12 (y todos los parches 8.0.x posteriores).
+* Debe tener instalado PowerShell 7.4.2 o posterior.
+* Debes ser un administrador local en el host.
+
+
+.Pasos
+. Descargue el complemento SnapCenter para Microsoft Windows desde su ubicación de instalación.
++
+Por ejemplo, la ruta de instalación predeterminada es C:\ProgramData\ NetApp\ SnapCenter\Package Repository.
+
++
+Se puede acceder a esta ruta desde el host donde está instalado el servidor SnapCenter .
+
+. Copie el archivo de instalación en el host en el que desea instalar el complemento.
+. Desde el símbolo del sistema, navegue hasta el directorio donde descargó el archivo de instalación.
+. Ingrese el siguiente comando, reemplazando las variables con sus datos:
++
+`"snapcenter_windows_host_plugin.exe"/silent / debuglog"" /log"" BI_SNAPCENTER_PORT= SUITE_INSTALLDIR="" BI_SERVICEACCOUNT= BI_SERVICEPWD= ISFeatureInstall=SCW`
+
++
+Por ejemplo:
+
++
+ `"C:\ProgramData\NetApp\SnapCenter\Package Repository \snapcenter_windows_host_plugin.exe"/silent /debuglog"C: \HPPW_SCW_Install.log" /log"C:\" BI_SNAPCENTER_PORT=8145 SUITE_INSTALLDIR="C: \Program Files\NetApp\SnapCenter" BI_SERVICEACCOUNT=domain\administrator BI_SERVICEPWD=password ISFeatureInstall=SCW`
++
+
+NOTE: Todos los parámetros pasados durante la instalación del complemento para Windows distinguen entre mayúsculas y minúsculas.
+
++
+Introduzca los valores para las siguientes variables:
+
++
+|===
+| Variable | Valor 
+
+
+ a| 
+_/debuglog"<Ruta_del_registro_de_depuración>_
+ a| 
+Especifique el nombre y la ubicación del archivo de registro del instalador de la suite, como en el siguiente ejemplo: Setup.exe /debuglog"C:\PathToLog\setupexe.log".
+
+
+
+ a| 
+PUERTO BI_SNAPCENTER
+ a| 
+Especifique el puerto en el que SnapCenter se comunica con SMCore.
+
+
+
+ a| 
+SUITE_INSTALLDIR
+ a| 
+Especifique el directorio de instalación del paquete del complemento de host.
+
+
+
+ a| 
+BI_CUENTA DE SERVICIO
+ a| 
+Especifique el complemento SnapCenter para la cuenta de servicio web de Microsoft Windows.
+
+
+
+ a| 
+BI_SERVICEPWD
+ a| 
+Especifique la contraseña para la cuenta de servicio web del complemento SnapCenter para Microsoft Windows.
+
+
+
+ a| 
+Instalación de ISFeature
+ a| 
+Especifique la solución que SnapCenter implementará en el host remoto.
+
+|===
++
+El parámetro _debuglog_ incluye la ruta del archivo de registro de SnapCenter.  Escribir en este archivo de registro es el método preferido para obtener información de solución de problemas, porque el archivo contiene los resultados de las comprobaciones que realiza la instalación para verificar los requisitos previos del complemento.
+
++
+Si es necesario, puede encontrar información adicional de solución de problemas en el archivo de registro del paquete SnapCenter para Windows.  Los archivos de registro del paquete se enumeran (el más antiguo primero) en la carpeta _%Temp%_, por ejemplo, _C:\temp\_.
+
++
+
+NOTE: La instalación del complemento para Windows registra el complemento en el host y no en el servidor SnapCenter .  Puede registrar el complemento en el servidor SnapCenter agregando el host mediante la GUI de SnapCenter o el cmdlet de PowerShell.  Una vez agregado el host, el complemento se descubre automáticamente.
+
+

@@ -1,0 +1,26 @@
+---
+permalink: protect-hana/concept_type_of_backups_supported.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: El tipo de copia de seguridad especifica el tipo de copia de seguridad que desea crear.  SnapCenter admite los tipos de copia de seguridad basada en archivos y copias de seguridad basadas en instantáneas para bases de datos de SAP HANA. 
+---
+= Tipo de backups admitido
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El tipo de copia de seguridad especifica el tipo de copia de seguridad que desea crear.  SnapCenter admite los tipos de copia de seguridad basada en archivos y copias de seguridad basadas en instantáneas para bases de datos de SAP HANA.
+
+
+
+== Copia de seguridad basada en archivos
+
+Las copias de seguridad basadas en archivos verifican la integridad de la base de datos.  Puede programar la operación de copia de seguridad basada en archivos para que se realice en intervalos específicos.  Sólo se realizan copias de seguridad de los inquilinos activos.  No es posible restaurar ni clonar copias de seguridad basadas en archivos desde SnapCenter.
+
+
+
+== Copia de seguridad basada en instantáneas
+
+Las copias de seguridad basadas en instantáneas aprovechan la tecnología Snapshot de NetApp para crear copias en línea, de solo lectura, de los volúmenes en los que residen las bases de datos de SAP HANA.

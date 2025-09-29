@@ -1,0 +1,20 @@
+---
+permalink: protect-sce/concept_back_up_exchange_resources.html 
+sidebar: sidebar 
+keywords: Backup workflow 
+summary: Cuando instala el complemento de SnapCenter para Microsoft Exchange Server en su entorno, puede usar SnapCenter para realizar copias de seguridad de los recursos de Exchange. 
+---
+= Flujo de trabajo de respaldo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando instala el complemento de SnapCenter para Microsoft Exchange Server en su entorno, puede usar SnapCenter para realizar copias de seguridad de los recursos de Exchange.
+
+Puede programar varias copias de seguridad para que se ejecuten en todos los servidores simultáneamente.  Las operaciones de copia de seguridad y restauración no se pueden realizar simultáneamente en el mismo recurso.  No se admiten copias de seguridad activas y pasivas en el mismo volumen.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar la operación de copia de seguridad:
+
+image:../media/sce_backup_workflow.gif["base de datos del servidor del intercambiador de flujo de trabajo de respaldo"]

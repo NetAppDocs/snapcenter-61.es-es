@@ -1,0 +1,159 @@
+---
+permalink: protect-postgresql/prerequisites-to-adding-hosts-and-installing-snapcenter-plug-in-for-postgresql.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos.  El complemento SnapCenter para PostgreSQL está disponible en entornos Windows y Linux. 
+---
+= Requisitos previos para agregar hosts e instalar el complemento SnapCenter para PostgreSQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de agregar un host e instalar los paquetes de complementos, debe completar todos los requisitos.  El complemento SnapCenter para PostgreSQL está disponible en entornos Windows y Linux.
+
+* Debes tener instalado Java 11 en tu host.
++
+
+NOTE: IBM Java no es compatible con hosts Windows y Linux.
+
+* Para Windows, el servicio de creación de complementos debe ejecutarse utilizando el usuario de Windows "`LocalSystem`", que es el comportamiento predeterminado cuando el complemento para PostgreSQL se instala como administrador de dominio.
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.  El complemento SnapCenter para Microsoft Windows se implementará de forma predeterminada con el complemento PostgreSQL en los hosts de Windows.
+* El servidor SnapCenter debe tener acceso al puerto 8145 o personalizado del host del complemento para PostgreSQL.
+
+
+
+
+== Hosts de Windows
+
+* Debe tener un usuario de dominio con privilegios de administrador local con permisos de inicio de sesión local en el host remoto.
+* Al instalar el complemento para PostgreSQL en un host Windows, el complemento de SnapCenter para Microsoft Windows se instala automáticamente.
+* Debe haber habilitado la conexión SSH basada en contraseña para el usuario root o no root.
+* Debes tener instalado Java 11 en tu host Windows.
++
+http://www.java.com/en/download/manual.jsp["Descargar JAVA para todos los sistemas operativos"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121069;&solution=1259&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"]
+
+
+
+
+
+== Hosts Linux
+
+* Debe haber habilitado la conexión SSH basada en contraseña para el usuario root o no root.
+* Debes tener instalado Java 11 en tu host Linux.
++
+http://www.java.com/en/download/manual.jsp["Descargar JAVA para todos los sistemas operativos"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121069;&solution=1259&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"]
+
+* Para los clústeres PostgreSQL que se ejecutan en un host Linux, al instalar el complemento para PostgreSQL, el complemento de SnapCenter para UNIX se instala automáticamente.
+* Debe tener *bash* como el shell predeterminado para la instalación del complemento.
+
+
+
+
+== Comandos suplementarios
+
+Para ejecutar un comando complementario en el complemento SnapCenter para PostgreSQL, debe incluirlo en el archivo _allowed_commands.config_.
+
+* Ubicación predeterminada en el host de Windows: _C:\Archivos de programa\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+* Ubicación predeterminada en el host Linux: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+Para permitir comandos complementarios en el host del complemento, abra el archivo _allowed_commands.config_ en un editor.  Ingrese cada comando en una línea separada y los comandos no distinguen entre mayúsculas y minúsculas.  Asegúrese de especificar la ruta de acceso completa y de encerrarla entre comillas (") si contiene espacios.
+
+Por ejemplo:
+
+comando: mount comando: umount comando: "C:\Archivos de programa\ NetApp\SnapCreator commands\sdcli.exe" comando: myscript.bat
+
+Si el archivo _allowed_commands.config_ no está presente, se bloqueará la ejecución de los comandos o del script y el flujo de trabajo fallará con el siguiente error:
+
+"No se permite la ejecución de [/mnt/mount -a].  Autorice agregando el comando en el archivo %s en el host del complemento.
+
+Si el comando o script no está presente en _allowed_commands.config_, la ejecución del comando o script se bloqueará y el flujo de trabajo fallará con el siguiente error:
+
+"No se permite la ejecución de [/mnt/mount -a].  Autorice agregando el comando en el archivo %s en el host del complemento.
+
+
+NOTE: No debe utilizar una entrada comodín (*) para permitir todos los comandos.
+
+
+
+== Configurar privilegios de sudo para usuarios no root para el host Linux
+
+SnapCenter permite que un usuario no root instale el paquete de complementos de SnapCenter para Linux e inicie el proceso de instalación del complemento.  Los procesos del complemento se ejecutarán como un usuario no root efectivo.  Debe configurar privilegios de sudo para el usuario que no sea root para proporcionar acceso a varias rutas.
+
+*Lo que necesitarás*
+
+* Sudo versión 1.8.7 o posterior.
+* Si la umask es 0027, asegúrese de que la carpeta java y todos los archivos dentro de ella tengan el permiso 555.  De lo contrario, la instalación del complemento podría fallar.
+* Para el usuario no root, asegúrese de que el nombre del usuario no root y el grupo del usuario sean los mismos.
+* Edite el archivo _/etc/ssh/sshd_config_ para configurar los algoritmos del código de autenticación de mensajes: MAC hmac-sha2-256 y MAC hmac-sha2-512.
++
+Reinicie el servicio sshd después de actualizar el archivo de configuración.
+
++
+Ejemplo:
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*Acerca de esta tarea*
+
+Debe configurar los privilegios de sudo para el usuario no root para proporcionar acceso a las siguientes rutas:
+
+* /inicio/_USUARIO_LINUX_/.sc_netapp/snapcenter_linux_host_plugin.bin
+* /ubicación_personalizada/ NetApp/snapcenter/spl/instalación/complementos/desinstalar
+* /ubicación_personalizada/ NetApp/snapcenter/spl/bin/spl
+
+
+*Pasos*
+
+. Inicie sesión en el host Linux en el que desea instalar el paquete de complementos de SnapCenter para Linux.
+. Agregue las siguientes líneas al archivo /etc/sudoers utilizando la utilidad visudo para Linux.
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+_LINUX_USER_ es el nombre del usuario no root que usted creó.
+
+
+
+Puede obtener el _checksum_value_ del archivo *sc_unix_plugins_checksum.txt*, que se encuentra en:
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt _ si SnapCenter Server está instalado en el host de Windows.
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt _ si SnapCenter Server está instalado en el host Linux.
+
+
+
+IMPORTANT: El ejemplo debe utilizarse únicamente como referencia para crear sus propios datos.

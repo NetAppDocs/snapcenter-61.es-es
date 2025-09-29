@@ -1,0 +1,121 @@
+---
+permalink: protect-sco/task_configure_CA_certificate_with_SPL_on_Linux_host.html 
+sidebar: sidebar 
+keywords: SnapCenter, SPL, Plug-in loader service, CA certificate, certificate 
+summary: Configurar el certificado de CA con el servicio SnapCenter Plug-in Loader en el host Linux 
+---
+= Configurar el certificado de CA con el servicio SnapCenter Plug-in Loader (SPL) en el host Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe administrar la contraseña del almacén de claves SPL y su certificado, configurar el certificado de CA, configurar los certificados raíz o intermedios para el almacén de confianza SPL y configurar el par de claves firmadas de CA para el almacén de confianza SPL con el servicio SnapCenter Plug-in Loader para activar el certificado digital instalado.
+
+
+IMPORTANT: SPL utiliza el archivo 'keystore.jks', que se encuentra en '/var/opt/snapcenter/spl/etc' como almacén de confianza y almacén de claves.
+
+
+
+== Administrar la contraseña para el almacén de claves SPL y el alias del par de claves firmadas por la CA en uso
+
+*Pasos*
+
+. Puede recuperar la contraseña predeterminada del almacén de claves SPL desde el archivo de propiedades SPL.
++
+Es el valor correspondiente a la clave 'SPL_KEYSTORE_PASS'.
+
+. Cambiar la contraseña del almacén de claves:
++
+ keytool -storepasswd -keystore keystore.jks
+. Cambie la contraseña de todos los alias de las entradas de clave privada en el almacén de claves a la misma contraseña utilizada para el almacén de claves:
++
+ keytool -keypasswd -alias "<alias_name>" -keystore keystore.jks
++
+Actualice lo mismo para la clave SPL_KEYSTORE_PASS en el archivo spl.properties.
+
+. Reinicie el servicio después de cambiar la contraseña.
+
+
+
+NOTE: La contraseña para el almacén de claves SPL y para todas las contraseñas de alias asociadas de la clave privada deben ser las mismas.
+
+
+
+== Configurar certificados raíz o intermedios para el almacén de confianza SPL
+
+Debe configurar los certificados raíz o intermedios sin la clave privada en el almacén de confianza SPL.
+
+*Pasos*
+
+. Navegue a la carpeta que contiene el almacén de claves SPL: _/var/opt/snapcenter/spl/etc_.
+. Localice el archivo 'keystore.jks'.
+. Enumere los certificados agregados en el almacén de claves:
++
+ keytool -list -v -keystore keystore.jks
+. Agregar un certificado raíz o intermedio:
++
+ keytool -import -trustcacerts -alias <AliasNameForCerticateToBeImported> -file /<CertificatePath> -keystore keystore.jks
+. Reinicie el servicio después de configurar los certificados raíz o intermedios en el almacén de confianza SPL.
+
+
+
+NOTE: Debe agregar el certificado de CA raíz y luego los certificados de CA intermedios.
+
+
+
+== Configurar el par de claves firmadas de CA para el almacén de confianza SPL
+
+Debe configurar el par de claves firmadas por CA en el almacén de confianza SPL.
+
+*Pasos*
+
+. Navegue a la carpeta que contiene el almacén de claves de SPL /var/opt/snapcenter/spl/etc.
+. Localice el archivo 'keystore.jks'.
+. Enumere los certificados agregados en el almacén de claves:
++
+ keytool -list -v -keystore keystore.jks
+. Agregue el certificado CA que tenga clave privada y pública.
++
+ keytool -importkeystore -srckeystore <CertificatePathToImport> -srcstoretype pkcs12 -destkeystore keystore.jks -deststoretype JKS
+. Enumere los certificados agregados en el almacén de claves.
++
+ keytool -list -v -keystore keystore.jks
+. Verifique que el almacén de claves contenga el alias correspondiente al nuevo certificado de CA, que se agregó al almacén de claves.
+. Cambie la contraseña de clave privada agregada para el certificado de CA a la contraseña del almacén de claves.
++
+La contraseña del almacén de claves SPL predeterminada es el valor de la clave SPL_KEYSTORE_PASS en el archivo spl.properties.
+
++
+ keytool -keypasswd -alias "<aliasNameOfAddedCertInKeystore>" -keystore keystore.jks
+. Si el nombre de alias en el certificado de CA es largo y contiene espacios o caracteres especiales ("*",","), cambie el nombre de alias a un nombre simple:
++
+ keytool -changealias -alias "<OrignalAliasName>" -destalias "<NewAliasName>" -keystore keystore.jks
+. Configure el nombre de alias desde el almacén de claves ubicado en el archivo spl.properties.
++
+Actualice este valor con la clave SPL_CERTIFICATE_ALIAS.
+
+. Reinicie el servicio después de configurar el par de claves firmadas por CA en el almacén de confianza SPL.
+
+
+
+
+== Configurar la lista de revocación de certificados (CRL) para SPL
+
+Debe configurar la CRL para SPL
+
+*Acerca de esta tarea*
+
+* SPL buscará los archivos CRL en un directorio preconfigurado.
+* El directorio predeterminado para los archivos CRL para SPL es _/var/opt/snapcenter/spl/etc/crl_.
+
+
+*Pasos*
+
+. Puede modificar y actualizar el directorio predeterminado en el archivo spl.properties contra la clave SPL_CRL_PATH.
+. Puede colocar más de un archivo CRL en este directorio.
++
+Los certificados entrantes se verificarán con cada CRL.
+
+

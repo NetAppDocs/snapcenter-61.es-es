@@ -1,0 +1,41 @@
+---
+permalink: protect-azure/add-hosts-install-plugin-for-sap-hana.html 
+sidebar: sidebar 
+keywords: add host, install, install plug-in, SAP HANA 
+summary: Agregue hosts y luego instale los paquetes de complementos. 
+---
+= Agregar hosts e instalar el complemento de SnapCenter para la base de datos SAP HANA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Debe utilizar la página Agregar host de SnapCenter para agregar hosts y luego instalar los paquetes de complementos.  Los complementos se instalan automáticamente en los hosts remotos.
+
+.Antes de empezar
+* Debe ser un usuario asignado a un rol que tenga permisos de instalación y desinstalación de complementos, como el rol de administrador de SnapCenter .
+* Al instalar un complemento en un host de Windows, si especifica una credencial que no está incorporada o si el usuario pertenece a un usuario de grupo de trabajo local, debe deshabilitar UAC en el host.
+* Si está realizando la instalación en el host centralizado, asegúrese de que el software del cliente SAP HANA esté instalado en ese host y abra los puertos necesarios en el host de la base de datos SAP HANA para ejecutar las consultas SQL de HDB de forma remota.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Hosts*.
+. Verifique que la pestaña *Hosts administrados* esté seleccionada.
+. Haga clic en *Agregar*.
+. En la página Hosts, realice las siguientes acciones:
++
+.. En el campo Tipo de host, seleccione el tipo de host.
+.. En el campo Nombre de host, ingrese el nombre de dominio completo (FQDN) o la dirección IP del host.
+.. En el campo Credenciales, ingrese la credencial que creó.
+
+
+. En la sección Seleccionar complementos para instalar, seleccione los complementos que desea instalar.
+. (Opcional) Haga clic en *Más opciones* y especifique los detalles.
+. Haga clic en *Enviar*.
+. Si el tipo de host es Linux, verifique la huella digital y luego haga clic en *Confirmar y enviar*.
++
+En una configuración de clúster, debe verificar la huella digital de cada uno de los nodos del clúster.
+
+. Supervisar el progreso de la instalación.
+

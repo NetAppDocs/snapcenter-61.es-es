@@ -1,0 +1,42 @@
+---
+permalink: protect-scsql/concept_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: Cuando el complemento de SnapCenter para Microsoft SQL Server está instalado en su entorno, puede usar SnapCenter para realizar copias de seguridad, restaurar y clonar bases de datos de SQL Server. 
+---
+= Qué puede hacer con el complemento SnapCenter para Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando el complemento de SnapCenter para Microsoft SQL Server está instalado en su entorno, puede usar SnapCenter para realizar copias de seguridad, restaurar y clonar bases de datos de SQL Server.
+
+Puede realizar las siguientes tareas que admiten operaciones de copia de seguridad, operaciones de restauración y operaciones de clonación de bases de datos y recursos de bases de datos de SQL Server:
+
+* Realizar copias de seguridad de las bases de datos de SQL Server y los registros de transacciones asociados
++
+No se puede crear una copia de seguridad del registro para las bases de datos del sistema master y msdb.  Sin embargo, puede crear copias de seguridad de registros para la base de datos del sistema modelo.
+
+* Restaurar recursos de la base de datos
++
+** Puede restaurar bases de datos del sistema maestro, bases de datos del sistema msdb y bases de datos del sistema modelo.
+** No se pueden restaurar varias bases de datos, instancias y grupos de disponibilidad.
+** No se puede restaurar la base de datos del sistema a una ruta alternativa.
+
+
+* Crear clones puntuales de bases de datos de producción
++
+No se pueden realizar operaciones de copia de seguridad, restauración, clonación y ciclo de vida de clonación en las bases de datos del sistema tempdb.
+
+* Verificar las operaciones de respaldo inmediatamente o posponer la verificación hasta más tarde
++
+No se admite la verificación de la base de datos del sistema SQL Server.  SnapCenter clona las bases de datos para realizar la operación de verificación.  SnapCenter no puede clonar bases de datos del sistema SQL Server y, por lo tanto, no se admite la verificación de estas bases de datos.
+
+* Programar operaciones de respaldo y operaciones de clonación
+* Supervisar operaciones de copia de seguridad, operaciones de restauración y operaciones de clonación
+
+
+
+NOTE: El complemento para SQL Server no admite la copia de seguridad ni la recuperación de bases de datos de SQL Server en recursos compartidos SMB.

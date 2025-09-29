@@ -1,0 +1,166 @@
+---
+permalink: protect-hana/task_restore_and_recover_an_auto_discovered_database_backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad. 
+---
+= Restaurar y recuperar una copia de seguridad de una base de datos descubierta automáticamente
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar y recuperar datos de una o más copias de seguridad.
+
+.Antes de empezar
+* Debes haber realizado una copia de seguridad del recurso o del grupo de recursos.
+* Debe haber cancelado cualquier operación de respaldo que esté actualmente en curso para el recurso o grupo de recursos que desea restaurar.
+* Para los comandos de pre-restauración, post-restauración, montaje y desmontaje, debe verificar si los comandos existen en la lista de comandos disponible en el host del complemento desde las siguientes rutas:
++
+** Ubicación predeterminada en el host de Windows: _C:\Archivos de programa\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Ubicación predeterminada en el host Linux: _/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: Si los comandos no existen en la lista de comandos, la operación fallará.
+
+.Acerca de esta tarea
+* Las copias de seguridad basadas en archivos no se pueden restaurar desde SnapCenter.
+* Después de actualizar a SnapCenter 4.3, las copias de seguridad realizadas en SnapCenter 4.2 se pueden restaurar, pero no se pueden recuperar.  Debe utilizar HANA Studio o scripts de recuperación de HANA externos a SnapCenter para recuperar las copias de seguridad realizadas en SnapCenter 4.2.
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+* Para la operación de restauración de sincronización activa de SnapMirror , debe seleccionar la copia de seguridad de la ubicación principal.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, filtre los recursos de la lista desplegable *Ver* según el tipo de recurso.
++
+Los recursos se muestran junto con el tipo, el host, los grupos de recursos y políticas asociados y el estado.
+
++
+
+NOTE: Aunque una copia de seguridad puede ser para un grupo de recursos, al restaurarla debe seleccionar los recursos individuales que desea restaurar.
+
++
+Si el recurso no está protegido, se muestra "No protegido" en la columna Estado general.  Esto puede significar que el recurso no está protegido o que fue respaldado por un usuario diferente.
+
+. Seleccione el recurso o seleccione un grupo de recursos y luego seleccione un recurso en ese grupo.
++
+Se muestra la página de topología de recursos.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* de los sistemas de almacenamiento primario o secundario (duplicado o almacenado en bóveda).
+. En la tabla Copias de seguridad principales, seleccione la copia de seguridad que desea restaurar y luego haga clic en *image:../media/restore_icon.gif["icono de restauración"] *.
++
+image::../media/restoring_resource.gif[restauración de recursos]
+
+. En la página Restaurar alcance, seleccione *Recurso completo* para restaurar los volúmenes de datos configurados de la base de datos de SAP HANA.
++
+
+NOTE: Puede seleccionar *Recurso completo* (con o sin *Reversión de volumen*) o *Base de datos de inquilinos*.
+
++
+SnapCenter Server no admite la operación de recuperación para varios inquilinos cuando el usuario selecciona la opción *Base de datos de inquilinos* o *Restauración completa*.  Debe utilizar HANA Studio o el script de Python de HANA para realizar la operación de recuperación.
+
++
+.. Seleccione *Volumen Revertir* si desea restaurar el volumen completo.
++
+Esta opción está disponible para las copias de seguridad realizadas en SnapCenter 4.3 en entornos NFS.
+
++
+Si el recurso contiene volúmenes o qtrees, las instantáneas tomadas después de la instantánea seleccionada para restaurar en dichos volúmenes o qtrees se eliminan y no se pueden recuperar.  Además, si algún otro recurso está alojado en los mismos volúmenes o qtrees, ese recurso también se elimina.  Esto se aplica cuando se selecciona la opción *Recurso completo* con *Revertir volumen* para restaurar.
+
+.. Seleccione *Base de datos de inquilinos*.
++
+Esta opción solo está disponible para los recursos de MDC.
+
++
+Asegúrese de detener la base de datos del inquilino antes de realizar la operación de restauración.
+
++
+Si selecciona la opción *Base de datos de inquilinos*, debe utilizar HANA Studio o usar scripts de recuperación de HANA externos a SnapCenter para realizar la operación de recuperación.
+
+
+
+. En la página Ámbito de recuperación, seleccione una de las siguientes opciones:
++
+|===
+| Si usted... | Haz esto... 
+
+
+ a| 
+Quiere recuperarse lo más cerca posible de la hora actual
+ a| 
+Seleccione *Recuperar al estado más reciente*.  Para recursos de contenedor único, especifique una o más ubicaciones de respaldo de registros y catálogos.
+
+Para los recursos de contenedor de base de datos multiinquilino (MDC), especifique una o más ubicaciones de respaldo de registros y la ubicación del catálogo de respaldo.
+
+Para los recursos de MDC, la ruta debe contener los registros de la base de datos del sistema y de la base de datos del inquilino.
+
+
+
+ a| 
+¿Quieres recuperar el punto especificado en el tiempo?
+ a| 
+Seleccione *Recuperar a punto en el tiempo*.
+
+.. Seleccione la zona horaria.
++
+La zona horaria del navegador se completa de forma predeterminada.
+
++
+La zona horaria seleccionada junto con la hora de entrada se convierte a GMT absoluto.
+
+.. Introduzca fecha y hora.  Por ejemplo, el host HANA Linux está ubicado en Sunnyvale, CA y el usuario en Raleigh, NC está recuperando los registros en SnapCenter.
++
+La diferencia horaria entre ambas ubicaciones es de 3 horas y, como el usuario ha iniciado sesión desde Raleigh, Carolina del Norte, la zona horaria predeterminada del navegador que se seleccionará en la GUI es GMT-04:00.
+
++
+Si el usuario desea realizar una recuperación a las 5 a. m. de Sunnyvale, CA, entonces el usuario debe configurar la zona horaria del navegador a la zona horaria del host HANA Linux, que es GMT-07:00 y especificar la fecha y hora como 5:00 a. m.
+
++
+Para recursos de contenedor único, especifique una o más ubicaciones de respaldo de registros y catálogos.
+
++
+Para los recursos de MDC, especifique una o más ubicaciones de respaldo de registros y la ubicación del catálogo de respaldo.
+
++
+Para los recursos de MDC, la ruta debe contener los registros de la base de datos del sistema y de la base de datos del inquilino.
+
+
+
+
+
+ a| 
+¿Quieres recuperar una copia de seguridad de datos específica?
+ a| 
+Seleccione *Recuperar a la copia de seguridad de datos especificada*.
+
+
+
+ a| 
+No quiero recuperarme
+ a| 
+Seleccione *Sin recuperación*.  Debe realizar la operación de recuperación manualmente desde el estudio HANA.
+
+|===
++
+Solo puede recuperar aquellas copias de seguridad que se realicen después de actualizar a SnapCenter 4.3, siempre que tanto el host como el complemento se actualicen a SnapCenter 4.3 y las copias de seguridad seleccionadas para restaurar se realicen después de que el recurso se convierta o se descubra como recurso descubierto automáticamente.
+
+. En la página Operaciones previas, ingrese los comandos de restauración previa y de desmontaje para ejecutar antes de realizar un trabajo de restauración.
++
+Los comandos de desmontaje no están disponibles para los recursos descubiertos automáticamente.
+
+. En la página Operaciones posteriores, ingrese los comandos de montaje y restauración posterior para ejecutarlos después de realizar un trabajo de restauración.
++
+Los comandos de montaje no están disponibles para los recursos descubiertos automáticamente.
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario y el asunto del correo electrónico.  El SMTP también debe configurarse en la página *Configuración* > *Configuración global*.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+

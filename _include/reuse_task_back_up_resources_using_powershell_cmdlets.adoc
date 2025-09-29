@@ -1,0 +1,95 @@
+= 
+:allow-uri-read: 
+
+
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el cmdlet Open-SmConnection.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+Se muestra la solicitud de nombre de usuario y contraseña.
+
+. Cree una política de respaldo mediante el cmdlet Add-SmPolicy.
++
+Este ejemplo crea una nueva política de respaldo con un tipo de respaldo SQL de FullBackup:
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+Este ejemplo crea una nueva política de respaldo con un tipo de respaldo del sistema de archivos de Windows de CrashConsistent:
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Descubra los recursos del host mediante el cmdlet Get-SmResources.
++
+Este ejemplo descubre los recursos para el complemento de Microsoft SQL en el host especificado:
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+Este ejemplo descubre los recursos de los sistemas de archivos de Windows en el host especificado:
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Agregue un nuevo grupo de recursos a SnapCenter mediante el cmdlet Add-SmResourceGroup.
++
+Este ejemplo crea un nuevo grupo de recursos de respaldo de base de datos SQL con la política y los recursos especificados:
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+Este ejemplo crea un nuevo grupo de recursos de respaldo del sistema de archivos de Windows con la política y los recursos especificados:
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. Inicie un nuevo trabajo de respaldo mediante el cmdlet New-SmBackup.
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Vea el estado del trabajo de respaldo mediante el cmdlet Get-SmBackupReport.
++
+Este ejemplo muestra un informe de resumen de trabajos de todos los trabajos que se ejecutaron en la fecha especificada:
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .

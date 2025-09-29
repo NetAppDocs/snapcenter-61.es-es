@@ -1,0 +1,43 @@
+---
+permalink: protect-nsp/what_you_can_do_with_the_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins 
+summary: Puede utilizar los complementos compatibles con NetApp para operaciones de protección de datos. 
+---
+= Qué puede hacer con los complementos compatibles con NetApp
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar los complementos compatibles con NetApp , como MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB y el complemento de almacenamiento para operaciones de protección de datos.
+
+* Agregue recursos como bases de datos, instancias, documentos o espacios de tabla.
+* Crear copias de seguridad.
+* Restaurar desde copias de seguridad.
+* Copias de seguridad clonadas.
+* Programar operaciones de respaldo.
+* Supervisar operaciones de copia de seguridad, restauración y clonación.
+* Ver informes de operaciones de copia de seguridad, restauración y clonación.
+
+
+Puede utilizar los complementos compatibles con NetApp para operaciones de protección de datos.
+
+* Tome instantáneas del grupo de consistencia de los volúmenes de almacenamiento en los clústeres de ONTAP .
+* Realice copias de seguridad de aplicaciones personalizadas mediante el marco de creación de scripts previos y posteriores integrado
++
+Puede realizar una copia de seguridad de un volumen ONTAP , un LUN o un Qtree.
+
+* Actualice las instantáneas tomadas en el servidor principal a un servidor secundario de ONTAP , aprovechando la relación de replicación existente (SnapVault/ SnapMirror/replicación unificada) mediante la política de SnapCenter
++
+Los recursos primarios y secundarios de ONTAP pueden ser ONTAP FAS, AFF, ASA, ONTAP Select o Cloud Volumes ONTAP.
+
+* Recupere el volumen ONTAP , LUN o archivos completos.
++
+Debe proporcionar la ruta del archivo correspondiente manualmente, ya que las funciones de exploración o indexación no están integradas en el producto.
+
++
+No se admite la restauración de Qtree ni de directorio, pero puede clonar y exportar solo el Qtree si el alcance de la copia de seguridad está definido en un nivel de Qtree.
+
+

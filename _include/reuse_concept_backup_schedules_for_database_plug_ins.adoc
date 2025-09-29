@@ -1,0 +1,21 @@
+= 
+:allow-uri-read: 
+
+
+La frecuencia de copia de seguridad (tipo de programación) se especifica en las políticas; una programación de copia de seguridad se especifica en la configuración del grupo de recursos.  El factor más crítico a la hora de determinar la frecuencia o el cronograma de una copia de seguridad es la tasa de cambio del recurso y la importancia de los datos.  Es posible que hagas una copia de seguridad de un recurso muy utilizado cada hora, mientras que es posible que hagas una copia de seguridad de un recurso poco utilizado una vez al día.  Otros factores incluyen la importancia del recurso para su organización, su Acuerdo de Nivel de Servicio (SLA) y su Objetivo de Punto de Recuperación (RPO).
+
+Un SLA define el nivel de servicio esperado y aborda muchas cuestiones relacionadas con el servicio, incluida la disponibilidad y el rendimiento del servicio.  Un RPO define la estrategia para la antigüedad de los archivos que deben recuperarse del almacenamiento de respaldo para que las operaciones normales se reanuden después de una falla.  El SLA y el RPO contribuyen a la estrategia de protección de datos.
+
+Incluso para un recurso muy utilizado, no es necesario ejecutar una copia de seguridad completa más de una o dos veces al día.  Por ejemplo, las copias de seguridad periódicas del registro de transacciones podrían ser suficientes para garantizar que tenga las copias de seguridad que necesita.  Cuanto más a menudo realice copias de seguridad de sus bases de datos, menos registros de transacciones tendrá que utilizar SnapCenter en el momento de la restauración, lo que puede generar operaciones de restauración más rápidas.
+
+Los programas de respaldo constan de dos partes, como se indica a continuación:
+
+* Frecuencia de respaldo
++
+La frecuencia de las copias de seguridad (con qué frecuencia se deben realizar las copias de seguridad), denominada _tipo de programación_ para algunos complementos, es parte de una configuración de políticas.  Puede seleccionar la frecuencia de respaldo para la política: horaria, diaria, semanal o mensual.  Si no selecciona ninguna de estas frecuencias, la política creada será solo a pedido.  Puede acceder a las políticas haciendo clic en *Configuración* > *Políticas*.
+
+* Programaciones de copias de seguridad
++
+Las programaciones de copias de seguridad (exactamente cuándo se deben realizar las copias de seguridad) son parte de la configuración de un grupo de recursos.  Por ejemplo, si tiene un grupo de recursos que tiene una política configurada para realizar copias de seguridad semanales, puede configurar la programación para realizar copias de seguridad todos los jueves a las 10:00 p. m.  Puede acceder a los programas de grupos de recursos haciendo clic en *Recursos* > *Grupos de recursos*.
+
+

@@ -1,0 +1,210 @@
+---
+permalink: protect-scw/task_back_up_a_single_resource_on_demand_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backing up 
+summary: Si un recurso no está en un grupo de recursos, puede realizar una copia de seguridad del recurso a pedido desde la página Recursos. 
+---
+= Realice una copia de seguridad de un único recurso a pedido para los sistemas de archivos de Windows
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Si un recurso no está en un grupo de recursos, puede realizar una copia de seguridad del recurso a pedido desde la página Recursos.
+
+.Acerca de esta tarea
+Si desea realizar una copia de seguridad de un recurso que tiene una relación SnapMirror con un almacenamiento secundario, la función asignada al usuario de almacenamiento debe incluir el privilegio "`snapmirror all`".  Sin embargo, si está utilizando el rol "`vsadmin`", entonces no se requiere el privilegio "`snapmirror all`".
+
+
+NOTE: Al realizar una copia de seguridad de un sistema de archivos, SnapCenter no realiza una copia de seguridad de los LUN que están montados en un punto de montaje de volumen (VMP) en el sistema de archivos que se está respaldando.
+
+
+IMPORTANT: Si está trabajando en un contexto de sistema de archivos de Windows, no haga copias de seguridad de los archivos de base de datos.  Al hacerlo se crea una copia de seguridad inconsistente y una posible pérdida de datos durante la restauración.  Para proteger los archivos de base de datos, debe utilizar el complemento de SnapCenter adecuado para la base de datos (por ejemplo, Complemento de SnapCenter para Microsoft SQL Server o Complemento de SnapCenter para Microsoft Exchange Server).
+
+[role="tabbed-block"]
+====
+.Interfaz de usuario de SnapCenter
+--
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione el tipo de recurso Sistema de archivos y, a continuación, seleccione el recurso que desea respaldar.
+. Si el asistente para proteger el sistema de archivos no se inicia automáticamente, haga clic en *Proteger* para iniciar el asistente.
++
+Especifique la configuración de protección, como se describe en las tareas de creación de grupos de recursos.
+
+. Opcional: en la página Recursos del asistente, ingrese un formato de nombre personalizado para la instantánea.
++
+Por ejemplo, customtext_resourcegroup_policy_hostname o resourcegroup_hostname.  De forma predeterminada, se agrega una marca de tiempo al nombre de la instantánea.
+
+. En la página Políticas, realice las siguientes tareas:
++
+.. Seleccione una o más políticas de la lista desplegable.
++
+Puede seleccionar cualquier política existente y luego hacer clic en *Detalles* para determinar si puede usar esa política.
+
++
+Si ninguna política existente cumple con sus requisitos, puede copiar una política existente y modificarla o puede crear una nueva política haciendo clic enimage:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] para iniciar el asistente de políticas.  Si ninguna política existente cumple con sus requisitos, puede copiar una política existente y modificarla o puede crear una nueva política haciendo clic enimage:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] para iniciar el asistente de políticas.
+
++
+Las políticas seleccionadas se enumeran en la columna Política de la sección Configurar programaciones para políticas seleccionadas.
+
+.. En la sección Configurar programaciones para políticas seleccionadas, haga clic enimage:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] en la columna Configurar programaciones de la política para la que desea configurar la programación.
+.. En el cuadro de diálogo Agregar programaciones para la política _policy_name_, configure la programación especificando la fecha de inicio, la fecha de vencimiento y la frecuencia y, luego, haga clic en *Finalizar*.
++
+Los programas configurados se enumeran en la columna Programaciones aplicadas en la sección Configurar programas para políticas seleccionadas.
+
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Scheduled_data_protection_operations_fail_if_the_number_of_operations_running_reaches_maximum_limit["Las operaciones programadas podrían fallar"]
+
+
+
+. En la página de Notificación, realice las siguientes tareas:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Preferencia de correo electrónico
+ a| 
+Seleccione *Siempre*, o *En caso de error*, o *En caso de error o advertencia*, para enviar correos electrónicos a los destinatarios después de crear grupos de recursos de respaldo, adjuntar políticas y configurar programaciones.
+
+Ingrese la información del servidor SMTP, la línea de asunto del correo electrónico predeterminada y las direcciones de correo electrónico "Para" y "De".
+
+
+
+ a| 
+De
+ a| 
+Dirección de correo electrónico
+
+
+
+ a| 
+A
+ a| 
+Correo electrónico a la dirección
+
+
+
+ a| 
+Sujeto
+ a| 
+Línea de asunto de correo electrónico predeterminada
+
+|===
+. Revise el resumen y luego haga clic en *Finalizar*.
++
+Se muestra la página de topología de la base de datos.
+
+. Haga clic en *Hacer copia de seguridad ahora*.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si ha aplicado varias políticas al recurso, en la lista desplegable Política, seleccione la política que desea utilizar para la copia de seguridad.
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
+.. Haga clic en *Copia de seguridad*.
+
+
+. Supervise el progreso de la operación haciendo clic en *Monitor* > *Trabajos*.
+
+
+--
+.Cmdlets de PowerShell
+--
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el cmdlet Open-SmConnection.
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+Se muestra la solicitud de nombre de usuario y contraseña.
+
+. Cree una política de respaldo mediante el cmdlet Add-SmPolicy.
++
+Este ejemplo crea una nueva política de respaldo con un tipo de respaldo SQL de FullBackup:
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+Este ejemplo crea una nueva política de respaldo con un tipo de respaldo del sistema de archivos de Windows de CrashConsistent:
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Descubra los recursos del host mediante el cmdlet Get-SmResources.
++
+Este ejemplo descubre los recursos para el complemento de Microsoft SQL en el host especificado:
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+Este ejemplo descubre los recursos de los sistemas de archivos de Windows en el host especificado:
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Agregue un nuevo grupo de recursos a SnapCenter mediante el cmdlet Add-SmResourceGroup.
++
+Este ejemplo crea un nuevo grupo de recursos de respaldo de base de datos SQL con la política y los recursos especificados:
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+Este ejemplo crea un nuevo grupo de recursos de respaldo del sistema de archivos de Windows con la política y los recursos especificados:
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. Inicie un nuevo trabajo de respaldo mediante el cmdlet New-SmBackup.
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Vea el estado del trabajo de respaldo mediante el cmdlet Get-SmBackupReport.
++
+Este ejemplo muestra un informe de resumen de trabajos de todos los trabajos que se ejecutaron en la fecha especificada:
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+--
+====

@@ -1,0 +1,80 @@
+---
+permalink: protect-mysql/add-resources-manually-to-the-plug-in-host.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: El descubrimiento automático no es compatible con ciertas instancias de MySQL.  Debes agregar estos recursos manualmente. 
+---
+= Agregar recursos manualmente al host del complemento
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+El descubrimiento automático no es compatible con el host Windows.  Debe agregar instancias de MySQL y recursos de base de datos manualmente.
+
+.Antes de empezar
+* Debe haber completado tareas como instalar el servidor SnapCenter , agregar hosts y configurar conexiones del sistema de almacenamiento.
+
+
+.Pasos
+. En el panel de navegación izquierdo, seleccione el complemento SnapCenter para MySQL de la lista desplegable y luego haga clic en *Recursos*.
+. En la página Recursos, haga clic en *Agregar recursos MySQL*.
+. En la página Proporcionar detalles de recursos, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Nombre
+ a| 
+Especifique el nombre de la base de datos.
+
+
+
+ a| 
+Nombre del host
+ a| 
+Introduzca el nombre del host.
+
+
+
+ a| 
+Tipo
+ a| 
+Seleccionar instancia.
+
+
+
+ a| 
+Instancia
+ a| 
+No aplicable.
+
+
+
+ a| 
+Cartas credenciales
+ a| 
+Seleccione las credenciales o agregue información para las credenciales.
+
+Esto es opcional.
+
+|===
+. En la página Proporcionar espacio de almacenamiento, seleccione un tipo de almacenamiento y elija uno o más volúmenes, LUN y qtrees, y luego haga clic en *Guardar*.
++
+Opcional: Puede hacer clic en el *image:../media/add_policy_from_resourcegroup.gif["Agregar formulario de política al grupo de recursos"] * Icono para agregar más volúmenes, LUN y qtrees de otros sistemas de almacenamiento.
+
+. Opcional: en la página Configuración de recursos, ingrese pares clave-valor personalizados para el complemento MySQL.
+. Revise el resumen y luego haga clic en *Finalizar*.
++
+Las bases de datos se muestran junto con información como el nombre del host, los grupos de recursos y políticas asociados y el estado general.
+
+
+
+Si desea proporcionar a los usuarios acceso a los recursos, debe asignar los recursos a los usuarios.  Esto permite a los usuarios realizar las acciones para las que tienen permiso en los activos que les están asignados.
+
+link:https://docs.netapp.com/us-en/snapcenter/install/task_add_a_user_or_group_and_assign_role_and_assets.html["Agregar un usuario o grupo y asignarle roles y activos"]
+
+Después de agregar las bases de datos, puede modificar los detalles de la base de datos MySQL.

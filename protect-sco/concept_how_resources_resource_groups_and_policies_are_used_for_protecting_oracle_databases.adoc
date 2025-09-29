@@ -1,0 +1,36 @@
+---
+permalink: protect-sco/concept_how_resources_resource_groups_and_policies_are_used_for_protecting_oracle_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Oracle Database 
+summary: Antes de utilizar SnapCenter, es útil comprender los conceptos básicos relacionados con las operaciones de copia de seguridad, clonación y restauración que desea realizar. 
+---
+= Cómo se utilizan los recursos, los grupos de recursos y las políticas para proteger las bases de datos de Oracle
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Antes de utilizar SnapCenter, es útil comprender los conceptos básicos relacionados con las operaciones de copia de seguridad, clonación y restauración que desea realizar.
+
+* Los recursos normalmente son bases de datos Oracle en SnapCenter.
+* Un grupo de recursos de SnapCenter es una colección de recursos en un host o clúster.
++
+Cuando se realiza una operación en un grupo de recursos, se realiza esa operación en los recursos definidos en el grupo de recursos.
+
++
+Los grupos de recursos antes se conocían como conjuntos de datos.
+
+* Las políticas especifican la frecuencia de las copias de seguridad, la retención de copias, la replicación, los scripts y otras características de las operaciones de protección de datos.
++
+Cuando crea un grupo de recursos, selecciona una o más políticas para ese grupo.  También puede seleccionar una política cuando realiza una copia de seguridad a pedido para un solo recurso.  También puede realizar copias de seguridad programadas para recursos individuales y grupos de recursos.
+
+
+
+Piense en un grupo de recursos como si definiera _qué_ desea proteger y cuándo desea protegerlo en términos de día y hora.  Piense en una política como si definiera _cómo_ desea protegerla.
+
+Si está realizando una copia de seguridad de todas las bases de datos de un host, por ejemplo, puede crear un grupo de recursos que incluya todas las bases de datos del host.  Luego, puede adjuntar dos políticas al grupo de recursos: una política diaria y una política por hora.  Al crear el grupo de recursos y adjuntar las políticas, puede configurar el grupo de recursos para realizar una copia de seguridad completa diariamente y otra programación que realice copias de seguridad de registros cada hora.
+
+La siguiente imagen ilustra la relación entre recursos, grupos de recursos y políticas para bases de datos:
+
+image::../media/sco_resourcegroup_policy.gif[política del grupo de recursos]

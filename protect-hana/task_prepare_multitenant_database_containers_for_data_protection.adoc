@@ -1,0 +1,47 @@
+---
+permalink: protect-hana/task_prepare_multitenant_database_containers_for_data_protection.html 
+sidebar: sidebar 
+keywords: multitenant database containers 
+summary: 'Para los hosts de SAP HANA registrados directamente en SnapCenter, la instalación o actualización del complemento de SnapCenter para la base de datos de SAP HANA activará un descubrimiento automático de recursos en el host.  Después de instalar o actualizar el complemento, por cada recurso de contenedor de base de datos multiinquilino (MDC) que estaba ubicado en el host del complemento, se descubrirá automáticamente otro recurso MDC con un formato GUID diferente y se registrará en SnapCenter.  El nuevo recurso estará en estado “bloqueado”.' 
+---
+= Preparar contenedores de bases de datos multiinquilino para la protección de datos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Para los hosts de SAP HANA registrados directamente en SnapCenter, la instalación o actualización del complemento de SnapCenter para la base de datos de SAP HANA activará un descubrimiento automático de recursos en el host.  Después de instalar o actualizar el complemento, por cada recurso de contenedor de base de datos multiinquilino (MDC) que estaba ubicado en el host del complemento, se descubrirá automáticamente otro recurso MDC con un formato GUID diferente y se registrará en SnapCenter.  El nuevo recurso estará en estado "bloqueado".
+
+.Acerca de esta tarea
+Por ejemplo, en SnapCenter 4.2, si el recurso E90 MDC estaba ubicado en el host del complemento y se registró manualmente, después de actualizar a SnapCenter 4.3, se descubrirá y registrará otro recurso E90 MDC con un GUID diferente en SnapCenter.
+
+
+NOTE: Las copias de seguridad asociadas con el recurso de SnapCenter 4.2 y versiones anteriores deben conservarse hasta que expire el período de retención.  Una vez que expire el período de retención, puede eliminar el antiguo recurso MDC y continuar administrando el nuevo recurso MDC descubierto automáticamente.
+
+`Old MDC resource`es el recurso MDC para un host de complemento que se agregó manualmente en SnapCenter 4.2 o versiones anteriores.
+
+Realice los siguientes pasos para comenzar a utilizar el nuevo recurso descubierto en SnapCenter 4.3 para operaciones de protección de datos:
+
+.Pasos
+. En la página Recursos, seleccione el antiguo recurso MDC con copias de seguridad agregadas a la versión anterior de SnapCenter y colóquelo en "modo de mantenimiento" desde la página Topología.
++
+Si el recurso es parte de un grupo de recursos, coloque el grupo de recursos en "modo de mantenimiento".
+
+. Configure el nuevo recurso MDC descubierto después de actualizar a SnapCenter 4.3 seleccionando el nuevo recurso en la página Recursos.
++
+"`Nuevo recurso MDC`" es el recurso MDC recientemente descubierto una vez que el servidor SnapCenter y el host del complemento se actualizaron a 4.3.  El nuevo recurso MDC se puede identificar como un recurso con el mismo SID que el recurso MDC antiguo, para un host determinado, y con un ícono de candado rojo junto a él en la página Recursos.
+
+. Proteja el nuevo recurso MDC descubierto después de actualizar a SnapCenter 4.3 seleccionando políticas de protección, programaciones y configuraciones de notificación.
+. Elimine las copias de seguridad realizadas en SnapCenter 4.2 o versiones anteriores según la configuración de retención.
+. Eliminar el grupo de recursos de la página Topología.
+. Eliminar el antiguo recurso MDC de la página Recursos.
++
+Por ejemplo, si el período de retención de instantáneas principales es de 7 días y el de las instantáneas secundarias es de 45 días, una vez transcurridos 45 días y una vez eliminadas todas las copias de seguridad, deberá eliminar el grupo de recursos y el antiguo recurso MDC.
+
+
+
+.Información relacionada
+link:task_configure_hdb_user_store_key_and_hdbsql_os_user_for_the_sap_hana_database.html["Configurar la clave de almacenamiento de usuarios de HDB y el usuario del sistema operativo HDBSQL para la base de datos SAP HANA"]
+
+link:task_view_sap_hana_database_backups_and_clones_in_the_topology_page_sap_hana.html["Ver copias de seguridad y clones de bases de datos de SAP HANA en la página Topología"]

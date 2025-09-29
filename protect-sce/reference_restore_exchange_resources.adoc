@@ -1,0 +1,20 @@
+---
+permalink: protect-sce/reference_restore_exchange_resources.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: Puede utilizar SnapCenter para restaurar bases de datos de Exchange restaurando una o más copias de seguridad en su sistema de archivos activo. 
+---
+= Restaurar flujo de trabajo
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar bases de datos de Exchange restaurando una o más copias de seguridad en su sistema de archivos activo.
+
+El siguiente flujo de trabajo muestra la secuencia en la que debe realizar las operaciones de restauración de la base de datos de Exchange:
+
+image:../media/all_plug_ins_restore_workflow.gif["Restaurar flujo de trabajo"]
+
+También puede utilizar cmdlets de PowerShell manualmente o en scripts para realizar operaciones de copia de seguridad y restauración.  Para obtener información detallada sobre los cmdlets de PowerShell, utilice la ayuda de cmdlets de SnapCenter o consulte https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .

@@ -1,0 +1,163 @@
+---
+section: protect-sco
+title: Proteger las bases de datos de Oracle
+entries:
+- title: Descripción general del complemento SnapCenter para Oracle Database
+  entries:
+  - title: "¿Qué puede hacer con el complemento para Oracle Database?"
+    url: "/protect-sco/concept_what_you_can_do_with_the_snapcenter_plug_in_for_oracle_database.html"
+  - title: Características del complemento para Oracle
+    url: "/protect-sco/concept_snapcenter_plug_in_for_oracle_database_features.html"
+  - title: Tipos de almacenamiento admitidos por el complemento para Oracle Database
+    url: "/protect-sco/reference_storage_types_supported_by_snapcenter_plug_in_for_oracle_database.html"
+  - title: Preparar sistemas de almacenamiento para la replicación de SnapMirror y
+      SnapVault para el complemento de Oracle
+    url: "/protect-sco/reference_prepare_storage_systems_for_snapmirror_and_snapvault_replication_for_plugin_for_oracle.html"
+  - title: Privilegios mínimos de ONTAP necesarios para el complemento de Oracle
+    url: "/protect-sco/reference_minimum_ontap_privileges_required_for_oracle_plug_in.html"
+- title: Instalar el complemento de SnapCenter para la base de datos Oracle
+  entries:
+  - title: Flujo de trabajo de instalación del complemento SnapCenter para Oracle
+      Database
+    url: "/protect-sco/install-snapcenter-plug-in-for-oracle-workflow.html"
+  - title: Requisitos previos para agregar hosts e instalar el paquete de complementos
+      para Linux o AIX
+    url: "/protect-sco/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux_or_aix.html"
+  - title: Agregar hosts e instalar el paquete de complementos para Linux o AIX
+    url: "/protect-sco/task_add_hosts_and_installing_the_snapcenter_plug_ins_package_for_linux_or_aix.html"
+  - title: Formas alternativas de instalar el paquete de complementos para Linux o
+      AIX
+    url: "/protect-sco/alternate-ways-install-plug-in-linux-aix.html"
+  - title: Configurar el servicio de Loader de complementos de SnapCenter
+    url: "/protect-sco/task_configure_snapcenter_plug_in_loader_service.html"
+  - title: Configurar el certificado de CA con el servicio SnapCenter Plug-in Loader
+      en el host Linux
+    url: "/protect-sco/task_configure_CA_certificate_with_SPL_on_Linux_host.html"
+  - title: Habilitar certificados CA para complementos
+    url: "/protect-sco/task_enable_ca_certificates_for_plug-ins.html"
+  - title: Importar datos de SnapManager para Oracle y SnapManager para SAP a SnapCenter
+    url: "/protect-sco/concept_import_data_from_snapmanager_for_oracle_and_snapmanager_for_sap_to_snapcenter.html"
+- title: Instalar el SnapCenter Plug-in for VMware vSphere
+  url: "/protect-sco/concept_install_snapcenter_plug_in_for_vmware_vsphere.html"
+- title: Prepárese para proteger las bases de datos de Oracle
+  url: "/protect-sco/concept_prepare_for_protecting_oracle_databases.html"
+- title: Realizar copias de seguridad de bases de datos de Oracle
+  entries:
+  - title: Descripción general de la copia de seguridad
+    url: "/protect-sco/backup-workflow.html"
+  - title: Información de configuración de la copia de seguridad
+    entries:
+    - title: Configuraciones de copia de seguridad admitidas
+      url: "/protect-sco/supported_backup_configs.html"
+    - title: Tipos de copias de seguridad
+      url: "/protect-sco/backup_types.html"
+    - title: Cómo SnapCenter descubre bases de datos de Oracle
+      url: "/protect-sco/discover-oracle-database.html"
+    - title: Nodos preferidos para utilizar
+      url: "/protect-sco/preferred-nodes.html"
+    - title: Copias de seguridad del catálogo
+      url: "/protect-sco/catalog-backups.html"
+    - title: Variables de entorno predefinidas
+      url: "/protect-sco/predefined-environment-variables-prescript-postscript-backup.html"
+    - title: Retención de copias de seguridad
+      url: "/protect-sco/retention-backups.html"
+    - title: Programaciones de copias de seguridad
+      url: "/protect-sco/schedule-backups.html"
+    - title: Convenciones de nomenclatura
+      url: "/protect-sco/naming-backups.html"
+  - title: Revisar los requisitos de respaldo
+    url: "/protect-sco/reference_requirements_for_backing_up_an_oracle_database.html"
+  - title: Descubra la base de datos Oracle
+    url: "/protect-sco/task_determine_whether_oracle_databases_are_available_for_backup.html"
+  - title: Crear políticas de respaldo
+    url: "/protect-sco/task_create_backup_policies_for_oracle_database.html"
+  - title: Crear grupos de recursos
+    url: "/protect-sco/task_create_resource_groups_and_attach_policies_for_oracle_databases.html"
+  - title: Cree grupos de recursos y habilite la protección secundaria para los recursos
+      de Oracle en sistemas ASA r2
+    url: "/protect-sco/create-resource-groups-secondary-protection-for-asa-r2-oracle-resources.html"
+  - title: Realizar copias de seguridad de los recursos de Oracle
+    url: "/protect-sco/task_back_up_oracle_resources.html"
+  - title: Realizar copias de seguridad de grupos de recursos
+    url: "/protect-sco/task_back_up_oracle_database_resource_groups.html"
+  - title: Supervisar el progreso de la copia de seguridad
+    url: "/protect-sco/task_monitor_oracle_database_backup_operations.html"
+  - title: Otras operaciones de respaldo
+    entries:
+    - title: Realizar copias de seguridad mediante comandos UNIX
+      url: "/protect-sco/task_back_up_oracle_databases_using_unix_commands.html"
+    - title: Cancelar operaciones de copia de seguridad
+      url: "/protect-sco/task_cancel_the_snapcenter_plug_in_for_oracle_database_backup_operations.html"
+    - title: Ver copias de seguridad
+      url: "/protect-sco/task_view_oracle_databse_backups_and_clones_in_the_topology_page.html"
+- title: Montar y desmontar copias de seguridad de bases de datos
+  url: "/protect-sco/task_mount_and_unmount_databases_backups.html"
+- title: Restaurar y recuperar bases de datos Oracle
+  entries:
+  - title: Restaurar flujo de trabajo
+    url: "/protect-sco/restore-workflow.html"
+  - title: Definir una estrategia de restauración y recuperación para bases de datos
+      Oracle
+    url: "/protect-sco/task_define_a_restore_and_recovery_strategy_for_oracle_databases.html"
+  - title: Variables de entorno predefinidas para restaurar prescript y postscript
+      específicos
+    url: "/protect-sco/predefined-environment-variables-prescript-postscript-restore.html"
+  - title: Requisitos para restaurar una base de datos Oracle
+    url: "/protect-sco/reference_requirements_for_restoring_an_oracle_database.html"
+  - title: Restaurar y recuperar la base de datos Oracle
+    url: "/protect-sco/task_restore_an_oracle_database.html"
+  - title: Restaurar y recuperar espacios de tabla mediante la recuperación en un
+      punto en el tiempo
+    url: "/protect-sco/task_restore_and_recovere_tablespaces_using_point_in_time_recovery.html"
+  - title: Restaurar y recuperar bases de datos conectables mediante recuperación
+      en un punto determinado del tiempo
+    url: "/protect-sco/task_restore_and_recover_pluggable_database_using_point_in_time_recovery.html"
+  - title: Restaurar y recuperar bases de datos Oracle mediante comandos UNIX
+    url: "/protect-sco/task_restore_and_recover_oracle_databases_using_unix_commands.html"
+  - title: Supervisar las operaciones de restauración de la base de datos Oracle
+    url: "/protect-sco/task_monitor_oracle_database_restore_operations.html"
+  - title: Cancelar operaciones de restauración de bases de datos de Oracle
+    url: "/protect-sco/task_cancel_oracle_database_restore_operations.html"
+- title: Clonar base de datos Oracle
+  entries:
+  - title: Flujo de trabajo de clonación
+    url: "/protect-sco/clone-workflow.html"
+  - title: Definir una estrategia de clonación para bases de datos Oracle
+    url: "/protect-sco/task_define_a_clone_strategy_for_oracle_databases.html"
+  - title: Variables de entorno predefinidas para prescript y postscript específicos
+      de clones
+    url: "/protect-sco/predefined-environment-variables-prescript-postscript-clone.html"
+  - title: Requisitos para clonar una base de datos Oracle
+    url: "/protect-sco/reference_requirements_for_cloning_an_oracle_database.html"
+  - title: Clonar una base de datos Oracle
+    url: "/protect-sco/task_clone_an_oracle_database_backup.html"
+  - title: Clonar una base de datos conectable
+    url: "/protect-sco/task_clone_a_pluggable_database.html"
+  - title: Clonar copias de seguridad de bases de datos de Oracle mediante comandos
+      UNIX
+    url: "/protect-sco/task_clone_oracle_database_backups_using_unix_commands.html"
+  - title: Dividir un clon de base de datos Oracle
+    url: "/protect-sco/task_split_an_oracle_database_clone.html"
+  - title: Clon dividido de una base de datos conectable
+    url: "/protect-sco/task_split_clone_of_a_pluggable_database.html"
+  - title: Supervisar las operaciones de clonación de bases de datos de Oracle
+    url: "/protect-sco/task_monitor_oracle_database_clone_operations.html"
+  - title: Actualizar un clon
+    url: "/protect-sco/task_refresh_a_clone.html"
+  - title: Eliminar el clon de una base de datos conectable
+    url: "/protect-sco/task_delete_clone_of_a_pluggable_database.html"
+- title: Administrar volúmenes de aplicaciones
+  entries:
+  - title: "¿Qué son los volúmenes de aplicación?"
+    url: "/protect-sco/overview-application-volume.html"
+  - title: Agregar volúmenes de aplicaciones
+    url: "/protect-sco/add-application-volume.html"
+  - title: Volúmenes de aplicaciones de respaldo
+    entries:
+    - title: Realizar una copia de seguridad del volumen de la aplicación
+      url: "/protect-sco/backup-application-volume.html"
+    - title: Realizar una copia de seguridad del grupo de recursos de volúmenes de
+        la aplicación
+      url: "/protect-sco/backup-application-volume-resource-group.html"
+  - title: Copia de seguridad del volumen de la aplicación clonada
+    url: "/protect-sco/clone-application-volume.html"

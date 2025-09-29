@@ -1,0 +1,133 @@
+---
+permalink: protect-sce/task_create_resource_groups_and_attach_policies_for_exchange_servers.html 
+sidebar: sidebar 
+keywords: resource group 
+summary: Se requiere un grupo de recursos para cualquier trabajo de protección de datos.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar y el programa de protección. 
+---
+= Crear grupos de recursos y adjuntar políticas para servidores Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Se requiere un grupo de recursos para cualquier trabajo de protección de datos.  También debe adjuntar una o más políticas al grupo de recursos para definir el tipo de trabajo de protección de datos que desea realizar y el programa de protección.
+
+.Acerca de esta tarea
+* SCRIPTS_PATH se define utilizando la clave PredefinedWindowsScriptsDirectory ubicada en el archivo SMCoreServiceHost.exe.Config del host del complemento.
++
+Si es necesario, puede cambiar esta ruta y reiniciar el servicio SMcore.  Se recomienda que utilice la ruta predeterminada por seguridad.
+
++
+El valor de la clave se puede mostrar desde swagger a través de la API: API /4.7/configsettings
+
++
+Puede utilizar la API GET para mostrar el valor de la clave.  La API SET no es compatible.
+
+* Para ONTAP 9.12.1 y versiones anteriores, los clones creados a partir de las instantáneas de SnapLock Vault como parte de la restauración heredarán el tiempo de vencimiento de SnapLock Vault. El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+* No se admite agregar nuevas bases de datos sin sincronización activa de SnapMirror a un grupo de recursos existente que contiene recursos con sincronización activa de SnapMirror .
+* No se admite agregar nuevas bases de datos a un grupo de recursos existente en el modo de conmutación por error de la sincronización activa de SnapMirror .  Puede agregar recursos al grupo de recursos solo en estado normal o de conmutación por recuperación.
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y, a continuación, seleccione el complemento Microsoft Exchange Server de la lista.
+. En la página Recursos, seleccione *Base de datos* de la lista *Ver*.
++
+
+NOTE: Si ha agregado recientemente un recurso a SnapCenter, haga clic en *Actualizar recursos* para ver el recurso recién agregado.
+
+. Haga clic en *Nuevo grupo de recursos*.
+. En la página Nombre, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Nombre
+ a| 
+Introduzca el nombre del grupo de recursos.
+
+
+NOTE: El nombre del grupo de recursos no debe exceder los 250 caracteres.
+
+
+
+ a| 
+Etiquetas
+ a| 
+Ingrese una o más etiquetas que le ayudarán a buscar posteriormente el grupo de recursos.
+
+Por ejemplo, si agrega RR.HH. como etiqueta a varios grupos de recursos, más tarde podrá encontrar todos los grupos de recursos asociados con la etiqueta RR.HH.
+
+
+
+ a| 
+Utilice un formato de nombre personalizado para la copia de instantáneas
+ a| 
+Opcional: Ingrese un nombre y formato de instantánea personalizados.
+
+Por ejemplo, _customtext_resourcegroup_policy_hostname_ o _resourcegroup_hostname_.  De forma predeterminada, se agrega una marca de tiempo al nombre de la instantánea.
+
+|===
+. En la página Recursos, realice los siguientes pasos:
++
+.. Seleccione el tipo de recurso y el grupo de disponibilidad de base de datos de las listas desplegables para filtrar la lista de recursos disponibles.
++
+
+NOTE: Si ha agregado recursos recientemente, aparecerán en la lista de Recursos disponibles solo después de actualizar su lista de recursos.
+
+
+
++
+En las secciones Recursos disponibles y Recursos seleccionados, se muestra el nombre de la base de datos con el FQDN del host.  Este FQDN solo indica que la base de datos está activa en ese host específico y es posible que no realice copias de seguridad en este host.  Debe seleccionar uno o más servidores de respaldo en la opción Selección de servidor, donde desea realizar el respaldo en caso de que haya seleccionado la opción *Realizar copias de respaldo en servidores que se seleccionarán en el momento de creación del trabajo de respaldo* en la política.
+
++
+.. Escriba el nombre del recurso en el cuadro de texto de búsqueda o desplácese para localizar un recurso.
+.. Para mover recursos de la sección Recursos disponibles a la sección Recursos seleccionados, realice uno de los siguientes pasos:
++
+*** Seleccione *Seleccionar automáticamente todos los recursos en el mismo volumen de almacenamiento* para mover todos los recursos del mismo volumen a la sección Recursos seleccionados.
+*** Seleccione los recursos de la sección Recursos disponibles y luego haga clic en la flecha derecha para moverlos a la sección Recursos seleccionados.
++
+Los grupos de recursos de SnapCenter para Microsoft Exchange Server no pueden tener más de 30 bases de datos por instantánea.  Si hay más de 30 bases de datos en un grupo de recursos, se crea una segunda instantánea para las bases de datos adicionales.  Por lo tanto, se crean 2 subtrabajos bajo el trabajo de respaldo principal.  Para las copias de seguridad que tienen replicación secundaria, mientras la actualización de SnapMirror o SnapVault está en progreso, podría haber escenarios en los que la actualización de ambos subtrabajos se superponga.  La tarea de respaldo principal continúa ejecutándose indefinidamente incluso si los registros indican que la tarea se completó.
+
+
+
+
+
+. En la página Políticas, realice los siguientes pasos:
++
+.. Seleccione una o más políticas de la lista desplegable.
++
+
+NOTE: También puedes crear una política haciendo clic en *image:../media/add_policy_from_resourcegroup.gif["Icono más"] *.
+
++
+
+NOTE: Si una política contiene la opción *Realizar copias de seguridad en servidores que se seleccionarán en el momento de creación del trabajo de copia de seguridad*, se muestra una opción de selección de servidor para seleccionar uno o más servidores.  La opción de selección de servidor mostrará solo el servidor donde se encuentra la base de datos seleccionada en el almacenamiento de NetApp .
+
++
+En la sección Configurar programaciones para políticas seleccionadas, se enumeran las políticas seleccionadas.
+
+.. En la sección Configurar programaciones para políticas seleccionadas, haga clic en *image:../media/add_policy_from_resourcegroup.gif["Icono más"] * en la columna *Configurar programaciones* de la política para la que desea configurar la programación.
+.. En el cuadro de diálogo Agregar programaciones para la política _policy_name_, configure la programación especificando la fecha de inicio, la fecha de vencimiento y la frecuencia, y luego haga clic en *Aceptar*.
++
+Debe hacer esto para cada frecuencia indicada en la póliza.  Los horarios configurados se enumeran en la columna *Horarios aplicados* en la sección Configurar horarios para políticas seleccionadas.
+
++
+Las programaciones de respaldo de terceros no son compatibles cuando se superponen con las programaciones de respaldo de SnapCenter .
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.  Si desea adjuntar el informe de la operación realizada en el grupo de recursos, seleccione *Adjuntar informe de trabajo*.
+
++
+Para recibir notificaciones por correo electrónico, debe haber especificado los detalles del servidor SMTP mediante la GUI o el comando de PowerShell. `Set-SmSmtpServer` .
+
++
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+

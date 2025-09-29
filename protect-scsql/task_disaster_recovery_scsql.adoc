@@ -1,0 +1,28 @@
+---
+permalink: protect-scsql/task_disaster_recovery_scsql.html 
+sidebar: sidebar 
+keywords: disaster recovery 
+summary: Cuando el complemento de SnapCenter para SQL Server no funciona, realice los siguientes pasos manuales para recuperarlo. 
+---
+= Recuperación ante desastres del complemento SnapCenter para SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Cuando el complemento de SnapCenter para SQL Server no funciona, siga los pasos siguientes para cambiar a un host SQL diferente y recuperar los datos.
+
+.Antes de empezar
+* El host secundario debe tener el mismo sistema operativo, aplicación y nombre de host que el host principal.
+* Inserte el complemento SnapCenter para SQL Server en un host alternativo mediante la página *Agregar host* o *Modificar host*. Ver link:https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_hosts.html["Administrar hosts"] Para más información.
+
+
+.Pasos
+. Seleccione el host de la página *Hosts* para modificar e instalar el complemento de SnapCenter para SQL Server.
+. (Opcional) Reemplace los archivos de configuración del complemento de SnapCenter para SQL Server de la copia de seguridad de recuperación ante desastres (DR) en la nueva máquina.
+. Importe programaciones de Windows y SQL desde la carpeta del complemento SnapCenter para SQL Server desde la copia de seguridad de recuperación ante desastres.
+
+
+.Información relacionada
+Ver ellink:https://www.youtube.com/watch?v=_8NG-tTGy8k&list=PLdXI3bZJEw7nofM6lN44eOe4aOSoryckg["API de recuperación ante desastres"^] video.

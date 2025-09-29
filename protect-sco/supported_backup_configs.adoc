@@ -1,0 +1,47 @@
+---
+permalink: protect-sco/supported_backup_configs.html 
+sidebar: sidebar 
+keywords: backup type, preferred nodes, catalog backups, schedules, backup name format, retention, verification 
+summary: SnapCenter admite la copia de seguridad de diferentes configuraciones de bases de datos de Oracle. 
+---
+= Configuraciones de base de datos Oracle compatibles para copias de seguridad
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter admite la copia de seguridad de diferentes configuraciones de bases de datos de Oracle.
+
+* Oracle independiente
+* Clústeres de aplicaciones reales de Oracle (RAC)
+* Oracle Standalone Legacy
+* Base de datos de contenedores independiente de Oracle (CDB)
+* Oracle Data Guard en espera
++
+Solo puede crear copias de seguridad de montaje sin conexión de bases de datos en espera de Data Guard.  No se admiten copias de seguridad con apagado sin conexión, copias de seguridad solo del registro de archivo ni copias de seguridad completas.
+
+* Oracle Active Data Guard en espera
++
+Solo puede crear copias de seguridad en línea de las bases de datos en espera de Active Data Guard.  No se admiten solo copias de seguridad del registro de archivo ni copias de seguridad completas.
+
++
+Antes de crear una copia de seguridad de la base de datos en espera de Data Guard o de la base de datos en espera de Data Guard activa, se detiene el proceso de recuperación administrada (MRP) y, una vez creada la copia de seguridad, se inicia MRP.
+
+* Gestión automática del almacenamiento (ASM)
++
+** ASM independiente y ASM RAC en disco de máquina virtual (VMDK)
++
+Entre todos los métodos de restauración admitidos para las bases de datos Oracle, solo puede realizar una restauración de conexión y copia de bases de datos ASM RAC en VMDK.
+
+** ASM independiente y ASM RAC en mapeo de dispositivos Raw (RDM) + Puede realizar operaciones de respaldo, restauración y clonación en bases de datos Oracle en ASM, con o sin ASMLib.
+** Controlador de filtro Oracle ASM (ASMFD)
++
+No se admiten operaciones de migración de PDB ni de clonación de PDB.
+
+** Oracle Flex ASM
+
+
+
+
+Para obtener la información más reciente sobre las versiones compatibles de Oracle, consulte https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["Herramienta de matriz de interoperabilidad de NetApp"^] .

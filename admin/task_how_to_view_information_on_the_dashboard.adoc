@@ -1,0 +1,23 @@
+---
+permalink: admin/task_how_to_view_information_on_the_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: 'Desde el panel de navegación izquierdo de SnapCenter , puede ver varios mosaicos o pantallas del Tablero, junto con los detalles del sistema asociados.  La cantidad de pantallas disponibles en el Tablero es fija y no se puede cambiar.  El contenido proporcionado en cada pantalla depende del control de acceso basado en roles (RBAC).' 
+---
+= Cómo ver información en el panel de control
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Desde el panel de navegación izquierdo de SnapCenter , puede ver varios mosaicos o pantallas del Tablero, junto con los detalles del sistema asociados.  La cantidad de pantallas disponibles en el Tablero es fija y no se puede cambiar.  El contenido proporcionado en cada pantalla depende del control de acceso basado en roles (RBAC).
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Panel de control*.
+. Haga clic en las áreas activas de cada pantalla para obtener información adicional.
++
+Por ejemplo, al hacer clic en un gráfico de anillos en *Trabajos*, se le redirige a la página Monitor para obtener más información sobre su selección.  Al hacer clic en un gráfico de anillos en *Resumen de protección*, se le redirigirá a la página Informes, que puede proporcionarle más información sobre su selección.
+
+

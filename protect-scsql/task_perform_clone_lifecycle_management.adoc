@@ -1,0 +1,118 @@
+---
+permalink: protect-scsql/task_perform_clone_lifecycle_management.html 
+sidebar: sidebar 
+keywords:  
+summary: Con SnapCenter, puede crear clones desde un grupo de recursos o una base de datos.  Puede realizar una clonación a pedido o puede programar operaciones de clonación recurrentes de un grupo de recursos o una base de datos.  Si clona una copia de seguridad periódicamente, puede usar el clon para desarrollar aplicaciones, completar datos o recuperar datos. 
+---
+= Realizar ciclo de vida de clonación
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Con SnapCenter, puede crear clones desde un grupo de recursos o una base de datos.  Puede realizar una clonación a pedido o programar operaciones de clonación recurrentes de un grupo de recursos o una base de datos.  Si clona una copia de seguridad periódicamente, puede usar el clon para desarrollar aplicaciones, completar datos o recuperar datos.
+
+SnapCenter le permite programar múltiples operaciones de clonación para que se ejecuten simultáneamente en múltiples servidores.
+
+.Antes de empezar
+* Al clonar una instancia de base de datos independiente, asegúrese de que la ruta del punto de montaje exista y que sea un disco dedicado.
+* Al clonar en una instancia de clúster de conmutación por error (FCI), asegúrese de que existan los puntos de montaje, que sea un disco compartido y que la ruta y la FCI pertenezcan al mismo grupo de recursos SQL.
+* Si la base de datos de origen o la instancia de destino está en un volumen compartido de clúster (csv), entonces la base de datos clonada estará en el csv.
+
+
+
+NOTE: Para entornos virtuales (VMDK/RDM), asegúrese de que el punto de montaje sea un disco dedicado.
+
+.Acerca de esta tarea
+* SCRIPTS_PATH se define utilizando la clave PredefinedWindowsScriptsDirectory ubicada en el archivo SMCoreServiceHost.exe.Config del host del complemento.
++
+Si es necesario, puede cambiar esta ruta y reiniciar el servicio SMcore.  Se recomienda que utilice la ruta predeterminada por seguridad.
+
++
+El valor de la clave se puede mostrar desde swagger a través de la API: API /4.7/configsettings
+
++
+Puede utilizar la API GET para mostrar el valor de la clave.  La API SET no es compatible.
+
+* La mayoría de los campos de las páginas del Asistente para el ciclo de vida de clones se explican por sí solos.  La siguiente información describe campos para los cuales podría necesitar orientación.
+* Para ONTAP 9.12.1 y versiones anteriores, si especifica un período de bloqueo de instantáneas, los clones creados a partir de las instantáneas a prueba de manipulaciones heredarán el tiempo de vencimiento de SnapLock . El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista *Ver*.
+. Seleccione el grupo de recursos o la base de datos y luego haga clic en *Clonar ciclo de vida*.
+. En la página Opciones, realice las siguientes acciones:
++
+|===
+| Para este campo... | Haz esto... 
+
+
+ a| 
+Nombre del trabajo de clonación
+ a| 
+Especifique el nombre del trabajo del ciclo de vida del clon que ayuda a supervisar y modificar el trabajo del ciclo de vida del clon.
+
+
+
+ a| 
+Servidor clonado
+ a| 
+Seleccione el host en el que se colocará el clon.
+
+
+
+ a| 
+Instancia de clonación
+ a| 
+Seleccione la instancia de clonación en la que desea clonar la base de datos.  Esta instancia de SQL debe estar ubicada en el servidor clon especificado.
+
+
+
+ a| 
+Sufijo de clonación
+ a| 
+Introduzca un sufijo que se agregará a la base de datos de clones para identificar que es un clon.  Cada instancia de SQL que se utiliza para crear un grupo de recursos clonados debe tener un nombre de base de datos único.  Por ejemplo, si el grupo de recursos clonados contiene una base de datos de origen "`db1`" de una instancia SQL "`inst1`", y si "`db1`" se clona en "`inst1`", entonces el nombre de la base de datos clonada debe ser "`db1__clone`".  "`__clone`" es un sufijo obligatorio definido por el usuario porque la base de datos se clona en la misma instancia.  Si se clona "`db1`" en la instancia SQL "`inst2`", entonces el nombre de la base de datos clonada puede seguir siendo "`db1`" (el sufijo es opcional) porque la base de datos se clona en una instancia diferente.
+
+
+
+ a| 
+Asignar automáticamente el punto de montaje o Asignar automáticamente el punto de montaje del volumen en la ruta
+ a| 
+Elija si desea asignar automáticamente un punto de montaje o un punto de montaje de volumen bajo una ruta.  Al elegir asignar automáticamente un punto de montaje de volumen en una ruta, podrá proporcionar un directorio específico.  Los puntos de montaje se crearán dentro de ese directorio.  Antes de elegir esta opción, debe asegurarse de que el directorio esté vacío.  Si hay una base de datos en el directorio, la base de datos estará en un estado no válido después de la operación de montaje.
+
+|===
+. En la página Ubicación, seleccione una ubicación de almacenamiento para crear un clon.
+. En la página Script, ingrese la ruta y los argumentos del prescript o postscript que deben ejecutarse antes o después de la operación de clonación, respectivamente.
++
+Por ejemplo, puede ejecutar un script para actualizar trampas SNMP, automatizar alertas, enviar registros, etc.
+
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
++
+El tiempo de espera predeterminado del script es de 60 segundos.
+
+. En la página Programación, realice una de las siguientes acciones:
++
+** Seleccione *Ejecutar ahora* si desea ejecutar el trabajo de clonación inmediatamente.
+** Seleccione *Configurar programación* cuando desee determinar con qué frecuencia debe ocurrir la operación de clonación, cuándo debe comenzar la programación de clonación, en qué día debe ocurrir la operación de clonación, cuándo debe expirar la programación y si los clones deben eliminarse después de que expire la programación.
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.  Si desea adjuntar el informe de la operación de clonación realizada, seleccione *Adjuntar informe de trabajo*.
+
++
+
+NOTE: Para recibir notificaciones por correo electrónico, debe haber especificado los detalles del servidor SMTP mediante la GUI o el comando de PowerShell Set-SmSmtpServer.
+
++
+Para EMS, puede consultar https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_ems_data_collection.html["Gestionar la recopilación de datos de EMS"]
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+
+
+Debes supervisar el proceso de clonación utilizando la página *Monitor* > *Trabajos*.

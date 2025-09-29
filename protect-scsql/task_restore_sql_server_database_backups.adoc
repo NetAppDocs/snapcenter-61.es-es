@@ -1,0 +1,292 @@
+---
+permalink: protect-scsql/task_restore_sql_server_database_backups.html 
+sidebar: sidebar 
+keywords: restore operation 
+summary: Puede utilizar SnapCenter para restaurar bases de datos de SQL Server respaldadas.  La restauración de la base de datos es un proceso de varias fases que copia todos los datos y las páginas de registro de una copia de seguridad de SQL Server especificada a una base de datos especificada. 
+---
+= Restaurar copias de seguridad de bases de datos de SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Puede utilizar SnapCenter para restaurar bases de datos de SQL Server respaldadas.  La restauración de la base de datos es un proceso de varias fases que copia todos los datos y las páginas de registro de una copia de seguridad de SQL Server especificada a una base de datos especificada.
+
+.Acerca de esta tarea
+* Puede restaurar las bases de datos de SQL Server respaldadas en una instancia de SQL Server diferente en el mismo host donde se creó la copia de seguridad.
++
+Puede utilizar SnapCenter para restaurar las bases de datos de SQL Server respaldadas en una ruta alternativa para no reemplazar una versión de producción.
+
+* SnapCenter puede restaurar bases de datos en un clúster de Windows sin desconectar el grupo de clústeres de SQL Server.
+* Si se produce una falla del clúster (una operación de movimiento de grupo de clústeres) durante una operación de restauración (por ejemplo, si el nodo que posee los recursos deja de funcionar), debe volver a conectarse a la instancia de SQL Server y luego reiniciar la operación de restauración.
+* No se puede restaurar la base de datos cuando los usuarios o los trabajos del Agente SQL Server acceden a la base de datos.
+* No se pueden restaurar las bases de datos del sistema a una ruta alternativa.
+* SCRIPTS_PATH se define utilizando la clave PredefinedWindowsScriptsDirectory ubicada en el archivo SMCoreServiceHost.exe.Config del host del complemento.
++
+Si es necesario, puede cambiar esta ruta y reiniciar el servicio SMcore.  Se recomienda que utilice la ruta predeterminada por seguridad.
+
++
+El valor de la clave se puede mostrar desde swagger a través de la API: API /4.7/configsettings
+
++
+Puede utilizar la API GET para mostrar el valor de la clave.  La API SET no es compatible.
+
+* La mayoría de los campos de las páginas del Asistente de restauración se explican por sí solos.  La siguiente información describe campos para los cuales podría necesitar orientación.
+* Para la operación de restauración de sincronización activa de SnapMirror , debe seleccionar la copia de seguridad de la ubicación principal.
+* Para las políticas habilitadas para SnapLock , para ONTAP 9.12.1 y versiones anteriores, si especifica un período de bloqueo de instantáneas, los clones creados a partir de las instantáneas a prueba de manipulaciones como parte de la restauración heredarán el tiempo de vencimiento de SnapLock . El administrador de almacenamiento debe limpiar manualmente los clones después del tiempo de vencimiento de SnapLock .
+
+
+[role="tabbed-block"]
+====
+.Interfaz de usuario de SnapCenter
+--
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y luego seleccione el complemento apropiado de la lista.
+. En la página Recursos, seleccione *Base de datos* o *Grupo de recursos* en la lista *Ver*.
+. Seleccione la base de datos o el grupo de recursos de la lista.
++
+Se muestra la página de topología.
+
+. Desde la vista Administrar copias, seleccione *Copias de seguridad* del sistema de almacenamiento.
+. Seleccione la copia de seguridad de la tabla y luego haga clic en el botónimage:../media/restore_icon.gif["icono de restauración"] icono.
++
+image::../media/restoring_resource.gif[restauración de recursos]
+
+. En la página Restaurar ámbito, seleccione una de las siguientes opciones:
++
+|===
+| Opción | Descripción 
+
+
+ a| 
+Restaurar la base de datos en el mismo host donde se creó la copia de seguridad
+ a| 
+Seleccione esta opción si desea restaurar la base de datos en el mismo servidor SQL donde se realizan las copias de seguridad.
+
+
+
+ a| 
+Restaurar la base de datos a un host alternativo
+ a| 
+Seleccione esta opción si desea que la base de datos se restaure en un servidor SQL diferente en el mismo host o en uno diferente donde se realizan las copias de seguridad.
+
+Seleccione un nombre de host, proporcione un nombre de base de datos (opcional), seleccione una instancia y especifique las rutas de restauración.
+
+
+NOTE: La extensión de archivo proporcionada en la ruta alternativa debe ser la misma que la extensión del archivo de base de datos original.
+
+Si la opción *Restaurar la base de datos en un host alternativo* no se muestra en la página Restaurar ámbito, borre la memoria caché del navegador.
+
+
+
+ a| 
+Restaurar la base de datos utilizando archivos de base de datos existentes
+ a| 
+Seleccione esta opción si desea que la base de datos se restaure en un servidor SQL alternativo en el mismo host o en uno diferente donde se realizan las copias de seguridad.
+
+Los archivos de base de datos ya deben estar presentes en las rutas de archivos existentes indicadas.  Seleccione un nombre de host, proporcione un nombre de base de datos (opcional), seleccione una instancia y especifique las rutas de restauración.
+
+|===
+. En la página Ámbito de recuperación, seleccione una de las siguientes opciones:
++
+|===
+| Opción | Descripción 
+
+
+ a| 
+Ninguno
+ a| 
+Seleccione *Ninguno* cuando necesite restaurar solo la copia de seguridad completa sin ningún registro.
+
+
+
+ a| 
+Todas las copias de seguridad de registros
+ a| 
+Seleccione la operación de restauración de copia de seguridad actualizada *Todas las copias de seguridad de registros* para restaurar todas las copias de seguridad de registros disponibles después de la copia de seguridad completa.
+
+
+
+ a| 
+Mediante copias de seguridad de registros hasta
+ a| 
+Seleccione *Por copias de seguridad de registros* para realizar una operación de restauración en un punto en el tiempo, que restaura la base de datos basándose en los registros de copia de seguridad hasta el registro de copia de seguridad con la fecha seleccionada.
+
+
+
+ a| 
+Por fecha específica hasta
+ a| 
+Seleccione *Por fecha específica hasta* para especificar la fecha y la hora después de las cuales los registros de transacciones no se aplicarán a la base de datos restaurada.
+
+Esta operación de restauración en un punto determinado del tiempo detiene la restauración de las entradas del registro de transacciones que se registraron después de la fecha y hora especificadas.
+
+
+
+ a| 
+Utilice un directorio de registro personalizado
+ a| 
+Si ha seleccionado *Todas las copias de seguridad de registros*, *Por copias de seguridad de registros* o *Por fecha específica hasta* y los registros se encuentran en una ubicación personalizada, seleccione *Usar directorio de registros personalizado* y, a continuación, especifique la ubicación del registro.
+
+La opción *Usar directorio de registro personalizado* solo está disponible si ha seleccionado *Restaurar la base de datos en un host alternativo* o *Restaurar la base de datos utilizando archivos de base de datos existentes*.  También puede utilizar la ruta compartida, pero asegúrese de que el usuario SQL pueda acceder a ella.
+
+
+NOTE: El directorio de registro personalizado no es compatible con la base de datos del grupo de disponibilidad.
+
+|===
+. En la página de Operaciones previas, realice los siguientes pasos:
++
+.. En la página Opciones de restauración previa, seleccione una de las siguientes opciones:
++
+*** Seleccione *Sobrescribir la base de datos con el mismo nombre durante la restauración* para restaurar la base de datos con el mismo nombre.
+*** Seleccione *Conservar configuración de replicación de base de datos SQL* para restaurar la base de datos y conservar la configuración de replicación existente.
+*** Seleccione *Crear copia de seguridad del registro de transacciones antes de restaurar* para crear un registro de transacciones antes de que comience la operación de restauración.
+*** Seleccione *Salir de restauración si falla la copia de seguridad del registro de transacciones antes de la restauración* para cancelar la operación de restauración si falla la copia de seguridad del registro de transacciones.
+
+
+.. Especifique scripts opcionales para ejecutar antes de realizar un trabajo de restauración.
++
+Por ejemplo, puede ejecutar un script para actualizar trampas SNMP, automatizar alertas, enviar registros, etc.
+
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
+
+
+. En la página Post Ops, realice los siguientes pasos:
++
+.. En la sección Elegir estado de la base de datos después de completar la restauración, seleccione una de las siguientes opciones:
++
+*** Seleccione *Operacional, pero no disponible para restaurar registros de transacciones adicionales* si está restaurando todas las copias de seguridad necesarias ahora.
++
+Este es el comportamiento predeterminado, que deja la base de datos lista para su uso revirtiendo las transacciones no confirmadas.  No puede restaurar registros de transacciones adicionales hasta que cree una copia de seguridad.
+
+*** Seleccione *No operativo, pero disponible para restaurar registros transaccionales adicionales* para dejar la base de datos no operativa sin revertir las transacciones no confirmadas.
++
+Se pueden restaurar registros de transacciones adicionales.  No puedes utilizar la base de datos hasta que se recupere.
+
+*** Seleccione *Modo de solo lectura, disponible para restaurar registros transaccionales adicionales* para dejar la base de datos en modo de solo lectura.
++
+Esta opción deshace las transacciones no confirmadas, pero guarda las acciones deshechas en un archivo en espera para que se puedan revertir los efectos de recuperación.
+
++
+Si la opción Deshacer directorio está habilitada, se restauran más registros de transacciones.  Si la operación de restauración del registro de transacciones no es exitosa, los cambios se pueden revertir.  La documentación de SQL Server contiene más información.
+
+
+
+.. Especifique scripts opcionales para ejecutar después de realizar un trabajo de restauración.
++
+Por ejemplo, puede ejecutar un script para actualizar trampas SNMP, automatizar alertas, enviar registros, etc.
+
++
+
+NOTE: La ruta de prescripts o posscripts no debe incluir unidades ni recursos compartidos.  La ruta debe ser relativa a SCRIPTS_PATH.
+
+
+
+. En la página de Notificaciones, en la lista desplegable *Preferencias de correo electrónico*, seleccione los escenarios en los que desea enviar los correos electrónicos.
++
+También debe especificar las direcciones de correo electrónico del remitente y del destinatario, y el asunto del correo electrónico.
+
+. Revise el resumen y luego haga clic en *Finalizar*.
+. Supervise el proceso de restauración utilizando la página *Monitor* > *Trabajos*.
+
+
+--
+.Cmdlets de PowerShell
+--
+.Pasos
+. Inicie una sesión de conexión con el servidor SnapCenter para un usuario específico mediante el cmdlet Open-SmConnection.
++
+[listing]
+----
+PS C:\> Open-Smconnection
+----
+. Recupere la información sobre una o más copias de seguridad que desee restaurar mediante los cmdlets Get-SmBackup y Get-SmBackupReport.
++
+Este ejemplo muestra información sobre todas las copias de seguridad disponibles:
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+  1               Payroll Dataset_vise-f6_08... 8/4/2015    11:02:32 AM                 Full Backup
+  2               Payroll Dataset_vise-f6_08... 8/4/2015    11:23:17 AM
+----
++
+Este ejemplo muestra información detallada sobre la copia de seguridad del 29 de enero de 2015 al 3 de febrero de 2015:
+
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -FromDateTime "1/29/2015" -ToDateTime "2/3/2015"
+
+   SmBackupId           : 113
+   SmJobId              : 2032
+   StartDateTime        : 2/2/2015 6:57:03 AM
+   EndDateTime          : 2/2/2015 6:57:11 AM
+   Duration             : 00:00:07.3060000
+   CreatedDateTime      : 2/2/2015 6:57:23 AM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_06.57.08
+   VerificationStatus   : NotVerified
+
+   SmBackupId           : 114
+   SmJobId              : 2183
+   StartDateTime        : 2/2/2015 1:02:41 PM
+   EndDateTime          : 2/2/2015 1:02:38 PM
+   Duration             : -00:00:03.2300000
+   CreatedDateTime      : 2/2/2015 1:02:53 PM
+   Status               : Completed
+   ProtectionGroupName  : Clone
+   SmProtectionGroupId  : 34
+   PolicyName           : Vault
+   SmPolicyId           : 18
+   BackupName           : Clone_SCSPR0019366001_02-02-2015_13.02.45
+   VerificationStatus   : NotVerified
+----
+. Restaure datos de la copia de seguridad mediante el cmdlet Restore-SmBackup.
++
+[listing]
+----
+Restore-SmBackup -PluginCode 'DummyPlugin' -AppObjectId 'scc54.sccore.test.com\DummyPlugin\NTP\DB1' -BackupId 269 -Confirm:$false
+output:
+Name                : Restore 'scc54.sccore.test.com\DummyPlugin\NTP\DB1'
+Id                  : 2368
+StartTime           : 10/4/2016 11:22:02 PM
+EndTime             :
+IsCancellable       : False
+IsRestartable       : False
+IsCompleted         : False
+IsVisible           : True
+IsScheduled         : False
+PercentageCompleted : 0
+Description         :
+Status              : Queued
+Owner               :
+Error               :
+Priority            : None
+Tasks               : {}
+ParentJobID         : 0
+EventId             : 0
+JobTypeId           :
+ApisJobKey          :
+ObjectId            : 0
+PluginCode          : NONE
+PluginName          :
+----
+
+
+La información sobre los parámetros que se pueden utilizar con el cmdlet y sus descripciones se puede obtener ejecutando _Get-Help command_name_. Alternativamente, también puede consultar la https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["Guía de referencia de cmdlets del software SnapCenter"^] .
+
+--
+====

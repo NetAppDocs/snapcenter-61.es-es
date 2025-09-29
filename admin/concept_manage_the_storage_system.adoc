@@ -1,0 +1,138 @@
+---
+permalink: admin/concept_manage_the_storage_system.html 
+sidebar: sidebar 
+keywords: Manage storage system 
+summary: Después de agregar el sistema de almacenamiento, puede modificar la configuración y las conexiones del sistema de almacenamiento o eliminarlo. 
+---
+= Administrar el sistema de almacenamiento
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Después de agregar el sistema de almacenamiento, puede modificar la configuración y las conexiones del sistema de almacenamiento o eliminarlo.
+
+
+
+== Modificar la configuración del sistema de almacenamiento
+
+Puede utilizar SnapCenter para modificar la configuración de su sistema de almacenamiento si desea cambiar el nombre de usuario, la contraseña, la plataforma, el puerto, el protocolo, el período de espera, la dirección IP preferida o las opciones de mensajería.
+
+*Acerca de esta tarea*
+
+Puede modificar las conexiones de almacenamiento para un usuario individual o para un grupo.  Si pertenece a uno o más grupos con permiso para el mismo sistema de almacenamiento, el nombre de la conexión de almacenamiento se muestra varias veces en la lista de conexiones de almacenamiento, una vez para cada grupo con permiso para el sistema de almacenamiento.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Sistemas de almacenamiento*.
+. En la página Sistemas de almacenamiento, desde el menú desplegable *Tipo*, realice una de las siguientes acciones:
++
+|===
+| Seleccionar... | Pasos... 
+
+
+ a| 
+SVM de ONTAP
+ a| 
+Para ver todas las máquinas virtuales de almacenamiento (SVM) que se agregaron y modificar la configuración de SVM requerida.
+
+.. En la página Conexiones de almacenamiento, haga clic en el nombre de SVM apropiado.
+.. Ejecute una de las siguientes acciones:
++
+*** Si el SVM no es parte de ningún clúster, en la página Modificar sistema de almacenamiento, modifique las configuraciones como nombre de usuario, contraseña, configuración de EMS y AutoSupport , plataforma, protocolo, puerto, tiempo de espera e IP preferida.
+*** Si el SVM es parte de un clúster, en la página Modificar sistema de almacenamiento, seleccione *Administrar SVM de forma independiente* y modifique las configuraciones como nombre de usuario, contraseña, configuración de EMS y AutoSupport , plataforma, protocolo, puerto, tiempo de espera e IP preferida.
++
+Después de modificar el SVM para que se administre de forma independiente, si decide administrarlo a través del clúster, debe eliminar el SVM y luego hacer clic en *Redescubrir*.  El SVM se agregará al clúster ONTAP .
+
++
+
+NOTE: Cuando se actualiza una contraseña del sistema de almacenamiento en la GUI de SnapCenter , debe reiniciar los servicios SMCore del complemento correspondiente o el host del servidor porque la contraseña actualizada no se refleja en SMCore y los trabajos de respaldo fallarán con un error de credencial incorrecta.
+
+
+
+
+
+
+
+ a| 
+Clústeres ONTAP
+ a| 
+Para ver todos los clústeres que se agregaron y modificar la configuración del clúster requerida.
+
+.. En la página Conexiones de almacenamiento, haga clic en el nombre del clúster.
+.. En la página Modificar sistema de almacenamiento, haga clic en el ícono de edición junto a Nombre de usuario y modifique el nombre de usuario y la contraseña.
+.. Seleccione o borre las configuraciones de EMS y AutoSupport .
+.. Haga clic en *Más opciones* y modifique otras configuraciones como plataforma, protocolo, puerto, tiempo de espera e IP preferida.
+
+
+|===
+. Haga clic en *Enviar*.
+
+
+
+
+== Eliminar el sistema de almacenamiento
+
+Puede utilizar SnapCenter para eliminar cualquier sistema de almacenamiento no utilizado.
+
+*Acerca de esta tarea*
+
+Puede eliminar conexiones de almacenamiento para un usuario individual o para un grupo.  Si pertenece a uno o más grupos con permiso para el mismo sistema de almacenamiento, el nombre del sistema de almacenamiento se muestra varias veces en la lista de conexiones de almacenamiento, una vez para cada grupo con permiso para el sistema de almacenamiento.
+
+
+IMPORTANT: Al eliminar un sistema de almacenamiento, todas las operaciones que se estén realizando en ese sistema de almacenamiento fallarán.
+
+*Pasos*
+
+. En el panel de navegación izquierdo, haga clic en *Sistemas de almacenamiento*.
+. En la página Sistemas de almacenamiento, en el menú desplegable *Tipo*, seleccione * ONTAP SVMs* o * ONTAP Clusters*.
+. En la página Conexiones de almacenamiento, seleccione la casilla de verificación junto a la SVM o el clúster que desea eliminar.
++
+
+NOTE: No puede seleccionar el SVM que forma parte de un clúster.
+
+. Haga clic en *Eliminar*.
+. En la página Eliminar configuración de conexión del sistema de almacenamiento, haga clic en *Aceptar*.
++
+
+NOTE: Si se elimina un SVM del clúster ONTAP mediante la GUI de ONTAP , en la GUI de SnapCenter , haga clic en *Redescubrir* para actualizar la lista de SVM.
+
+
+
+
+
+== Compatibilidad con API REST
+
+Todas las conexiones de los sistemas ASA, AFF o FAS a ONTAP se realizarán a través de ZAPI de forma predeterminada.  La API REST se puede habilitar para versiones específicas de ONTAP .
+
+SnapCenter aprovecha las API REST para realizar todas las operaciones en sistemas ASA r2, que no admiten ZAPI.
+
+Puede modificar las claves de configuración en los siguientes archivos de configuración:
+
+* IsRestEnabledForStorageConnection
++
+El valor predeterminado es falso.
+
+* MinOntapVersionToUseREST
++
+El valor predeterminado es 9.13.1.
+
+
+
+.Habilitar la conexión a través de la API REST
+. Establezca IsRestEnabledForStorageConnection en verdadero.
+. Agregue la clave en SMCoreServiceHost.dll.config y SnapDriveService.dll.config tanto en el servidor como en los hosts del complemento de Windows.
++
+_<add key="IsRestEnabledForStorageConnection" value="true" />_
+
+
+
+.Limitar la conexión a través de la API REST a una versión específica de ONTAP
+. Establezca el parámetro de configuración MinOntapVersionToUseREST en verdadero.
+. Agregue la clave en SMCoreServiceHost.dll.config y SnapDriveService.dll.config tanto en el servidor como en los hosts del complemento de Windows.
++
+_<add key="MinOntapVersionToUseREST" value="9.13.1" />_
+
+. Reinicie el servicio para SmCore en el servidor y el complemento y el servicio SnapDrive en la máquina del complemento.
+

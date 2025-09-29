@@ -1,0 +1,52 @@
+---
+permalink: protect-scsql/task-install-snapcenter-plug-in-for-sql-server.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: Proporciona instrucciones para instalar el complemento SnapCenter para Microsoft SQL Server. 
+---
+= Instalar el complemento de SnapCenter para Microsoft SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Proporciona un conjunto condensado de instrucciones de instalación para el complemento SnapCenter para Microsoft SQL Server.
+
+
+
+== Paso 1: Configure las credenciales de ejecución para instalar el complemento para Microsoft SQL Server
+
+. En el panel izquierdo, haga clic en *Configuración > Credenciales > Nuevo*.
+. Introduzca las credenciales.
++
+Para un formato de nombre de usuario de administrador de dominio integrado, utilice: _NetBIOS\<nombre de usuario>_ o _<nombre de usuario>@<dominio>_ o _<DomainFQDN>\<nombre de usuario>_.
+
++
+Para un formato de nombre de usuario de administrador local integrado, utilice _<nombre de usuario>_.
+
+
+
+
+
+== Paso 2: Agregue un host e instale el complemento para Microsoft SQL Server
+
+. En el panel izquierdo de la GUI de SnapCenter , haga clic en *Hosts > Hosts administrados > Agregar*.
+. En la página Hosts del asistente, realice lo siguiente:
++
+.. Tipo de host: seleccione el tipo de host de Windows.
+.. Nombre de host: utilice el host SQL o especifique el FQDN de un host de Windows dedicado.
+.. Credenciales: seleccione el nombre de credencial válido del host que creó o cree nuevas credenciales.
+
+
+. En la sección Seleccionar complementos para instalar, seleccione *Microsoft SQL Server*.
+. Haga clic en *Más opciones* para especificar los siguientes detalles:
++
+.. Puerto: conserve el número de puerto predeterminado o especifique el número de puerto.
+.. Ruta de instalación: la ruta predeterminada es _C:\Archivos de programa\ NetApp\SnapCenter_.  Opcionalmente puedes personalizar la ruta.
+.. Agregar todos los hosts en el clúster: seleccione esta casilla de verificación si está utilizando SQL en WSFC.
+.. Omitir comprobaciones de preinstalación: seleccione esta casilla de verificación si ya instaló los complementos manualmente o no desea validar si el host cumple con los requisitos para instalar el complemento.
+
+
+. Haga clic en *Enviar*.
+

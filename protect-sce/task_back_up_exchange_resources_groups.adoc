@@ -1,0 +1,47 @@
+---
+permalink: protect-sce/task_back_up_exchange_resources_groups.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: Un grupo de recursos es una colección de recursos en un host o DAG de Exchange, y el grupo de recursos puede incluir un DAG completo o bases de datos individuales.  Puede realizar una copia de seguridad de los grupos de recursos desde la página Recursos. 
+---
+= Realizar copias de seguridad de grupos de recursos de Exchange
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Un grupo de recursos es una colección de recursos en un host o DAG de Exchange, y el grupo de recursos puede incluir un DAG completo o bases de datos individuales.  Puede realizar una copia de seguridad de los grupos de recursos desde la página Recursos.
+
+.Antes de empezar
+* Debe haber creado un grupo de recursos con una política adjunta.
+* Debe haber asignado el agregado que utiliza la operación de respaldo a la máquina virtual de almacenamiento (SVM) utilizada por la base de datos.
+* Si desea realizar una copia de seguridad de un recurso que tiene una relación SnapMirror con un almacenamiento secundario, la función asignada al usuario de almacenamiento debe incluir el privilegio "`snapmirror all`".  Sin embargo, si está utilizando el rol "`vsadmin`", entonces no se requiere el privilegio "`snapmirror all`".
+* Si un grupo de recursos tiene varias bases de datos de diferentes hosts, la operación de respaldo en algunos de los hosts podría comenzar tarde debido a problemas de red.  Debes configurar el valor de `MaxRetryForUninitializedHosts` en `web.config` mediante el uso de `Set-SmConfigSettings` Cmdlet de PowerShell.
+* En un grupo de recursos, si incluye una base de datos o un grupo de disponibilidad de base de datos que tiene una copia de base de datos activa/pasiva en un almacenamiento NetApp y no NetApp , y ha seleccionado la opción *Hacer copia de seguridad de copias activas* o *Hacer copia de seguridad de copias en servidores que se seleccionarán durante el momento de creación del trabajo de copia de seguridad* en la política, entonces los trabajos de copia de seguridad pasarán al estado de advertencia.
++
+La copia de seguridad será exitosa para la copia de base de datos activa/pasiva en el almacenamiento NetApp y la copia de seguridad fallará para la copia de base de datos activa/pasiva en el almacenamiento que no sea NetApp .
+
+
+
+.Acerca de esta tarea
+Puede realizar una copia de seguridad de un grupo de recursos a pedido desde la página Recursos.  Si un grupo de recursos tiene una política adjunta y una programación configurada, las copias de seguridad se realizan automáticamente según la programación.
+
+.Pasos
+. En el panel de navegación izquierdo, haga clic en *Recursos* y, a continuación, seleccione el *complemento de Microsoft Exchange Server* de la lista.
+. En la página Recursos, seleccione *Grupo de recursos* de la lista *Ver*.
++
+Puede buscar el grupo de recursos ingresando el nombre del grupo de recursos en el cuadro de búsqueda o haciendo clic en *image:../media/filter_icon.gif["icono de filtro"] * y luego seleccionando la etiqueta.  Luego puedes hacer clic en *image:../media/filter_icon.gif["icono de filtro"] * para cerrar el panel de filtro.
+
+. En la página Grupos de recursos, seleccione el grupo de recursos que desea respaldar y haga clic en *Hacer copia de seguridad ahora*.
+. En la página Copia de seguridad, realice los siguientes pasos:
++
+.. Si ha asociado varias políticas al grupo de recursos, en la lista desplegable *Política*, seleccione la política que desea utilizar para la copia de seguridad.
++
+Si la política seleccionada para la copia de seguridad a pedido está asociada con una programación de copia de seguridad, las copias de seguridad a pedido se conservarán según la configuración de retención especificada para el tipo de programación.
+
+.. Haga clic en *Copia de seguridad*.
+
+
+. Supervise el progreso de la copia de seguridad haciendo doble clic en el trabajo en el panel Actividad en la parte inferior de la página para mostrar la página Detalles del trabajo.
+
