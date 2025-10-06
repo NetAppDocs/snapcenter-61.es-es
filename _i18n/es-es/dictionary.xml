@@ -1231,7 +1231,6 @@
   <block id="6e13f804ad8be111cf6ad70744afe388" category="list-text">Datos que se encuentran en los sistemas primarios y secundarios de ONTAP ASA r2</block>
   <block id="67387428a7e5d4e4205f94627d948f8a" category="list-text">Local en una nube híbrida para proteger lo siguiente:</block>
   <block id="f5c37d824040662f50cbb8a32d77182d" category="list-text">Datos que se encuentran en los sistemas principales de ONTAP FAS, AFF o ASA y se replican en Cloud Volumes ONTAP</block>
-  <block id="f7b38c62b0e74d318a255bc3094cf531" category="list-text">Datos que se encuentran en sistemas primarios y secundarios de ONTAP FAS, AFF o ASA y están protegidos en almacenamiento de objetos y archivos en la nube (mediante la integración de BlueXP backup and recovery )</block>
   <block id="ca5570a253e3c0a27562c65c06bb6125" category="list-text">En una nube pública para proteger lo siguiente:</block>
   <block id="b340c2b4a7a978a510c8ebb351622143" category="list-text">Datos que se encuentran en los sistemas principales de Cloud Volumes ONTAP (anteriormente ONTAP Cloud)</block>
   <block id="b380e442ff5c6e48e283af8b6f99806f" category="list-text">Datos que están en Amazon FSX para ONTAP</block>
@@ -9557,4 +9556,6 @@
   <block id="60bea4969590084ae9e74b765b209fad" category="sidebar">Desinstalar los paquetes de complementos de SnapCenter</block>
   <block id="fdcd3d6f45be97e0e24b4e793a81fac0" category="sidebar">Actualizar SnapCenter Server y los complementos</block>
   <block id="8693aef17f2d371968a29ad0e0dff726" category="sidebar">Flujo de trabajo de actualización</block>
+  <block id="88d9e24753477cfb09f25b21c0a59b9e" category="paragraph">SnapCenter realiza las actualizaciones de SnapMirror y SnapVault después de completar la operación de instantánea. Las actualizaciones de SnapMirror y SnapVault se realizan como parte del trabajo de SnapCenter . Si está utilizando la sincronización activa de SnapMirror , utilice las programaciones predeterminadas de SnapMirror o SnapVault tanto para la sincronización activa de SnapMirror como para las relaciones asincrónicas.</block>
+  <block id="ea1c96f839915f73d25b910bbc92b734" category="list-text">Datos que se encuentran en sistemas primarios y secundarios de ONTAP FAS, AFF o ASA y están protegidos en el almacenamiento de objetos y archivos en la nube mediante la integración de respaldo y recuperación de NetApp</block>
 </blocks>

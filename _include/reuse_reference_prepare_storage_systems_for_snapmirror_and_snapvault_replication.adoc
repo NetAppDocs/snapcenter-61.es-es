@@ -4,7 +4,7 @@
 
 Puede utilizar un complemento de SnapCenter con la tecnología ONTAP SnapMirror para crear copias reflejadas de conjuntos de copias de seguridad en otro volumen, y con la tecnología ONTAP SnapVault para realizar la replicación de copias de seguridad de disco a disco para el cumplimiento de estándares y otros fines relacionados con la gobernanza.  Antes de realizar estas tareas, debe configurar una relación de protección de datos entre los volúmenes de origen y destino e inicializar la relación.
 
-SnapCenter realiza las actualizaciones de SnapMirror y SnapVault después de completar la operación de instantánea. Las actualizaciones de SnapMirror y SnapVault se realizan como parte del trabajo de SnapCenter ; no crean una programación ONTAP separada.
+SnapCenter realiza las actualizaciones de SnapMirror y SnapVault después de completar la operación de instantánea. Las actualizaciones de SnapMirror y SnapVault se realizan como parte del trabajo de SnapCenter . Si está utilizando la sincronización activa de SnapMirror , utilice las programaciones predeterminadas de SnapMirror o SnapVault tanto para la sincronización activa de SnapMirror como para las relaciones asincrónicas.
 
 
 NOTE: Si llega a SnapCenter desde un producto NetApp SnapManager y está satisfecho con las relaciones de protección de datos que ha configurado, puede omitir esta sección.
