@@ -168,7 +168,7 @@ La siguiente tabla enumera los diferentes puertos y sus valores predeterminados.
 
 
  a| 
-Puerto de SnapCenter
+Puerto web de SnapCenter
  a| 
 8146
  a| 
